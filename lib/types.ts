@@ -1,4 +1,4 @@
-export type Domain = "AI Engineering" | "Quant & Trading" | "Financial Models" | "Tools & Platforms" | "ML Models" | "General";
+export type Domain = "AI Engineering" | "AI for Everyone" | "DevOps" | "Quant & Trading" | "Financial Models" | "Tools & Platforms" | "ML Models" | "General";
 export type ContentStatus = "queue" | "in-progress" | "done" | "dropped";
 export type ContentType = "pod" | "lesson" | "module";
 
@@ -78,6 +78,8 @@ export interface ContentManifest {
 
 export const DOMAIN_CONFIG: Record<Domain, { tag: string; color: string; emoji: string }> = {
   "AI Engineering":    { tag: "ai",      color: "var(--blue)",   emoji: "⚡" },
+  "AI for Everyone":   { tag: "ai",      color: "var(--blue)",   emoji: "🌐" },
+  "DevOps":            { tag: "devops",  color: "var(--purple)", emoji: "🚀" },
   "Quant & Trading":   { tag: "quant",   color: "var(--green)",  emoji: "📈" },
   "Financial Models":  { tag: "finance", color: "var(--teal)",   emoji: "💰" },
   "Tools & Platforms": { tag: "tools",   color: "var(--purple)", emoji: "🔧" },
