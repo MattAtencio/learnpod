@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useLearnStore, useStoreHydrated } from "@/lib/store";
 
 const icons: Record<string, React.ReactNode> = {
   home: (
@@ -40,6 +41,10 @@ const items = [
 
 export function BottomNav() {
   const pathname = usePathname();
+  const hydrated = useStoreHydrated();
+  const onboardingComplete = useLearnStore((s) => s.onboardingComplete);
+
+  if (hydrated && !onboardingComplete) return null;
 
   function isActive(href: string) {
     if (href === "/") return pathname === "/";
@@ -61,6 +66,7 @@ export function BottomNav() {
               {icons[it.id]}
             </div>
             <div className="nav-label">{it.label}</div>
+            {active && <div className="nav-dot" />}
           </Link>
         );
       })}

@@ -713,3 +713,81 @@ body::before {
   z-index: 1;
   min-height: 100vh;
 }
+
+/* ─── ANIMATIONS & MICRO-INTERACTIONS ─── */
+@media (prefers-reduced-motion: no-preference) {
+  .page-content {
+    animation: pageIn 200ms ease-out;
+  }
+
+  @keyframes pageIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Section step crossfade */
+  @keyframes sectionIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .section-step-enter {
+    animation: sectionIn 200ms ease-out;
+  }
+
+  /* Quiz answer feedback */
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-4px); }
+    40% { transform: translateX(4px); }
+    60% { transform: translateX(-4px); }
+    80% { transform: translateX(4px); }
+  }
+  @keyframes bounce {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+    100% { transform: scale(1); }
+  }
+  .quiz-shake { animation: shake 300ms ease; }
+  .quiz-bounce { animation: bounce 200ms ease; }
+
+  /* XP pill bump */
+  @keyframes xpBump {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+    100% { transform: scale(1); }
+  }
+  .xp-bump { animation: xpBump 300ms ease; }
+
+  /* Streak flame pulse */
+  @keyframes flamePulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.12); }
+  }
+  .flame-pulse {
+    animation: flamePulse 2s ease-in-out infinite;
+    display: inline-block;
+  }
+
+  /* Button press states */
+  .btn-primary:active { transform: scale(0.97); }
+  .pod-card:active { transform: scale(0.98); }
+  .module-card:active { transform: scale(0.99); }
+
+  /* Progress ring animation */
+  @keyframes ringFill {
+    from { stroke-dasharray: 0 9999; }
+  }
+  .ring-animate {
+    animation: ringFill 600ms ease-out;
+  }
+
+  /* Bottom nav active dot */
+  .nav-dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--amber);
+    margin-top: 2px;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+}

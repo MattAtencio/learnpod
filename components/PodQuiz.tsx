@@ -15,6 +15,7 @@ export function PodQuiz({ questions, podTitle, bonusXp, onComplete }: Props) {
   const [selected, setSelected] = useState<number | null>(null);
   const [confirmed, setConfirmed] = useState(false);
   const [score, setScore] = useState(0);
+  const [animClass, setAnimClass] = useState("");
 
   const q = questions[current];
   const isLast = current >= questions.length - 1;
@@ -28,6 +29,7 @@ export function PodQuiz({ questions, podTitle, bonusXp, onComplete }: Props) {
   function handleConfirm() {
     if (selected === null) return;
     setConfirmed(true);
+    setAnimClass(selected === q.correctIndex ? "quiz-bounce" : "quiz-shake");
     if (isCorrect) setScore((s) => s + 1);
   }
 
@@ -39,6 +41,7 @@ export function PodQuiz({ questions, podTitle, bonusXp, onComplete }: Props) {
       setCurrent((c) => c + 1);
       setSelected(null);
       setConfirmed(false);
+      setAnimClass("");
     }
   }
 
@@ -118,6 +121,7 @@ export function PodQuiz({ questions, podTitle, bonusXp, onComplete }: Props) {
               <button
                 key={idx}
                 onClick={() => handleSelect(idx)}
+                className={confirmed && idx === selected ? animClass : ""}
                 style={{
                   display: "flex", alignItems: "center", gap: 12,
                   padding: "12px 14px", borderRadius: 14,

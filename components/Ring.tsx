@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect, useState } from "react";
+
 interface RingProps {
   pct: number;
   color: string;
@@ -10,12 +12,20 @@ interface RingProps {
 export function Ring({ pct, color, size = 52, stroke = 5 }: RingProps) {
   const r = (size - stroke * 2) / 2;
   const circ = 2 * Math.PI * r;
-  const dash = circ * pct;
+  const [animatedPct, setAnimatedPct] = useState(0);
+
+  useEffect(() => {
+    const t = requestAnimationFrame(() => setAnimatedPct(pct));
+    return () => cancelAnimationFrame(t);
+  }, [pct]);
+
+  const dash = circ * animatedPct;
   return (
     <svg width={size} height={size} style={{ transform: "rotate(-90deg)" }} role="progressbar" aria-valuenow={Math.round(pct * 100)} aria-valuemin={0} aria-valuemax={100}>
       <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="rgba(255,255,255,0.07)" strokeWidth={stroke} />
       <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke={color} strokeWidth={stroke}
-        strokeDasharray={`${dash} ${circ}`} strokeLinecap="round" />
+        strokeDasharray={`${dash} ${circ}`} strokeLinecap="round"
+        style={{ transition: "stroke-dasharray 600ms ease-out" }} />
     </svg>
   );
 }

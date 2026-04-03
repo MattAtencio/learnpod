@@ -3,6 +3,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { useState, useEffect } from "react";
+import type { Domain } from "./types";
 
 const STREAK_MILESTONES = [7, 30, 100, 365] as const;
 
@@ -12,6 +13,13 @@ interface QuizResult {
   xpEarned: number;
 }
 
+interface ReviewData {
+  nextReviewDate: string;
+  easeFactor: number;
+  interval: number;
+  repetitions: number;
+}
+
 interface LearnState {
   completedItems: string[];
   quizResults: Record<string, QuizResult>;
@@ -19,6 +27,9 @@ interface LearnState {
   streak: { count: number; lastDate: string };
   streakFreezes: number;
   lastFreezeReplenish: string;
+  reviewSchedule: Record<string, ReviewData>;
+  onboardingComplete: boolean;
+  preferredDomains: Domain[];
   _hydrated: boolean;
 
   completeItem: (slug: string, xpReward: number) => void;
@@ -29,6 +40,10 @@ interface LearnState {
   isStreakAtRisk: () => boolean;
   getStreakMilestone: () => number | null;
   checkFreezeReplenish: () => void;
+  scheduleReview: (slug: string, quality: number) => void;
+  getDueReviews: () => string[];
+  getReviewStatus: (slug: string) => "due" | "overdue" | "mastered" | "learning" | null;
+  completeOnboarding: (domains: Domain[]) => void;
 }
 
 /** Hook that returns true only after the store has hydrated from localStorage */
@@ -77,6 +92,9 @@ export const useLearnStore = create<LearnState>()(
       streak: { count: 0, lastDate: "" },
       streakFreezes: 1,
       lastFreezeReplenish: "",
+      reviewSchedule: {},
+      onboardingComplete: false,
+      preferredDomains: [],
       _hydrated: false,
 
       completeItem: (slug, xpReward) => {
@@ -151,7 +169,82 @@ export const useLearnStore = create<LearnState>()(
         if (state.lastFreezeReplenish === thisMonday) return; // Already replenished this week
         set({ streakFreezes: 1, lastFreezeReplenish: thisMonday });
       },
+
+      scheduleReview: (slug, quality) => {
+        const state = get();
+        const prev = state.reviewSchedule[slug] || {
+          easeFactor: 2.5,
+          interval: 0,
+          repetitions: 0,
+          nextReviewDate: todayStr(),
+        };
+
+        let { easeFactor, interval, repetitions } = prev;
+
+        if (quality >= 3) {
+          repetitions += 1;
+          if (repetitions === 1) {
+            interval = 1;
+          } else if (repetitions === 2) {
+            interval = 6;
+          } else {
+            interval = Math.round(interval * easeFactor);
+          }
+        } else {
+          repetitions = 0;
+          interval = 1;
+        }
+
+        // Update ease factor: EF' = EF + (0.1 - (5-q)*(0.08 + (5-q)*0.02))
+        const diff = 5 - quality;
+        easeFactor = easeFactor + (0.1 - diff * (0.08 + diff * 0.02));
+        if (easeFactor < 1.3) easeFactor = 1.3;
+
+        // Calculate next review date
+        const next = new Date();
+        next.setDate(next.getDate() + interval);
+        const nextReviewDate = next.toISOString().slice(0, 10);
+
+        set({
+          reviewSchedule: {
+            ...state.reviewSchedule,
+            [slug]: { nextReviewDate, easeFactor, interval, repetitions },
+          },
+        });
+      },
+
+      getDueReviews: () => {
+        const state = get();
+        const today = todayStr();
+        return Object.entries(state.reviewSchedule)
+          .filter(([, data]) => data.nextReviewDate <= today)
+          .map(([slug]) => slug);
+      },
+
+      getReviewStatus: (slug) => {
+        const state = get();
+        const data = state.reviewSchedule[slug];
+        if (!data) return null;
+        const today = todayStr();
+        if (data.nextReviewDate < today) return "overdue";
+        if (data.nextReviewDate === today) return "due";
+        if (data.repetitions >= 5 && data.easeFactor >= 2.5) return "mastered";
+        return "learning";
+      },
+      completeOnboarding: (domains) => {
+        set({ onboardingComplete: true, preferredDomains: domains });
+      },
     }),
-    { name: "learnpod-store" }
+    {
+      name: "learnpod-store",
+      merge: (persisted, current) => {
+        const merged = { ...current, ...(persisted as Partial<LearnState>) };
+        // Auto-complete onboarding for existing users who already have progress
+        if (merged.completedItems.length > 0 && !merged.onboardingComplete) {
+          merged.onboardingComplete = true;
+        }
+        return merged;
+      },
+    }
   )
 );

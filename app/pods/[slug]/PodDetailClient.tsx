@@ -265,6 +265,7 @@ export function PodDetailClient({ pod, lesson, parentModule, nextPodSlugs, quest
   const hydrated = useStoreHydrated();
   const completeItem = useLearnStore((s) => s.completeItem);
   const completeQuiz = useLearnStore((s) => s.completeQuiz);
+  const scheduleReview = useLearnStore((s) => s.scheduleReview);
   const getQuizResult = useLearnStore((s) => s.getQuizResult);
   const isCompleted = useLearnStore((s) => s.isCompleted);
   const completedItems = useLearnStore((s) => s.completedItems);
@@ -333,6 +334,9 @@ export function PodDetailClient({ pod, lesson, parentModule, nextPodSlugs, quest
   function handleQuizComplete(score: number, total: number) {
     const bonusXp = Math.round((score / total) * QUIZ_XP);
     completeQuiz(pod.slug, score, total, bonusXp);
+    // Schedule spaced repetition review based on quiz performance
+    const quality = Math.round((score / total) * 5);
+    scheduleReview(pod.slug, quality);
     setTotalXpEarned(BASE_XP + bonusXp);
     setShowQuiz(false);
     setShowCelebration(true);
@@ -421,7 +425,7 @@ export function PodDetailClient({ pod, lesson, parentModule, nextPodSlugs, quest
       )}
 
       {isStudying && currentSection && (
-        <div className="fade-3" style={{ margin: "16px 20px 0" }}>
+        <div key={currentStep} className="fade-3 section-step-enter" style={{ margin: "16px 20px 0" }}>
           <div style={{
             background: "var(--surface)",
             borderRadius: 20,

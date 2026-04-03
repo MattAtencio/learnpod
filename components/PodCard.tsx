@@ -10,9 +10,10 @@ import { useLearnStore, useStoreHydrated } from "@/lib/store";
 interface PodCardProps {
   pod: Pod;
   featured?: boolean;
+  reviewStatus?: "due" | "overdue";
 }
 
-export function PodCard({ pod, featured }: PodCardProps) {
+export function PodCard({ pod, featured, reviewStatus }: PodCardProps) {
   const domain = DOMAIN_CONFIG[pod.domain] || DOMAIN_CONFIG["Tools & Platforms"];
   const hydrated = useStoreHydrated();
   const isCompleted = useLearnStore((s) => s.isCompleted);
@@ -37,15 +38,33 @@ export function PodCard({ pod, featured }: PodCardProps) {
       >
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
           <span className={`pod-tag tag-${domain.tag}`}>{domain.emoji} {pod.domain}</span>
-          {completed && (
-            <div style={{
-              width: 22, height: 22,
-              borderRadius: 7,
-              background: "rgba(93,214,140,0.15)",
-              display: "flex", alignItems: "center", justifyContent: "center",
-              fontSize: 12, color: "var(--green)",
-            }}>✓</div>
-          )}
+          <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
+            {reviewStatus && (
+              <div style={{
+                fontSize: 10, fontWeight: 700, letterSpacing: "0.04em",
+                textTransform: "uppercase" as const,
+                color: reviewStatus === "overdue" ? "var(--coral)" : "var(--amber)",
+                background: reviewStatus === "overdue"
+                  ? "rgba(255,107,91,0.12)"
+                  : "rgba(245,166,35,0.12)",
+                border: `1px solid ${reviewStatus === "overdue"
+                  ? "rgba(255,107,91,0.25)"
+                  : "rgba(245,166,35,0.25)"}`,
+                borderRadius: 6, padding: "2px 7px",
+              }}>
+                {reviewStatus === "overdue" ? "Overdue" : "Review"}
+              </div>
+            )}
+            {completed && (
+              <div style={{
+                width: 22, height: 22,
+                borderRadius: 7,
+                background: "rgba(93,214,140,0.15)",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                fontSize: 12, color: "var(--green)",
+              }}>✓</div>
+            )}
+          </div>
         </div>
         <div className="pod-title">{pod.title}</div>
         <div className="pod-meta">

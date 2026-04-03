@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useLearnStore, useStoreHydrated } from "@/lib/store";
 
 export function StreakBar() {
@@ -12,9 +12,22 @@ export function StreakBar() {
   const getStreakMilestone = useLearnStore((s) => s.getStreakMilestone);
   const checkFreezeReplenish = useLearnStore((s) => s.checkFreezeReplenish);
 
+  const [xpBump, setXpBump] = useState(false);
+  const prevXp = useRef(xp);
+
   useEffect(() => {
     if (hydrated) checkFreezeReplenish();
   }, [hydrated, checkFreezeReplenish]);
+
+  useEffect(() => {
+    if (hydrated && xp !== prevXp.current && prevXp.current !== undefined) {
+      setXpBump(true);
+      const t = setTimeout(() => setXpBump(false), 300);
+      prevXp.current = xp;
+      return () => clearTimeout(t);
+    }
+    prevXp.current = xp;
+  }, [hydrated, xp]);
 
   const atRisk = hydrated && isStreakAtRisk();
   const milestone = hydrated ? getStreakMilestone() : null;
@@ -35,7 +48,7 @@ export function StreakBar() {
           50% { border-color: transparent; }
         }
       `}</style>
-      <div className="streak-flame">🔥</div>
+      <div className={`streak-flame${hydrated && streak.count > 0 ? " flame-pulse" : ""}`}>🔥</div>
       <div className="streak-info">
         <div className="streak-count" style={{ display: "flex", alignItems: "center", gap: "4px" }}>
           {hydrated ? (streak.count || 0) : 0}
@@ -64,7 +77,7 @@ export function StreakBar() {
             : `day streak${streak.count > 0 ? " · keep it up" : ""}`}
         </div>
       </div>
-      <div className="xp-pill">{hydrated ? xp.toLocaleString() : "0"} XP</div>
+      <div className={`xp-pill${xpBump ? " xp-bump" : ""}`}>{hydrated ? xp.toLocaleString() : "0"} XP</div>
     </div>
   );
 }
