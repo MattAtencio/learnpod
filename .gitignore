@@ -33,8 +33,5 @@ public/sw.js
 public/workbox-*.js
 public/swe-worker-*.js
 
-# generated content data
-data/pods.ts
-data/lessons.ts
-data/modules.ts
-data/manifest.ts
+# generated content data — committed so Vercel can build without vault access
+# Re-generate locally with: npm run sync
