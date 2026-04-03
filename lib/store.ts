@@ -23,6 +23,8 @@ interface ReviewData {
 interface LearnState {
   completedItems: string[];
   quizResults: Record<string, QuizResult>;
+  quizAttempts: Record<string, number>;
+  domainAccuracy: Record<string, { scores: number[]; totals: number[] }>;
   xp: number;
   streak: { count: number; lastDate: string };
   streakFreezes: number;
@@ -33,7 +35,8 @@ interface LearnState {
   _hydrated: boolean;
 
   completeItem: (slug: string, xpReward: number) => void;
-  completeQuiz: (slug: string, score: number, total: number, bonusXp: number) => void;
+  completeQuiz: (slug: string, score: number, total: number, bonusXp: number, domain?: string) => void;
+  getQuizAttempts: (slug: string) => number;
   getQuizResult: (slug: string) => QuizResult | undefined;
   isCompleted: (slug: string) => boolean;
   getModuleProgress: (chapterSlugs: string[]) => { done: number; total: number; pct: number };
@@ -88,6 +91,8 @@ export const useLearnStore = create<LearnState>()(
     (set, get) => ({
       completedItems: [],
       quizResults: {},
+      quizAttempts: {},
+      domainAccuracy: {},
       xp: 0,
       streak: { count: 0, lastDate: "" },
       streakFreezes: 1,
@@ -125,14 +130,30 @@ export const useLearnStore = create<LearnState>()(
         });
       },
 
-      completeQuiz: (slug, score, total, bonusXp) => {
+      completeQuiz: (slug, score, total, bonusXp, domain) => {
         const state = get();
-        if (state.quizResults[slug]) return;
+        const isFirstCompletion = !state.quizResults[slug];
+        const newAttempts = (state.quizAttempts[slug] || 0) + 1;
+
+        // Track domain accuracy
+        let newDomainAccuracy = state.domainAccuracy;
+        if (domain) {
+          const prev = state.domainAccuracy[domain] || { scores: [], totals: [] };
+          newDomainAccuracy = {
+            ...state.domainAccuracy,
+            [domain]: { scores: [...prev.scores, score], totals: [...prev.totals, total] },
+          };
+        }
+
         set({
           quizResults: { ...state.quizResults, [slug]: { score, total, xpEarned: bonusXp } },
-          xp: state.xp + bonusXp,
+          quizAttempts: { ...state.quizAttempts, [slug]: newAttempts },
+          domainAccuracy: newDomainAccuracy,
+          xp: state.xp + (isFirstCompletion ? bonusXp : 0),
         });
       },
+
+      getQuizAttempts: (slug) => get().quizAttempts[slug] || 0,
 
       getQuizResult: (slug) => get().quizResults[slug],
 

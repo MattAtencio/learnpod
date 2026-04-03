@@ -6,11 +6,12 @@ import { useRouter } from "next/navigation";
 import type { Pod } from "@/lib/types";
 import { DOMAIN_CONFIG } from "@/lib/types";
 import { useLearnStore, useStoreHydrated } from "@/lib/store";
+import { useNavDirection } from "@/lib/nav-direction";
 
 interface PodCardProps {
   pod: Pod;
   featured?: boolean;
-  reviewStatus?: "due" | "overdue";
+  reviewStatus?: "due" | "overdue" | "mastered" | "learning";
 }
 
 export function PodCard({ pod, featured, reviewStatus }: PodCardProps) {
@@ -20,11 +21,14 @@ export function PodCard({ pod, featured, reviewStatus }: PodCardProps) {
   const completed = hydrated && isCompleted(pod.slug);
   const [showRedoPopup, setShowRedoPopup] = useState(false);
   const router = useRouter();
+  const { setForward } = useNavDirection();
 
   function handleClick(e: React.MouseEvent) {
     if (completed) {
       e.preventDefault();
       setShowRedoPopup(true);
+    } else {
+      setForward();
     }
   }
 
@@ -43,16 +47,25 @@ export function PodCard({ pod, featured, reviewStatus }: PodCardProps) {
               <div style={{
                 fontSize: 10, fontWeight: 700, letterSpacing: "0.04em",
                 textTransform: "uppercase" as const,
-                color: reviewStatus === "overdue" ? "var(--coral)" : "var(--amber)",
-                background: reviewStatus === "overdue"
-                  ? "rgba(255,107,91,0.12)"
+                color: reviewStatus === "overdue" ? "var(--coral)"
+                  : reviewStatus === "mastered" ? "var(--green)"
+                  : reviewStatus === "learning" ? "var(--blue)"
+                  : "var(--amber)",
+                background: reviewStatus === "overdue" ? "rgba(255,107,91,0.12)"
+                  : reviewStatus === "mastered" ? "rgba(93,214,140,0.12)"
+                  : reviewStatus === "learning" ? "rgba(110,168,254,0.12)"
                   : "rgba(245,166,35,0.12)",
-                border: `1px solid ${reviewStatus === "overdue"
-                  ? "rgba(255,107,91,0.25)"
+                border: `1px solid ${
+                  reviewStatus === "overdue" ? "rgba(255,107,91,0.25)"
+                  : reviewStatus === "mastered" ? "rgba(93,214,140,0.25)"
+                  : reviewStatus === "learning" ? "rgba(110,168,254,0.25)"
                   : "rgba(245,166,35,0.25)"}`,
                 borderRadius: 6, padding: "2px 7px",
               }}>
-                {reviewStatus === "overdue" ? "Overdue" : "Review"}
+                {reviewStatus === "overdue" ? "Overdue"
+                  : reviewStatus === "mastered" ? "Mastered"
+                  : reviewStatus === "learning" ? "Learning"
+                  : "Review"}
               </div>
             )}
             {completed && (

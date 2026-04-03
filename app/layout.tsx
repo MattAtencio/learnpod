@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { Fraunces, Outfit } from "next/font/google";
 import "./globals.css";
 import { BottomNav } from "@/components/BottomNav";
+import { NavDirectionProvider } from "@/lib/nav-direction";
+import { PageShell } from "@/components/PageShell";
 
 const fraunces = Fraunces({
   subsets: ["latin"],
@@ -40,9 +42,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${fraunces.variable} ${outfit.variable}`}>
       <body>
-        <a href="#main-content" className="skip-link">Skip to content</a>
-        <div className="page-content" id="main-content">{children}</div>
-        <BottomNav />
+        <NavDirectionProvider>
+          <a href="#main-content" className="skip-link">Skip to content</a>
+          <PageShell>
+            <div className="page-content" id="main-content">{children}</div>
+          </PageShell>
+          <BottomNav />
+        </NavDirectionProvider>
       </body>
     </html>
   );

@@ -69,6 +69,7 @@ body::before {
   text-decoration: none;
 }
 .nav-item.active { background: var(--amber-dim); }
+.nav-item:active { transform: scale(0.93); }
 .nav-icon { font-size: 22px; line-height: 1; }
 .nav-label {
   font-size: 10px;
@@ -717,13 +718,26 @@ body::before {
 /* ─── ANIMATIONS & MICRO-INTERACTIONS ─── */
 @media (prefers-reduced-motion: no-preference) {
   .page-content {
-    animation: pageIn 200ms ease-out;
+    animation: pageFade 200ms ease-out;
   }
 
-  @keyframes pageIn {
-    from { opacity: 0; transform: translateY(4px); }
-    to   { opacity: 1; transform: translateY(0); }
+  @keyframes pageFade {
+    from { opacity: 0; }
+    to   { opacity: 1; }
   }
+
+  /* Directional page transitions */
+  @keyframes slideInRight {
+    from { opacity: 0; transform: translateX(30px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes slideInLeft {
+    from { opacity: 0; transform: translateX(-30px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+  .page-slide-forward .page-content { animation: slideInRight 250ms ease-out; }
+  .page-slide-back .page-content    { animation: slideInLeft 250ms ease-out; }
+  .page-fade .page-content           { animation: pageFade 200ms ease-out; }
 
   /* Section step crossfade */
   @keyframes sectionIn {

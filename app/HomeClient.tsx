@@ -7,6 +7,7 @@ import { ModuleCard } from "@/components/ModuleCard";
 import { StreakBar } from "@/components/StreakBar";
 import { Onboarding } from "@/components/Onboarding";
 import { useLearnStore, useStoreHydrated } from "@/lib/store";
+import { useNavDirection } from "@/lib/nav-direction";
 
 function getGreeting(): string {
   const hour = new Date().getHours();
@@ -21,6 +22,7 @@ export function HomeClient({ pods, modules }: { pods: Pod[]; modules: Module[] }
   const getReviewStatus = useLearnStore((s) => s.getReviewStatus);
   const onboardingComplete = useLearnStore((s) => s.onboardingComplete);
   const preferredDomains = useLearnStore((s) => s.preferredDomains);
+  const { setForward } = useNavDirection();
 
   const dueReviewSlugs = hydrated ? getDueReviews() : [];
   const reviewPods = dueReviewSlugs
@@ -93,20 +95,24 @@ export function HomeClient({ pods, modules }: { pods: Pod[]; modules: Module[] }
 
       <div className="section-header fade-3">
         <div className="section-title">Today&apos;s Pods</div>
-        <Link href="/pods" className="section-link" style={{ textDecoration: "none" }}>See all →</Link>
+        <Link href="/pods" className="section-link" style={{ textDecoration: "none" }} onClick={setForward}>See all →</Link>
       </div>
 
       <div className="pods-scroll fade-3">
-        {sortedPods.slice(0, 8).map((pod, i) => (
-          <PodCard key={pod.slug} pod={pod} featured={i === 0} />
-        ))}
+        {sortedPods.slice(0, 8).map((pod, i) => {
+          const status = hydrated ? getReviewStatus(pod.slug) : null;
+          const cardStatus = status === "mastered" || status === "learning" ? status : undefined;
+          return (
+            <PodCard key={pod.slug} pod={pod} featured={i === 0} reviewStatus={cardStatus} />
+          );
+        })}
       </div>
 
       {modules.length > 0 && (
         <>
           <div className="section-header fade-4">
             <div className="section-title">Active Modules</div>
-            <Link href="/modules" className="section-link" style={{ textDecoration: "none" }}>See all →</Link>
+            <Link href="/modules" className="section-link" style={{ textDecoration: "none" }} onClick={setForward}>See all →</Link>
           </div>
           <div className="fade-4">
             {modules.map((mod) => (

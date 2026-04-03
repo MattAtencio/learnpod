@@ -8,6 +8,7 @@ import { DOMAIN_CONFIG } from "@/lib/types";
 import { useLearnStore, useStoreHydrated } from "@/lib/store";
 import { Markdown } from "@/components/Markdown";
 import { PodQuiz } from "@/components/PodQuiz";
+import { useNavDirection } from "@/lib/nav-direction";
 
 // XP split: reading earns BASE_XP, quiz earns up to QUIZ_XP (scaled by score)
 const BASE_XP = 15;
@@ -55,12 +56,14 @@ function CelebrationOverlay({
   onContinue,
   onNextPod,
   hasNextPod,
+  firstAttemptBonus,
 }: {
   xp: number;
   streak: number;
   onContinue: () => void;
   onNextPod: () => void;
   hasNextPod: boolean;
+  firstAttemptBonus?: number;
 }) {
   const [particles, setParticles] = useState<Particle[]>([]);
   const [show, setShow] = useState(false);
@@ -227,6 +230,26 @@ function CelebrationOverlay({
               </div>
             </div>
           )}
+
+          {firstAttemptBonus && firstAttemptBonus > 0 && (
+            <div style={{
+              background: "rgba(176,142,245,0.12)", border: "1px solid rgba(176,142,245,0.2)",
+              borderRadius: 16, padding: "12px 20px", textAlign: "center" as const,
+            }}>
+              <div style={{
+                fontFamily: "var(--font-fraunces), Fraunces, serif",
+                fontSize: 26, fontWeight: 600, color: "var(--purple)", lineHeight: 1,
+              }}>
+                +{firstAttemptBonus}
+              </div>
+              <div style={{
+                fontSize: 10, fontWeight: 600, color: "var(--purple)",
+                textTransform: "uppercase" as const, letterSpacing: "0.08em", marginTop: 4,
+              }}>
+                First Try
+              </div>
+            </div>
+          )}
         </div>
 
         <div style={{ display: "flex", flexDirection: "column" as const, gap: 10 }}>
@@ -267,6 +290,7 @@ export function PodDetailClient({ pod, lesson, parentModule, nextPodSlugs, quest
   const completeQuiz = useLearnStore((s) => s.completeQuiz);
   const scheduleReview = useLearnStore((s) => s.scheduleReview);
   const getQuizResult = useLearnStore((s) => s.getQuizResult);
+  const getQuizAttempts = useLearnStore((s) => s.getQuizAttempts);
   const isCompleted = useLearnStore((s) => s.isCompleted);
   const completedItems = useLearnStore((s) => s.completedItems);
   const streak = useLearnStore((s) => s.streak);
@@ -275,11 +299,13 @@ export function PodDetailClient({ pod, lesson, parentModule, nextPodSlugs, quest
   const hasQuiz = questions.length > 0;
   const domain = DOMAIN_CONFIG[pod.domain] || DOMAIN_CONFIG["Tools & Platforms"];
   const router = useRouter();
+  const { setBack, setForward } = useNavDirection();
 
   const [showCelebration, setShowCelebration] = useState(false);
   const [showQuiz, setShowQuiz] = useState(false);
   const [justCompleted, setJustCompleted] = useState(false);
   const [totalXpEarned, setTotalXpEarned] = useState(0);
+  const [firstAttemptBonus, setFirstAttemptBonus] = useState(0);
 
   const whatSection = pod.sections.find((s) =>
     s.heading.toLowerCase().includes("what it is")
@@ -332,12 +358,24 @@ export function PodDetailClient({ pod, lesson, parentModule, nextPodSlugs, quest
   }
 
   function handleQuizComplete(score: number, total: number) {
-    const bonusXp = Math.round((score / total) * QUIZ_XP);
-    completeQuiz(pod.slug, score, total, bonusXp);
+    const pct = score / total;
+    // Accuracy multiplier: <50% = 0.5x, 50-80% = 1x, 80%+ = 1.5x
+    const multiplier = pct < 0.5 ? 0.5 : pct >= 0.8 ? 1.5 : 1;
+    const bonusXp = Math.round(QUIZ_XP * multiplier);
+
+    // First-attempt bonus: +10 XP if first try and 80%+ accuracy
+    const attempts = getQuizAttempts(pod.slug);
+    const isFirstAttempt = attempts === 0;
+    const firstBonus = isFirstAttempt && pct >= 0.8 ? 10 : 0;
+
+    completeQuiz(pod.slug, score, total, bonusXp + firstBonus, pod.domain);
+
     // Schedule spaced repetition review based on quiz performance
-    const quality = Math.round((score / total) * 5);
+    const quality = Math.round(pct * 5);
     scheduleReview(pod.slug, quality);
-    setTotalXpEarned(BASE_XP + bonusXp);
+
+    setFirstAttemptBonus(firstBonus);
+    setTotalXpEarned(BASE_XP + bonusXp + firstBonus);
     setShowQuiz(false);
     setShowCelebration(true);
   }
@@ -349,6 +387,7 @@ export function PodDetailClient({ pod, lesson, parentModule, nextPodSlugs, quest
 
   function handleNextPod() {
     if (nextPodSlug) {
+      setForward();
       router.push(`/pods/${nextPodSlug}`);
     }
   }
@@ -362,11 +401,12 @@ export function PodDetailClient({ pod, lesson, parentModule, nextPodSlugs, quest
           onContinue={handleCelebrationContinue}
           onNextPod={handleNextPod}
           hasNextPod={!!nextPodSlug}
+          firstAttemptBonus={firstAttemptBonus}
         />
       )}
 
       <div className="nav-back fade-1">
-        <Link href="/" className="back-btn" aria-label="Back to home">←</Link>
+        <Link href="/" className="back-btn" aria-label="Back to home" onClick={setBack}>←</Link>
         <div className="nav-back-title">Today&apos;s Queue</div>
         <div className="nav-badge">Pod</div>
       </div>

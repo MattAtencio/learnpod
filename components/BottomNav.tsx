@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useLearnStore, useStoreHydrated } from "@/lib/store";
+import { useNavDirection } from "@/lib/nav-direction";
 
 const icons: Record<string, React.ReactNode> = {
   home: (
@@ -43,6 +44,7 @@ export function BottomNav() {
   const pathname = usePathname();
   const hydrated = useStoreHydrated();
   const onboardingComplete = useLearnStore((s) => s.onboardingComplete);
+  const { setFade } = useNavDirection();
 
   if (hydrated && !onboardingComplete) return null;
 
@@ -61,6 +63,7 @@ export function BottomNav() {
             href={it.href}
             className={`nav-item ${active ? "active" : ""}`}
             aria-current={active ? "page" : undefined}
+            onClick={setFade}
           >
             <div className="nav-icon" style={{ color: active ? "var(--amber)" : "var(--muted)" }}>
               {icons[it.id]}

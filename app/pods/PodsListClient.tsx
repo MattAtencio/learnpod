@@ -4,12 +4,22 @@ import Link from "next/link";
 import type { Pod, Domain } from "@/lib/types";
 import { DOMAIN_CONFIG } from "@/lib/types";
 import { useLearnStore, useStoreHydrated } from "@/lib/store";
+import { useNavDirection } from "@/lib/nav-direction";
 import { useState } from "react";
+
+const REVIEW_BADGE: Record<string, { label: string; color: string; bg: string }> = {
+  overdue:  { label: "Overdue",  color: "var(--coral)", bg: "rgba(255,107,91,0.12)" },
+  due:      { label: "Review",   color: "var(--amber)", bg: "rgba(245,166,35,0.12)" },
+  mastered: { label: "Mastered", color: "var(--green)", bg: "rgba(93,214,140,0.12)" },
+  learning: { label: "Learning", color: "var(--blue)",  bg: "rgba(110,168,254,0.12)" },
+};
 
 export function PodsListClient({ pods }: { pods: Pod[] }) {
   const hydrated = useStoreHydrated();
   const isCompletedRaw = useLearnStore((s) => s.isCompleted);
+  const getReviewStatus = useLearnStore((s) => s.getReviewStatus);
   const isCompleted = (slug: string) => hydrated && isCompletedRaw(slug);
+  const { setBack, setForward } = useNavDirection();
   const [filter, setFilter] = useState<Domain | "all">("all");
 
   const filtered = filter === "all" ? pods : pods.filter((p) => p.domain === filter);
@@ -18,7 +28,7 @@ export function PodsListClient({ pods }: { pods: Pod[] }) {
   return (
     <div style={{ padding: "0 0 12px" }}>
       <div className="nav-back fade-1">
-        <Link href="/" className="back-btn">←</Link>
+        <Link href="/" className="back-btn" onClick={setBack}>←</Link>
         <div className="nav-back-title">All Pods</div>
         <div className="nav-badge">{pods.length}</div>
       </div>
@@ -51,7 +61,7 @@ export function PodsListClient({ pods }: { pods: Pod[] }) {
           const domain = DOMAIN_CONFIG[pod.domain] || DOMAIN_CONFIG["Tools & Platforms"];
           const done = isCompleted(pod.slug);
           return (
-            <Link key={pod.slug} href={`/pods/${pod.slug}`} className={`chapter-item ${done ? "completed" : ""}`} style={{ marginBottom: 8 }}>
+            <Link key={pod.slug} href={`/pods/${pod.slug}`} className={`chapter-item ${done ? "completed" : ""}`} style={{ marginBottom: 8 }} onClick={setForward}>
               <div className={`chapter-icon ${done ? "icon-done" : "icon-active"}`}>
                 {done ? "✓" : "⚡"}
               </div>
@@ -62,7 +72,19 @@ export function PodsListClient({ pods }: { pods: Pod[] }) {
                   <span>{pod.estimatedMinutes} min</span>
                 </div>
               </div>
-              <div className="chapter-right">
+              <div className="chapter-right" style={{ display: "flex", gap: 6, alignItems: "center" }}>
+                {hydrated && (() => {
+                  const status = getReviewStatus(pod.slug);
+                  const badge = status ? REVIEW_BADGE[status] : null;
+                  return badge ? (
+                    <span style={{
+                      fontSize: 9, fontWeight: 700, letterSpacing: "0.04em",
+                      textTransform: "uppercase" as const,
+                      color: badge.color, background: badge.bg,
+                      borderRadius: 6, padding: "2px 7px",
+                    }}>{badge.label}</span>
+                  ) : null;
+                })()}
                 <span className="chapter-xp">+{pod.xpReward} XP</span>
               </div>
             </Link>
