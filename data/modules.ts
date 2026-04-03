@@ -3,6 +3,125 @@ import type { Module } from "@/lib/types";
 
 export const modules: Module[] = [
   {
+    "slug": "module-ai-for-everyone",
+    "title": "AI for Everyone",
+    "domain": "AI for Everyone",
+    "tags": [
+      "module",
+      "ai-for-everyone",
+      "basics",
+      "non-technical"
+    ],
+    "status": "queue",
+    "created": "2026-04-02",
+    "pods": [
+      "ai-for-everyone-what-is-ai-really",
+      "ai-for-everyone-ai-you-re-already-using",
+      "ai-for-everyone-how-people-use-ai-today",
+      "ai-for-everyone-try-it-yourself",
+      "ai-for-everyone-ai-and-your-privacy",
+      "ai-for-everyone-spotting-ai-fakes",
+      "ai-for-everyone-ai-for-hobbies",
+      "ai-for-everyone-talking-to-ai-like-a-pro"
+    ],
+    "sections": [
+      {
+        "heading": "Who This Is For",
+        "content": "Anyone who's heard the buzzwords but doesn't know where to start. You don't need to be technical. You don't need to understand computers. If you can Google something and send a text message, you can use AI."
+      },
+      {
+        "heading": "The Learning Path",
+        "content": "Read these in order — each one builds on the last.\n\n| # | Pod | What You'll Learn | Time |\n|---|-----|-------------------|------|\n| 1 | AI for Everyone - What Is AI Really | What AI actually is (and isn't) — no scary stuff | 2 min |\n| 2 | AI for Everyone - AI You're Already Using | Turns out you've been using AI for years | 2 min |\n| 3 | AI for Everyone - How People Use AI Today | Real ways real people use it — writing, planning, legal, business | 2 min |\n| 4 | AI for Everyone - Try It Yourself | Your first conversation with AI, step by step | 2 min |\n\n**Part 1 time: ~8 minutes from \"what is AI?\" to actually using it.**\n\n### Part 2: Go Deeper\n\nOnce you've tried it, these help you get more out of it — and stay safe.\n\n| # | Pod | What You'll Learn | Time |\n|---|-----|-------------------|------|\n| 5 | AI for Everyone - AI and Your Privacy | What's safe to share and what's not — the coffee shop rule | 2 min |\n| 6 | AI for Everyone - Spotting AI Fakes | How to spot deepfakes, voice scams, and fake content | 2 min |\n| 7 | AI for Everyone - AI for Hobbies | Cooking, gardening, genealogy, crafts, reading, travel | 2 min |\n| 8 | AI for Everyone - Talking to AI Like a Pro | Simple tricks for getting much better answers | 2 min |\n\n**Full module: ~16 minutes. You'll go from \"what is AI?\" to using it confidently.**"
+      },
+      {
+        "heading": "The Big Ideas",
+        "content": "### AI is a tool, not a creature\nIt doesn't think, feel, or want anything. It's very good at patterns — good enough that it looks smart. But \"looks smart\" and \"is smart\" are different things. It's more like a calculator for words than a robot brain.\n\n### You've been using it for years\nSpam filters, Netflix recommendations, Google Maps traffic, phone autocorrect, credit card fraud alerts — all AI. The only thing that's new is being able to talk to it directly.\n\n### It's most useful for first drafts and explanations\nNeed to write an email? AI gives you a starting point. Confused by legal language or medical results? AI translates to plain English. Planning a trip? AI thinks of things you'd forget. You always make the final call.\n\n### It's okay to be skeptical\nAI gets things wrong sometimes. It can sound confident when it's incorrect. Always double-check important facts, especially medical, legal, and financial information. Healthy skepticism is the right approach."
+      },
+      {
+        "heading": "Conversation Starters",
+        "content": "Things to try the first time you use Claude or ChatGPT:\n\n**For understanding things:**\n- \"Explain what a 401(k) match means in simple terms\"\n- \"My doctor said I have [condition]. What does that mean and what questions should I ask?\"\n- \"This lease says [clause]. What does that actually mean for me?\"\n\n**For writing help:**\n- \"Help me write a thank-you note to my son's teacher\"\n- \"Draft a polite email to customer service about a wrong charge\"\n- \"I need to write a sympathy card and I don't know what to say\"\n\n**For planning:**\n- \"I'm hosting Thanksgiving for 12 people. Help me plan the menu and timeline\"\n- \"Plan a 4-day road trip from [city] to [city] with stops for kids\"\n- \"What should I consider before refinancing my mortgage?\"\n\n**For everyday help:**\n- \"What's the difference between Medicare Part A and Part B?\"\n- \"Suggest birthday gift ideas for a 70-year-old who likes gardening\"\n- \"I have chicken, rice, and broccoli. What can I make for dinner?\""
+      },
+      {
+        "heading": "Common Concerns (Answered Honestly)",
+        "content": "**\"Will AI take my job?\"**\nAI is changing many jobs, but it's mostly changing HOW people work, not eliminating the people. It handles repetitive parts so you can focus on the human parts — judgment, relationships, creativity.\n\n**\"Is it safe to use?\"**\nYes, for everyday questions and tasks. Don't share passwords, Social Security numbers, or financial account details. Treat it like talking to a helpful stranger — friendly, but you wouldn't hand them your wallet.\n\n**\"What if I say something wrong?\"**\nYou can't break it. You can't offend it. You can't ask a dumb question. If it misunderstands, just say \"that's not what I meant\" and try again. It's endlessly patient.\n\n**\"Is this the same thing as robots?\"**\nNo. AI is software — it lives on computers and phones. Robots are physical machines. Some robots use AI, but the AI you'd use daily is just a text conversation in your browser.\n\n**\"Why should I bother learning this?\"**\nBecause it's genuinely useful, it's free to try, and it's only going to become more common. Learning now means you'll be comfortable when it shows up everywhere — at the doctor's office, at the bank, in your email. Better to understand it on your terms."
+      },
+      {
+        "heading": "Share It Forward",
+        "content": "If you found this helpful, share it with someone else who's curious. The best way to learn AI is to try it together — sit down with a family member and explore. Ask it silly questions. Ask it serious ones. The point is just to start."
+      }
+    ],
+    "related": [
+      "AI for Everyone - What Is AI Really",
+      "AI for Everyone - AI You're Already Using",
+      "AI for Everyone - How People Use AI Today",
+      "AI for Everyone - Try It Yourself",
+      "AI for Everyone - AI and Your Privacy",
+      "AI for Everyone - Spotting AI Fakes",
+      "AI for Everyone - AI for Hobbies",
+      "AI for Everyone - Talking to AI Like a Pro"
+    ],
+    "estimatedMinutes": 35,
+    "xpReward": 300,
+    "chapters": [
+      {
+        "slug": "ai-for-everyone-what-is-ai-really",
+        "title": "What Is AI Really?",
+        "type": "pod",
+        "estimatedMinutes": 2,
+        "xpReward": 45
+      },
+      {
+        "slug": "ai-for-everyone-ai-you-re-already-using",
+        "title": "AI You're Already Using",
+        "type": "pod",
+        "estimatedMinutes": 2,
+        "xpReward": 45
+      },
+      {
+        "slug": "ai-for-everyone-how-people-use-ai-today",
+        "title": "How People Use AI Today",
+        "type": "pod",
+        "estimatedMinutes": 2,
+        "xpReward": 45
+      },
+      {
+        "slug": "ai-for-everyone-try-it-yourself",
+        "title": "Try It Yourself",
+        "type": "pod",
+        "estimatedMinutes": 2,
+        "xpReward": 45
+      },
+      {
+        "slug": "ai-for-everyone-ai-and-your-privacy",
+        "title": "AI and Your Privacy",
+        "type": "pod",
+        "estimatedMinutes": 2,
+        "xpReward": 45
+      },
+      {
+        "slug": "ai-for-everyone-spotting-ai-fakes",
+        "title": "Spotting AI Fakes",
+        "type": "pod",
+        "estimatedMinutes": 2,
+        "xpReward": 45
+      },
+      {
+        "slug": "ai-for-everyone-ai-for-hobbies",
+        "title": "AI for Hobbies",
+        "type": "pod",
+        "estimatedMinutes": 2,
+        "xpReward": 45
+      },
+      {
+        "slug": "ai-for-everyone-talking-to-ai-like-a-pro",
+        "title": "Talking to AI Like a Pro",
+        "type": "pod",
+        "estimatedMinutes": 2,
+        "xpReward": 45
+      }
+    ]
+  },
+  {
     "slug": "module-claude-api-cost-optimization",
     "title": "Claude API Cost Optimization",
     "domain": "AI Engineering",
@@ -70,6 +189,154 @@ export const modules: Module[] = [
     "estimatedMinutes": 35,
     "xpReward": 300,
     "chapters": [
+      {
+        "slug": "ai-batch-api",
+        "title": "Claude Batch API",
+        "type": "pod",
+        "estimatedMinutes": 2,
+        "xpReward": 45
+      },
+      {
+        "slug": "lesson-batch-api",
+        "title": "Batch API — Lesson",
+        "type": "lesson",
+        "estimatedMinutes": 12,
+        "xpReward": 120
+      },
+      {
+        "slug": "ai-prompt-caching",
+        "title": "Claude Prompt Caching",
+        "type": "pod",
+        "estimatedMinutes": 2,
+        "xpReward": 45
+      },
+      {
+        "slug": "lesson-prompt-caching",
+        "title": "Prompt Caching — Lesson",
+        "type": "lesson",
+        "estimatedMinutes": 12,
+        "xpReward": 120
+      },
+      {
+        "slug": "ai-model-right-sizing",
+        "title": "Model Right-Sizing",
+        "type": "pod",
+        "estimatedMinutes": 2,
+        "xpReward": 45
+      },
+      {
+        "slug": "lesson-model-right-sizing",
+        "title": "Model Right-Sizing — Lesson",
+        "type": "lesson",
+        "estimatedMinutes": 12,
+        "xpReward": 120
+      }
+    ]
+  },
+  {
+    "slug": "module-claude-best-practices",
+    "title": "Claude Best Practices",
+    "domain": "AI Engineering",
+    "tags": [
+      "module",
+      "ai-engineering",
+      "claude",
+      "prompt-engineering",
+      "agents",
+      "evaluation",
+      "cost-optimization"
+    ],
+    "status": "queue",
+    "created": "2026-04-02",
+    "pods": [
+      "claude-prompt-engineering-patterns",
+      "claude-structured-output-tool-use",
+      "claude-agent-architecture",
+      "claude-eval-testing-for-ai",
+      "ai-batch-api",
+      "ai-prompt-caching",
+      "ai-model-right-sizing"
+    ],
+    "sections": [
+      {
+        "heading": "Pods & Lessons",
+        "content": "### Part 1: Design & Build\n| Concept | Pod (2 min) | Lesson (10 min) |\n|---------|------------|-----------------|\n| Prompt Engineering | Claude - Prompt Engineering Patterns | Coming soon |\n| Structured Output | Claude - Structured Output & Tool Use | Coming soon |\n| Agent Architecture | Claude - Agent Architecture | Coming soon |\n\n### Part 2: Validate\n| Concept | Pod (2 min) | Lesson (10 min) |\n|---------|------------|-----------------|\n| Evaluation & Testing | Claude - Eval & Testing for AI | Coming soon |\n\n### Part 3: Optimize (from Module - Claude API Cost Optimization)\n| Concept | Pod (2 min) | Lesson (10 min) |\n|---------|------------|-----------------|\n| Batch API | AI - Batch API | Lesson - Batch API |\n| Prompt Caching | AI - Prompt Caching | Lesson - Prompt Caching |\n| Model Right-Sizing | AI - Model Right-Sizing | Lesson - Model Right-Sizing |\n\n---"
+      },
+      {
+        "heading": "The Full Picture",
+        "content": "```\n┌─────────────────────────────────────────────────────────────────┐\n│                    CLAUDE BEST PRACTICES                        │\n│                                                                 │\n│  DESIGN                                                         │\n│  ┌──────────────────────┐  ┌──────────────────────┐            │\n│  │  PROMPT ENGINEERING   │  │  STRUCTURED OUTPUT    │            │\n│  │  System prompts       │→│  Tool use / JSON      │            │\n│  │  Few-shot, CoT        │  │  Forced extraction    │            │\n│  │  Personas, decomp     │  │  Multi-tool chains    │            │\n│  └──────────┬───────────┘  └──────────┬───────────┘            │\n│             │                         │                         │\n│             ▼                         ▼                         │\n│  BUILD                                                          │\n│  ┌─────────────────────────────────────────────┐               │\n│  │           AGENT ARCHITECTURE                 │               │\n│  │  ReAct loop: Reason → Act → Observe          │               │\n│  │  Multi-agent orchestration                   │               │\n│  │  Memory, state, planning                     │               │\n│  │  Guardrails & circuit breakers               │               │\n│  └──────────────────────┬──────────────────────┘               │\n│                         │                                       │\n│                         ▼                                       │\n│  VALIDATE                                                       │\n│  ┌─────────────────────────────────────────────┐               │\n│  │           EVAL & TESTING                     │               │\n│  │  LLM-as-judge, golden sets                   │               │\n│  │  A/B prompt testing, regression              │               │\n│  │  Accuracy, quality, safety, cost metrics     │               │\n│  └──────────────────────┬──────────────────────┘               │\n│                         │                                       │\n│                         ▼                                       │\n│  OPTIMIZE                                                       │\n│  ┌───────────────┐  ┌──────────────┐  ┌──────────────┐        │\n│  │ MODEL ROUTING  │  │   CACHING    │  │   BATCHING   │        │\n│  │ Haiku/Sonnet/  │  │ 90% off on   │  │ 50% off for  │        │\n│  │ Opus by task   │  │ repeated     │  │ async work   │        │\n│  │ Saves 60-80%   │  │ Saves 85-90% │  │ Saves 50%    │        │\n│  └───────────────┘  └──────────────┘  └──────────────┘        │\n│                                                                 │\n│  COMBINED: Design well → Build agents → Eval quality →          │\n│            Route/cache/batch → 90%+ cost reduction              │\n└─────────────────────────────────────────────────────────────────┘\n```\n\n---"
+      },
+      {
+        "heading": "Part 1: Design & Build",
+        "content": "### Prompt Engineering — The Foundation\n\nEverything starts with the prompt. The patterns you choose determine output quality more than model choice:\n\n| Pattern | When to Use | Impact |\n|---------|------------|--------|\n| System prompts | Always — define role, constraints, format | High — sets the entire context |\n| Few-shot examples | Formatting, classification, consistent style | High — shows rather than tells |\n| Chain-of-thought | Multi-step reasoning, math, complex logic | Medium-High — improves accuracy 10-30% |\n| Decomposition | Complex tasks with multiple parts | High — divide and conquer |\n| Self-critique | High-stakes output that needs checking | Medium — catches ~30% of errors |\n| Persona | Domain-specific expertise needed | Low-Medium — marginal quality gain |\n\n### Structured Output — Reliable Machine-Readable Results\n\nRaw text output is unparseable. Structured output makes Claude a reliable API endpoint:\n\n```python\n# The spectrum of structure control\ntext_response    →  Unstructured, flexible, unpredictable format\nprefill_json     →  Start response with `{` to hint JSON\ntool_choice_auto →  Claude decides IF to use tools\ntool_choice_any  →  Claude MUST use a tool (picks which one)\ntool_choice_tool →  Claude MUST use THIS specific tool  ← most reliable\n```\n\nForced tool use = guaranteed structured extraction. Your Claude Code framework uses this pattern extensively for routing, classification, and data extraction.\n\n### Agent Architecture — Autonomous Multi-Step Systems\n\nThe ReAct loop is the core pattern behind Claude Code itself:\n\n```\nUser Request\n    ↓\n┌─→ REASON: What should I do next?\n│   ACT: Call a tool (read file, search, edit, bash)\n│   OBSERVE: Process tool result\n│   └─→ Am I done? NO → loop back\n│                  YES → respond to user\n```\n\nScale up with multi-agent orchestration:\n- **Orchestrator** decomposes the task and delegates\n- **Specialist agents** handle focused subtasks (your Explore, Plan, Build agents)\n- **Background agents** run in parallel for independent work\n- **Memory system** persists context across conversations (your `~/.claude/memory/`)\n\n---"
+      },
+      {
+        "heading": "Part 2: Validate",
+        "content": "### Eval & Testing — The Missing Piece\n\nMost AI projects ship without evals. This is the equivalent of shipping code without tests:\n\n| Eval Type | What It Measures | Method |\n|-----------|-----------------|--------|\n| Accuracy | Correct answers (classification, extraction) | Compare against golden set |\n| Quality | Good answers (generation, summarization) | LLM-as-judge with rubric |\n| Safety | No harmful outputs | Red-team prompts, constitutional checks |\n| Latency | Speed | TTFT + tokens/sec measurement |\n| Cost | $/request | Token counting + model tier tracking |\n\n**The eval loop**: Change prompt → Run eval suite (Batch API = 50% off) → Compare scores → Ship if better.\n\nWithout evals, every prompt change is a gamble. With evals, it's an experiment.\n\n---"
+      },
+      {
+        "heading": "Part 3: Optimize",
+        "content": "See Module - Claude API Cost Optimization for the deep dive. The three levers stack:\n\n| Lever | Savings | Effort | Works With |\n|-------|---------|--------|------------|\n| Model routing (Haiku/Sonnet/Opus) | 60-80% | Low | Everything |\n| Prompt caching (repeated prefixes) | 85-90% on reads | Low | Multi-turn, shared context |\n| Batch API (async processing) | 50% flat | Medium | Pipelines, evals, generation |\n| **All three combined** | **90-95%** | **Medium** | **Production systems** |\n\n---"
+      },
+      {
+        "heading": "The Maturity Model",
+        "content": "Where are you on the Claude maturity curve?\n\n```\nLevel 0: Chat UI              \"I paste things into claude.ai\"\nLevel 1: API Calls             \"I call the API from code\"\nLevel 2: Structured Output     \"I use tool_use for reliable JSON\"\nLevel 3: Agent Loops           \"My code loops with ReAct pattern\"     ← You are here\nLevel 4: Multi-Agent Systems   \"Orchestrator + specialist agents\"     ← Also here (Claude Code)\nLevel 5: Eval-Driven Dev       \"Every change is measured by evals\"    ← Building toward this\nLevel 6: Cost-Optimized Prod   \"Routed, cached, batched at scale\"    ← Partially here\n```\n\nYou're operating at Level 3-4 through your Claude Code framework, with Level 6 knowledge from the cost optimization module. The gap is Level 5 — systematic evaluation.\n\n---"
+      },
+      {
+        "heading": "Apply It — Your Projects",
+        "content": "| Project | Design | Build | Validate | Optimize |\n|---------|--------|-------|----------|----------|\n| **Claude Code framework** | Skill prompts, system instructions | Multi-agent orchestrator + specialists | Eval which agent types produce best results | Cache tool definitions, route by agent type |\n| **Signal Forge** | Prediction prompts, analysis formatting | ML pipeline with Claude for feature research | Backtest accuracy already serves as eval | Batch for model research, Haiku for data parsing |\n| **FitOps** | Workout program generation prompts | Claude generates personalized plans | LLM-as-judge on program quality | Haiku for parsing, Sonnet for generation, cache user profiles |\n| **Kids Games** | NPC dialog, game logic prompts | Agent for dynamic game content | Playtest + LLM quality scoring | Haiku for routing, pre-generate via batch |\n| **LearnPod** | Content generation, quiz creation | Pipeline from vault to app | LLM-as-judge on lesson quality | Batch all content generation |\n| **lab-01 queue** | Task specs, Sonnet-ready prompts | Worker agent processes queue items | Compare Sonnet output vs Opus baseline | Route by task complexity, batch non-urgent |\n\n---"
+      },
+      {
+        "heading": "Research & Build Checklist",
+        "content": "### Design\n- [ ] Audit Claude Code skill prompts — are they using optimal patterns?\n- [ ] Convert 3 most-used prompts to use forced tool_use for structured output\n- [ ] Document the prompt patterns that work best for each agent type\n\n### Build\n- [ ] Map the full Claude Code agent architecture as a reference diagram\n- [ ] Implement conversation memory summarization for long sessions\n- [ ] Add planning step to complex agent workflows\n\n### Validate\n- [ ] Build minimal eval framework: 50 golden prompts + LLM-as-judge scorer\n- [ ] Run first eval suite via Batch API (50% off)\n- [ ] Set up regression test: run evals before/after prompt changes\n- [ ] Create eval dashboard showing quality trends over time\n\n### Optimize\n- [ ] Implement model routing in lab-01 queue worker\n- [ ] Add cache_control to all Claude Code system prompts\n- [ ] Benchmark: how much would batch processing save on nightly pipelines?\n- [ ] Build cost tracking: $/request by model tier per project\n\n---"
+      },
+      {
+        "heading": "Content Creation Angles",
+        "content": "### Instagram Reels (60-90 seconds)\n| Topic | Hook | Visual |\n|-------|------|--------|\n| Prompt Patterns | \"5 prompt patterns every AI engineer needs\" | Decision tree animation |\n| Tool Use | \"Make Claude return perfect JSON every time\" | Before/after: messy text → clean JSON |\n| Agent Architecture | \"I built an AI that uses other AIs\" | ReAct loop animation with tool calls |\n| Evals | \"Ship AI without tests? Here's what happens\" | Bug count graph spiking |\n| Cost Optimization | \"I cut my Claude bill by 90%\" | Waterfall chart of savings |\n| Full Stack | \"From prompt to production in 7 steps\" | Pipeline animation through all 7 pods |\n\n### ByteByteGo-Style Diagrams\n1. **\"The ReAct Loop\"** — circular diagram: Reason → Act → Observe, with branching tool calls\n2. **\"Tool Use Decision Tree\"** — when to use auto/any/specific tool_choice\n3. **\"The AI Eval Pyramid\"** — accuracy → quality → safety → cost, each level harder\n4. **\"Claude Maturity Model\"** — 6 levels from chat UI to cost-optimized production\n5. **\"7 Pods to Claude Mastery\"** — the full module pipeline as a learning path\n\n---"
+      }
+    ],
+    "related": [
+      "Claude - Prompt Engineering Patterns",
+      "Claude - Structured Output & Tool Use",
+      "Claude - Agent Architecture",
+      "Claude - Eval & Testing for AI",
+      "AI - Batch API",
+      "AI - Prompt Caching",
+      "AI - Model Right-Sizing",
+      "Module - Claude API Cost Optimization",
+      "MOC - AI Engineering"
+    ],
+    "estimatedMinutes": 35,
+    "xpReward": 300,
+    "chapters": [
+      {
+        "slug": "claude-prompt-engineering-patterns",
+        "title": "Prompt Engineering Patterns",
+        "type": "pod",
+        "estimatedMinutes": 2,
+        "xpReward": 45
+      },
+      {
+        "slug": "claude-structured-output-tool-use",
+        "title": "Structured Output & Tool Use",
+        "type": "pod",
+        "estimatedMinutes": 2,
+        "xpReward": 45
+      },
+      {
+        "slug": "claude-agent-architecture",
+        "title": "Agent Architecture",
+        "type": "pod",
+        "estimatedMinutes": 2,
+        "xpReward": 45
+      },
+      {
+        "slug": "claude-eval-testing-for-ai",
+        "title": "Eval & Testing for AI",
+        "type": "pod",
+        "estimatedMinutes": 2,
+        "xpReward": 45
+      },
       {
         "slug": "ai-batch-api",
         "title": "Claude Batch API",
@@ -217,6 +484,419 @@ export const modules: Module[] = [
       {
         "slug": "finance-core-banking-integrations",
         "title": "Core Banking Integrations",
+        "type": "pod",
+        "estimatedMinutes": 2,
+        "xpReward": 45
+      }
+    ]
+  },
+  {
+    "slug": "module-ml-for-crypto-trading",
+    "title": "Module - ML for Crypto Trading",
+    "domain": "ML Models",
+    "tags": [
+      "module",
+      "ml-models",
+      "crypto",
+      "signal-forge",
+      "xgboost",
+      "walk-forward",
+      "calibration",
+      "feature-engineering"
+    ],
+    "status": "queue",
+    "created": "2026-04-02",
+    "pods": [
+      "ml-xgboost-for-financial-prediction",
+      "ml-walk-forward-validation",
+      "ml-calibration-and-ece",
+      "ml-feature-engineering-for-crypto",
+      "ml-baseline-models"
+    ],
+    "sections": [
+      {
+        "heading": "Overview",
+        "content": "This module covers the complete ML pipeline from raw market data to validated, calibrated predictions --- as built and tested in Signal Forge. Five pods connect into one end-to-end system: **engineer features from price data, train gradient-boosted trees, validate with walk-forward backtesting, calibrate confidence scores, and gate position sizing against honest baselines**. The pipeline is live, the results are real, and the edge is thinner than you want it to be --- which is exactly why every step matters."
+      },
+      {
+        "heading": "Pods & Lessons",
+        "content": "| Concept | Pod (2 min) | Lesson (10 min) |\n|---------|------------|-----------------|\n| XGBoost for Financial Prediction | ML - XGBoost for Financial Prediction | Coming soon |\n| Walk-Forward Validation | ML - Walk-Forward Validation | Coming soon |\n| Calibration and ECE | ML - Calibration and ECE | Coming soon |\n| Feature Engineering for Crypto | ML - Feature Engineering for Crypto | Coming soon |\n| Baseline Models | ML - Baseline Models | Coming soon |"
+      },
+      {
+        "heading": "The ML Pipeline",
+        "content": "```\n              THE SIGNAL FORGE ML PIPELINE\n              ============================\n\n  ┌──────────────┐\n  │   RAW DATA   │  OHLCV, volume, funding rates, timestamps\n  │  (Hourly)    │\n  └──────┬───────┘\n         │\n         ▼\n  ┌──────────────────────────────────────────────────────┐\n  │            FEATURE ENGINEERING                       │\n  │  27 features across 6 categories:                    │\n  │  Returns (4) | Volatility (2) | Volume (2)           │\n  │  Technicals (5) | Crypto-specific (3) | Time (2)     │\n  └──────────────────────┬───────────────────────────────┘\n                         │\n                         ▼\n  ┌──────────────────────────────────────────────────────┐\n  │            XGBOOST TRAINING                          │\n  │  max_depth=4  |  lr=0.05  |  n_estimators=200       │\n  │  Binary classification: UP or DOWN next hour         │\n  └──────────────────────┬───────────────────────────────┘\n                         │\n                         ▼\n  ┌──────────────────────────────────────────────────────┐\n  │         WALK-FORWARD VALIDATION                      │\n  │  train_window=720h  |  step=24h  |  retrain weekly   │\n  │  Rolling window — no lookahead bias                  │\n  │  BTC: 303 folds  |  Altcoin: 3,236 folds             │\n  └──────────────────────┬───────────────────────────────┘\n                         │\n                         ▼\n  ┌──────────────────────────────────────────────────────┐\n  │            CALIBRATION                               │\n  │  Platt scaling on validation predictions             │\n  │  ECE threshold: < 0.10 to pass                       │\n  │  Maps raw scores → honest probabilities              │\n  └──────────────────────┬───────────────────────────────┘\n                         │\n                         ▼\n  ┌──────────────────────────────────────────────────────┐\n  │         KELLY SIZING GATE                            │\n  │  Calibrated? → Full Kelly (with 50% discount)        │\n  │  Uncalibrated? → 50% further discount applied        │\n  │  Below baseline? → No trade                          │\n  └──────────────────────────────────────────────────────┘\n```\n\n---"
+      },
+      {
+        "heading": "How the Pieces Fit Together",
+        "content": "### Features Feed the Model\nEverything starts with 27 engineered features computed from raw hourly OHLCV data. Four return windows (1h, 4h, 12h, 24h) capture momentum at different scales. Two volatility measures and two volume ratios add context. Five technical indicators (RSI, MACD, Bollinger width, ATR, OBV slope) provide classical signal. Three crypto-specific features (funding rate, liquidation proxy, BTC correlation) capture market microstructure. Two time encodings (hour-of-day, day-of-week) handle seasonality. These 27 features are the only information the model sees --- no order flow, no on-chain data, no sentiment, no cross-asset signals. What's missing matters as much as what's there.\n\n### XGBoost Learns the Pattern\nGradient-boosted trees consume the 27 features and output a probability of \"price goes up in the next hour.\" The hyperparameters are deliberately conservative: max_depth=4 prevents the trees from memorizing noise, learning_rate=0.05 keeps updates small, and 200 estimators provide enough capacity without overfitting. Overfitting is the #1 risk in financial ML --- a model that memorizes past patterns will confidently lose money on new data. Every hyperparameter choice trades expressiveness for robustness.\n\n### Walk-Forward Keeps It Honest\nStandard cross-validation is useless for time series --- it lets the model peek at tomorrow's data while training on yesterday. Walk-forward validation is the only honest backtest: train on 720 hours, predict the next 24 hours, slide the window forward, retrain, repeat. This produced 303 validation folds for BTC and 3,236 for the altcoin basket. Every reported metric comes from true out-of-sample predictions. If the model can't beat baseline on walk-forward data, the edge doesn't exist.\n\n### Calibration Makes Confidence Honest\nA model that says \"65% probability\" should be right about 65% of the time. XGBoost's raw outputs are not calibrated --- they're scores, not probabilities. Platt scaling (logistic regression on the model's outputs) maps raw scores to honest probabilities, measured by Expected Calibration Error (ECE). Signal Forge requires ECE < 0.10 to consider predictions calibrated. This matters because Kelly sizing depends on accurate probabilities --- bet sizing with uncalibrated confidence is just gambling with extra steps.\n\n### Baselines Anchor Everything\nWithout baselines, you can't tell if 52.3% accuracy is impressive or pathetic. Three baselines ground all evaluation: always_up (51.7% --- just bet that BTC goes up because it usually does), random (50.5% --- coin flip), and momentum (50.2% --- follow the last move). The model must beat these by >2% with statistical significance to justify its complexity. This is the final gate --- if you can't beat a coin flip by a meaningful margin, you don't trade.\n\n---"
+      },
+      {
+        "heading": "Signal Forge Results Summary",
+        "content": "| Metric | BTC | Altcoin Basket |\n|--------|-----|----------------|\n| **Model Accuracy** | 52.3% | 54.7% |\n| **Best Baseline (always_up)** | 51.7% | 50.2% |\n| **Edge vs Baseline** | +0.6% | +4.5% |\n| **Sharpe Ratio** | 1.02 | 1.28 |\n| **Walk-Forward Folds** | 303 | 3,236 |\n| **Features Used** | 27 | 27 |\n| **Calibration (ECE)** | < 0.10 target | < 0.10 target |\n| **Retrain Frequency** | Weekly | Weekly |\n| **XGBoost max_depth** | 4 | 4 |\n| **XGBoost learning_rate** | 0.05 | 0.05 |\n| **XGBoost n_estimators** | 200 | 200 |\n\n### Baseline Comparison Detail\n\n| Baseline | Method | BTC Accuracy | Altcoin Accuracy |\n|----------|--------|-------------|-----------------|\n| **always_up** | Predict UP every hour | 51.7% | 50.2% |\n| **random** | Coin flip each hour | 50.5% | 50.5% |\n| **momentum** | Follow last hour's direction | 50.2% | 49.8% |\n| **XGBoost model** | 27-feature trained model | 52.3% | 54.7% |\n\nThe always_up baseline is surprisingly strong for BTC because Bitcoin has a long-term upward bias. Any directional model for BTC is really competing against \"just go long\" --- and that's a high bar for a 1-hour horizon.\n\n### Interpreting the Numbers\n\n- **Sharpe > 1.0** is generally considered acceptable for a systematic strategy. BTC at 1.02 is barely there; altcoin at 1.28 is more convincing.\n- **Edge vs baseline** is the number that matters most. BTC's +0.6% is statistically fragile --- it could disappear with transaction costs or a regime shift. Altcoin's +4.5% has more room to survive real-world friction.\n- **Walk-forward fold counts** show the altcoin model has 10x more validation data, making its results more statistically robust.\n- **Statistical significance** is essential. A +0.6% edge on 303 folds is less convincing than +4.5% on 3,236 folds. Always run a proper significance test (bootstrap or DeLong) before trusting any edge claim.\n\n---"
+      },
+      {
+        "heading": "The Honest Truth",
+        "content": "Here is where the pipeline stands, without sugarcoating:\n\n### BTC: The Edge Is Razor-Thin\n52.3% accuracy sounds barely better than a coin flip because it is. The +0.6% edge over always_up is real in backtesting but fragile in production. Transaction costs (exchange fees, slippage, funding rates on leveraged positions) easily eat 0.3-0.5% per round trip. That leaves almost nothing. A Sharpe of 1.02 means the strategy works on average, but the drawdowns will test your conviction. BTC is the most efficient crypto market --- there are thousands of quant teams with better data, faster execution, and deeper pockets hunting the same signals.\n\n### Altcoin: Promising but Unproven\n54.7% accuracy with +4.5% edge over baseline is genuinely interesting. Altcoin markets are less efficient, have wider spreads, and exhibit more exploitable patterns. The Sharpe of 1.28 suggests a real signal. But the risks are different: lower liquidity means larger slippage, exchange risk is real (your edge doesn't matter if the exchange freezes withdrawals), and altcoin regimes shift faster. The 3,236 walk-forward folds provide statistical confidence, but past altcoin patterns may not survive the next market cycle.\n\n### Costs Eat Most of It\nThe numbers above are gross of costs. Net of trading costs:\n\n```\nCOST BREAKDOWN PER ROUND TRIP (HOURLY TRADING)\n================================================\n\n                        BTC         Altcoin\nExchange fees (taker):  0.04-0.10%  0.06-0.10%\nSlippage:               0.02-0.05%  0.05-0.20%\nFunding rate (8h avg):  0.01-0.03%  0.02-0.10%\n                        ----------  ----------\nTotal per round trip:   0.07-0.18%  0.13-0.40%\n\nGross edge per trade:   ~0.03%      ~0.22%\nNet edge per trade:     ~0.00%      ~0.05-0.09%\n                        ^^^^^^^^    ^^^^^^^^^^^^\n                        Breakeven   Thin but real\n```\n\nFor BTC with an hourly trading frequency, costs consume nearly the entire edge. The math is brutal: even with maker-only fees (0.02%), slippage alone can eat the remaining margin. For altcoins, the wider gross edge survives cost friction --- but not by a comfortable margin. This is why cost reduction is as important as accuracy improvement.\n\n### The Model Is Only as Good as Its Features\n27 features from price and volume data alone are a narrow view of a complex market. The model has no visibility into:\n- Order flow (who is buying/selling and at what depth)\n- On-chain data (whale movements, exchange inflows/outflows, network activity)\n- Sentiment (social media, news, Fear & Greed Index)\n- Cross-asset signals (DXY, equities correlation, macro events)\n- Funding rate dynamics (beyond a single snapshot)\n\nAdding these categories could meaningfully improve the model --- or add noise. The only way to know is to test them through the same walk-forward pipeline.\n\n---"
+      },
+      {
+        "heading": "What Would Move the Needle",
+        "content": "Ranked by expected impact on results:\n\n### 1. More Features (High Impact)\nThe biggest limitation is the 27-feature-from-price-only constraint. Highest-value additions:\n- **Order book features**: bid-ask imbalance, depth ratio, large order detection. These capture short-term supply/demand dynamics invisible in OHLCV data.\n- **On-chain metrics**: exchange inflow/outflow (whale deposits to exchanges precede selling), active addresses, MVRV ratio. These provide fundamentals-like signals for crypto.\n- **Sentiment**: aggregated social sentiment scores, news event flags, Fear & Greed Index. Crypto is sentiment-driven --- ignoring it is leaving signal on the table.\n- **Cross-asset**: DXY (dollar strength), S&P 500 correlation regime, Treasury yields. Crypto doesn't trade in a vacuum --- macro regime drives correlation.\n\nExpected impact: +2-5% accuracy improvement if done well, which would transform the BTC edge from fragile to tradeable.\n\n### 2. Lower Trading Costs (High Impact)\nWith a thin edge, reducing friction matters enormously:\n- **Maker-only execution**: pay 0.00-0.02% instead of 0.04-0.10%. Requires limit order management.\n- **Lower frequency**: trade every 4h or 8h instead of hourly. Fewer round trips, larger expected moves per trade.\n- **Exchange optimization**: use fee tiers, hold exchange tokens for discounts, route to lowest-fee venues.\n\nExpected impact: could double the net Sharpe by keeping more of the gross edge.\n\n### 3. Longer Training History (Medium Impact)\n720 hours (30 days) of training data is short. Crypto markets have regime shifts (bull, bear, sideways, high-vol, low-vol) that play out over months. A longer training window (2,000-5,000 hours) could capture more regimes, making the model more robust to regime changes.\n\nTradeoff: longer windows include stale data. A decaying weight scheme (recent data weighted more) or regime-conditional training could help.\n\n### 4. Better Calibration (Medium Impact)\nPlatt scaling is the simplest calibration method. More sophisticated approaches:\n- **Isotonic regression**: non-parametric, more flexible than Platt scaling\n- **Temperature scaling**: single parameter, fast to fit, works well with tree models\n- **Venn-Abers predictors**: provide calibrated probability intervals, not just point estimates\n\nBetter calibration directly improves Kelly sizing accuracy, which directly improves risk-adjusted returns. Even a small improvement in ECE from 0.08 to 0.04 could meaningfully change position sizing behavior.\n\n### 5. Ensemble Methods (Medium Impact)\nXGBoost alone is one model family with one inductive bias. Combining predictions from:\n- XGBoost + LightGBM + CatBoost (tree ensemble diversity)\n- A simple neural network (different function space)\n- Linear models (capture linear relationships the trees might overfit)\n\nEnsemble diversity reduces variance and can improve accuracy by 1-2% --- meaningful when the edge is thin.\n\n### 6. Adaptive Retraining (Lower Impact, Higher Robustness)\nWeekly retraining is a fixed schedule that doesn't respond to market conditions. Adaptive triggers:\n- Retrain when model accuracy drops below threshold on recent data\n- Retrain after major market regime shifts (volatility spike, correlation breakdown)\n- Retrain when feature importance distribution shifts significantly\n\nThis won't add alpha directly but prevents the model from trading confidently on stale patterns.\n\n### The Priority Matrix\n\n```\nIMPACT vs EFFORT MATRIX\n========================\n\n                    LOW EFFORT              HIGH EFFORT\n                    ──────────              ───────────\nHIGH IMPACT    │ Lower costs (maker     │ More features (order\n               │ fees, lower freq)      │ book, on-chain,\n               │ ★★★ DO THIS FIRST     │ sentiment, cross-asset)\n               │                        │ ★★★ BIGGEST UPSIDE\n               ├────────────────────────┤────────────────────────\nLOW IMPACT     │ Adaptive retrain       │ Custom model\n               │ triggers               │ architecture (LSTM,\n               │ ★★ Quick win           │ Transformer)\n               │                        │ ★ Not worth it yet\n```\n\nThe clearest path: reduce trading frequency to 4h (cuts costs 75%), add 10-15 order book + sentiment features, and improve calibration. These three changes together could take the altcoin strategy from \"thin but real\" to \"genuinely tradeable.\"\n\n---"
+      },
+      {
+        "heading": "Apply It --- Your Projects",
+        "content": "| Concept | Signal Forge Application | Expected Impact |\n|---------|------------------------|-----------------|\n| **XGBoost tuning** | Hyperparameter search with walk-forward (not grid search + CV) | Prevents overfitting, may find better depth/lr combos |\n| **Walk-forward pipeline** | Automate retrain → validate → deploy cycle | Reduces manual intervention, catches decay faster |\n| **Calibration monitoring** | Real-time ECE tracking on live predictions | Early warning when confidence scores drift |\n| **Feature expansion** | Add on-chain + sentiment features to pipeline | Biggest potential accuracy improvement |\n| **Baseline tracking** | Automated baseline comparison on every retrain | Ensures the model still justifies its complexity |\n| **Cost modeling** | Integrate execution cost model into backtest | Shows net-of-cost Sharpe, not just gross |\n| **Ensemble v2** | Add LightGBM + linear model to prediction | Reduce variance, potential +1-2% accuracy |\n\n---"
+      },
+      {
+        "heading": "Research & Build Checklist",
+        "content": "- [ ] Backtest altcoin model net of realistic transaction costs (maker/taker, slippage, funding)\n- [ ] Implement order book feature pipeline (bid-ask imbalance, depth ratio from exchange API)\n- [ ] Add on-chain data source (Glassnode or CryptoQuant) for exchange flow features\n- [ ] Test 4h and 8h prediction horizons to reduce trading frequency and cost drag\n- [ ] Run Platt vs isotonic vs temperature scaling comparison on walk-forward folds\n- [ ] Build ensemble with XGBoost + LightGBM + logistic regression, compare to single model\n- [ ] Implement adaptive retrain trigger based on rolling accuracy decay\n- [ ] Add sentiment feature (Fear & Greed Index, aggregated social score)\n- [ ] Stress test walk-forward results across bull/bear/sideways regimes separately\n- [ ] Build live monitoring dashboard: accuracy, ECE, Sharpe, drawdown, cost per trade\n- [ ] Run statistical significance test (DeLong or bootstrap) on BTC edge vs always_up\n- [ ] Document feature importance rankings and track stability across retrains"
+      },
+      {
+        "heading": "Content Creation Angles",
+        "content": "### 60-90 Second Instagram Reels\n\n| Topic | Hook | Visual |\n|-------|------|--------|\n| Walk-forward validation | \"Your backtest is lying to you\" | Side-by-side: standard CV leaking vs walk-forward honesty |\n| Calibration | \"Your ML model doesn't know what it doesn't know\" | Reliability diagram animation: raw vs calibrated |\n| Baseline models | \"Can your AI beat a coin flip?\" | Accuracy bar chart: coin flip vs model, with error bars |\n| Feature engineering | \"27 numbers that predict Bitcoin\" | Feature list cascading in, grouped by category |\n| Full pipeline | \"I built an ML trading system --- here's what I learned\" | Pipeline diagram animated step by step, ending with honest results |\n\n### ByteByteGo-Style Diagrams\n\n1. **\"Walk-Forward vs Cross-Validation\"** --- split comparison showing data leakage in CV vs temporal integrity in walk-forward\n2. **\"The Calibration Problem\"** --- reliability diagram with ECE zones, before/after Platt scaling\n3. **\"27 Features from Price Data\"** --- feature tree grouped by category with importance heatmap\n4. **\"From Signal to Trade\"** --- the full pipeline diagram animated, with decision gates at each stage\n\n### 5-10 Minute YouTube Shorts\n\n1. **\"I Built an ML Crypto Trading System\"** --- end-to-end walkthrough, results, and honest assessment\n2. **\"Why Most Crypto Backtests Are Wrong\"** --- walk-forward validation deep dive with code\n3. **\"The Calibration Problem in Trading ML\"** --- why raw model confidence isn't probability, with Kelly sizing implications\n4. **\"Beating a Coin Flip at Bitcoin Prediction\"** --- baseline models, statistical significance, and what +0.6% really means\n\n---"
+      },
+      {
+        "heading": "Key Terminology",
+        "content": "| Term | Definition |\n|------|-----------|\n| **Walk-forward validation** | Time-series backtest that trains on past data, predicts forward, slides window, and repeats --- prevents lookahead bias |\n| **ECE (Expected Calibration Error)** | Measures how well predicted probabilities match actual frequencies --- lower is better, < 0.10 is the Signal Forge threshold |\n| **Platt scaling** | Logistic regression fit on model outputs to convert raw scores to calibrated probabilities |\n| **Kelly criterion** | Optimal bet sizing formula based on edge and odds --- requires calibrated probabilities to work correctly |\n| **Sharpe ratio** | Risk-adjusted return (mean return / std dev) --- > 1.0 is acceptable, > 2.0 is strong |\n| **Lookahead bias** | Using future information during training/backtesting, producing unrealistically good results |\n| **Regime shift** | Fundamental change in market behavior (bull to bear, low-vol to high-vol) that invalidates historical patterns |\n| **OHLCV** | Open, High, Low, Close, Volume --- the standard candlestick data format for price feeds |"
+      }
+    ],
+    "related": [
+      "ML - XGBoost for Financial Prediction",
+      "ML - Walk-Forward Validation",
+      "ML - Calibration and ECE",
+      "ML - Feature Engineering for Crypto",
+      "ML - Baseline Models",
+      "MOC - ML Models"
+    ],
+    "estimatedMinutes": 35,
+    "xpReward": 300,
+    "chapters": [
+      {
+        "slug": "ml-xgboost-for-financial-prediction",
+        "title": "ML - XGBoost for Financial Prediction",
+        "type": "pod",
+        "estimatedMinutes": 2,
+        "xpReward": 45
+      },
+      {
+        "slug": "ml-walk-forward-validation",
+        "title": "ML - Walk-Forward Validation",
+        "type": "pod",
+        "estimatedMinutes": 2,
+        "xpReward": 45
+      },
+      {
+        "slug": "ml-calibration-and-ece",
+        "title": "ML - Calibration and ECE",
+        "type": "pod",
+        "estimatedMinutes": 2,
+        "xpReward": 45
+      },
+      {
+        "slug": "ml-feature-engineering-for-crypto",
+        "title": "ML - Feature Engineering for Crypto",
+        "type": "pod",
+        "estimatedMinutes": 2,
+        "xpReward": 45
+      },
+      {
+        "slug": "ml-baseline-models",
+        "title": "ML - Baseline Models",
+        "type": "pod",
+        "estimatedMinutes": 2,
+        "xpReward": 45
+      }
+    ]
+  },
+  {
+    "slug": "module-quant-risk-management",
+    "title": "Quant Risk Management",
+    "domain": "Quant & Trading",
+    "tags": [
+      "module",
+      "quant",
+      "risk-management",
+      "signal-forge",
+      "trading"
+    ],
+    "status": "queue",
+    "created": "2026-04-02",
+    "pods": [
+      "quant-kelly-criterion",
+      "quant-sharpe-ratio",
+      "quant-maximum-drawdown",
+      "quant-circuit-breakers",
+      "quant-transaction-costs"
+    ],
+    "sections": [
+      {
+        "heading": "Pods & Lessons",
+        "content": "| Concept | Pod (2 min) | Lesson (10 min) |\n|---------|------------|-----------------|\n| Kelly Criterion | Quant - Kelly Criterion | Coming soon |\n| Sharpe Ratio | Quant - Sharpe Ratio | Coming soon |\n| Maximum Drawdown | Quant - Maximum Drawdown | Coming soon |\n| Circuit Breakers | Quant - Circuit Breakers | Coming soon |\n| Transaction Costs | Quant - Transaction Costs | Coming soon |\n\n---"
+      },
+      {
+        "heading": "Architecture — How the Five Concepts Interact",
+        "content": "```\n┌─────────────────────────────────────────────────────────────────┐\n│                     SIGNAL FORGE RISK STACK                     │\n│                                                                 │\n│  ┌──────────┐                                                   │\n│  │  SIGNAL   │  Model generates a trade signal                  │\n│  │  (entry)  │  with win rate + expected odds                   │\n│  └────┬─────┘                                                   │\n│       │                                                         │\n│       ▼                                                         │\n│  ┌──────────────────┐                                           │\n│  │  KELLY CRITERION  │  \"How much to bet?\"                      │\n│  │  f* = p - (1-p)/b │  Uses 1/4 Kelly for safety              │\n│  │  Needs 20+ trades │  Before that: fixed micro-size           │\n│  └────┬─────────────┘                                           │\n│       │                                                         │\n│       ▼                                                         │\n│  ┌──────────────────┐                                           │\n│  │  CIRCUIT BREAKERS │  \"Are we allowed to trade?\"              │\n│  │  SOFT  -10% → ½x │  Halve position size                     │\n│  │  HARD  -20% → 0x │  No new trades                           │\n│  │  KILL  -30% → !!  │  Liquidate everything                    │\n│  └────┬─────────────┘                                           │\n│       │                                                         │\n│       ▼                                                         │\n│  ┌──────────────────┐                                           │\n│  │ TRANSACTION COSTS │  \"What does execution cost?\"             │\n│  │  Fees:    ~0.10%  │  Exchange maker/taker fees               │\n│  │  Slippage: ~0.02% │  Market impact                          │\n│  │  Spread:  ~0.12%  │  Bid-ask spread                         │\n│  │  Round-trip: 0.24% │  Must clear this just to break even    │\n│  └────┬─────────────┘                                           │\n│       │                                                         │\n│       ▼                                                         │\n│  ┌──────────────────┐  ┌──────────────────┐                     │\n│  │   SHARPE RATIO    │  │ MAXIMUM DRAWDOWN  │                    │\n│  │  Risk-adjusted    │  │  Peak-to-trough   │  ◄── MEASURE      │\n│  │  return metric    │  │  worst decline    │      OUTCOMES      │\n│  │  BTC raw: 1.02    │  │  BTC raw: -49.6%  │                    │\n│  │  Target: > 1.0    │  │  Target: < -5%    │                    │\n│  └──────────────────┘  └──────────────────┘                     │\n└─────────────────────────────────────────────────────────────────┘\n```\n\n---"
+      },
+      {
+        "heading": "The Risk Management Stack",
+        "content": "The five concepts are not independent — they form a pipeline where each layer depends on the others.\n\n### Layer 1: Position Sizing (Kelly Criterion)\n\nThe Kelly Criterion answers the most important question in trading: **how much of your bankroll to risk on each trade.** The formula `f* = p - (1-p)/b` takes your win rate (p) and payoff odds (b) and returns the mathematically optimal fraction.\n\nSignal Forge uses **1/4 Kelly** — betting one-quarter of what the formula suggests. Full Kelly is mathematically optimal but practically suicidal: it assumes perfect knowledge of your edge, zero estimation error, and infinite psychological tolerance. Quarter Kelly sacrifices ~25% of theoretical return but cuts variance by ~75%.\n\nThe critical detail: **Kelly needs calibrated inputs.** You need 20+ trades before the win rate estimate is stable enough to trust. Before that threshold, Signal Forge uses fixed micro-sizing to gather data without blowing up.\n\nConnection to Quant - Sharpe Ratio: Kelly sizing directly improves the Sharpe ratio by reducing variance. The same signals with different position sizes produce wildly different risk-adjusted returns.\n\n### Layer 2: Automated Safety (Circuit Breakers)\n\nCircuit breakers remove the human from the loss-management loop. When you are down 20%, you are the least qualified person to decide whether to keep trading. Three levels:\n\n- **SOFT (-10% drawdown)**: Halve all position sizes. The system is still running but operating at reduced capacity. This is a yellow light — the model might be in a bad regime, so reduce exposure while collecting data.\n- **HARD (-20% drawdown)**: No new trades. Existing positions run to their stops or targets, but no new risk is added. This is a red light — something is wrong, and adding more trades will not fix it.\n- **KILL (-30% drawdown)**: Liquidate all positions immediately. This is the emergency brake — close everything at market, accept the slippage, stop the bleeding.\n\nThe key insight: these levels are **pre-committed rules**, not discretionary decisions. They fire automatically, which is the entire point. The psychological failure mode they prevent is \"I know I should stop but this next trade will make it back.\"\n\n### Layer 3: Execution Reality (Transaction Costs)\n\nEvery trade has a tax that the model must overcome just to break even:\n\n| Cost Component | Approximate Size | Notes |\n|---------------|-----------------|-------|\n| Exchange fees | ~0.10% | Maker/taker fees per side |\n| Slippage | ~0.02% | Price moves against you during execution |\n| Spread | ~0.12% | Bid-ask spread per side |\n| **Round-trip total** | **~0.24%** | **Both entry and exit combined** |\n\nThis creates the **frequency trap**: the more often you trade, the more you pay in costs. A model that trades 10x/day needs a 2.4% daily edge just to cover costs. A model that trades 1x/week needs only 0.24% weekly edge. High-frequency strategies that look profitable in backtests often die on contact with real costs.\n\nSignal Forge's altcoin strategy is the cautionary tale: raw Sharpe of 1.28 looks excellent, but after subtracting ~0.24% per round-trip across the trading frequency, the **net Sharpe drops to approximately zero**. The edge was real but not large enough to survive the cost drag.\n\n### Layer 4: Measuring What Matters (Sharpe Ratio & Maximum Drawdown)\n\nThese two metrics tell you whether the risk stack is working:\n\n**Sharpe Ratio** = (Return - Risk-free rate) / Standard deviation of returns. Above 1.0 is good, above 2.0 is excellent. But it has a critical limitation in crypto: it assumes normally distributed returns. Crypto has fat tails — extreme moves happen far more often than a normal distribution predicts. A Sharpe of 1.0 in crypto is not the same as a Sharpe of 1.0 in equities.\n\n**Maximum Drawdown** = the largest peak-to-trough decline. This is the metric that kills funds and retail traders alike. Not because -49.6% is mathematically fatal, but because humans cannot psychologically survive it. Most people abandon a system after a 20-30% drawdown, right before it recovers.\n\n---"
+      },
+      {
+        "heading": "Signal Forge Results — Before & After Risk Management",
+        "content": "| Metric | BTC Raw Model | BTC + Risk Controls | Altcoin Raw Model | Altcoin + Risk Controls |\n|--------|--------------|--------------------|--------------------|------------------------|\n| **Max Drawdown** | -49.6% | -0.2% | -99.9% | -0.5% |\n| **Sharpe Ratio** | 1.02 (raw) | ~1.0 (maintained) | 1.28 (raw) | ~0.0 (after costs) |\n| **Position Size** | 100% Kelly | 25% Kelly | 100% Kelly | 25% Kelly |\n| **Circuit Breaker Hits** | N/A | Rare | N/A | Frequent (SOFT/HARD) |\n| **Verdict** | Untradeble | Tradeable | Looks great on paper | Edge eaten by costs |\n\n### Key Takeaways\n\n1. **Kelly sizing is the biggest lever.** Going from full Kelly to 1/4 Kelly turned a -49.6% drawdown into -0.2%. The return is lower, but the system is actually tradeable.\n2. **Circuit breakers are insurance you hope never fires.** On BTC they rarely trigger. On altcoins they fire constantly — which is itself a signal that the strategy has problems.\n3. **Transaction costs are the silent killer.** The altcoin strategy had a higher raw Sharpe (1.28 vs 1.02) but costs destroyed the edge. Raw backtests without cost modeling are fantasy.\n4. **Drawdown and Sharpe tell different stories.** A strategy can have a decent Sharpe but unacceptable drawdown (or vice versa). You need both metrics to evaluate a system.\n5. **Risk management cannot create edge — it can only preserve it.** If the underlying model has no edge after costs, no amount of Kelly sizing or circuit breakers will save it.\n\n---"
+      },
+      {
+        "heading": "Apply It — Your Projects",
+        "content": "| Project | Risk Concept | Application |\n|---------|-------------|-------------|\n| **Signal Forge** | All five | Full stack as described — this is the reference implementation |\n| **FitOps progression** | Kelly Criterion | Progressive overload sizing: don't jump to max weight, scale by confidence in readiness |\n| **Portfolio allocation** | Maximum Drawdown | Track portfolio peak-to-trough across projects; know your \"worst month\" |\n| **GHA minutes budget** | Circuit Breakers | SOFT at 70% monthly budget, HARD at 85%, KILL at 95% — auto-throttle CI runs |\n| **Side project time** | Transaction Costs | Context-switching is the \"spread\" — every project hop costs 15-30 min of ramp-up |\n| **Learning Pod pipeline** | Sharpe Ratio | Measure knowledge-ROI: hours invested vs. concepts retained and applied |\n\n---"
+      },
+      {
+        "heading": "Research & Build Checklist",
+        "content": "- [ ] Write Quant - Kelly Criterion pod — formula, derivation intuition, fractional Kelly rationale\n- [ ] Write Quant - Sharpe Ratio pod — calculation, annualization, fat-tail limitations\n- [ ] Write Quant - Maximum Drawdown pod — measurement, recovery math, psychological impact\n- [ ] Write Quant - Circuit Breakers pod — threshold design, automated vs. discretionary, regime detection\n- [ ] Write Quant - Transaction Costs pod — fee structures, slippage modeling, the frequency trap\n- [ ] Build Signal Forge cost simulator: input trade frequency + fees → output net Sharpe\n- [ ] Backtest 1/4 Kelly vs 1/2 Kelly vs full Kelly on BTC signal history\n- [ ] Implement circuit breaker state machine in Signal Forge codebase\n- [ ] Add real-time drawdown tracking to Signal Forge dashboard\n- [ ] Create cost-adjusted Sharpe calculation that subtracts estimated round-trip per trade\n- [ ] Research Sortino ratio as fat-tail-aware alternative to Sharpe\n- [ ] Map circuit breaker levels to actual Signal Forge account history — how often would each have fired?\n\n---"
+      },
+      {
+        "heading": "Content Creation Angles",
+        "content": "These concepts are deeply visual and map well to educational content:\n\n### 60-90 Second Instagram Reels\n| Topic | Hook | Visual |\n|-------|------|--------|\n| Kelly Criterion | \"The math formula that tells you exactly how much to bet\" | Slider showing bankroll growth at 1/4, 1/2, full Kelly — full Kelly crashes |\n| Sharpe Ratio | \"This one number tells you if your trading strategy is real\" | Side-by-side equity curves with same return but different Sharpe |\n| Maximum Drawdown | \"Your strategy made 200% but would you survive this?\" | Equity curve zooming into the -49.6% drawdown valley |\n| Circuit Breakers | \"I automated my 'stop being an idiot' button\" | Traffic light animation: green → yellow → red → emergency stop |\n| Transaction Costs | \"Why your backtested strategy will fail in real life\" | Backtest profit bar shrinking as fee layers stack on top |\n| The Full Stack | \"5 concepts that turned a -99% blowup into a -0.5% dip\" | Before/after animation of the altcoin equity curve |\n\n### ByteByteGo-Style Diagrams\n1. **\"The Risk Management Pipeline\"** — the architecture diagram above, animated step by step\n2. **\"Kelly Criterion Explained\"** — bankroll simulation showing growth curves at different Kelly fractions\n3. **\"Circuit Breaker State Machine\"** — state diagram: Normal → SOFT → HARD → KILL with transitions\n4. **\"The Transaction Cost Iceberg\"** — visible fees above water, slippage and spread below\n5. **\"Why Raw Sharpe Lies\"** — normal distribution vs. actual crypto return distribution overlay\n\n### 5-10 Minute YouTube Shorts\n1. **\"The 5 Concepts Keeping My Trading Bot Alive\"** — overview walkthrough with Signal Forge data\n2. **\"Kelly Criterion for Developers\"** — implement fractional Kelly in Python with Monte Carlo simulation\n3. **\"I Almost Lost Everything — Max Drawdown Explained\"** — the -99.9% altcoin story as a narrative hook\n4. **\"Build an Automated Circuit Breaker in Python\"** — live code the three-tier system\n5. **\"The Hidden Cost of Trading\"** — walk through actual exchange fee schedules and calculate real round-trip costs\n\n---"
+      }
+    ],
+    "related": [
+      "Quant - Kelly Criterion",
+      "Quant - Sharpe Ratio",
+      "Quant - Maximum Drawdown",
+      "Quant - Circuit Breakers",
+      "Quant - Transaction Costs",
+      "Signal Forge"
+    ],
+    "estimatedMinutes": 35,
+    "xpReward": 300,
+    "chapters": [
+      {
+        "slug": "quant-kelly-criterion",
+        "title": "Quant - Kelly Criterion",
+        "type": "pod",
+        "estimatedMinutes": 2,
+        "xpReward": 45
+      },
+      {
+        "slug": "quant-sharpe-ratio",
+        "title": "Quant - Sharpe Ratio",
+        "type": "pod",
+        "estimatedMinutes": 2,
+        "xpReward": 45
+      },
+      {
+        "slug": "quant-maximum-drawdown",
+        "title": "Quant - Maximum Drawdown",
+        "type": "pod",
+        "estimatedMinutes": 2,
+        "xpReward": 45
+      },
+      {
+        "slug": "quant-circuit-breakers",
+        "title": "Quant - Circuit Breakers",
+        "type": "pod",
+        "estimatedMinutes": 2,
+        "xpReward": 45
+      },
+      {
+        "slug": "quant-transaction-costs",
+        "title": "Quant - Transaction Costs",
+        "type": "pod",
+        "estimatedMinutes": 2,
+        "xpReward": 45
+      }
+    ]
+  },
+  {
+    "slug": "module-quant-strategy-models",
+    "title": "Module - Quant Strategy Models",
+    "domain": "Quant & Trading",
+    "tags": [
+      "module",
+      "quant",
+      "trading",
+      "systematic-strategies",
+      "portfolio-construction",
+      "alpha-generation"
+    ],
+    "status": "queue",
+    "created": "2026-04-02",
+    "pods": [
+      "quant-time-series-momentum",
+      "quant-volatility-targeting",
+      "quant-relative-value-spread",
+      "quant-macro-regime-allocation",
+      "quant-factor-and-correlation"
+    ],
+    "sections": [
+      {
+        "heading": "Pods & Lessons",
+        "content": "| Concept | Pod (2 min) | Lesson (10 min) |\n|---------|------------|-----------------|\n| Time-Series Momentum | Quant - Time-Series Momentum | Coming soon |\n| Volatility Targeting | Quant - Volatility Targeting | Coming soon |\n| Relative Value Spread | Quant - Relative Value Spread | Coming soon |\n| Macro Regime Allocation | Quant - Macro Regime Allocation | Coming soon |\n| Factor and Correlation | Quant - Factor and Correlation | Coming soon |\n\n---"
+      },
+      {
+        "heading": "The Strategy Stack",
+        "content": "```\n            THE QUANT STRATEGY STACK\n            ========================\n\n  ┌──────────────────────────────────────────────────────┐\n  │            MACRO REGIME ALLOCATION                    │\n  │   Classify environment: Goldilocks, Reflation,        │\n  │   Stagflation, Deflation via HMM                      │\n  │   Top-down overlay that gates everything below         │\n  └────────────────────────┬─────────────────────────────┘\n                           │\n  ┌────────────────────────▼─────────────────────────────┐\n  │            FACTOR & CORRELATION ANALYSIS              │\n  │   Decompose returns into systematic factors           │\n  │   (Fama-French, PCA). Identify what drives risk.      │\n  │   Portfolio construction backbone.                     │\n  └──────────┬─────────────────────────────┬─────────────┘\n             │                             │\n  ┌──────────▼──────────┐    ┌─────────────▼─────────────┐\n  │  TIME-SERIES         │    │  RELATIVE VALUE            │\n  │  MOMENTUM            │    │  SPREAD                    │\n  │                      │    │                            │\n  │  Trend following:    │    │  Pairs / stat arb:         │\n  │  go long risers,     │    │  cointegration test,       │\n  │  short fallers over  │    │  compute spread,           │\n  │  lookback window     │    │  trade at +/- 2 sigma      │\n  │                      │    │                            │\n  │  Directional alpha   │    │  Market-neutral alpha      │\n  └──────────┬──────────┘    └─────────────┬─────────────┘\n             │                             │\n             └──────────────┬──────────────┘\n                            │\n  ┌─────────────────────────▼────────────────────────────┐\n  │            VOLATILITY TARGETING                       │\n  │   position_size = target_vol / realized_vol           │\n  │   EWMA estimation. Prevents blowups in high-vol.     │\n  │   Risk overlay applied to ALL signals above.          │\n  └──────────────────────────┬───────────────────────────┘\n                             │\n  ┌──────────────────────────▼───────────────────────────┐\n  │                    PORTFOLIO                           │\n  │   Combined, risk-managed, regime-aware positions      │\n  └──────────────────────────────────────────────────────┘\n```\n\nThe stack reads top-down: **Macro Regime** sets the environment and gates allocation. **Factor Analysis** identifies which systematic drivers matter in the current regime. **Signal Generation** (Momentum and Relative Value) produces directional and market-neutral trade ideas. **Volatility Targeting** sizes every position relative to realized risk. The output is a fully constructed portfolio.\n\n### Why the Layers Matter\n\nEach layer solves a different problem:\n\n- **Macro Regime** answers: \"What world are we in?\" -- You don't want to run momentum during regime transitions or stat arb during correlation breakdowns.\n- **Factor & Correlation** answers: \"What's driving returns?\" -- Without this, you can't tell if your alpha is real or just a leveraged bet on a known factor.\n- **Momentum** answers: \"What's trending?\" -- The most academically validated alpha source. Works across assets, geographies, and timeframes.\n- **Relative Value** answers: \"What's mispriced?\" -- Market-neutral by construction, so it diversifies the directional momentum bets.\n- **Volatility Targeting** answers: \"How much risk am I taking?\" -- Every serious quant fund uses this overlay. It is the difference between a strategy that works on paper and one that survives live markets.\n\n---"
+      },
+      {
+        "heading": "Strategy Comparison Matrix",
+        "content": "| Strategy | Market Exposure | Typical Sharpe | Data Needs | Complexity | Best Regime |\n|----------|----------------|---------------|------------|------------|-------------|\n| **Time-Series Momentum** | Directional (long/short) | 0.5 - 1.0 | Daily OHLCV prices | Low-Medium | Trending (Reflation, Deflation) |\n| **Volatility Targeting** | Neutral (overlay) | N/A (improves others) | Daily returns, vol estimates | Low | All (most valuable in crisis) |\n| **Relative Value Spread** | Market-neutral | 0.8 - 1.5 | Tick/daily prices, fundamentals | Medium-High | Mean-reverting (Goldilocks) |\n| **Macro Regime Allocation** | Directional (top-down) | 0.3 - 0.7 standalone | Macro indicators (GDP, CPI, rates) | High | Regime transitions |\n| **Factor & Correlation** | Depends on construction | 0.4 - 0.8 (factor portfolio) | Returns + factor data (FF, PCA) | Medium | Stable factor premia periods |\n\n### Key Takeaways from the Matrix\n\n1. **Momentum + Relative Value** are complementary: one is directional, the other market-neutral. Combining them smooths the equity curve.\n2. **Volatility Targeting** does not generate alpha on its own -- it makes everything else better by normalizing risk across time.\n3. **Macro Regime** has the lowest standalone Sharpe but the highest marginal value as an overlay -- it tells you *when* to deploy each strategy.\n4. **Factor Analysis** is the diagnostic layer -- you need it to understand your portfolio, not to trade directly.\n\n---"
+      },
+      {
+        "heading": "Python Quick Start",
+        "content": "Minimal code snippets to get each strategy running. These are starting points, not production code.\n\n### 1. Time-Series Momentum\n\n```python\nimport pandas as pd\n\ndef tsmom_signal(prices: pd.Series, lookback: int = 252) -> pd.Series:\n    \"\"\"Sign of past return over lookback window. +1 = long, -1 = short.\"\"\"\n    returns = prices.pct_change(lookback)\n    signal = returns.apply(lambda x: 1 if x > 0 else -1)\n    return signal\n\n# Usage: signals across 1/3/6/12 month windows, average for composite\n# Libraries: pandas, zipline-reloaded (backtest), backtrader (alt)\n```\n\n### 2. Volatility Targeting\n\n```python\nimport numpy as np\n\ndef vol_target_weight(returns: pd.Series, target_vol: float = 0.10, span: int = 60) -> pd.Series:\n    \"\"\"Scale position so portfolio vol = target_vol. EWMA realized vol.\"\"\"\n    realized_vol = returns.ewm(span=span).std() * np.sqrt(252)\n    weight = target_vol / realized_vol\n    return weight.clip(upper=2.0)  # Cap leverage at 2x\n\n# Usage: multiply raw signal weight by vol_target_weight\n# Every serious quant fund uses this overlay\n```\n\n### 3. Relative Value Spread\n\n```python\nfrom statsmodels.tsa.stattools import coint\n\ndef pairs_signal(price_a: pd.Series, price_b: pd.Series, window: int = 60):\n    \"\"\"Test cointegration, compute z-score of spread, trade at +/-2 sigma.\"\"\"\n    score, pvalue, _ = coint(price_a, price_b)\n    if pvalue > 0.05:\n        return None  # Not cointegrated, skip\n    spread = price_a - price_b * (price_a.cov(price_b) / price_b.var())\n    zscore = (spread - spread.rolling(window).mean()) / spread.rolling(window).std()\n    return zscore  # Long spread < -2, short spread > +2\n\n# Libraries: statsmodels (coint test), pykalman (dynamic hedge ratio)\n```\n\n### 4. Macro Regime Allocation\n\n```python\nfrom hmmlearn.hmm import GaussianHMM\n\ndef fit_regimes(macro_features: pd.DataFrame, n_regimes: int = 4):\n    \"\"\"Classify macro into 4 regimes via Hidden Markov Model.\"\"\"\n    model = GaussianHMM(n_components=n_regimes, covariance_type=\"full\", n_iter=200)\n    model.fit(macro_features.values)\n    regimes = model.predict(macro_features.values)\n    return pd.Series(regimes, index=macro_features.index)\n\n# Regimes: Goldilocks, Reflation, Stagflation, Deflation\n# Features: GDP growth, CPI change, yield curve slope, credit spreads\n# Libraries: hmmlearn\n```\n\n### 5. Factor & Correlation Analysis\n\n```python\nfrom sklearn.decomposition import PCA\n\ndef factor_decompose(returns: pd.DataFrame, n_factors: int = 5):\n    \"\"\"PCA to extract hidden systematic factors from return cross-section.\"\"\"\n    pca = PCA(n_components=n_factors)\n    factors = pca.fit_transform(returns.dropna().values)\n    explained = pca.explained_variance_ratio_\n    return pd.DataFrame(factors, index=returns.dropna().index), explained\n\n# Also: Fama-French 3/5 factor regression via statsmodels OLS\n# Libraries: sklearn (PCA), riskfolio-lib (portfolio optimization)\n```\n\n---"
+      },
+      {
+        "heading": "Apply It — Your Projects",
+        "content": "| Project | Application | Expected Impact |\n|---------|------------|-----------------|\n| **Signal Forge** | Implement all 5 strategies as composable signal modules; backtest individually and stacked | Core engine -- this IS the product |\n| **Vault dashboard** | Surface regime classification, factor exposures, and vol-adjusted positions in Obsidian daily notes | Real-time awareness of portfolio state |\n| **OpenBB data** | Pull price, macro, and factor data via OpenBB SDK to feed all 5 strategies | Single data layer for the entire stack |\n| **Backtesting pipeline** | Run walk-forward optimization across multiple lookback windows and regime filters | Validate before deploying capital |\n| **Content & learning** | Each strategy is a standalone reel/diagram/deep-dive; the stack diagram is a hero visual | 5+ pieces of educational content |\n\n### Integration Architecture\n\n```\n  OpenBB SDK (data)\n       │\n       ├──► Macro features ──► HMM Regime Model ──► regime_label\n       │                                                │\n       ├──► Price data ──► TSMOM signals ───────────────┤\n       │                                                │\n       ├──► Price pairs ──► Pairs/Spread signals ───────┤\n       │                                                │\n       ├──► Returns ──► Factor/PCA decomposition ───────┤\n       │                                                │\n       └──► Returns ──► EWMA vol ──► Vol Target ────────┤\n                                                        │\n                                              ┌─────────▼─────────┐\n                                              │  Portfolio Engine  │\n                                              │  Regime-gated,     │\n                                              │  vol-targeted,     │\n                                              │  factor-aware      │\n                                              └───────────────────┘\n```\n\n---"
+      },
+      {
+        "heading": "Research & Build Checklist",
+        "content": "- [ ] Read Moskowitz, Ooi, Pedersen (2012) -- \"Time Series Momentum\" (the foundational paper)\n- [ ] Read Barroso & Santa-Clara (2015) -- \"Momentum has its moments\" (vol-scaling momentum)\n- [ ] Implement TSMOM with 1/3/6/12 month lookbacks on equity index futures\n- [ ] Build EWMA vol estimator and validate against realized vol\n- [ ] Backtest vol-targeted momentum vs. unscaled momentum -- compare Sharpe and max drawdown\n- [ ] Source cointegrated pairs from sector ETFs using Engle-Granger test\n- [ ] Build regime classifier on GDP growth + CPI + yield curve + credit spread\n- [ ] Label historical regimes and validate against known economic periods\n- [ ] Run Fama-French 5-factor regression on your portfolio returns\n- [ ] Apply PCA to S&P 500 constituents -- how many factors explain 80% of variance?\n- [ ] Build the combined stack: regime filter -> signal generation -> vol targeting -> portfolio\n- [ ] Paper trade the combined stack for 30 days before any live capital\n- [ ] Set up OpenBB SDK data pipeline for daily automated pulls\n- [ ] Create Signal Forge repo with modular strategy classes\n\n---"
+      },
+      {
+        "heading": "Content Creation Angles",
+        "content": "These five strategies map naturally to educational content across formats:\n\n### 60-90 Second Instagram Reels\n\n| Topic | Hook | Visual |\n|-------|------|--------|\n| Time-Series Momentum | \"The simplest strategy that beats 80% of hedge funds\" | Rolling chart with long/short arrows appearing at signal points |\n| Volatility Targeting | \"Why your position size matters more than your signal\" | Split screen: blowup account vs. vol-targeted smooth equity curve |\n| Relative Value Spread | \"How to profit when two stocks converge\" | Animated spread chart with entry/exit bands |\n| Macro Regime | \"The economy only has 4 modes -- here's how to trade each\" | Quadrant diagram animated through historical periods |\n| The Full Stack | \"5 strategies that combine into one quant system\" | Animated version of the strategy stack diagram |\n\n### ByteByteGo-Style Diagrams\n\n1. **\"The Quant Strategy Stack\"** -- the ASCII diagram above, animated layer by layer with data flowing top to bottom\n2. **\"How Pairs Trading Works\"** -- spread chart with cointegration test, z-score bands, entry/exit markers\n3. **\"4 Macro Regimes\"** -- quadrant (growth x inflation) with asset allocation shifts per regime\n4. **\"Volatility Targeting in Action\"** -- side-by-side equity curves showing crisis drawdown with and without vol scaling\n5. **\"Factor Decomposition\"** -- waterfall chart breaking portfolio return into market, value, momentum, size, quality\n\n### 5-10 Minute YouTube Shorts\n\n1. **\"Build a Momentum Strategy in 20 Lines of Python\"** -- live code TSMOM from scratch\n2. **\"The Vol Targeting Trick Every Quant Uses\"** -- show the math, then the backtest, then the equity curve\n3. **\"Pairs Trading with Cointegration\"** -- find a pair, test it, trade it, show the P&L\n4. **\"Macro Regimes Explain Everything\"** -- overlay regime labels on S&P 500 chart, show allocation shifts\n5. **\"From 5 Strategies to 1 Portfolio\"** -- walk through the full stack integration\n\n---"
+      },
+      {
+        "heading": "Library Reference",
+        "content": "| Library | Used For | Install |\n|---------|----------|---------|\n| `pandas` | Data manipulation, rolling windows, signal computation | `pip install pandas` |\n| `numpy` | Math operations, volatility calculations | `pip install numpy` |\n| `statsmodels` | Cointegration tests, OLS factor regression | `pip install statsmodels` |\n| `hmmlearn` | Hidden Markov Model for regime classification | `pip install hmmlearn` |\n| `sklearn` | PCA for factor extraction | `pip install scikit-learn` |\n| `riskfolio-lib` | Portfolio optimization, risk budgeting | `pip install riskfolio-lib` |\n| `pykalman` | Kalman filter for dynamic hedge ratios | `pip install pykalman` |\n| `zipline-reloaded` | Full backtest engine (Quantopian heritage) | `pip install zipline-reloaded` |\n| `backtrader` | Alternative backtest engine, event-driven | `pip install backtrader` |\n| `openbb` | Unified data SDK for prices, macro, factors | `pip install openbb` |\n\n---"
+      }
+    ],
+    "related": [
+      "Quant - Time-Series Momentum",
+      "Quant - Volatility Targeting",
+      "Quant - Relative Value Spread",
+      "Quant - Macro Regime Allocation",
+      "Quant - Factor and Correlation",
+      "MOC - Quant & Trading"
+    ],
+    "estimatedMinutes": 35,
+    "xpReward": 300,
+    "chapters": [
+      {
+        "slug": "quant-time-series-momentum",
+        "title": "Time-Series Momentum Models",
+        "type": "pod",
+        "estimatedMinutes": 2,
+        "xpReward": 45
+      },
+      {
+        "slug": "quant-volatility-targeting",
+        "title": "Volatility Targeting Models",
+        "type": "pod",
+        "estimatedMinutes": 2,
+        "xpReward": 45
+      },
+      {
+        "slug": "quant-relative-value-spread",
+        "title": "Relative Value / Spread Models",
+        "type": "pod",
+        "estimatedMinutes": 2,
+        "xpReward": 45
+      },
+      {
+        "slug": "quant-macro-regime-allocation",
+        "title": "Macro Regime Allocation Models",
+        "type": "pod",
+        "estimatedMinutes": 2,
+        "xpReward": 45
+      },
+      {
+        "slug": "quant-factor-and-correlation",
+        "title": "Factor & Correlation Models",
+        "type": "pod",
+        "estimatedMinutes": 2,
+        "xpReward": 45
+      }
+    ]
+  },
+  {
+    "slug": "module-rag-engineering",
+    "title": "RAG Engineering",
+    "domain": "AI Engineering",
+    "tags": [
+      "module",
+      "ai-engineering",
+      "rag",
+      "retrieval",
+      "embeddings",
+      "evaluation"
+    ],
+    "status": "queue",
+    "created": "2026-04-02",
+    "pods": [
+      "rag-retrieval-augmented-generation",
+      "rag-embedding-models-vector-stores",
+      "rag-chunking-strategies",
+      "rag-evaluation"
+    ],
+    "sections": [
+      {
+        "heading": "Pods & Lessons",
+        "content": "### Part 1: Foundations\n| Concept | Pod (2 min) | Lesson (10 min) |\n|---------|------------|-----------------|\n| RAG Fundamentals | RAG - Retrieval Augmented Generation | Coming soon |\n| Embeddings & Vector Stores | RAG - Embedding Models & Vector Stores | Coming soon |\n\n### Part 2: Pipeline Design\n| Concept | Pod (2 min) | Lesson (10 min) |\n|---------|------------|-----------------|\n| Chunking Strategies | RAG - Chunking Strategies | Coming soon |\n\n### Part 3: Quality & Production\n| Concept | Pod (2 min) | Lesson (10 min) |\n|---------|------------|-----------------|\n| Evaluation with RAGAS | RAG - Evaluation | Coming soon |\n\n---"
+      },
+      {
+        "heading": "The RAG Pipeline End-to-End",
+        "content": "```\n┌─────────────────────────────────────────────────────────────────────────────┐\n│                        RAG ENGINEERING PIPELINE                             │\n│                                                                             │\n│  OFFLINE (Indexing)                                                         │\n│  ┌───────────┐    ┌───────────┐    ┌───────────┐    ┌────────────────┐    │\n│  │ DOCUMENTS │───▶│ CHUNKING  │───▶│ EMBEDDING │───▶│ VECTOR STORE   │    │\n│  │ Raw text, │    │ Split by  │    │ Dense     │    │ pgvector,      │    │\n│  │ markdown, │    │ strategy  │    │ vectors   │    │ Chroma,        │    │\n│  │ HTML, PDF │    │ + overlap │    │ per chunk │    │ Pinecone       │    │\n│  └───────────┘    └───────────┘    └───────────┘    └───────┬────────┘    │\n│                                                              │             │\n│  ONLINE (Query)                                              │             │\n│  ┌───────────┐    ┌───────────┐    ┌───────────┐            │             │\n│  │   USER    │───▶│  EMBED    │───▶│ RETRIEVE  │◀───────────┘             │\n│  │  QUERY    │    │  query    │    │ top-K     │                          │\n│  └───────────┘    └───────────┘    └─────┬─────┘                          │\n│                                          │                                 │\n│                                          ▼                                 │\n│                   ┌───────────────────────────────────────┐               │\n│                   │         AUGMENTED PROMPT              │               │\n│                   │  System: \"Answer using this context\"  │               │\n│                   │  Context: [chunk1, chunk2, chunk3]    │               │\n│                   │  Question: \"user's question\"          │               │\n│                   └──────────────────┬────────────────────┘               │\n│                                      │                                     │\n│                                      ▼                                     │\n│                   ┌──────────────────────────────┐                        │\n│                   │            LLM               │                        │\n│                   │  Generate grounded answer     │                        │\n│                   └──────────────┬───────────────┘                        │\n│                                  │                                         │\n│                                  ▼                                         │\n│                   ┌──────────────────────────────┐                        │\n│                   │    ANSWER + SOURCES           │                        │\n│                   └──────────────┬───────────────┘                        │\n│                                  │                                         │\n│  EVAL (Continuous)               ▼                                         │\n│                   ┌──────────────────────────────┐                        │\n│                   │   RAGAS: Faithfulness,        │                        │\n│                   │   Relevance, Precision,       │                        │\n│                   │   Recall                      │                        │\n│                   └──────────────────────────────┘                        │\n└─────────────────────────────────────────────────────────────────────────────┘\n```\n\nEach stage introduces a decision that impacts the whole pipeline downstream:\n1. **Documents** — what data are you indexing? Quality in = quality out.\n2. **Chunking** — how you split determines what the embeddings capture. See RAG - Chunking Strategies.\n3. **Embedding** — which model and dimensions. See RAG - Embedding Models & Vector Stores.\n4. **Vector Store** — where you store and how you search. pgvector for simplicity, Pinecone for scale.\n5. **Retrieval** — top-K selection, optional re-ranking, metadata filtering.\n6. **Augmented Prompt** — system instructions that ground the model in context.\n7. **LLM Generation** — the model produces an answer from retrieved context.\n8. **Evaluation** — RAGAS metrics tell you if each stage is working. See RAG - Evaluation.\n\n---"
+      },
+      {
+        "heading": "Technology Choices",
+        "content": "### Embedding Models\n| Model | Dims | Cost/MTok | Quality | Best For |\n|-------|------|-----------|---------|----------|\n| OpenAI text-embedding-3-small | 1536 | $0.02 | Good | Default choice, production |\n| OpenAI text-embedding-3-large | 3072 | $0.13 | Best (API) | When precision matters |\n| Cohere embed-v3 | 1024 | $0.10 | Good | Multilingual content |\n| nomic-embed-text | 768 | Free | Good | Self-hosted, privacy-sensitive |\n| all-MiniLM-L6-v2 | 384 | Free | OK | Prototyping, low-resource |\n\n### Vector Stores\n| Store | Setup | Cost | Query Speed | Best For |\n|-------|-------|------|-------------|----------|\n| pgvector | Add extension to Postgres | Free (self-host) | <50ms @ 1M rows | Already using Postgres |\n| Chroma | `pip install chromadb` | Free | <10ms @ 100K | Prototyping, local dev |\n| Pinecone | Managed API | $70+/mo | <50ms @ 1B | Production at scale |\n| Qdrant | Docker or cloud | Free (self-host) | <10ms @ 10M | High-performance filtering |\n| Weaviate | Docker or cloud | Free (self-host) | <50ms @ 10M | Built-in hybrid search |\n\n### Chunking Strategies\n| Strategy | Speed | Quality | Predictability | Best For |\n|----------|-------|---------|----------------|----------|\n| Fixed-size (256-512 tokens) | Fast | Low | High | Quick prototypes |\n| Recursive character | Fast | Medium | High | General-purpose (default) |\n| Document-aware (headers/tags) | Fast | Medium-High | Medium | Structured docs, markdown |\n| Semantic (embedding-based) | Slow | High | Low | High-stakes retrieval |\n\n---"
+      },
+      {
+        "heading": "Common Failure Modes",
+        "content": "| Failure | Symptom | RAGAS Signal | Root Cause | Fix |\n|---------|---------|-------------|------------|-----|\n| Bad chunks | Relevant info split across chunks | Low context recall | Wrong chunk size or no overlap | Increase overlap, try document-aware splitting |\n| Wrong embeddings | Similar questions retrieve unrelated content | Low context precision | Model too weak for domain | Upgrade model, or fine-tune embedding model |\n| Retrieval miss | Answer says \"I don't have information about...\" | Low context recall | top-K too low, or content not indexed | Increase K, check indexing pipeline |\n| Hallucination | Confident answer not supported by context | Low faithfulness | Model ignores context for prior knowledge | Stricter system prompt, lower temperature |\n| Off-topic answer | Answer is grounded but doesn't address the question | Low answer relevance | Retrieved chunks are related but not targeted | Better query rewriting, re-ranking |\n| High latency | >5s per query | N/A (operational) | Large embeddings, slow store, too many chunks | Reduce dimensions, use faster store, lower K |\n| Stale results | Answers reference outdated information | N/A (operational) | Index not updated | Build incremental indexing pipeline |\n\n**Debugging order**: Check retrieval first (context precision/recall), then generation (faithfulness/relevance). Most RAG failures are retrieval failures.\n\n---"
+      },
+      {
+        "heading": "RAG vs Fine-Tuning vs Long Context",
+        "content": "| Approach | Best For | Knowledge Source | Cost | Freshness |\n|----------|----------|-----------------|------|-----------|\n| **RAG** | Dynamic knowledge, large corpora, source attribution | External docs, live databases | Low (embedding + storage) | Update docs anytime |\n| **Fine-Tuning** | Changing model behavior (tone, format, domain reasoning) | Baked into weights | High (training runs) | Retrain to update |\n| **Long Context** | Small corpora (<100 pages), simple Q&A | Stuffed into prompt every time | Medium (token cost per query) | Always current (loaded fresh) |\n\n### Decision Tree\n```\nIs your knowledge base >100 pages?\n  YES → RAG (can't fit in context every time)\n  NO ↓\nDoes knowledge change frequently?\n  YES → RAG (re-index is cheap) or Long Context (reload fresh)\n  NO ↓\nDo you need source attribution?\n  YES → RAG (cite exact chunks)\n  NO ↓\nIs it about model behavior (tone, format)?\n  YES → Fine-Tuning\n  NO → Long Context (simplest option)\n```\n\n**You can combine them**: Fine-tune for behavior + RAG for knowledge. Or use long context for small stable docs + RAG for the larger, changing corpus.\n\n---"
+      },
+      {
+        "heading": "Apply It — Your Projects",
+        "content": "### LearnPod (RAG Over Vault Content)\nThe most natural fit. Your Obsidian vault is already structured markdown with frontmatter metadata. The pods are already chunked by `##` sections (document-aware chunking for free). Add embedding + vector search and users can ask questions across all learning content: \"What did I learn about prompt engineering?\" retrieves the relevant pod sections.\n\n**Implementation path**: Markdown loader → Recursive split on `##` → Embed with OpenAI small → Store in Chroma (local) or pgvector (if you want it on the homelab) → Query API → LearnPod search feature.\n\n### FitOps (RAG Over Exercise Database)\nUsers ask \"What exercises target the posterior chain?\" and RAG retrieves relevant exercise entries with descriptions, muscle groups, and form cues. The exercise database is structured data — each exercise is a natural chunk. Embed exercise name + description + tags, retrieve by semantic query.\n\n### Signal Forge (RAG Over Research Papers)\nIndex research papers, market analyses, and strategy docs. Ask \"What does the literature say about momentum factor decay?\" and retrieve relevant sections across multiple papers. Semantic chunking is worth the cost here — research papers have complex structure.\n\n### Claude Code Framework (RAG Over Codebase)\nThis already exists in a basic form — Claude Code reads files and searches code. A RAG layer would let you pre-index the entire codebase and retrieve relevant functions/modules before Claude starts reading files. Could reduce tool calls and improve first-response accuracy on large repos.\n\n---"
+      },
+      {
+        "heading": "Research & Build Checklist",
+        "content": "### Understand\n- [ ] Read the original RAG paper (Lewis et al., 2020)\n- [ ] Review RAGAS documentation and metric definitions\n- [ ] Compare 3 production RAG architectures (LangChain, LlamaIndex, custom)\n\n### Build\n- [ ] Build minimal RAG pipeline: Obsidian vault → Chroma → query API\n- [ ] Implement document-aware chunking for markdown (split on `##`)\n- [ ] Add metadata enrichment: tags, source file, section title\n- [ ] Build incremental indexing: only re-embed changed files\n- [ ] Create a simple API: POST /query → returns answer + sources\n\n### Evaluate\n- [ ] Create 50-question eval set from real vault queries\n- [ ] Run RAGAS evaluation on the pipeline\n- [ ] Benchmark: fixed-size vs. recursive vs. document-aware chunking\n- [ ] Benchmark: OpenAI small vs. nomic-embed on vault content\n- [ ] Test top-K values (3, 5, 10) on retrieval precision/recall\n\n### Optimize\n- [ ] Implement hybrid search (vector + keyword) for better recall\n- [ ] Add re-ranking step after initial retrieval\n- [ ] Test dimension reduction (1536 → 512) impact on quality\n- [ ] Build cost model: embedding + storage + queries at vault scale\n- [ ] Evaluate pgvector on homelab Postgres vs. Chroma local\n\n---"
+      },
+      {
+        "heading": "Content Creation Angles",
+        "content": "### Instagram Reels (60-90 seconds)\n| Topic | Hook | Visual |\n|-------|------|--------|\n| RAG Explained | \"Your AI is lying because it doesn't have your data\" | Pipeline animation: docs → chunks → vectors → answer |\n| Chunking | \"This one setting makes or breaks your AI search\" | Side-by-side: bad chunks vs. good chunks → different answers |\n| Vector Stores | \"Your Postgres can do AI search now\" | pgvector demo: SQL query returns semantic results |\n| RAG Eval | \"Your RAG pipeline has 4 ways to fail\" | 2x2 matrix animation: faithfulness x relevance |\n| RAG vs Fine-Tuning | \"Stop fine-tuning. Use RAG instead.\" | Cost comparison bar chart, decision flowchart |\n\n### ByteByteGo-Style Diagrams\n1. **\"The RAG Pipeline\"** — end-to-end flow from documents to grounded answer\n2. **\"Chunking Strategy Decision Tree\"** — fixed → recursive → semantic → document-aware\n3. **\"Embedding Space Visualized\"** — 2D plot showing similar questions clustering near relevant chunks\n4. **\"RAG Failure Modes\"** — 2x2 matrix of faithfulness x relevance with real examples\n5. **\"RAG vs Fine-Tuning vs Long Context\"** — three-column comparison with decision criteria\n6. **\"The RAGAS Framework\"** — four metrics mapped to retrieval side vs. generation side\n\n---"
+      }
+    ],
+    "related": [
+      "RAG - Retrieval Augmented Generation",
+      "RAG - Embedding Models & Vector Stores",
+      "RAG - Chunking Strategies",
+      "RAG - Evaluation",
+      "Module - Claude Best Practices",
+      "MOC - AI Engineering"
+    ],
+    "estimatedMinutes": 35,
+    "xpReward": 300,
+    "chapters": [
+      {
+        "slug": "rag-retrieval-augmented-generation",
+        "title": "Retrieval Augmented Generation (RAG)",
+        "type": "pod",
+        "estimatedMinutes": 2,
+        "xpReward": 45
+      },
+      {
+        "slug": "rag-embedding-models-vector-stores",
+        "title": "Embedding Models & Vector Stores",
+        "type": "pod",
+        "estimatedMinutes": 2,
+        "xpReward": 45
+      },
+      {
+        "slug": "rag-chunking-strategies",
+        "title": "Chunking Strategies",
+        "type": "pod",
+        "estimatedMinutes": 2,
+        "xpReward": 45
+      },
+      {
+        "slug": "rag-evaluation",
+        "title": "RAG Evaluation",
         "type": "pod",
         "estimatedMinutes": 2,
         "xpReward": 45

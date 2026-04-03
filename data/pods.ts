@@ -56,6 +56,70 @@ export const pods: Pod[] = [
     "xpReward": 45
   },
   {
+    "slug": "ai-claude-code-patterns",
+    "title": "Claude Code Patterns",
+    "domain": "AI Engineering",
+    "tags": [
+      "pod",
+      "ai-engineering",
+      "claude-code",
+      "patterns",
+      "framework"
+    ],
+    "status": "queue",
+    "created": "2026-04-02",
+    "sections": [
+      {
+        "heading": "What It Is",
+        "content": "Patterns for building production-grade AI developer tooling on top of Claude Code's extensibility system. These patterns turn Claude Code from an interactive assistant into an autonomous framework — skills, agents, hooks, memory, and MCP servers working together as a composable system."
+      },
+      {
+        "heading": "Skills Pattern",
+        "content": "Skills are markdown-driven prompt templates stored as `.md` files with YAML frontmatter metadata.\n\n```markdown\n---\nname: security-review\neffort: high\ntriggers: [\"security review\", \"audit security\"]\nguardrails: [\"never expose secrets\", \"check .env files\"]\n---\n# Security Review\nConduct a full OWASP Top 10 review of the codebase...\n```\n\n- Invoked via `/skill-name` (e.g., `/standup`, `/deploy`, `/security-review`)\n- Frontmatter carries metadata: effort level, trigger phrases, guardrails, description\n- The skill body expands into a full system prompt that guides Claude's behavior\n- Skills can call other skills, tools, and scripts — they compose naturally\n- Global skills live in `~/.claude/skills/`, project skills in `.claude/skills/`"
+      },
+      {
+        "heading": "Agent Routing Pattern",
+        "content": "Specialized subagents get dispatched based on task type. An orchestrator picks the right agent, and each has its own tool access and system prompt constraints.\n\n- **Explore agent**: Read-only tools (Read, Grep, Glob). Used for investigation and analysis\n- **Plan agent**: Read + write to planning docs. Produces structured specs before code changes\n- **Build agent**: Full tool access. Executes implementation based on a plan\n- The orchestrator evaluates the task and routes to the appropriate agent\n- Each agent gets a tailored system prompt with only the tools it needs — reducing risk and cost"
+      },
+      {
+        "heading": "Hook System",
+        "content": "Shell commands triggered by Claude Code lifecycle events. Hooks fire automatically without Claude deciding to run them.\n\n```json\n{\n  \"hooks\": {\n    \"PostToolCall\": [\n      { \"matcher\": \"Write\", \"command\": \"python format_file.py $FILE\" }\n    ],\n    \"Notification\": [\n      { \"command\": \"python slack_notify.py \\\"$MESSAGE\\\"\" }\n    ]\n  }\n}\n```\n\n- **Event types**: PreToolCall, PostToolCall, Notification, SessionStart, SessionEnd\n- **Use cases**: auto-format on file write, Slack alerts on deploy, monitor updates on session start, token logging on each message\n- Hooks run outside Claude's context — they execute even if Claude doesn't \"think\" to do it"
+      },
+      {
+        "heading": "Persistent Memory",
+        "content": "File-based memory system that survives across conversations. Typed entries indexed by a central `MEMORY.md` file.\n\n- **Entry types**: user (preferences), feedback (corrections), project (context), reference (facts)\n- Each entry is a small markdown file in `~/.claude/memory/`\n- `MEMORY.md` acts as the index — lists every entry with a one-line summary\n- Claude reads the index at session start and loads relevant entries on demand\n- Feedback entries capture corrections so mistakes don't repeat across sessions\n- Project entries maintain context about repos, architectures, and decisions"
+      },
+      {
+        "heading": "MCP Integration",
+        "content": "Model Context Protocol servers expose external tools as first-class Claude capabilities.\n\n- Connect services like Slack, Gmail, Calendar as native tool calls\n- MCP servers run as background processes that Claude Code discovers at startup\n- Each server exposes tool schemas — Claude sees them alongside built-in tools\n- Enables workflows like: read email → create issue → notify Slack — all via tool calls"
+      },
+      {
+        "heading": "Communication Scripts",
+        "content": "Python scripts that bridge Claude and external systems via the Bash tool.\n\n- `slack_send.py` — post messages to Slack channels\n- `name-session.py` — update session name in monitor overlay\n- Scripts handle auth, formatting, and error handling — Claude just calls them\n- Pattern: Claude decides WHAT to communicate, scripts handle HOW"
+      },
+      {
+        "heading": "Architecture Overview",
+        "content": "```\nUser\n  │\n  ▼\nClaude Code (CLI)\n  │\n  ├── Skills ──────── Markdown prompt templates with metadata\n  ├── Agents ──────── Specialized subagents (Explore/Plan/Build)\n  ├── Hooks ───────── Event-driven shell automation\n  ├── Memory ──────── Persistent file-based context\n  ├── MCP Servers ─── External tool integrations\n  └── Scripts ─────── Python bridges to Slack, monitor, etc.\n        │\n        ▼\nExternal Systems (GitHub, Slack, Vercel, Cloudflare, Homelab)\n```"
+      },
+      {
+        "heading": "Apply It",
+        "content": "1. **New project bootstrap** — `/project-init` skill auto-detects stack and generates CLAUDE.md + config\n2. **Daily workflow** — `/start-day` fires hooks, reads memory, spawns agents for parallel tasks\n3. **Deployment** — `/deploy` skill chains: security review → git push → Vercel deploy → DNS config → Slack notify\n4. **Learning capture** — `/learn-capture` skill creates vault notes from URLs via web search tools"
+      },
+      {
+        "heading": "Research Next Steps",
+        "content": "- [ ] Measure token cost per skill invocation to optimize prompt sizes\n- [ ] Build a skill dependency graph to visualize composition patterns\n- [ ] Test agent routing accuracy — how often does the orchestrator pick the right agent?\n- [ ] Evaluate memory retrieval relevance as entry count grows"
+      }
+    ],
+    "related": [
+      "Claude - Agent Architecture",
+      "Claude - Prompt Engineering Patterns",
+      "AI - Token Tracking & Cost Monitoring",
+      "MOC - AI Engineering"
+    ],
+    "estimatedMinutes": 2,
+    "xpReward": 45
+  },
+  {
     "slug": "ai-model-right-sizing",
     "title": "Model Right-Sizing",
     "domain": "AI Engineering",
@@ -170,6 +234,764 @@ export const pods: Pod[] = [
     "xpReward": 45
   },
   {
+    "slug": "ai-rag-what-it-is-most-common-use-cases-new-and-exciting",
+    "title": "AI - Rag - What It Is Most Common Use Cases New And Exciting",
+    "domain": "AI Engineering",
+    "tags": [
+      "pod",
+      "ai-engineering"
+    ],
+    "status": "queue",
+    "created": "2026-04-03",
+    "source": "Instagram",
+    "sourceUrl": "https://www.instagram.com/reel/DWmSN7EDC5r/?igsh=MWtmczIwOW16MjlrNQ==|https://www.instagram.com/reel/DWmSN7EDC5r/?igsh=MWtmczIwOW16MjlrNQ==",
+    "sections": [
+      {
+        "heading": "What It Is",
+        "content": "<!-- Captured from Slack: RAG - what it is, most common use cases, new and exciting use cases, how it pairs with cluade, personal productivity, tooling, developer and tech company enhancements with rag. <https://www.instagram. -->\r\n<!-- Enrich this pod with /learn-capture or manually -->"
+      },
+      {
+        "heading": "Key Mechanics",
+        "content": "<!-- To be filled during enrichment -->"
+      },
+      {
+        "heading": "Python/Code Entry Point",
+        "content": "```python\r\n# TODO: Add minimal working example\r\n```"
+      },
+      {
+        "heading": "Why It Matters",
+        "content": "<!-- To be filled during enrichment -->"
+      },
+      {
+        "heading": "Apply It",
+        "content": "- **Vault** — <!-- connection to personal finance PWA -->\r\n- **Enterprise** — <!-- connection to mortgage platform -->"
+      },
+      {
+        "heading": "Research Next Steps",
+        "content": "- [ ] Research core concept in depth\r\n- [ ] Find practical code examples\r\n- [ ] Identify project integration points"
+      }
+    ],
+    "related": [
+      "- MOC - AI Engineering"
+    ],
+    "estimatedMinutes": 2,
+    "xpReward": 45
+  },
+  {
+    "slug": "ai-token-tracking-cost-monitoring",
+    "title": "Token Tracking & Cost Monitoring",
+    "domain": "AI Engineering",
+    "tags": [
+      "pod",
+      "ai-engineering",
+      "claude",
+      "monitoring",
+      "tokens",
+      "cost"
+    ],
+    "status": "queue",
+    "created": "2026-04-02",
+    "sections": [
+      {
+        "heading": "What It Is",
+        "content": "Real-time monitoring of Claude API token usage, cost, and rate limits across sessions. A pipeline that captures per-message token data from Claude Code, logs it to structured files, and surfaces it in a desktop overlay with charts and alerts."
+      },
+      {
+        "heading": "Why It Matters",
+        "content": "Claude subscriptions enforce rate limits across two windows — a 5-hour rolling window and a 7-day rolling window. Without tracking:\n- You hit rate limits unexpectedly and lose momentum mid-session\n- You can't tell which sessions or tasks burn the most tokens\n- Cost optimization is guesswork — you don't know where to apply caching or model routing\n- No historical data means no trend analysis or capacity planning\n\nVisibility into token flow turns a black box into an optimizable system."
+      },
+      {
+        "heading": "Architecture",
+        "content": "```\nClaude Code (CLI)\n  │\n  ▼ (statusline mechanism)\nPython Hook Script\n  │\n  ▼ (append per-message)\nJSONL Log Files (~/.claude/token-logs/{session-id}.jsonl)\n  │\n  ▼ (file watcher)\nMonitor App (Electron)\n  │\n  ▼ (render)\nDesktop Overlay (always-on-top charts + stats)\n```\n\nThe statusline is the key integration point — Claude Code emits token metadata after each assistant response, and a hook script captures it before it disappears."
+      },
+      {
+        "heading": "Key Data Points Tracked",
+        "content": "- **Input tokens**: cumulative per session (what you send to Claude)\n- **Output tokens**: cumulative per session (what Claude generates)\n- **Cache write tokens**: tokens written to prompt cache (one-time cost)\n- **Cache read tokens**: tokens served from cache (90% cheaper)\n- **Cost in USD**: running total based on model-specific pricing\n- **Context window usage %**: how full the conversation context is\n- **Rate limit usage**: percentage consumed of 5-hour and 7-day windows\n- **Rate limit reset times**: when each window resets (countdown)\n- **Model ID**: which model is being used (affects pricing calculations)"
+      },
+      {
+        "heading": "JSONL Log Format",
+        "content": "Each assistant message appends one line to the session log file:\n\n```json\n{\n  \"timestamp\": \"2026-04-02T14:23:01Z\",\n  \"session_id\": \"abc123\",\n  \"model\": \"claude-opus-4-6-20250514\",\n  \"input_tokens\": 45200,\n  \"output_tokens\": 12800,\n  \"cache_write_tokens\": 8500,\n  \"cache_read_tokens\": 36700,\n  \"cost_usd\": 0.42,\n  \"context_window_pct\": 34.2,\n  \"rate_limit_5h_pct\": 18.5,\n  \"rate_limit_7d_pct\": 6.2\n}\n```\n\nStored at `~/.claude/token-logs/{session-id}.jsonl` — one file per session, append-only. Easy to parse, aggregate, and archive."
+      },
+      {
+        "heading": "Monitor Features",
+        "content": "The Electron overlay app reads JSONL logs and renders real-time visualizations:\n\n- **Session summary cards**: total tokens, cost, duration, model for each active/recent session\n- **5-minute bucketed timeline**: token usage over time as a bar chart, showing bursts and patterns\n- **Daily/weekly aggregates**: total spend and token volume across all sessions\n- **Rate limit bars**: visual progress bars for 5-hour and 7-day windows with reset countdowns\n- **Sparkline visualizations**: inline mini-charts showing token trends at a glance\n- **Alert thresholds**: color changes when approaching rate limits (yellow at 70%, red at 90%)"
+      },
+      {
+        "heading": "Practical Insights",
+        "content": "This data answers real questions that drive optimization:\n\n- **Which sessions burn the most?** Large refactors and architecture reviews consume 5-10x more than quick fixes\n- **Cache hit rates**: if cache reads are low relative to writes, your prefix ordering needs work\n- **Rate limit awareness**: seeing 70%+ on the 5-hour window means you should batch remaining work or switch to a lighter model\n- **Cost per task type**: knowing that security reviews cost $2 vs. bug fixes at $0.30 informs how you allocate your budget\n- **Context window creep**: sessions that hit 80%+ context usage should be wrapped and restarted"
+      },
+      {
+        "heading": "Apply It",
+        "content": "1. **Session planning** — check rate limit bars before starting a heavy session to avoid mid-task throttling\n2. **Model routing** — use cost-per-session data to decide when Sonnet is sufficient vs. when Opus is needed\n3. **Cache optimization** — low cache read rates signal you should restructure prompts to share prefixes\n4. **Budget forecasting** — weekly aggregates predict monthly spend and flag if you're trending over budget"
+      },
+      {
+        "heading": "Research Next Steps",
+        "content": "- [ ] Build per-skill cost attribution (which skills consume the most tokens?)\n- [ ] Add session tagging to correlate token usage with task types\n- [ ] Create weekly cost report that auto-posts to Slack\n- [ ] Compare token efficiency across models for the same task types"
+      }
+    ],
+    "related": [
+      "AI - Claude Code Patterns",
+      "Module - Claude API Cost Optimization",
+      "Claude - Eval & Testing for AI",
+      "MOC - AI Engineering"
+    ],
+    "estimatedMinutes": 2,
+    "xpReward": 45
+  },
+  {
+    "slug": "ai-for-everyone-ai-and-your-privacy",
+    "title": "AI and Your Privacy",
+    "domain": "AI for Everyone",
+    "tags": [
+      "pod",
+      "ai-for-everyone",
+      "privacy",
+      "safety"
+    ],
+    "status": "queue",
+    "created": "2026-04-02",
+    "sections": [
+      {
+        "heading": "What Happens to What You Type",
+        "content": "When you chat with Claude or ChatGPT, your words travel to their servers — big computers in a data center somewhere — where the AI reads them, thinks up a reply, and sends it back. Different companies handle your conversations differently. Some use them to improve their AI. Some don't. It depends on the company and the plan you're on."
+      },
+      {
+        "heading": "The Coffee Shop Rule",
+        "content": "Here's the simplest privacy guide you'll ever need: don't type anything into AI that you wouldn't say out loud in a coffee shop. Everyday questions, help with a letter, planning a birthday party? Totally fine. Your Social Security number? Absolutely not."
+      },
+      {
+        "heading": "What NOT to Share",
+        "content": "- Passwords or PINs\n- Social Security numbers\n- Bank account or credit card numbers\n- Medical record numbers\n- Other people's private information without their permission"
+      },
+      {
+        "heading": "What's Totally Fine to Share",
+        "content": "- General questions about anything\n- Help writing emails, letters, or invitations\n- Planning trips, meals, or events\n- Asking for explanations of confusing topics\n- Creative ideas and brainstorming\n- Hypothetical \"what if\" scenarios"
+      },
+      {
+        "heading": "Free vs Paid Plans",
+        "content": "Free versions of AI tools often use your conversations to make the AI better over time. Paid plans usually don't. If that matters to you, check the privacy page on their website — or just follow the coffee shop rule and you'll be fine either way."
+      },
+      {
+        "heading": "Your Phone's AI vs Cloud AI",
+        "content": "When Siri processes something directly on your iPhone, it stays on your phone. When you ask ChatGPT or Claude something, it goes to their servers. Both are perfectly fine for everyday stuff — they're just different, like the difference between writing in your personal journal and mailing a letter."
+      },
+      {
+        "heading": "The Honest Take",
+        "content": "For 99% of what you'd use AI for — writing emails, planning trips, understanding a confusing bill, getting recipe ideas — privacy is a non-issue. Just don't overshare personal details. Same rule you'd follow with any helpful stranger, no matter how friendly they are."
+      },
+      {
+        "heading": "Try This",
+        "content": "- Next time you use AI, pause and notice what you're sharing — is it personal data or just a question? Practice the coffee shop rule\n- Check whether the AI tool you use has a free or paid plan, and glance at the privacy page if you're curious\n- Read the round 1 pod on what AI actually is: AI for Everyone - What Is AI Really"
+      },
+      {
+        "heading": "In This Module",
+        "content": "- AI for Everyone - Spotting AI Fakes\n- AI for Everyone - AI for Hobbies\n- AI for Everyone - Talking to AI Like a Pro\n- AI for Everyone - AI You're Already Using"
+      }
+    ],
+    "related": [],
+    "estimatedMinutes": 2,
+    "xpReward": 45
+  },
+  {
+    "slug": "ai-for-everyone-ai-for-hobbies",
+    "title": "AI for Hobbies",
+    "domain": "AI for Everyone",
+    "tags": [
+      "pod",
+      "ai-for-everyone",
+      "hobbies",
+      "lifestyle",
+      "practical"
+    ],
+    "status": "queue",
+    "created": "2026-04-02",
+    "sections": [
+      {
+        "heading": "Cooking",
+        "content": "\"I have chicken thighs, sweet potatoes, and rosemary. What can I make?\" AI is like having a chef friend on call — any time, any day. Ask for recipes by ingredient, dietary restriction, or cuisine. \"Give me a low-sodium Italian dinner for two.\" It'll even adjust portions or suggest substitutions if you're missing something."
+      },
+      {
+        "heading": "Gardening",
+        "content": "\"What should I plant in Zone 7 in April?\" \"My tomato leaves are turning yellow — what's wrong?\" AI knows planting zones, companion planting, pest identification, and seasonal timing. It's like having a master gardener next door who never gets tired of your questions."
+      },
+      {
+        "heading": "Genealogy and Family History",
+        "content": "\"Help me write questions to ask my 85-year-old grandmother about her childhood.\" \"What records should I look for to trace Italian immigration in the 1920s?\" AI is wonderful at research strategies and helping you create interview guides so you can capture those precious family stories before they're lost."
+      },
+      {
+        "heading": "Reading and Book Clubs",
+        "content": "\"Suggest books similar to one I loved.\" \"Help me think of discussion questions for my book club.\" \"I just finished a novel and I'm confused about the ending — can you explain it?\" AI makes a surprisingly great reading companion, and it never spoils a book you haven't read yet (unless you ask it to)."
+      },
+      {
+        "heading": "Travel Planning",
+        "content": "Beyond just booking flights — \"What's the etiquette for tipping in Japan?\" \"Help me translate this restaurant menu.\" \"I'm nervous about flying for the first time in years. What should I expect at the airport?\" AI handles the practical details and the emotional ones too."
+      },
+      {
+        "heading": "Crafts and DIY",
+        "content": "\"How do I fix a running toilet?\" \"What kind of paint works on kitchen cabinets?\" \"I want to start knitting — what supplies do I need?\" Step-by-step guidance for any project, with the patience to answer every follow-up question you can think of."
+      },
+      {
+        "heading": "Health and Fitness",
+        "content": "\"Create a gentle 20-minute stretching routine for someone with bad knees.\" \"I'm 65 and want to start walking for exercise. Help me build up gradually.\" AI can tailor suggestions to your specific situation. (But always check with your doctor before making medical decisions — AI is helpful, not a physician.)"
+      },
+      {
+        "heading": "Writing and Creativity",
+        "content": "Letters to grandchildren, memoirs, family recipes to preserve, holiday card messages, thank-you notes. \"Help me write down my grandmother's pie recipe in a way my kids can follow.\" AI helps you get your thoughts on paper when the words don't come easily."
+      },
+      {
+        "heading": "The Key Insight",
+        "content": "AI doesn't judge your questions. There's no such thing as \"too basic.\" Ask it anything about your hobby, anytime. It's like having a patient, knowledgeable friend in every subject imaginable — one who's always happy to help."
+      },
+      {
+        "heading": "Try This",
+        "content": "- Pick your favorite hobby and ask AI one question about it right now — you'll be surprised how helpful the answer is\n- Try asking: \"I'm a beginner at [your hobby]. What are the three things I should know first?\"\n- For a step-by-step guide to trying AI yourself: AI for Everyone - Try It Yourself"
+      },
+      {
+        "heading": "In This Module",
+        "content": "- AI for Everyone - AI and Your Privacy\n- AI for Everyone - Spotting AI Fakes\n- AI for Everyone - Talking to AI Like a Pro\n- AI for Everyone - How People Use AI Today"
+      }
+    ],
+    "related": [],
+    "estimatedMinutes": 2,
+    "xpReward": 45
+  },
+  {
+    "slug": "ai-for-everyone-ai-you-re-already-using",
+    "title": "AI You're Already Using",
+    "domain": "AI for Everyone",
+    "tags": [
+      "pod",
+      "ai-for-everyone",
+      "everyday",
+      "examples"
+    ],
+    "status": "queue",
+    "created": "2026-04-02",
+    "sections": [
+      {
+        "heading": "You've Been Using AI for Years",
+        "content": "Here's the thing most people don't realize: AI isn't some scary future technology that's arriving someday. It's been quietly making your life easier for years. Let's look at what you're already familiar with."
+      },
+      {
+        "heading": "Email Spam Filter",
+        "content": "AI reads your incoming emails and decides which ones are junk. It learned from billions of emails what spam looks like. That's why scam messages and fake offers rarely make it to your inbox anymore — AI is catching them before you ever see them."
+      },
+      {
+        "heading": "Netflix and YouTube Recommendations",
+        "content": "\"Because you watched...\" — that's AI. It noticed patterns in what you enjoy and suggests similar things. Same with Spotify playlists, Amazon product suggestions, and pretty much every app that says \"you might also like...\""
+      },
+      {
+        "heading": "Google Maps Traffic Predictions",
+        "content": "When your maps app says \"15 minutes faster via this route,\" that's AI. It's looking at data from millions of phones on the road in real time and predicting where traffic is building up — before you can even see it."
+      },
+      {
+        "heading": "Your Phone's Autocomplete",
+        "content": "When your phone suggests the next word while you're typing a text message, that's a tiny version of the exact same technology behind ChatGPT and Claude. Same concept, just smaller."
+      },
+      {
+        "heading": "Photo Search",
+        "content": "Open your photo app and type \"beach\" or \"birthday\" — it finds matching photos instantly. AI looked at every photo on your phone and learned what's in them. Nobody tagged those photos manually. That was all AI, working quietly in the background."
+      },
+      {
+        "heading": "Credit Card Fraud Alerts",
+        "content": "When your bank texts you about a suspicious charge, that's AI. It monitors your spending patterns and compares every purchase against millions of known fraud patterns. When something looks off, it flags it instantly — often before you even notice."
+      },
+      {
+        "heading": "Voice Assistants",
+        "content": "\"Hey Siri,\" \"Alexa,\" \"OK Google\" — these all use AI to understand your voice, figure out what you're asking, and respond. Every time you ask for the weather or set a timer, AI is doing the work."
+      },
+      {
+        "heading": "The Big Takeaway",
+        "content": "You've been living with AI for years. The new part isn't the technology — it's that now you can have a conversation with it directly, in plain English. That's what makes this moment exciting, not scary."
+      },
+      {
+        "heading": "Try This",
+        "content": "- Open your phone's photo app and search for \"food\" or \"dog\" or \"sunset\" — notice how it finds the right photos without anyone ever labeling them\n- Check your email spam folder — look at all the junk AI caught for you today\n- Next time Google Maps reroutes you, give a little nod to AI"
+      },
+      {
+        "heading": "In This Module",
+        "content": "- AI for Everyone - What Is AI Really\n- AI for Everyone - How People Use AI Today\n- AI for Everyone - Try It Yourself"
+      }
+    ],
+    "related": [],
+    "estimatedMinutes": 2,
+    "xpReward": 45
+  },
+  {
+    "slug": "ai-for-everyone-how-people-use-ai-today",
+    "title": "How People Use AI Today",
+    "domain": "AI for Everyone",
+    "tags": [
+      "pod",
+      "ai-for-everyone",
+      "use-cases",
+      "practical"
+    ],
+    "status": "queue",
+    "created": "2026-04-02",
+    "sections": [
+      {
+        "heading": "It's Already Everywhere",
+        "content": "Real people — not tech experts — are using AI tools like ChatGPT and Claude every day for surprisingly practical things. Here's what that actually looks like."
+      },
+      {
+        "heading": "In Personal Life",
+        "content": "**Writing help.** Drafting emails, thank-you notes, complaint letters, even sympathy cards. \"Help me write a polite but firm email to my landlord about the broken heater\" is a perfectly normal thing to ask AI. It gives you a solid first draft in seconds, and you tweak it from there.\n\n**Planning.** Trip itineraries, meal plans for the week, party checklists. \"Plan a 5-day trip to Italy for two people who love food and history\" — and you'll get a day-by-day plan with restaurant suggestions, travel tips, and packing reminders.\n\n**Understanding confusing things.** \"Explain what my doctor meant by 'elevated liver enzymes' in simple terms.\" AI is wonderful at translating medical results, insurance policies, tax forms, and other confusing documents into plain English you can actually understand.\n\n**Translating.** Real-time translation for travel, reading foreign recipes, understanding documents in another language. It's not perfect, but it's remarkably good — and it's free.\n\n**Making sense of legal language.** \"Explain this lease agreement in plain English.\" \"What does this clause in my car insurance actually mean?\" AI won't replace a lawyer, but it can help you understand what you're reading before you sign."
+      },
+      {
+        "heading": "In Business",
+        "content": "**Small business owners** use it for writing product descriptions, social media posts, and responses to customer reviews. A bakery owner might use AI to write their weekly Instagram captions in minutes instead of hours.\n\n**Customer service.** Many \"chat with us\" boxes on websites are AI now. They handle straightforward questions so human agents can focus on the complicated ones.\n\n**Real estate agents** use it for property descriptions, market summaries, and client emails. Teachers use it for lesson plans and quiz questions. Freelancers use it to draft proposals and invoices."
+      },
+      {
+        "heading": "The Pattern",
+        "content": "AI is most useful for first drafts, explanations, and repetitive tasks. You still review everything, make edits, and have the final say. Think of it as a very fast assistant who gives you something to work with — not the finished product."
+      },
+      {
+        "heading": "Try This",
+        "content": "- Think of an email you've been putting off writing — try asking AI to draft it for you and see how close it gets\n- Pick something confusing you received recently (a medical bill, an insurance letter, a legal notice) and ask AI to explain it in plain English\n- If you run a small business or side project, try asking AI to write a social media post about your latest product or service"
+      },
+      {
+        "heading": "In This Module",
+        "content": "- AI for Everyone - What Is AI Really\n- AI for Everyone - AI You're Already Using\n- AI for Everyone - Try It Yourself"
+      }
+    ],
+    "related": [],
+    "estimatedMinutes": 2,
+    "xpReward": 45
+  },
+  {
+    "slug": "ai-for-everyone-spotting-ai-fakes",
+    "title": "Spotting AI Fakes",
+    "domain": "AI for Everyone",
+    "tags": [
+      "pod",
+      "ai-for-everyone",
+      "misinformation",
+      "deepfakes",
+      "safety"
+    ],
+    "status": "queue",
+    "created": "2026-04-02",
+    "sections": [
+      {
+        "heading": "AI Can Create Fake Everything Now",
+        "content": "Photos, videos, voice recordings, written articles — AI can generate all of them. Some are obvious fakes. Some are scarily convincing. This isn't meant to frighten you. It's meant to make you a smarter, more confident consumer of information. Knowledge is your best defense."
+      },
+      {
+        "heading": "Deepfake Videos",
+        "content": "AI can put anyone's face on anyone's body and make them appear to say anything. If you see a video of a celebrity or politician saying something truly shocking, it might be completely fabricated. Your first move: check whether reputable news outlets are covering it. If only random social media accounts are sharing it, be very skeptical."
+      },
+      {
+        "heading": "Fake Voice Calls",
+        "content": "This one is important. AI can clone someone's voice from just a few seconds of audio. Scammers use this to call people pretending to be a family member in trouble. \"Grandma, I'm in an accident, I need you to send money right now.\" If you ever get a distressing call like this, hang up and call your loved one back on their real number. Every single time."
+      },
+      {
+        "heading": "AI-Written Articles and Reviews",
+        "content": "Some product reviews, news articles, and social media posts are now written entirely by AI. They can sound very polished and authoritative — almost too perfect. Real reviews tend to mention specific personal details (\"I bought this for my daughter's soccer practice\"). If something reads like a brochure, check multiple sources before trusting it."
+      },
+      {
+        "heading": "AI-Generated Images",
+        "content": "Look for subtle signs: hands with too many or too few fingers, text in the image that doesn't make sense, backgrounds that blur in strange ways, jewelry or glasses that look slightly \"off.\" But honestly, these tells are getting harder to spot as the technology improves. When in doubt, reverse-search the image or check the source."
+      },
+      {
+        "heading": "The Golden Rules",
+        "content": "1. If something seems too shocking, too perfect, or too outrageous — verify it before you share it\n2. If someone contacts you urgently asking for money, always verify their identity through a separate phone call\n3. If a deal looks too good to be true, it probably is — AI-generated fake online stores exist\n4. Trust your gut — if something feels off, it probably is"
+      },
+      {
+        "heading": "You Don't Need to Be Paranoid",
+        "content": "Most content online is still real. Most phone calls are still genuine. You don't need to question everything — just apply the same healthy skepticism you'd use with any stranger making big claims. You've been doing that your whole life. This is just the digital version."
+      },
+      {
+        "heading": "Try This",
+        "content": "- Next time you see a surprising video or image online, pause before sharing it and ask yourself: \"Has a real news outlet reported this?\" That one habit catches most fakes\n- Set up a family code word — a word only your family knows — so you can verify identity on unexpected calls\n- See how AI is already part of your daily life: AI for Everyone - AI You're Already Using"
+      },
+      {
+        "heading": "In This Module",
+        "content": "- AI for Everyone - AI and Your Privacy\n- AI for Everyone - AI for Hobbies\n- AI for Everyone - Talking to AI Like a Pro\n- AI for Everyone - Try It Yourself"
+      }
+    ],
+    "related": [],
+    "estimatedMinutes": 2,
+    "xpReward": 45
+  },
+  {
+    "slug": "ai-for-everyone-talking-to-ai-like-a-pro",
+    "title": "Talking to AI Like a Pro",
+    "domain": "AI for Everyone",
+    "tags": [
+      "pod",
+      "ai-for-everyone",
+      "prompting",
+      "tips"
+    ],
+    "status": "queue",
+    "created": "2026-04-02",
+    "sections": [
+      {
+        "heading": "Be Specific",
+        "content": "\"Help me write an email\" gets you an okay answer. \"Help me write a polite but firm email to my internet provider about a billing error of $47 on my March statement\" gets you a great answer. The more detail you give, the better the response. Think of it like giving directions — \"go that way\" vs \"turn left at the bakery, then right at the stop sign.\""
+      },
+      {
+        "heading": "Give It Context About You",
+        "content": "\"I'm a retired teacher.\" \"I'm planning this for my 8-year-old granddaughter.\" \"I've never done this before.\" A little context helps AI tailor its answer to you specifically, not some generic person. It's the difference between asking a stranger for advice and asking a friend who knows your situation."
+      },
+      {
+        "heading": "Ask for What You Want",
+        "content": "\"Explain it simply.\" \"Give me 3 options.\" \"Make it shorter.\" \"Use bullet points.\" You're the boss — tell AI exactly how you want your answer. It's happy to adjust. You wouldn't let a waiter bring you whatever they felt like. Same idea here."
+      },
+      {
+        "heading": "Say \"Try Again\" Freely",
+        "content": "First answer not quite right? Just say so. \"That's not what I meant. I'm looking for something more casual.\" \"Can you make it friendlier?\" \"That's too long — give me the short version.\" AI doesn't get offended, doesn't get frustrated, and doesn't keep score. It just tries again, happily."
+      },
+      {
+        "heading": "Have a Conversation",
+        "content": "You don't have to get everything perfect in one message. Ask a question, read the answer, then follow up. \"That's helpful, but what about this part?\" or \"Can you go deeper on the second point?\" It's a back-and-forth, just like talking to a person. The conversation builds on itself."
+      },
+      {
+        "heading": "The Magic Phrases",
+        "content": "- \"Explain this like I'm new to it\" — adjusts the complexity to your level\n- \"Give me the pros and cons\" — gets you a balanced perspective\n- \"What questions should I be asking?\" — perfect for when you don't know where to start\n- \"What am I forgetting?\" — great for planning trips, events, or projects\n- \"Is there a simpler way to do this?\" — cuts through unnecessary complexity"
+      },
+      {
+        "heading": "Don't Worry About Being \"Good at This\"",
+        "content": "There's a whole industry of people making \"talking to AI\" sound complicated and technical. It's not. Talk to it like a person. If the answer isn't right, say so. If you want something different, ask for it. That's the whole skill, and you already have it. You've been communicating with people your entire life — this is easier."
+      },
+      {
+        "heading": "Try This",
+        "content": "- Take something you've asked AI before and try asking again with more detail and context — compare the two answers and you'll see the difference right away\n- Try one of the magic phrases on any question you have today\n- If you haven't tried AI yet, start here: AI for Everyone - Try It Yourself"
+      },
+      {
+        "heading": "In This Module",
+        "content": "- AI for Everyone - AI and Your Privacy\n- AI for Everyone - Spotting AI Fakes\n- AI for Everyone - AI for Hobbies\n- AI for Everyone - What Is AI Really"
+      }
+    ],
+    "related": [],
+    "estimatedMinutes": 2,
+    "xpReward": 45
+  },
+  {
+    "slug": "ai-for-everyone-try-it-yourself",
+    "title": "Try It Yourself",
+    "domain": "AI for Everyone",
+    "tags": [
+      "pod",
+      "ai-for-everyone",
+      "getting-started",
+      "hands-on"
+    ],
+    "status": "queue",
+    "created": "2026-04-02",
+    "sections": [
+      {
+        "heading": "Where to Go",
+        "content": "You don't need to download anything or sign up for something expensive. Just open your web browser and visit one of these — they're all free to start:\n\n- **claude.ai** — Anthropic's Claude. Thoughtful, careful, great at explaining things.\n- **chatgpt.com** — OpenAI's ChatGPT. The most well-known one.\n- **gemini.google.com** — Google's Gemini. Built right into the Google ecosystem.\n\nPick whichever one you want. They all work similarly, and you can always try the others later."
+      },
+      {
+        "heading": "How to Talk to It",
+        "content": "Just type like you're talking to a helpful, knowledgeable friend. No special commands. No programming language. No trick phrases. Full, normal sentences work perfectly. \"Can you help me...\" is a great way to start."
+      },
+      {
+        "heading": "Five Things to Try Right Now",
+        "content": "1. **\"Explain [something confusing] like I'm 12 years old.\"** Great for medical terms, legal jargon, financial concepts, or anything that normally makes your eyes glaze over.\n\n2. **\"Help me write a [type of message] to [person] about [topic].\"** Emails, thank-you notes, complaint letters, birthday messages — AI gives you a solid first draft in seconds.\n\n3. **\"I'm planning [event or trip]. Help me think through what I need.\"** AI is wonderful at checklists, timelines, and making sure you don't forget anything.\n\n4. **\"What's the difference between [A] and [B]?\"** Comparing insurance plans, phone models, medications, vacation destinations — anything where you're trying to make a decision.\n\n5. **\"I'm trying to [goal]. What are my options?\"** Career changes, home improvement projects, gift ideas for a picky person — AI is great at brainstorming with you."
+      },
+      {
+        "heading": "What to Trust and What to Double-Check",
+        "content": "AI is excellent at drafting, brainstorming, explaining, and organizing. But always double-check specific facts, dates, medical advice, and legal information with an official source. Think of it like asking a knowledgeable friend — really helpful, but not a replacement for your doctor or lawyer."
+      },
+      {
+        "heading": "It's Okay To...",
+        "content": "- Ask follow-up questions. \"Tell me more about that.\"\n- Say \"that's not quite right\" and ask it to try again.\n- Say \"make it simpler\" or \"make it shorter.\"\n- Ask the same question five different ways until you get what you need.\n\nYou can't break it, and there are no dumb questions. Seriously."
+      },
+      {
+        "heading": "One Privacy Tip",
+        "content": "Don't share sensitive personal information — Social Security numbers, passwords, bank account details, or anything you wouldn't say out loud in a coffee shop. AI conversations are helpful but not private in the way a conversation with your doctor is."
+      },
+      {
+        "heading": "The Right Mindset",
+        "content": "Your first conversation might feel a little awkward, like texting someone new. That's completely normal. By your fifth conversation, you'll wonder how you got along without it. AI is a tool that gets better the more you use it — not because it changes, but because you get better at asking for what you need."
+      },
+      {
+        "heading": "Try This",
+        "content": "- Right now, open one of the links above in a new tab and try prompt number 1 with something you've been curious about\n- Send your favorite result to a friend or family member — sharing what you discover is the fastest way to get comfortable\n- Tomorrow, try a different prompt from the list. One new thing per day, and within a week you'll feel like a pro."
+      },
+      {
+        "heading": "In This Module",
+        "content": "- AI for Everyone - What Is AI Really\n- AI for Everyone - AI You're Already Using\n- AI for Everyone - How People Use AI Today"
+      }
+    ],
+    "related": [],
+    "estimatedMinutes": 2,
+    "xpReward": 45
+  },
+  {
+    "slug": "ai-for-everyone-what-is-ai-really",
+    "title": "What Is AI Really?",
+    "domain": "AI for Everyone",
+    "tags": [
+      "pod",
+      "ai-for-everyone",
+      "basics",
+      "explainer"
+    ],
+    "status": "queue",
+    "created": "2026-04-02",
+    "sections": [
+      {
+        "heading": "The Short Answer",
+        "content": "AI is pattern matching — not thinking. It looks at millions of examples and learns patterns from them. Like how you learned that dark clouds usually mean rain, except AI does this with data, very fast, at a massive scale."
+      },
+      {
+        "heading": "The Recipe Analogy",
+        "content": "Think of AI like a very talented recipe-follower, not a chef. It can follow incredibly complex recipes (patterns it learned from data), but it doesn't \"understand\" cooking the way you do. It has no feelings, no opinions, and no consciousness. It's just really, really good at following instructions."
+      },
+      {
+        "heading": "What \"Machine Learning\" Means",
+        "content": "You show a computer thousands of photos of cats and dogs. Eventually it learns to tell them apart. That's it — that's machine learning. The same idea gets applied to everything: sorting your emails, reading medical scans, recommending music you might like."
+      },
+      {
+        "heading": "What ChatGPT and Claude Are",
+        "content": "Tools like ChatGPT and Claude were trained on billions of pages of text. They learned patterns in how words follow other words. When they write a sentence, they're predicting the most likely next word, over and over again. It's autocomplete on steroids — really impressive autocomplete, but still autocomplete at its core."
+      },
+      {
+        "heading": "What AI is NOT",
+        "content": "It's not alive. It doesn't want things. It can't take over the world. It doesn't have secret plans or hidden feelings. It's a very powerful tool — like a calculator that works with words and ideas instead of just numbers."
+      },
+      {
+        "heading": "Why It Feels So Magical",
+        "content": "Because it's really, really good at patterns. Good enough that its output often looks creative and intelligent. But \"looks intelligent\" and \"is intelligent\" are very different things. A parrot can say \"I love you\" without knowing what love is. AI is a bit like that — very convincing, but not aware."
+      },
+      {
+        "heading": "The Honest Truth",
+        "content": "AI is incredibly useful, occasionally wrong, and always worth double-checking. Think of it like a very smart but sometimes overconfident assistant. It'll save you tons of time, but you're still the boss."
+      },
+      {
+        "heading": "Try This",
+        "content": "- Ask someone near you: \"What do you think AI is?\" — you might be surprised how much mystery surrounds something that's actually pretty straightforward\n- Next time you see a news headline about AI, ask yourself: \"Is this about pattern matching, or are they making it sound like a movie villain?\"\n- Read the next pod to see how much AI you already use every day"
+      },
+      {
+        "heading": "In This Module",
+        "content": "- AI for Everyone - AI You're Already Using\n- AI for Everyone - How People Use AI Today\n- AI for Everyone - Try It Yourself"
+      }
+    ],
+    "related": [],
+    "estimatedMinutes": 2,
+    "xpReward": 45
+  },
+  {
+    "slug": "claude-agent-architecture",
+    "title": "Agent Architecture",
+    "domain": "AI Engineering",
+    "tags": [
+      "pod",
+      "ai-engineering",
+      "claude",
+      "agents",
+      "architecture"
+    ],
+    "status": "queue",
+    "created": "2026-04-02",
+    "sections": [
+      {
+        "heading": "What It Is",
+        "content": "Patterns for building AI agents that reason, act, and iterate autonomously. Not theoretical — these are the exact patterns running in your Claude Code framework: skills that execute, agents that plan, memory that persists, and guardrails that keep it safe."
+      },
+      {
+        "heading": "The ReAct Loop",
+        "content": "The foundation of tool-use agents. Claude Code runs this loop on every task you give it.\n```\n  ┌──────────────────────────────────────┐\n  │           User Task / Goal           │\n  └──────────────┬───────────────────────┘\n                 ▼\n  ┌──────────────────────────────────────┐\n  │  REASON: Analyze state, plan next    │◄──────┐\n  │  step based on goal + context        │       │\n  └──────────────┬───────────────────────┘       │\n                 ▼                                │\n  ┌──────────────────────────────────────┐       │\n  │  ACT: Call a tool (Read, Edit, Bash, │       │\n  │  Grep, API call, etc.)               │       │\n  └──────────────┬───────────────────────┘       │\n                 ▼                                │\n  ┌──────────────────────────────────────┐       │\n  │  OBSERVE: Process tool result,       │───────┘\n  │  update understanding                │\n  └──────────────┬───────────────────────┘\n                 ▼\n  ┌──────────────────────────────────────┐\n  │  DONE: Goal achieved → respond       │\n  └──────────────────────────────────────┘\n```"
+      },
+      {
+        "heading": "Core Agent Patterns",
+        "content": "### Tool-Use Agents\nThe simplest agent: model + tools + loop. Claude decides which tool to call, processes the result, decides the next step. Your Claude Code session is this pattern — Claude sees available tools and autonomously calls them to complete your request.\n\n### Multi-Agent Systems\nAn orchestrator decomposes work and delegates to specialists. Your framework does this:\n- **Plan agent** — decomposes complex tasks into subtasks\n- **Specialist skills** — each skill handles one domain (security review, deploy, git cleanup)\n- **Orchestrator** — Claude Code itself routes to the right skill based on trigger conditions\n\n### Planning Agents\nDecompose before executing. The pattern:\n1. Receive complex task\n2. Generate explicit plan (steps, dependencies, success criteria)\n3. Execute each step, checking progress\n4. Adapt plan if a step fails or reveals new information\n\nYour Plan-for-Queue skill does exactly this — Opus decomposes, Sonnet executes each step on lab-01."
+      },
+      {
+        "heading": "Memory & State",
+        "content": "Agents need context beyond the current conversation:\n- **Conversation context**: the built-in message history (short-term)\n- **Persistent memory**: your MEMORY.md system — facts that survive across sessions\n- **Tool results**: file contents, command output, API responses accumulated during a session\n- **Project knowledge**: CLAUDE.md files with per-project instructions and conventions\n\nThe memory hierarchy: conversation (ephemeral) → session notes (daily) → memory entries (permanent) → CLAUDE.md (structural)."
+      },
+      {
+        "heading": "Guardrails",
+        "content": "Agents that can act need safety boundaries:\n- **Input validation**: check user requests before executing (your push-policy, no-secrets rules)\n- **Output filtering**: never expose secrets, PII, or internal details in responses\n- **Circuit breakers**: max iterations to prevent runaway loops (Claude Code has built-in limits)\n- **Approval gates**: pause for human confirmation on destructive actions (your Slack approval system)\n- **Scope limits**: restrict which tools/paths/commands an agent can use (permission allowlists)"
+      },
+      {
+        "heading": "Anti-Patterns",
+        "content": "- **No exit condition**: agent loops forever because the goal is ambiguous — always define \"done\"\n- **Over-planning**: spending more tokens planning than executing — plan just enough to start\n- **Tool sprawl**: too many tools confuse routing — keep tool sets focused per agent\n- **No error recovery**: agent crashes on first tool failure — always handle errors and retry/adapt"
+      },
+      {
+        "heading": "Apply It",
+        "content": "1. **Claude Code framework** — the entire system is a multi-agent ReAct architecture\n2. **lab-01 queue worker** — planning agent decomposes, worker agent executes\n3. **Slack inbox** — routing agent classifies, specialist agents handle each category\n4. **Game feedback** — observe (scan Discord) → reason (classify) → act (create GitHub issue)"
+      },
+      {
+        "heading": "Research Next Steps",
+        "content": "- [ ] Benchmark single-agent vs. multi-agent on complex tasks (latency, cost, quality)\n- [ ] Design a minimal agent SDK wrapper around the Anthropic API\n- [ ] Test planning depth: 3-step vs. 5-step vs. adaptive planning\n- [ ] Implement circuit breaker metrics: track iteration counts and failure rates"
+      }
+    ],
+    "related": [
+      "Claude - Prompt Engineering Patterns",
+      "Claude - Structured Output & Tool Use",
+      "Claude - Eval & Testing for AI",
+      "MOC - AI Engineering"
+    ],
+    "estimatedMinutes": 2,
+    "xpReward": 45
+  },
+  {
+    "slug": "claude-eval-testing-for-ai",
+    "title": "Eval & Testing for AI",
+    "domain": "AI Engineering",
+    "tags": [
+      "pod",
+      "ai-engineering",
+      "claude",
+      "evaluation",
+      "testing"
+    ],
+    "status": "queue",
+    "created": "2026-04-02",
+    "sections": [
+      {
+        "heading": "What It Is",
+        "content": "\"If you can't measure it, you can't improve it.\" Evals are the #1 gap in most AI projects — teams ship prompts based on vibes instead of data. This pod covers how to systematically test and compare AI outputs so you know when a change makes things better or worse. This is Month 5 material in your SE-to-AI roadmap."
+      },
+      {
+        "heading": "Types of Evals",
+        "content": "### Accuracy (Classification / Extraction)\nCompare model output against a golden label. Metrics: precision, recall, F1.\n```\nInput: \"The server is down and users can't log in\"\nExpected: {\"category\": \"bug\", \"severity\": \"critical\"}\nActual:   {\"category\": \"bug\", \"severity\": \"critical\"}  ✅\n```\n\n### Quality (LLM-as-Judge)\nUse a stronger model (Opus) to grade a weaker model's (Sonnet) output against a rubric:\n- Define 3-5 criteria with clear scoring (1-5 scale)\n- Provide the rubric, the input, and the output to the judge\n- Aggregate scores across your test set\n\n### Safety (Red-Teaming)\nProbe the model with adversarial inputs — prompt injection, jailbreaks, PII leaks. Essential before any user-facing deployment.\n\n### Latency & Cost\nTrack tokens consumed, time-to-first-token, total response time. Critical for production — a prompt that's 20% better but 3x more expensive might not be worth it."
+      },
+      {
+        "heading": "Minimal Eval Framework",
+        "content": "```python\nimport anthropic\n\nclient = anthropic.Anthropic()\n\ndef run_eval(test_cases: list[dict], prompt_template: str, judge_prompt: str) -> dict:\n    results = []\n    for case in test_cases:\n        # Run the prompt being tested\n        response = client.messages.create(\n            model=\"claude-sonnet-4-6-20250514\",\n            max_tokens=1024,\n            messages=[{\"role\": \"user\", \"content\": prompt_template.format(**case)}]\n        )\n        output = response.content[0].text\n\n        # Judge the output with a stronger model\n        judgment = client.messages.create(\n            model=\"claude-opus-4-6-20250514\",\n            max_tokens=256,\n            messages=[{\"role\": \"user\", \"content\": judge_prompt.format(\n                input=case[\"input\"], expected=case[\"expected\"], actual=output\n            )}]\n        )\n        score = int(judgment.content[0].text.strip())\n        results.append({\"case\": case[\"input\"], \"score\": score, \"output\": output})\n\n    avg_score = sum(r[\"score\"] for r in results) / len(results)\n    return {\"average_score\": avg_score, \"results\": results}\n```\nRun this with the Batch API at 50% cost for large eval suites."
+      },
+      {
+        "heading": "Eval Dataset Strategies",
+        "content": "- **Golden sets**: 50-100 hand-labeled examples covering edge cases — your ground truth\n- **Human-labeled**: have domain experts rate model output — expensive but high signal\n- **Synthetic generation**: use Claude to generate test cases, then manually review a sample\n- **Production sampling**: log real inputs/outputs, periodically review a random sample"
+      },
+      {
+        "heading": "A/B Testing Prompts",
+        "content": "Don't guess which prompt is better — measure it:\n1. Define your eval set (same inputs for both prompts)\n2. Run both prompts across the set\n3. Score with LLM-as-judge using the same rubric\n4. Compare averages — need ~50+ cases for meaningful signal\n5. Check for regressions: did prompt B improve overall but break a specific category?"
+      },
+      {
+        "heading": "Regression Testing",
+        "content": "The AI equivalent of unit tests. Every time you change a prompt, model, or context:\n1. Run the eval suite\n2. Compare against the baseline\n3. Flag any cases where the score dropped by more than 1 point\n4. Investigate regressions before shipping the change"
+      },
+      {
+        "heading": "Apply It",
+        "content": "1. **Claude Code skills** — eval skill output quality when you change system prompts or guardrails\n2. **Slack classifier** — golden set of 50 messages with expected categories, run after prompt changes\n3. **Game feedback router** — compare routing accuracy across model versions\n4. **FitOps** — eval workout recommendations against trainer-labeled golden set"
+      },
+      {
+        "heading": "Research Next Steps",
+        "content": "- [ ] Build an eval runner CLI that reads test cases from JSONL and outputs a report\n- [ ] Create golden sets for the Slack inbox classifier and game feedback router\n- [ ] Test Batch API for eval suites: submit, poll, score in one pipeline\n- [ ] Benchmark LLM-as-judge reliability: how consistent is Opus at grading Sonnet?"
+      }
+    ],
+    "related": [
+      "Claude - Prompt Engineering Patterns",
+      "Claude - Agent Architecture",
+      "Module - Claude API Cost Optimization",
+      "MOC - AI Engineering"
+    ],
+    "estimatedMinutes": 2,
+    "xpReward": 45
+  },
+  {
+    "slug": "claude-prompt-engineering-patterns",
+    "title": "Prompt Engineering Patterns",
+    "domain": "AI Engineering",
+    "tags": [
+      "pod",
+      "ai-engineering",
+      "claude",
+      "prompt-engineering"
+    ],
+    "status": "queue",
+    "created": "2026-04-02",
+    "sections": [
+      {
+        "heading": "What It Is",
+        "content": "A toolkit of reusable prompt patterns for getting reliable, high-quality output from Claude. These aren't theoretical — they're the patterns applied daily in the Claude Code framework (skills, agents, hooks) that power your dev workflow."
+      },
+      {
+        "heading": "Core Patterns",
+        "content": "### System Prompts\nDefine role, constraints, and output format up front. The system prompt is your contract with the model.\n```python\nresponse = client.messages.create(\n    model=\"claude-sonnet-4-6-20250514\",\n    max_tokens=2048,\n    system=\"You are a senior TypeScript developer. Review code for bugs, \"\n           \"security issues, and performance. Output as a markdown checklist.\",\n    messages=[{\"role\": \"user\", \"content\": code_to_review}]\n)\n```\nYour Claude Code skills use this pattern — every skill's frontmatter defines the role, trigger conditions, and guardrails before the model sees any task content.\n\n### Few-Shot Examples\nProvide concrete input/output pairs to anchor the model's formatting and reasoning.\n- **1-3 examples**: formatting, tone, structure tasks\n- **5+ examples**: classification, labeling, pattern-matching tasks\n- Place examples in the system prompt or early in the conversation for cache efficiency\n\n### Chain-of-Thought\nMake reasoning explicit. Two flavors:\n- **Implicit**: \"Think step by step before answering\"\n- **Structured**: Use XML tags like `<thinking>` to separate reasoning from output — lets you parse just the answer while keeping the reasoning for debugging\n\n### Constitutional / Self-Critique\nAsk the model to check its own work before finalizing:\n- \"Review your answer for factual errors and correct them\"\n- \"Rate your confidence 1-5 and explain any uncertainty\"\n- Works well as a second pass — generate, then critique, then revise\n\n### Decomposition\nBreak complex tasks into subtasks the model handles independently. This is exactly what your skill system does — a Plan agent decomposes, then specialist skills execute each piece.\n\n### Persona Patterns\n\"You are an expert X\" improves output when domain framing matters (security reviewer, data engineer). Less useful for generic coding tasks where Claude already has strong priors."
+      },
+      {
+        "heading": "Pattern Decision Tree",
+        "content": "```\n                    ┌─ Need specific format? ──→ System prompt + few-shot\n                    │\n  What does the ────┼─ Need reasoning trace? ──→ Chain-of-thought (XML tags)\n  task require?     │\n                    ├─ Need reliability? ───────→ Constitutional self-critique\n                    │\n                    ├─ Too complex for one shot? → Decomposition (subtasks)\n                    │\n                    └─ Need domain depth? ──────→ Persona + system prompt\n```"
+      },
+      {
+        "heading": "Common Mistakes",
+        "content": "- **Over-prompting**: adding instructions the model already follows by default — wastes tokens\n- **Conflicting constraints**: telling the model to be \"concise\" and \"thorough\" simultaneously\n- **Ignoring order**: instructions at the start and end of long prompts get more attention than the middle\n- **No output format**: if you don't specify format, you'll get inconsistent structure across calls"
+      },
+      {
+        "heading": "Apply It",
+        "content": "1. **Claude Code skills** — each skill is a system prompt with role, guardrails, and format constraints\n2. **Subagent system** — decomposition pattern: orchestrator plans, specialists execute\n3. **Memory system** — chain-of-thought for deciding what to remember vs. discard\n4. **Code review** — persona (\"senior security engineer\") + constitutional (\"check for false positives\")"
+      },
+      {
+        "heading": "Research Next Steps",
+        "content": "- [ ] Benchmark few-shot count vs. accuracy for classification tasks\n- [ ] Test structured CoT (XML tags) vs. implicit CoT on complex refactoring tasks\n- [ ] Build a prompt template library for common skill patterns\n- [ ] Measure token cost of self-critique pass vs. quality improvement"
+      }
+    ],
+    "related": [
+      "Claude - Structured Output & Tool Use",
+      "Claude - Agent Architecture",
+      "Claude - Eval & Testing for AI",
+      "Module - Claude API Cost Optimization",
+      "MOC - AI Engineering"
+    ],
+    "estimatedMinutes": 2,
+    "xpReward": 45
+  },
+  {
+    "slug": "claude-structured-output-tool-use",
+    "title": "Structured Output & Tool Use",
+    "domain": "AI Engineering",
+    "tags": [
+      "pod",
+      "ai-engineering",
+      "claude",
+      "tool-use",
+      "structured-output"
+    ],
+    "status": "queue",
+    "created": "2026-04-02",
+    "sections": [
+      {
+        "heading": "What It Is",
+        "content": "Techniques for getting Claude to return predictable, machine-parseable output — from JSON extraction to multi-tool orchestration. Tool use (function calling) is the foundation of every agentic workflow, including the Claude Code framework you use daily."
+      },
+      {
+        "heading": "Structured Output Approaches",
+        "content": "### Prefilling the Assistant Response\nStart the assistant's reply to force a specific format:\n```python\nresponse = client.messages.create(\n    model=\"claude-sonnet-4-6-20250514\",\n    max_tokens=1024,\n    messages=[\n        {\"role\": \"user\", \"content\": \"Extract name and age from: 'Matt is 30'\"},\n        {\"role\": \"assistant\", \"content\": \"{\"}  # forces JSON output\n    ]\n)\n```\nSimple but fragile — no schema validation. Best for quick extractions where you control the pipeline.\n\n### Tool Use for Structured Extraction\nDefine a tool with a JSON Schema, then force Claude to call it. The output is guaranteed to match the schema.\n```python\ntools = [{\n    \"name\": \"extract_person\",\n    \"description\": \"Extract structured person data from text\",\n    \"input_schema\": {\n        \"type\": \"object\",\n        \"properties\": {\n            \"name\": {\"type\": \"string\"},\n            \"age\": {\"type\": \"integer\"},\n            \"occupation\": {\"type\": \"string\", \"description\": \"Job title if mentioned\"}\n        },\n        \"required\": [\"name\"]\n    }\n}]\n\nresponse = client.messages.create(\n    model=\"claude-sonnet-4-6-20250514\",\n    max_tokens=1024,\n    tools=tools,\n    tool_choice={\"type\": \"tool\", \"name\": \"extract_person\"},  # forced\n    messages=[{\"role\": \"user\", \"content\": \"Matt is a 30-year-old engineer\"}]\n)\n```"
+      },
+      {
+        "heading": "tool_choice Modes",
+        "content": "| Mode | Behavior | Use Case |\n|------|----------|----------|\n| `{\"type\": \"auto\"}` | Claude decides whether to call a tool | Agents, open-ended tasks |\n| `{\"type\": \"any\"}` | Claude must call one tool (picks which) | Routing, classification |\n| `{\"type\": \"tool\", \"name\": \"X\"}` | Claude must call this specific tool | Structured extraction |\n\n**Key insight**: `\"any\"` + multiple tools = Claude routes to the right tool. Perfect for intent classification where each tool represents a category."
+      },
+      {
+        "heading": "Multi-Tool Orchestration",
+        "content": "Claude can call multiple tools in sequence within a single conversation turn. The pattern:\n1. Claude sees tools + user request\n2. Calls tool A → you return the result\n3. Claude processes result, calls tool B\n4. Repeat until Claude has enough info to respond\n\nThis is exactly how Claude Code works — it sees Read, Edit, Bash, Grep tools and decides which to call based on the task."
+      },
+      {
+        "heading": "Common Patterns",
+        "content": "- **Extraction**: forced tool use → guaranteed schema output from unstructured text\n- **Classification**: `tool_choice: \"any\"` with one tool per category\n- **Routing**: multiple tools representing downstream actions, Claude picks the right one\n- **Data transformation**: tool input schema = target format, Claude maps source data\n- **Validation**: extract with tool use, then validate the structured output programmatically"
+      },
+      {
+        "heading": "Best Practices",
+        "content": "- **Descriptions matter**: tool and parameter descriptions guide Claude's decisions more than names\n- **Keep schemas tight**: required fields + enums reduce hallucination in structured output\n- **Use enums for classification**: `\"type\": \"string\", \"enum\": [\"bug\", \"feature\", \"question\"]`\n- **Cache tool definitions**: they're large and stable — prime prompt caching candidates\n- **Handle tool errors gracefully**: return error results so Claude can retry or adjust"
+      },
+      {
+        "heading": "Apply It",
+        "content": "1. **Claude Code framework** — every tool (Read, Edit, Bash) is a tool definition Claude orchestrates\n2. **Slack inbox classifier** — forced tool use to extract category, priority, and action from messages\n3. **Game feedback router** — `tool_choice: \"any\"` with tools for bug, feature, and question\n4. **Portfolio sync** — extract project metadata from repos into structured portfolio.json format"
+      },
+      {
+        "heading": "Research Next Steps",
+        "content": "- [ ] Benchmark forced tool use vs. prefilling for extraction accuracy\n- [ ] Test multi-tool chains: max useful depth before quality degrades\n- [ ] Build reusable extraction tools for common patterns (person, event, task)\n- [ ] Measure latency impact of tool_choice modes"
+      }
+    ],
+    "related": [
+      "Claude - Prompt Engineering Patterns",
+      "Claude - Agent Architecture",
+      "MOC - AI Engineering"
+    ],
+    "estimatedMinutes": 2,
+    "xpReward": 45
+  },
+  {
     "slug": "claude-x-obsidian-quant-mind-maps",
     "title": "Claude × Obsidian — Living Knowledge Graph",
     "domain": "Tools & Platforms",
@@ -263,6 +1085,178 @@ export const pods: Pod[] = [
       "PowerBI + Claude - Follower Dashboard",
       "OpenBB Terminal",
       "MOC - Tools & Platforms"
+    ],
+    "estimatedMinutes": 2,
+    "xpReward": 45
+  },
+  {
+    "slug": "devops-github-actions-optimization",
+    "title": "GitHub Actions Optimization",
+    "domain": "DevOps",
+    "tags": [
+      "pod",
+      "devops",
+      "github-actions",
+      "ci-cd",
+      "optimization"
+    ],
+    "status": "queue",
+    "created": "2026-04-02",
+    "sections": [
+      {
+        "heading": "What It Is",
+        "content": "Techniques for reducing GitHub Actions minutes usage without sacrificing CI/CD quality. On private repos, every minute costs real money. The goal: run fewer workflows, make each run faster, and cancel redundant work — while keeping the safety net of automated testing and deployment."
+      },
+      {
+        "heading": "The Cost Model",
+        "content": "- **Public repos**: Free, unlimited minutes\n- **Private repos**: Charged per minute against your monthly budget\n- **Runner multipliers**: Linux = 1x, Windows = 2x, macOS = 10x. A 10-minute macOS job burns 100 minutes of budget\n- **Your budget**: 3,000 minutes/month on GitHub Pro. FitOps alone burns 15+ minutes per test run. At 5 pushes per day, that's 75 minutes/day — over 2,000 minutes/month from one repo"
+      },
+      {
+        "heading": "Top Optimizations (Ordered by Impact)",
+        "content": "### 1. Path Filters — Biggest Single Savings\nOnly run workflows when relevant files change. A README edit should never trigger a 15-minute test suite.\n\n```yaml\non:\n  push:\n    paths:\n      - 'src/**'\n      - 'tests/**'\n      - 'package.json'\n      - '.github/workflows/**'\n    paths-ignore:\n      - '*.md'\n      - 'docs/**'\n```\n\nThis alone can eliminate 30-50% of workflow runs.\n\n### 2. Dependency Caching — Save 1-3 Minutes Per Run\nCache `node_modules`, pip packages, or build artifacts between runs. Without caching, every run downloads everything from scratch.\n\n```yaml\n- uses: actions/setup-node@v4\n  with:\n    node-version: 20\n    cache: 'npm'\n```\n\nOr the explicit cache action for more control:\n```yaml\n- uses: actions/cache@v4\n  with:\n    path: ~/.npm\n    key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}\n```\n\n### 3. Concurrency Control — Cancel Redundant Runs\nWhen you push again before the previous run finishes, cancel the old one. No point running CI on code that's already been superseded.\n\n```yaml\nconcurrency:\n  group: ${{ github.workflow }}-${{ github.ref }}\n  cancel-in-progress: true\n```\n\n### 4. Branch Scoping — Stop Running on Experiments\nOnly trigger on branches that matter. Experiment branches don't need CI until they become a PR.\n\n```yaml\non:\n  push:\n    branches: [main, 'feature/*']\n  pull_request:\n    branches: [main]\n```\n\n### 5. Job Splitting — Parallelize and Gate\nSplit long test suites into parallel jobs. Run fast unit tests on every push, slow integration tests only on PR merge.\n\n```yaml\njobs:\n  unit-tests:\n    runs-on: ubuntu-latest\n    # Fast, runs on every push\n  integration-tests:\n    runs-on: ubuntu-latest\n    if: github.event_name == 'pull_request'\n    needs: unit-tests\n    # Slow, only runs on PRs after unit tests pass\n```\n\n### 6. Batch Pushes — Fewer Triggers\nEach `git push` triggers a workflow run. Push once with all changes instead of five small pushes that each trigger a 15-minute run. Use `git rebase -i` to squash WIP commits before pushing, or batch work into deliberate push points."
+      },
+      {
+        "heading": "FitOps Context",
+        "content": "The FitOps test suite is the biggest minutes consumer: 15+ minutes per run with ESM/CJS compatibility issues inflating the test time. Applying path filters + caching + concurrency could cut individual runs to 5-8 minutes and avoid 50%+ of runs entirely. Estimated savings: 1,000+ minutes/month."
+      },
+      {
+        "heading": "Monitoring Usage",
+        "content": "Track minutes with the GitHub API:\n\n```bash\ngh api /orgs/{org}/settings/billing/actions  # org-level\ngh api /user/settings/billing/actions         # user-level\n```\n\nThe `/track-gha` skill in the Claude Code framework automates this — shows current month usage, per-repo breakdown, burn rate, and projected end-of-month total. The `/audit-gha` skill scans workflow files for specific waste patterns and recommends fixes."
+      },
+      {
+        "heading": "Advanced Techniques",
+        "content": "- **Reusable workflows**: Extract common CI patterns into shared workflow files. Call them from multiple repos to avoid duplicating configuration\n- **Matrix strategy with fail-fast**: Test across Node versions or OS variants in parallel, but stop all jobs if any one fails\n- **Self-hosted runners**: Run on your own hardware (homelab) for zero minutes cost. Tradeoff: you maintain the runner infrastructure\n- **Conditional steps**: Use `if:` conditions to skip expensive steps (deploy, E2E tests) on non-main branches"
+      },
+      {
+        "heading": "Apply It",
+        "content": "1. Add path filters to FitOps workflow — skip runs for doc/README changes\n2. Enable dependency caching for npm in all private repo workflows\n3. Add concurrency groups to prevent redundant runs\n4. Split FitOps tests: fast unit tests on every push, integration tests on PR only\n5. Run `/audit-gha` monthly to catch new waste patterns"
+      },
+      {
+        "heading": "Research Next Steps",
+        "content": "- [ ] Benchmark FitOps test run times before and after optimization\n- [ ] Evaluate self-hosted runner on lab-01 for zero-cost CI\n- [ ] Set up monthly `/track-gha` automated report via n8n\n- [ ] Test matrix fail-fast to reduce wasted parallel minutes"
+      }
+    ],
+    "related": [
+      "DevOps - Terraform IaC Basics",
+      "DevOps - n8n Workflow Automation",
+      "MOC - Homelab"
+    ],
+    "estimatedMinutes": 2,
+    "xpReward": 45
+  },
+  {
+    "slug": "devops-n8n-workflow-automation",
+    "title": "n8n Workflow Automation",
+    "domain": "DevOps",
+    "tags": [
+      "pod",
+      "devops",
+      "n8n",
+      "automation",
+      "workflows"
+    ],
+    "status": "queue",
+    "created": "2026-04-02",
+    "sections": [
+      {
+        "heading": "What It Is",
+        "content": "Open-source workflow automation platform with a visual node-based editor for connecting APIs, processing data, and triggering actions. Think Zapier or Make, but self-hosted — no per-execution pricing, full code access, and it runs on your own infrastructure. Every workflow is a directed graph of nodes that pass data from one step to the next."
+      },
+      {
+        "heading": "Core Concepts",
+        "content": "- **Workflows**: The complete automation — a graph of connected nodes with a trigger and one or more actions. Saved as JSON, version-controllable\n- **Nodes**: Individual steps in the workflow. Types include HTTP Request, Slack, Code (JavaScript), IF/Switch, Set, Merge, and hundreds of integrations\n- **Triggers**: What starts a workflow — a webhook (external event hits a URL), a cron schedule (run every hour), or a manual button click\n- **Credentials**: Stored API keys and OAuth tokens for connected services. Managed in n8n's credential store, encrypted at rest. Never hardcoded in workflow JSON\n- **Expressions**: Inline references to data from previous nodes using `{{ $json.field }}` syntax. How data flows between steps"
+      },
+      {
+        "heading": "Why n8n Over Zapier",
+        "content": "| Factor | n8n | Zapier |\n|--------|-----|--------|\n| Pricing | Self-hosted, free | Per-task pricing, expensive at scale |\n| Code access | Full JavaScript/Python code nodes | Limited code steps |\n| Hosting | Your server, your data | Cloud only |\n| Customization | Fork it, extend it, no limits | Locked to their platform |\n| Downside | You maintain the server and updates | They handle everything |\n\nFor a homelab setup with Claude Code integration, self-hosting is the clear winner — no execution limits and full control over the data pipeline."
+      },
+      {
+        "heading": "The Setup",
+        "content": "Running on the homelab with 3 workflows built so far. The sandbox environment is fixed and working. Remaining work: configure credentials for all connected services, UI tweaks for workflow organization, and set up a Cloudflare tunnel so external webhooks can reach the local n8n instance."
+      },
+      {
+        "heading": "Common Patterns",
+        "content": "### Webhook → Process → Notify\nReceive an external event → transform or classify the data → send a Slack message or create a GitHub issue. The bread-and-butter pattern for event-driven automation.\n\n### Cron → Fetch → Store\nOn a schedule → call an API (GitHub, weather, fitness tracker) → write results to a database, file, or vault note. Good for aggregation and daily summaries.\n\n### Event → Claude → Action\nReceive a trigger → call the Claude API with context for classification or generation → route the result based on Claude's output. This is how n8n bridges into AI-powered workflows — Slack message comes in, Claude classifies it, n8n routes it to the right destination.\n\n### Error → Catch → Alert\nEvery production workflow should have an Error Trigger node. When any node fails, the error trigger fires and sends a Slack alert with the error details. Without this, workflows fail silently."
+      },
+      {
+        "heading": "Integration with Claude Code",
+        "content": "n8n bridges the gap between the local Claude Code CLI framework and external event-driven automation. The CLI handles interactive development sessions; n8n handles what happens when you're not at the keyboard.\n\n- n8n triggers Claude API calls for classification, summarization, and generation\n- Results get posted to Slack channels, written to the Obsidian vault, or routed to GitHub\n- The `#inbox` and `#life` Slack channels feed into n8n workflows that classify and route content\n- Enables the full pipeline: external event → n8n → Claude → action → notification"
+      },
+      {
+        "heading": "Gotchas",
+        "content": "- **Credential management**: Store credentials in n8n's built-in credential store, not in the workflow JSON. If you export/share a workflow, credentials are stripped — this is by design\n- **Webhook security**: Always validate incoming webhook requests. Use header-based auth tokens or HMAC signatures. An open webhook URL is an open door\n- **Error handling**: Add an Error Trigger node to every production workflow. Silent failures are the worst kind of failures\n- **Tunnel for webhooks**: External services can't hit `localhost`. You need a Cloudflare tunnel or ngrok to expose n8n's webhook URLs to the internet. The tunnel setup is pending\n- **Execution data retention**: n8n stores execution history by default. On a homelab with limited storage, configure retention limits to avoid filling the disk"
+      },
+      {
+        "heading": "Apply It",
+        "content": "1. Configure credentials for Slack, GitHub, Claude API, and Cloudflare in the n8n credential store\n2. Set up Cloudflare tunnel so external webhooks can reach the local n8n instance\n3. Build the `#inbox` classifier workflow: Slack message → Claude classification → route to GitHub/queue/vault\n4. Add Error Trigger nodes to all 3 existing workflows"
+      },
+      {
+        "heading": "Research Next Steps",
+        "content": "- [ ] Complete credential setup for all connected services\n- [ ] Configure Cloudflare tunnel for external webhook access\n- [ ] Build the Slack #life → classify → Obsidian vault pipeline\n- [ ] Evaluate n8n's built-in AI nodes vs direct Claude API calls"
+      }
+    ],
+    "related": [
+      "DevOps - Terraform IaC Basics",
+      "AI - Claude Code Patterns",
+      "MOC - Homelab"
+    ],
+    "estimatedMinutes": 2,
+    "xpReward": 45
+  },
+  {
+    "slug": "devops-terraform-iac-basics",
+    "title": "Terraform IaC Basics",
+    "domain": "DevOps",
+    "tags": [
+      "pod",
+      "devops",
+      "terraform",
+      "iac",
+      "infrastructure"
+    ],
+    "status": "queue",
+    "created": "2026-04-02",
+    "sections": [
+      {
+        "heading": "What It Is",
+        "content": "Infrastructure as Code — define your servers, networks, DNS, and cloud resources in declarative configuration files instead of clicking through dashboards. Write what you want, run `terraform apply`, and Terraform creates it. Everything is version-controlled, reproducible, and reviewable in pull requests just like application code."
+      },
+      {
+        "heading": "Core Concepts",
+        "content": "- **Providers**: Plugins that talk to APIs — AWS, Cloudflare, Proxmox, Tailscale, etc. Each provider exposes resources you can manage\n- **Resources**: The things you create — a DNS record, a VM, a firewall rule. Each resource has a type and configuration block\n- **State**: `terraform.tfstate` tracks what Terraform has created. It maps your config to real infrastructure. This is the source of truth — never edit it manually\n- **Plan**: `terraform plan` previews what will change before you touch anything. Shows creates, updates, and destroys. Always review the plan before applying\n- **Modules**: Reusable groups of resources. Package common patterns (e.g., \"web server with DNS + firewall\") and call them with different variables"
+      },
+      {
+        "heading": "The Workflow",
+        "content": "```\nWrite .tf files → terraform init → terraform plan → terraform apply → terraform destroy\n```\n\n1. **`terraform init`** — Downloads provider plugins, initializes backend. Run once per project or when adding providers\n2. **`terraform plan`** — Compares your config against state, shows what would change. No side effects\n3. **`terraform apply`** — Executes the plan. Creates, updates, or destroys resources to match your config\n4. **`terraform destroy`** — Tears down everything Terraform manages. Use with caution — this is the nuclear option"
+      },
+      {
+        "heading": "HCL Syntax Basics",
+        "content": "Terraform uses HashiCorp Configuration Language. Declarative blocks, not imperative scripts.\n\n```hcl\n# Variables — parameterize your config\nvariable \"zone_id\" {\n  description = \"Cloudflare zone ID\"\n  type        = string\n}\n\n# Resources — the infrastructure you're creating\nresource \"cloudflare_record\" \"game\" {\n  zone_id = var.zone_id\n  name    = \"game-name\"\n  content = var.server_ip\n  type    = \"A\"\n  proxied = true\n}\n\n# Outputs — expose values after apply\noutput \"game_url\" {\n  value = \"https://${cloudflare_record.game.name}.mattatencio.com\"\n}\n\n# Data sources — read existing infrastructure\ndata \"cloudflare_zone\" \"main\" {\n  name = \"mattatencio.com\"\n}\n```"
+      },
+      {
+        "heading": "State Management",
+        "content": "- **Local state**: Single `terraform.tfstate` file on disk. Simple, works for solo homelab use. What you have now\n- **Remote state**: Store state in S3, Terraform Cloud, or a backend. Required for teams. Adds locking to prevent concurrent applies\n- **Rule**: State is the source of truth. If you change infrastructure manually (outside Terraform), state drifts and the next plan will try to \"fix\" things back"
+      },
+      {
+        "heading": "Homelab Application",
+        "content": "The homelab monorepo uses Terraform for Cloudflare DNS, Proxmox VMs, and eventually Tailscale networking. The IaC approach means any device can be rebuilt from config — no more \"what did I click to set that up?\" The 6 kids' games needing DNS records are a perfect first real Terraform apply: one module, six records, one command."
+      },
+      {
+        "heading": "Gotchas",
+        "content": "- **State drift**: Someone (or you) changes something manually outside Terraform. Next plan shows unexpected diffs. Fix: always change through Terraform, or run `terraform import` to adopt existing resources\n- **Secret management**: Never put API keys or tokens in `.tf` files. Use `TF_VAR_*` environment variables, `.tfvars` files (gitignored), or a secret manager\n- **Blast radius**: `terraform destroy` kills everything in the state. Use `-target` to scope destructive operations, or split infrastructure into separate state files per environment\n- **Provider version pinning**: Lock provider versions in `required_providers` to avoid breaking changes on `terraform init`"
+      },
+      {
+        "heading": "Apply It",
+        "content": "1. Set up Cloudflare DNS records for the 6 kids' games using a single Terraform module\n2. Import existing Proxmox VMs into state with `terraform import`\n3. Add Tailscale ACL management as Terraform resources\n4. Store secrets in environment variables, never in committed `.tf` files"
+      },
+      {
+        "heading": "Research Next Steps",
+        "content": "- [ ] Run first real `terraform apply` for Cloudflare DNS records\n- [ ] Explore Proxmox provider for VM lifecycle management\n- [ ] Evaluate remote state options for homelab (S3-compatible on nextcloud?)\n- [ ] Build a reusable module for \"game deployment\" (DNS + Vercel + monitoring)"
+      }
+    ],
+    "related": [
+      "DevOps - GitHub Actions Optimization",
+      "MOC - Homelab"
     ],
     "estimatedMinutes": 2,
     "xpReward": 45
@@ -840,6 +1834,61 @@ export const pods: Pod[] = [
     "xpReward": 45
   },
   {
+    "slug": "ml-bias-variance-tradeoff",
+    "title": "ML - Bias-Variance Tradeoff",
+    "domain": "ML Models",
+    "tags": [
+      "pod",
+      "ml",
+      "fundamentals",
+      "bias-variance"
+    ],
+    "status": "queue",
+    "created": "2026-04-02",
+    "sections": [
+      {
+        "heading": "What It Is",
+        "content": "The fundamental tension in ML: simple models underfit (high bias), complex models overfit (high variance). Every model sits somewhere on this spectrum. Understanding where your model falls is the first step to improving it."
+      },
+      {
+        "heading": "The Decomposition",
+        "content": "Total prediction error breaks into three components:\n```\nTotal Error = Bias² + Variance + Irreducible Noise\n```\n- **Bias²**: Error from wrong assumptions in the model (too simple to capture the pattern)\n- **Variance**: Error from sensitivity to fluctuations in training data (memorizes noise)\n- **Irreducible Noise**: Random error inherent in the data — you can't fix this no matter what\n\nYou can only control the first two. Reducing one typically increases the other."
+      },
+      {
+        "heading": "High Bias (Underfitting)",
+        "content": "Model is too simple to capture the underlying pattern.\n\n**Symptoms:**\n- Bad training accuracy\n- Bad test accuracy\n- Train and test performance are similar (both bad)\n\n**Fixes:**\n- Add more features or engineer better ones\n- Use a more complex model (tree ensemble instead of linear)\n- Reduce regularization strength\n- Train longer (for neural nets)"
+      },
+      {
+        "heading": "High Variance (Overfitting)",
+        "content": "Model memorizes training noise instead of learning the real signal.\n\n**Symptoms:**\n- Great training accuracy\n- Bad test accuracy\n- Large gap between train and test performance\n\n**Fixes:**\n- Get more training data\n- Add regularization (ML - Regularization)\n- Use a simpler model\n- Dropout (for neural nets)\n- Ensemble methods (bagging, random forests)"
+      },
+      {
+        "heading": "The Sweet Spot",
+        "content": "Enough complexity to capture real patterns, not so much that it learns noise. This is what hyperparameter tuning is really about — finding the right position on the bias-variance curve.\n\n```\nError\n  │\n  │ \\                    /\n  │  \\   Total Error   /\n  │   \\              /\n  │    \\           /\n  │     \\_______/    ← Sweet spot\n  │      ·     ·\n  │  Bias²     Variance\n  │   ↘           ↗\n  └──────────────────────── Model Complexity →\n       Simple              Complex\n```"
+      },
+      {
+        "heading": "Signal Forge Connection",
+        "content": "The XGBoost config in Signal Forge tells a bias-variance story:\n- `max_depth=4` — shallow trees = variance reduction\n- `learning_rate=0.05` — slow learning = implicit regularization\n- `subsample=0.8` — row sampling = reduces variance\n- `colsample_bytree=0.8` — feature sampling = reduces variance\n\nThe **95% train / 54% test accuracy gap** = classic high-variance signal. The model has memorized the training set. The shallow trees + low learning rate are already trading bias for lower variance, but the gap says more is needed (more data, feature pruning, or stronger regularization)."
+      },
+      {
+        "heading": "Practical Diagnostic",
+        "content": "Plot train vs test accuracy as you increase model complexity (e.g., tree depth):\n1. Both improve → still underfitting, increase complexity\n2. Train improves but test plateaus → approaching the sweet spot\n3. Train improves but test degrades → overfitting, dial it back\n\nThis is why you always need a validation set separate from your test set — you tune on validation, evaluate on test."
+      },
+      {
+        "heading": "Research Next Steps",
+        "content": "- [ ] Plot learning curves for Signal Forge XGBoost (train vs test by n_estimators)\n- [ ] Experiment with max_depth 3-6 and log the bias-variance tradeoff\n- [ ] Read ESL Chapter 7 (model assessment and selection)"
+      }
+    ],
+    "related": [
+      "ML - Regularization",
+      "ML - XGBoost for Financial Prediction",
+      "ML - Walk-Forward Validation",
+      "MOC - AI Engineering"
+    ],
+    "estimatedMinutes": 2,
+    "xpReward": 45
+  },
+  {
     "slug": "ml-calibration-and-ece",
     "title": "ML - Calibration and ECE",
     "domain": "ML Models",
@@ -931,6 +1980,194 @@ export const pods: Pod[] = [
       "ML - Walk-Forward Validation",
       "Quant - Time-Series Momentum",
       "MOC - Signal Forge Models"
+    ],
+    "estimatedMinutes": 2,
+    "xpReward": 45
+  },
+  {
+    "slug": "ml-neural-network-basics",
+    "title": "ML - Neural Network Basics",
+    "domain": "ML Models",
+    "tags": [
+      "pod",
+      "ml",
+      "fundamentals",
+      "neural-networks",
+      "deep-learning"
+    ],
+    "status": "queue",
+    "created": "2026-04-02",
+    "sections": [
+      {
+        "heading": "What It Is",
+        "content": "Function approximators built from layers of connected nodes (neurons). Each neuron does three things: multiply inputs by weights, add a bias, apply an activation function. Stack layers for hierarchical feature learning — early layers find simple patterns, later layers compose them into complex ones."
+      },
+      {
+        "heading": "How a Single Neuron Works",
+        "content": "```\ninputs: [x1, x2, x3]\nweights: [w1, w2, w3]\nbias: b\n\noutput = activation(w1*x1 + w2*x2 + w3*x3 + b)\n```\nThat's it. A neuron is just a weighted sum passed through a nonlinear function. The power comes from combining thousands of these."
+      },
+      {
+        "heading": "Network Architecture",
+        "content": "```\nInput Layer      Hidden Layer      Output Layer\n  [x1] ──────┐\n              ├──→ [h1] ──┐\n  [x2] ──────┤            ├──→ [y]\n              ├──→ [h2] ──┘\n  [x3] ──────┘\n\n  Each arrow = weight\n  Each node = weighted sum + bias + activation\n```"
+      },
+      {
+        "heading": "Forward Pass",
+        "content": "Input flows through the network layer by layer:\n1. Input layer receives raw features\n2. Hidden layer(s) transform features: `h = activation(W × input + b)`\n3. Output layer produces prediction\n4. Each layer learns increasingly abstract representations"
+      },
+      {
+        "heading": "Backpropagation",
+        "content": "How the network learns — just the chain rule from calculus applied repeatedly:\n1. **Compute loss** — how wrong is the output? (MSE for regression, cross-entropy for classification)\n2. **Compute gradients** — for each weight, how much did it contribute to the error?\n3. **Update weights** — nudge each weight in the direction that reduces loss\n4. **Repeat** — thousands of times across the training data"
+      },
+      {
+        "heading": "Key Components",
+        "content": "### Activation Functions\n| Function | Formula | Output Range | Use For |\n|----------|---------|-------------|---------|\n| ReLU | max(0, x) | [0, inf) | Default hidden layer choice |\n| Sigmoid | 1/(1+e^-x) | (0, 1) | Binary classification output |\n| Softmax | e^xi / Σe^xj | (0, 1), sums to 1 | Multi-class output |\n| Tanh | (e^x - e^-x)/(e^x + e^-x) | (-1, 1) | When negative values matter |\n\n**Why ReLU dominates:** Fast to compute, avoids vanishing gradient problem, works well in practice. Start here.\n\n### Loss Functions\n- **MSE (Mean Squared Error):** Regression tasks — predicting a number\n- **Cross-entropy:** Classification tasks — predicting a category\n- **Binary cross-entropy:** Two classes (up/down, buy/sell)\n\n### Optimizers\n- **SGD:** Simple gradient descent. Reliable but slow.\n- **Adam:** Adaptive learning rate per parameter. Default choice for most tasks.\n- **Learning rate:** Too high = unstable training. Too low = painfully slow. Typical: 1e-3 to 1e-4 for Adam."
+      },
+      {
+        "heading": "When to Use Neural Nets vs XGBoost",
+        "content": "| Scenario | Winner | Why |\n|----------|--------|-----|\n| Tabular/structured data | XGBoost | Handles feature interactions natively |\n| Small datasets (<10K) | XGBoost | Neural nets need more data |\n| Images, text, audio | Neural nets | Learn hierarchical representations |\n| Massive datasets (>100K) | Neural nets | Scale better with more data |\n| Interpretability needed | XGBoost | Feature importance is straightforward |\n\nSignal Forge uses XGBoost because it's tabular financial data with ~3K samples. Neural nets would overfit."
+      },
+      {
+        "heading": "The Deep Learning Stack",
+        "content": "- **PyTorch:** Current standard for research and learning. More Pythonic, easier to debug.\n- **TensorFlow/Keras:** Production deployment, mobile/edge. Larger ecosystem.\n- **JAX:** Google's newer framework. Functional style, great for research.\n\nFor the SE-to-AI roadmap: start with PyTorch. It's what you'll encounter in papers, tutorials, and most AI engineering roles."
+      },
+      {
+        "heading": "Connection to Transformers",
+        "content": "Neural nets are the building block. Transformers (ML - Transformers & Attention) are a specific architecture built from them — using self-attention layers instead of simple dense layers. Understanding this pod is prerequisite for understanding how LLMs work."
+      },
+      {
+        "heading": "Research Next Steps",
+        "content": "- [ ] Build a simple 2-layer network in PyTorch (MNIST digit classification)\n- [ ] Visualize what hidden layers learn (activation maps)\n- [ ] Compare neural net vs XGBoost on Signal Forge data\n- [ ] Read 3Blue1Brown neural network series (visual intuition)"
+      }
+    ],
+    "related": [
+      "ML - Bias-Variance Tradeoff",
+      "ML - Regularization",
+      "ML - Transformers & Attention",
+      "MOC - AI Engineering"
+    ],
+    "estimatedMinutes": 2,
+    "xpReward": 45
+  },
+  {
+    "slug": "ml-regularization",
+    "title": "ML - Regularization",
+    "domain": "ML Models",
+    "tags": [
+      "pod",
+      "ml",
+      "fundamentals",
+      "regularization"
+    ],
+    "status": "queue",
+    "created": "2026-04-02",
+    "sections": [
+      {
+        "heading": "What It Is",
+        "content": "Techniques that constrain model complexity to reduce overfitting. The mathematical implementation of \"keep it simple.\" Without regularization, models are free to fit arbitrarily complex patterns — including noise."
+      },
+      {
+        "heading": "L1 Regularization (Lasso)",
+        "content": "Adds the sum of absolute weight values to the loss function:\n```\nLoss = Original Loss + λ × Σ|weights|\n```\n**Effect:** Drives some weights to exactly zero — automatic feature selection.\n**Use when:** You suspect many features are irrelevant and want a sparse model.\n**Typical λ:** 1e-4 to 1e-1 (tune via cross-validation)."
+      },
+      {
+        "heading": "L2 Regularization (Ridge)",
+        "content": "Adds the sum of squared weight values to the loss function:\n```\nLoss = Original Loss + λ × Σ(weights²)\n```\n**Effect:** Shrinks all weights toward zero but none to exactly zero — smooth, stable predictions.\n**Use when:** Default regularization choice. Good when all features may contribute.\n**Typical λ:** 1e-4 to 1e-1."
+      },
+      {
+        "heading": "Elastic Net",
+        "content": "Combines L1 and L2 with a mixing parameter α:\n```\nLoss = Original Loss + λ × [α × Σ|weights| + (1-α) × Σ(weights²)]\n```\nBest of both worlds: feature selection (L1) AND stability (L2). Use when you want sparse models but have correlated features (where pure L1 picks arbitrarily)."
+      },
+      {
+        "heading": "Comparison Table",
+        "content": "| Technique | What It Does | Best For | Hyperparameters |\n|-----------|-------------|----------|-----------------|\n| L1 (Lasso) | Zeros out weak features | Feature selection | λ: 1e-4 to 1e-1 |\n| L2 (Ridge) | Shrinks all weights | General stability | λ: 1e-4 to 1e-1 |\n| Elastic Net | L1 + L2 combined | Correlated features | λ + α (mix ratio) |\n| Dropout | Zeros random neurons | Neural networks | Rate: 0.1 to 0.5 |\n| Early Stopping | Stops at best val loss | Everything | Patience: 5-20 epochs |"
+      },
+      {
+        "heading": "Dropout (Neural Networks)",
+        "content": "Randomly zero out neurons during training with probability p. Forces the network to not rely on any single neuron — builds redundancy.\n- **Typical rates:** 0.1-0.3 for input layers, 0.3-0.5 for hidden layers\n- **At inference:** All neurons active, weights scaled by (1-p)\n- Think of it as training an ensemble of sub-networks"
+      },
+      {
+        "heading": "Early Stopping",
+        "content": "Stop training when validation loss starts increasing. Simple, effective, and nearly free to implement.\n- XGBoost supports this natively (`early_stopping_rounds`)\n- Set patience high enough to avoid stopping on noise (5-20 rounds)\n- Always use this — there's no downside"
+      },
+      {
+        "heading": "Signal Forge XGBoost Regularization",
+        "content": "Every hyperparameter in Signal Forge's config is a regularization technique:\n- `max_depth=4` — limits tree complexity (prevents memorizing edge cases)\n- `learning_rate=0.05` — slow learning = each tree contributes less = implicit regularization\n- `subsample=0.8` — train each tree on 80% of rows (like dropout for trees)\n- `colsample_bytree=0.8` — each tree sees 80% of features (reduces feature co-adaptation)\n- `n_estimators` with early stopping — stops adding trees when validation plateaus"
+      },
+      {
+        "heading": "How to Choose",
+        "content": "1. **Start with L2** — safe default, rarely hurts\n2. **Add L1** if you need feature selection or suspect irrelevant features\n3. **Use dropout** for neural networks (0.2-0.3 is a safe starting point)\n4. **Always use early stopping** — no reason not to\n5. **Tune λ on validation set** — never on test set"
+      },
+      {
+        "heading": "Research Next Steps",
+        "content": "- [ ] Compare Signal Forge accuracy with regularization off vs current settings\n- [ ] Test L1 feature selection on Signal Forge feature set — which features get zeroed?\n- [ ] Read about Bayesian regularization (priors as regularization)"
+      }
+    ],
+    "related": [
+      "ML - Bias-Variance Tradeoff",
+      "ML - XGBoost for Financial Prediction",
+      "ML - Neural Network Basics",
+      "MOC - AI Engineering"
+    ],
+    "estimatedMinutes": 2,
+    "xpReward": 45
+  },
+  {
+    "slug": "ml-transformers-attention",
+    "title": "ML - Transformers & Attention",
+    "domain": "ML Models",
+    "tags": [
+      "pod",
+      "ml",
+      "fundamentals",
+      "transformers",
+      "attention",
+      "llm"
+    ],
+    "status": "queue",
+    "created": "2026-04-02",
+    "sections": [
+      {
+        "heading": "What It Is",
+        "content": "The architecture behind every modern LLM (GPT, Claude, Llama). Introduced in \"Attention Is All You Need\" (Vaswani et al., 2017). Replaced RNNs and LSTMs because attention allows parallel processing of sequences and captures long-range dependencies that recurrent models struggle with."
+      },
+      {
+        "heading": "The Core Idea: Self-Attention",
+        "content": "For each token in a sequence, compute how much it should \"attend to\" every other token. This creates a weighted combination of all tokens' representations.\n\nThis is how Claude \"understands\" that a pronoun 500 tokens later refers back to a specific noun — attention creates direct connections between any two positions regardless of distance."
+      },
+      {
+        "heading": "The Math (Simplified)",
+        "content": "Each token gets projected into three vectors:\n```\nQ = input x W_query    (what am I looking for?)\nK = input x W_key      (what do I contain?)\nV = input x W_value    (what should I output?)\n\nAttention(Q, K, V) = softmax(Q x K^T / sqrt(d_k)) x V\n```\n\nStep by step:\n1. **Q x K^T** — dot product between query and all keys = similarity scores\n2. **/ sqrt(d_k)** — scale down to prevent softmax saturation\n3. **softmax** — convert scores to probabilities (sum to 1)\n4. **x V** — weighted sum of values = context-aware representation"
+      },
+      {
+        "heading": "Multi-Head Attention",
+        "content": "Run attention multiple times in parallel with different learned weight matrices:\n```\nHead 1: Attention(Q*W1_q, K*W1_k, V*W1_v)  → syntax patterns\nHead 2: Attention(Q*W2_q, K*W2_k, V*W2_v)  → semantic meaning\nHead 3: Attention(Q*W3_q, K*W3_k, V*W3_v)  → coreference\n...\nHead N: Attention(Q*Wn_q, K*Wn_k, V*Wn_v)  → other patterns\n\nOutput = Concat(Head1, ..., HeadN) x W_output\n```\nEach head learns different relationship types. The model discovers which relationships matter during training."
+      },
+      {
+        "heading": "Transformer Block",
+        "content": "```\nInput\n  │\n  ├──→ Multi-Head Self-Attention\n  │         │\n  ├─────── Add & Layer Normalize (residual connection)\n  │         │\n  ├──→ Feed-Forward Network (2 dense layers + ReLU)\n  │         │\n  └─────── Add & Layer Normalize (residual connection)\n              │\n           Output\n```\nStack 12-96+ of these blocks. Each block refines the representation. Residual connections (the \"Add\" step) allow gradients to flow through deep networks without vanishing."
+      },
+      {
+        "heading": "Encoder vs Decoder",
+        "content": "| Architecture | Direction | Examples | Best For |\n|-------------|-----------|----------|----------|\n| Encoder | Bidirectional (sees all tokens) | BERT, RoBERTa | Understanding, classification, embeddings |\n| Decoder | Autoregressive (left-to-right) | GPT, Claude, Llama | Text generation, one token at a time |\n| Encoder-Decoder | Both | T5, BART | Translation, summarization |\n\nClaude is a decoder model — it generates tokens left to right, each token attending only to tokens that came before it (causal masking)."
+      },
+      {
+        "heading": "Why This Matters for You",
+        "content": "Understanding transformers demystifies what Claude is doing under the hood:\n- **Prompt engineering** makes more sense — token order matters because of positional encoding\n- **Context window limits** exist because attention is O(n^2) in sequence length\n- **Lost in the middle** phenomenon — attention scores can dilute across very long contexts\n- **Temperature** controls the softmax distribution over next-token predictions\n- **Token-based pricing** maps directly to the compute cost of running attention across your input"
+      },
+      {
+        "heading": "Scale and Cost",
+        "content": "Modern LLMs are transformers scaled up massively:\n- Billions of parameters across dozens of transformer blocks\n- Each parameter = one floating-point number that was tuned during training\n- More parameters + more training data = better understanding\n- This is why AI - Model Right-Sizing matters — you're paying for all those attention computations on every token"
+      },
+      {
+        "heading": "Research Next Steps",
+        "content": "- [ ] Read \"Attention Is All You Need\" (focus on sections 3.1-3.3)\n- [ ] Watch 3Blue1Brown transformer visualization\n- [ ] Implement single-head attention from scratch in PyTorch\n- [ ] Explore attention visualization tools (BertViz) to see what heads learn\n- [ ] Read about Flash Attention and efficiency improvements"
+      }
+    ],
+    "related": [
+      "ML - Neural Network Basics",
+      "Claude - Prompt Engineering Patterns",
+      "AI - Model Right-Sizing",
+      "MOC - AI Engineering"
     ],
     "estimatedMinutes": 2,
     "xpReward": 45
@@ -1139,6 +2376,55 @@ export const pods: Pod[] = [
     "related": [
       "Content Dashboard - Claude Code Build",
       "MOC - Tools & Platforms"
+    ],
+    "estimatedMinutes": 2,
+    "xpReward": 45
+  },
+  {
+    "slug": "quant-backtesting-pitfalls",
+    "title": "Backtesting Pitfalls",
+    "domain": "Quant & Trading",
+    "tags": [
+      "pod",
+      "quant",
+      "trading",
+      "backtesting",
+      "pitfalls"
+    ],
+    "status": "queue",
+    "created": "2026-04-02",
+    "sections": [
+      {
+        "heading": "What It Is",
+        "content": "The comprehensive catalog of ways backtests produce overly optimistic results. Every quant strategy starts with a backtest, and every backtest lies — the question is how much. Knowing these pitfalls is arguably more important than knowing how to build the backtest itself."
+      },
+      {
+        "heading": "The Big Five",
+        "content": "### 1. Lookahead Bias\nUsing information that wasn't available at decision time. Example: using today's closing price to make a \"morning\" trading decision. Subtler: computing a feature using the full dataset (e.g., normalizing with global min/max instead of expanding-window min/max).\n\nSignal Forge guards against this with strict walk-forward validation and feature engineering rules — but you can still leak through improperly windowed features.\n\n### 2. Survivorship Bias\nOnly backtesting on assets that still exist today. Delisted coins, bankrupt companies, and failed tokens disappear from historical data. This makes everything look better because you never see the catastrophic losses.\n\nExample: backtesting on \"top 100 coins\" using today's top 100 rather than the historical top 100 at each point in time. LUNA was top 10 before it went to zero.\n\n### 3. Overfitting to the Past\nOptimizing parameters until the backtest looks great on historical data. If you test 1,000 parameter combinations and pick the best one, you've curve-fitted to noise. The strategy \"memorized\" the past rather than learning generalizable patterns.\n\nSolutions: walk-forward validation, out-of-sample holdout (never touch until final evaluation), cross-validation across time periods.\n\n### 4. Transaction Cost Underestimation\nAssuming lower costs than reality. Signal Forge uses 0.24% round-trip — some backtests assume 0% or use \"maker\" fees when execution would actually be \"taker.\"\n```\nSmall difference × many trades = huge impact\n\nStrategy with 500 trades/year:\n  At 0.00% cost: +15% annual return\n  At 0.10% cost: +10% annual return\n  At 0.24% cost: +3% annual return  ← reality\n```\n\n### 5. Regime Change\nPast patterns don't repeat in new market conditions. A strategy that worked in the 2020-2025 crypto bull run may fail in a regulatory crackdown, bear market, or entirely new macro environment.\n\nSolutions: test across multiple regimes (bull, bear, sideways), use regime detection features, avoid strategies that only worked in one regime."
+      },
+      {
+        "heading": "The Multiple Testing Problem",
+        "content": "If you test 20 strategies and one shows p < 0.05 significance, that result is expected by random chance alone. The more strategies you test, the more likely you find a \"significant\" result that's just noise.\n\n**Bonferroni correction**: divide your significance threshold by the number of tests. Testing 20 strategies? Your threshold is 0.05/20 = 0.0025 per strategy."
+      },
+      {
+        "heading": "The Backtest-to-Live Gap",
+        "content": "Backtests always look better than live trading. Always. Expect 30-50% performance degradation going live.\n```\nBacktest Sharpe 2.0 → Live Sharpe ~1.0-1.4\nBacktest Sharpe 1.0 → Live Sharpe ~0.5-0.7\nBacktest Sharpe 0.5 → Live Sharpe ~0.0-0.3 (probably not worth trading)\n```\nIf your backtest isn't impressive, your live results will be worse."
+      },
+      {
+        "heading": "Signal Forge's Current Defenses",
+        "content": "- **Walk-forward validation** — prevents lookahead bias and overfitting (pitfalls 1 + 3)\n- **Explicit cost modeling at 0.24%** — prevents cost underestimation (pitfall 4)\n- **Baseline comparison** — detects overfitting by comparing to naive strategies\n- **Regime-aware features** — partially addresses regime change (pitfall 5)\n- **Still vulnerable to**: survivorship bias (testing on coins that still exist) and the multiple testing problem (testing many feature combinations)"
+      },
+      {
+        "heading": "Research Next Steps",
+        "content": "- [ ] Audit Signal Forge features for any remaining lookahead leakage\n- [ ] Build a \"delisted coins\" dataset to test survivorship bias impact\n- [ ] Implement Bonferroni-corrected significance testing for strategy comparison\n- [ ] Compare backtest vs paper-trading results to measure the live gap"
+      }
+    ],
+    "related": [
+      "ML - Walk-Forward Validation",
+      "ML - Baseline Models",
+      "Quant - Transaction Costs",
+      "Trading - Market Regime Detection",
+      "MOC - Quant & Trading"
     ],
     "estimatedMinutes": 2,
     "xpReward": 45
@@ -1397,6 +2683,176 @@ export const pods: Pod[] = [
     "xpReward": 45
   },
   {
+    "slug": "quant-mean-reversion-strategies",
+    "title": "Mean Reversion Strategies",
+    "domain": "Quant & Trading",
+    "tags": [
+      "pod",
+      "quant",
+      "trading",
+      "mean-reversion",
+      "strategies"
+    ],
+    "status": "queue",
+    "created": "2026-04-02",
+    "sections": [
+      {
+        "heading": "What It Is",
+        "content": "Strategies that bet prices will return to their historical average. When an asset moves \"too far\" from its mean, trade against the move expecting a revert. The direct counterpoint to momentum/trend-following — where momentum says \"the trend is your friend,\" mean reversion says \"what goes up must come down.\""
+      },
+      {
+        "heading": "The Theory",
+        "content": "Many financial time series are mean-reverting at certain timescales. A stock that drops 20% on no news is likely oversold. The bid-ask spread itself is a mean-reverting process. Statistically, this is the concept of stationarity — a stationary series always pulls back toward its long-run mean."
+      },
+      {
+        "heading": "Types of Mean Reversion",
+        "content": "### Statistical (Z-Score)\nTrade when the z-score of price vs its rolling mean exceeds a threshold. Buy when |z| > 2 below the mean, exit when z approaches 0.\n\n```python\nz_score = (price - price.rolling(20).mean()) / price.rolling(20).std()\nsignal = -z_score  # buy when below mean, sell when above\n```\n\n### Bollinger Band\nPrice crosses below the lower band = buy signal, above the upper band = sell signal. Already implemented in Signal Forge as features (`bb_upper`, `bb_lower`). The bands dynamically adjust to volatility, making them adaptive.\n\n### RSI-Based\nRSI < 30 = oversold (buy), RSI > 70 = overbought (sell). Also present in Signal Forge's feature set (`rsi_14`). Simple and widely used, but generates many false signals in trending markets.\n\n### Pairs / Cointegration\nThe spread between two cointegrated assets mean-reverts even when the individual assets don't. Classic example: Coca-Cola and Pepsi. In crypto: BTC/ETH ratio. See Quant - Relative Value Spread."
+      },
+      {
+        "heading": "When It Works vs When It Fails",
+        "content": "- **Works**: Range-bound/choppy markets, high-volatility environments where price overshoots, liquid markets with tight spreads\n- **Fails**: Strong directional trends, structural breaks (regulation, delistings), low-liquidity assets where \"oversold\" means \"dying\"\n\nThis is the regime detection connection — use momentum strategies in trending regimes and mean reversion in range-bound regimes."
+      },
+      {
+        "heading": "The Timescale Matters",
+        "content": "```\nIntraday / seconds-minutes  → Mean-reverting (microstructure noise)\nShort-term / days-weeks     → Mixed (news-driven, noisy)\nMedium-term / 1-12 months   → Momentum (trends persist)\nLong-term / 3-5 years       → Mean-reverting (value/fundamentals)\n```\nChoosing the wrong timescale for your strategy type is a common mistake."
+      },
+      {
+        "heading": "Signal Forge Connection",
+        "content": "RSI and Bollinger Bands are already features in the model. The ML model implicitly learns some mean-reversion patterns when these features correlate with future returns. Potential improvements:\n- Add explicit z-score features at multiple lookback windows\n- Add spread features for pairs (BTC/ETH ratio z-score)\n- Combine with regime detection to toggle mean-reversion features on/off"
+      },
+      {
+        "heading": "Danger",
+        "content": "Mean reversion bets against the trend. If the trend is real (not noise), you lose — and you add to losers as the move continues. \"The market can stay irrational longer than you can stay solvent.\" Always pair mean reversion with stop losses and position sizing."
+      },
+      {
+        "heading": "Research Next Steps",
+        "content": "- [ ] Compare z-score vs Bollinger vs RSI signal quality on Signal Forge's BTC data\n- [ ] Test mean-reversion signals filtered by regime (only trade in range-bound regimes)\n- [ ] Explore pairs trading on crypto (BTC/ETH, SOL/ETH) for cointegration\n- [ ] Backtest combined momentum + mean-reversion ensemble"
+      }
+    ],
+    "related": [
+      "Quant - Time-Series Momentum",
+      "Quant - Relative Value Spread",
+      "Trading - Market Regime Detection",
+      "ML - Feature Engineering for Crypto",
+      "MOC - Quant & Trading"
+    ],
+    "estimatedMinutes": 2,
+    "xpReward": 45
+  },
+  {
+    "slug": "quant-order-book-microstructure",
+    "title": "Order Book Microstructure",
+    "domain": "Quant & Trading",
+    "tags": [
+      "pod",
+      "quant",
+      "trading",
+      "microstructure",
+      "order-book"
+    ],
+    "status": "queue",
+    "created": "2026-04-02",
+    "sections": [
+      {
+        "heading": "What It Is",
+        "content": "The study of how orders interact to form prices. The order book is the real-time queue of buy and sell orders at different price levels. Understanding it explains slippage, spread, and why large orders move prices — the mechanics underneath every trade Signal Forge generates."
+      },
+      {
+        "heading": "Order Book Anatomy",
+        "content": "```\nASKS (sell orders):              BIDS (buy orders):\n$101.50  |  50 BTC               $100.50  |  30 BTC\n$101.00  |  120 BTC  ← best ask  $100.00  |  200 BTC ← best bid\n                                  $99.50   |  80 BTC\n\nSpread    = $101.00 - $100.00 = $1.00 (0.1%)\nMid-price = $100.50\n```\nThe best bid and best ask define the \"top of book.\" Everything else is the depth."
+      },
+      {
+        "heading": "Key Concepts",
+        "content": "### Bid-Ask Spread\nThe cost of immediacy. Market orders \"cross the spread\" — you pay more to buy and receive less to sell. Tighter spread = more liquid market. BTC/USDT on Binance: ~0.01%. Small altcoins: 0.5-2%.\n\n### Depth\nVolume available at each price level. Deep book = your order fills without moving the price. Thin book = your order eats through multiple levels, causing slippage. Always check depth before sizing a trade.\n\n### Market Impact\nYour buy order consumes ask-side liquidity. If you buy 200 BTC and only 120 sit at $101.00, the remaining 80 fill at $101.50 or higher. This IS slippage — the difference between expected and actual fill price.\n\n### Maker vs Taker\n- **Maker**: Limit orders that add liquidity to the book. Lower fees (often 0.02-0.04%).\n- **Taker**: Market orders that remove liquidity from the book. Higher fees (often 0.04-0.10%).\n- Fee difference matters at scale — a high-frequency strategy must be maker-dominant to survive."
+      },
+      {
+        "heading": "Order Types",
+        "content": "| Type | Behavior | When to Use |\n|------|----------|-------------|\n| Market | Instant fill at best available price | Need immediate execution |\n| Limit | Set your price, wait for fill | Price-sensitive, willing to wait |\n| Stop | Triggers at price, becomes market | Stop losses, breakout entries |\n| Stop-Limit | Triggers at price, becomes limit | Controlled stop losses |"
+      },
+      {
+        "heading": "Why It Matters for Signal Forge",
+        "content": "Order book depth determines realistic fill prices. The Transaction Costs pod uses a 0.02% slippage estimate — this is derived from order book depth analysis on major pairs. For BTC/USDT on Binance: very deep, low slippage. For small altcoins: thin book, high slippage, potentially making the strategy unprofitable."
+      },
+      {
+        "heading": "Order Flow Imbalance",
+        "content": "The ratio of buy vs sell pressure at the top of book is a leading indicator of short-term price direction. When bids are stacking up faster than asks, price tends to move up in the next few seconds/minutes.\n```\nimbalance = (bid_volume - ask_volume) / (bid_volume + ask_volume)\n# +1 = all buy pressure, -1 = all sell pressure\n```\nThis is a feature currently missing from Signal Forge's feature set — adding it would capture microstructure alpha."
+      },
+      {
+        "heading": "Data Sources",
+        "content": "- **Binance WebSocket API** — free, real-time L2 order book snapshots and diffs\n- **Kaiko** — professional-grade historical order book data, expensive but complete\n- **CoinGecko** — aggregated market data, delayed, good for overview not microstructure\n- **CCXT** — unified Python library for accessing order books across 100+ exchanges"
+      },
+      {
+        "heading": "Research Next Steps",
+        "content": "- [ ] Capture L2 order book snapshots for BTC/USDT via Binance WebSocket\n- [ ] Compute order flow imbalance and test as a Signal Forge feature\n- [ ] Measure actual slippage on recent trades vs the 0.02% estimate\n- [ ] Analyze depth patterns before large price moves (does depth thin before dumps?)"
+      }
+    ],
+    "related": [
+      "Quant - Transaction Costs",
+      "Trading - Execution Algorithms",
+      "ML - Feature Engineering for Crypto",
+      "MOC - Quant & Trading"
+    ],
+    "estimatedMinutes": 2,
+    "xpReward": 45
+  },
+  {
+    "slug": "quant-portfolio-optimization",
+    "title": "Portfolio Optimization",
+    "domain": "Quant & Trading",
+    "tags": [
+      "pod",
+      "quant",
+      "trading",
+      "portfolio-optimization",
+      "markowitz"
+    ],
+    "status": "queue",
+    "created": "2026-04-02",
+    "sections": [
+      {
+        "heading": "What It Is",
+        "content": "Mathematical frameworks for combining multiple assets or strategies into a portfolio that maximizes return for a given risk level (or minimizes risk for a given return). The bridge from \"I have good signals\" to \"I have a good portfolio.\" Individual alpha means nothing if your portfolio construction destroys it through poor diversification or correlated bets."
+      },
+      {
+        "heading": "Markowitz Mean-Variance Optimization (1952)",
+        "content": "The original framework. Maximize expected return minus a risk penalty across all possible weight combinations.\n\n**Objective**: maximize `E[return] - λ × Var[return]`\n\n**Inputs**: expected returns vector, covariance matrix of returns\n**Output**: the \"efficient frontier\" — the set of portfolios offering the best risk/return tradeoff\n\n```\nExpected Return ↑\n       |        * ← max Sharpe portfolio\n       |      *\n       |    *  ← efficient frontier\n       |   *\n       |  *\n       | *\n       +————————————→ Risk (Std Dev)\n```\n\n**The fatal flaw**: Extremely sensitive to estimated inputs. Small errors in expected returns produce wildly different \"optimal\" portfolios. Garbage in, garbage out. In practice, Markowitz portfolios are unstable and often concentrate in a few assets."
+      },
+      {
+        "heading": "Black-Litterman Model (1992)",
+        "content": "The fix for Markowitz. Start from market equilibrium weights (what the market \"thinks\" is optimal), then adjust based on your \"views\" (predictions).\n\n- **Views** = \"I think BTC will outperform ETH by 2% next month with 60% confidence\"\n- **Blends** your views with the market's implied returns → more stable, intuitive portfolios\n- **Confidence matters** — weak views produce small tilts, strong views produce large tilts\n\n**Perfect fit for Signal Forge**: the model's predictions ARE the views. High-confidence predictions get larger portfolio tilts. Low-confidence predictions stay close to market weights."
+      },
+      {
+        "heading": "Risk Parity",
+        "content": "Weight assets so each contributes equal risk to the portfolio. No return estimation needed — just risk (volatility and correlation). Simple, robust, and hard to overfit.\n\n```\nIf BTC volatility = 60% and ETH volatility = 80%:\n  Equal weight: 50/50 → BTC contributes 43% of risk, ETH 57%\n  Risk parity:  57/43 → each contributes 50% of risk\n```\n\nBridgewater's All Weather fund uses this approach. Works well when you don't have strong return forecasts."
+      },
+      {
+        "heading": "Python Quick Start",
+        "content": "```python\nimport riskfolio as rp\n\nport = rp.Portfolio(returns=returns_df)\nport.assets_stats(method_mu='hist', method_cov='hist')\n\n# Mean-variance (max Sharpe)\nw_mv = port.optimization(model='Classic', rm='MV', obj='Sharpe')\n\n# Risk parity\nw_rp = port.rp_optimization(model='Classic', rm='MV')\n\n# Black-Litterman with views\nport.blacklitterman_stats(P=views_matrix, Q=expected_returns, delta=2.5)\nw_bl = port.optimization(model='BL', rm='MV', obj='Sharpe')\n```"
+      },
+      {
+        "heading": "Signal Forge Application",
+        "content": "Currently Signal Forge trades each signal independently — each asset gets its own position without considering the portfolio as a whole. Portfolio optimization would:\n1. **Combine BTC and altcoin signals** into optimal weights accounting for correlation\n2. **Reduce correlated risk** — if BTC and ETH signals both say \"long,\" the portfolio shouldn't be 2x leveraged on crypto beta\n3. **Respect overall risk budget** — total portfolio volatility stays within a target regardless of individual signal strength"
+      },
+      {
+        "heading": "The Practical Reality",
+        "content": "For 2-3 assets, simple equal-weight or risk-parity works fine. The math of Markowitz/BL only shines with 10+ assets where correlation structure matters and naive weighting leaves significant risk on the table."
+      },
+      {
+        "heading": "Research Next Steps",
+        "content": "- [ ] Implement risk parity weighting for Signal Forge's multi-asset portfolio\n- [ ] Test Black-Litterman using Signal Forge predictions as views\n- [ ] Compare equal-weight vs risk-parity vs BL on historical Signal Forge signals\n- [ ] Measure correlation between BTC and altcoin positions to quantify diversification benefit"
+      }
+    ],
+    "related": [
+      "Quant - Factor and Correlation",
+      "Quant - Volatility Targeting",
+      "Quant - Kelly Criterion",
+      "Module - Quant Strategy Models",
+      "MOC - Quant & Trading"
+    ],
+    "estimatedMinutes": 2,
+    "xpReward": 45
+  },
+  {
     "slug": "quant-relative-value-spread",
     "title": "Relative Value / Spread Models",
     "domain": "Quant & Trading",
@@ -1639,6 +3095,257 @@ export const pods: Pod[] = [
     "xpReward": 45
   },
   {
+    "slug": "rag-chunking-strategies",
+    "title": "Chunking Strategies",
+    "domain": "AI Engineering",
+    "tags": [
+      "pod",
+      "ai-engineering",
+      "rag",
+      "chunking",
+      "text-processing"
+    ],
+    "status": "queue",
+    "created": "2026-04-02",
+    "sections": [
+      {
+        "heading": "Why Chunking Matters",
+        "content": "LLMs have context limits. Embeddings work best on focused text. You can't embed an entire 50-page document and expect the vector to capture every idea — the meaning gets averaged into mush. Chunking breaks documents into retrieval-sized pieces that each carry a clear semantic signal.\n\nThe chunking strategy you choose directly impacts retrieval quality. Get it wrong and your RAG pipeline will retrieve irrelevant content no matter how good your embedding model is."
+      },
+      {
+        "heading": "Strategy 1: Fixed-Size Chunking",
+        "content": "Split every N tokens regardless of content structure.\n\n```\nDocument: \"RAG combines retrieval and generation. First, you embed\n           your documents. Then you search for relevant chunks...\"\n\nChunk 1 (256 tokens): \"RAG combines retrieval and generation. First, you embed your...\"\nChunk 2 (256 tokens): \"...documents. Then you search for relevant chunks...\"\n```\n\n**Pros**: Dead simple, predictable chunk sizes, easy to implement.\n**Cons**: Breaks mid-sentence, mid-paragraph, mid-thought. Context is severed at arbitrary boundaries.\n**Use when**: Quick prototype, uniform content, content without natural structure."
+      },
+      {
+        "heading": "Strategy 2: Recursive Character Splitting",
+        "content": "Split hierarchically: paragraph → sentence → word. Respect document structure by trying larger separators first and falling back to smaller ones.\n\n```python\nfrom langchain.text_splitter import RecursiveCharacterTextSplitter\n\nsplitter = RecursiveCharacterTextSplitter(\n    chunk_size=512,\n    chunk_overlap=50,\n    separators=[\"\\n\\n\", \"\\n\", \". \", \" \", \"\"]\n)\nchunks = splitter.split_text(document)\n```\n\n**Pros**: Respects natural boundaries, predictable size, LangChain default for a reason.\n**Cons**: Still content-unaware — a paragraph about two topics gets kept together.\n**Use when**: General-purpose RAG, most production systems. This is the safe default."
+      },
+      {
+        "heading": "Strategy 3: Semantic Chunking",
+        "content": "Use embeddings to detect topic shifts. Embed each sentence, compute similarity between adjacent sentences, and split where similarity drops below a threshold.\n\n```\nSentence embeddings:  [0.91] [0.88] [0.85] [0.42] [0.89] [0.91]\n                                            ↑ topic shift — split here\n```\n\n**Pros**: Best semantic coherence per chunk. Chunks are topically unified.\n**Cons**: Slowest (requires embedding every sentence first), variable chunk sizes, harder to debug.\n**Use when**: High-stakes retrieval where quality matters more than speed. Legal, medical, research."
+      },
+      {
+        "heading": "Strategy 4: Document-Aware Chunking",
+        "content": "Respect the document's own structure: split on markdown headers, HTML tags, code blocks, table boundaries.\n\n```"
+      },
+      {
+        "heading": "Introduction           → Chunk 1",
+        "content": ""
+      },
+      {
+        "heading": "How It Works           → Chunk 2",
+        "content": "### Step 1: Embedding     → Chunk 3\n### Step 2: Retrieval     → Chunk 4"
+      },
+      {
+        "heading": "Conclusion             → Chunk 5",
+        "content": "```\n\n**Pros**: Preserves author's intended structure, each chunk has a natural title (the header).\n**Cons**: Chunk sizes vary wildly (one section = 2 sentences, another = 2 pages).\n**Use when**: Structured content — docs sites, wikis, Obsidian vaults, codebases.\n\nYour LearnPod vault content is naturally chunked this way already. Each `##` section is a self-contained chunk with a clear topic. This is document-aware chunking without writing a single line of code."
+      },
+      {
+        "heading": "The Overlap Question",
+        "content": "Include 10-20% overlap between adjacent chunks to preserve context at boundaries.\n\n```\nChunk 1: \"RAG combines retrieval and generation. The pipeline has three stages.\"\nChunk 2: \"The pipeline has three stages. First, embed your documents...\"\n          ↑ overlap — repeated context\n```\n\nWithout overlap, a question about \"the three stages\" might miss the context that names them. With overlap, both chunks can answer it.\n\n**Rule of thumb**: 50-100 token overlap for 512-token chunks. More overlap = better recall, higher storage cost."
+      },
+      {
+        "heading": "Chunk Size Tradeoffs",
+        "content": "| Size | Tokens | Retrieval Precision | Context Quality | Embedding Quality | Best For |\n|------|--------|-------------------|-----------------|-------------------|----------|\n| Small | 128-256 | High — very focused | Low — missing surrounding context | High — single topic per vector | FAQ, definitions, atomic facts |\n| Medium | 512 | Balanced | Balanced | Balanced | General-purpose RAG (default) |\n| Large | 1024+ | Low — multiple topics per chunk | High — lots of context per retrieval | Low — diluted across topics | Long-form Q&A, summarization |\n\n**Start with 512 tokens, recursive splitting, 50-token overlap.** Optimize from there based on eval results."
+      },
+      {
+        "heading": "Metadata Enrichment",
+        "content": "Don't just store the chunk text. Attach metadata that helps with filtering and attribution:\n- **Source file**: which document this came from\n- **Section title**: the nearest header above the chunk\n- **Position**: where in the document (beginning, middle, end)\n- **Date**: when the source was last updated\n- **Tags/categories**: from the document's frontmatter\n\nThis lets you filter retrieval by source, date, or category — hybrid search without a keyword index."
+      },
+      {
+        "heading": "Quick Recipe: Recursive Split with LangChain",
+        "content": "```python\nfrom langchain.text_splitter import RecursiveCharacterTextSplitter\nfrom langchain.document_loaders import DirectoryLoader\n\n# Load markdown files from a directory\nloader = DirectoryLoader(\"./docs\", glob=\"**/*.md\")\ndocs = loader.load()\n\n# Split with overlap\nsplitter = RecursiveCharacterTextSplitter(\n    chunk_size=512,\n    chunk_overlap=50,\n    separators=[\"\\n## \", \"\\n### \", \"\\n\\n\", \"\\n\", \". \", \" \"]\n)\nchunks = splitter.split_documents(docs)\n\nprint(f\"{len(docs)} documents → {len(chunks)} chunks\")\n# Typical: 100 docs → 800-1200 chunks\n```\n\nNote the custom separators: `\\n## ` and `\\n### ` are tried first, so markdown headers become natural split points. This is recursive + document-aware combined."
+      },
+      {
+        "heading": "Research Next Steps",
+        "content": "- [ ] Benchmark chunk sizes (256/512/1024) on vault content — measure retrieval precision\n- [ ] Compare recursive vs. semantic chunking quality on 100-question eval set\n- [ ] Test markdown-aware splitting on LearnPod pods (already sectioned by ##)\n- [ ] Measure the impact of overlap (0% vs. 10% vs. 20%) on recall"
+      }
+    ],
+    "related": [
+      "RAG - Retrieval Augmented Generation",
+      "RAG - Embedding Models & Vector Stores",
+      "RAG - Hybrid Search",
+      "MOC - AI Engineering"
+    ],
+    "estimatedMinutes": 2,
+    "xpReward": 45
+  },
+  {
+    "slug": "rag-embedding-models-vector-stores",
+    "title": "Embedding Models & Vector Stores",
+    "domain": "AI Engineering",
+    "tags": [
+      "pod",
+      "ai-engineering",
+      "rag",
+      "embeddings",
+      "vector-stores"
+    ],
+    "status": "queue",
+    "created": "2026-04-02",
+    "sections": [
+      {
+        "heading": "What Are Embeddings",
+        "content": "Dense vector representations of text where semantically similar content maps to nearby points in high-dimensional space. \"How do I deploy?\" and \"What's the deployment process?\" are far apart in string distance but close in embedding space. This is the magic that makes RAG work — you search by meaning, not by keywords."
+      },
+      {
+        "heading": "Embedding Models",
+        "content": "| Model | Provider | Dimensions | Cost | Notes |\n|-------|----------|-----------|------|-------|\n| text-embedding-3-small | OpenAI | 1536 | $0.02/MTok | Best price/performance for most use cases |\n| text-embedding-3-large | OpenAI | 3072 | $0.13/MTok | Higher precision, 6x cost |\n| embed-v3 | Cohere | 1024 | $0.10/MTok | Strong multilingual support |\n| nomic-embed-text | Nomic (open) | 768 | Free (self-host) | Best open-source option, runs on CPU |\n| all-MiniLM-L6-v2 | sentence-transformers | 384 | Free (self-host) | Tiny, fast, good for prototyping |\n| BGE-large-en | BAAI (open) | 1024 | Free (self-host) | Top of MTEB leaderboard |\n\n**Rule of thumb**: Start with `text-embedding-3-small`. It's cheap, fast, and good enough for 90% of use cases. Move to larger models only if retrieval quality is the bottleneck."
+      },
+      {
+        "heading": "Dimensionality",
+        "content": "- **256-384**: Fast search, lower memory, slightly less precise. Good for millions of docs.\n- **768-1024**: The sweet spot for most applications. Balanced precision and speed.\n- **1536-3072**: Maximum semantic precision. Noticeable quality gain on nuanced content.\n\nOpenAI's `text-embedding-3` models support dimension reduction — you can request 256 dims from the small model and still get good results. Useful for cutting storage and search costs at scale."
+      },
+      {
+        "heading": "Similarity Search",
+        "content": "Two main distance metrics:\n- **Cosine similarity**: Measures angle between vectors. Range [-1, 1]. Most common. Threshold: >0.7 usually means relevant.\n- **Dot product**: Measures magnitude + angle. Faster but sensitive to vector length. Use when vectors are normalized.\n\nIn practice, cosine similarity is the default. Switch to dot product only if you need raw speed and your vectors are already normalized."
+      },
+      {
+        "heading": "Vector Stores",
+        "content": "| Store | Type | Best For | Scaling |\n|-------|------|----------|---------|\n| **pgvector** | Postgres extension | Already have Postgres; simplest path | Millions of vectors |\n| **Chroma** | Local/embedded | Prototyping, small datasets, local dev | Thousands to low millions |\n| **Pinecone** | Managed cloud | Production at scale, zero ops | Billions of vectors |\n| **Weaviate** | Self-hosted or cloud | Hybrid search (vector + keyword) | Millions to billions |\n| **Qdrant** | Self-hosted or cloud | High-performance, filtering | Millions to billions |\n\n### Choosing a Store\n```\nDo you already have Postgres?\n  YES → pgvector. Done. Simplest possible path.\n  NO ↓\nIs this a prototype or small project?\n  YES → Chroma. Runs in-process, zero setup.\n  NO ↓\nDo you need managed infrastructure?\n  YES → Pinecone. Pay per use, zero ops.\n  NO → Qdrant or Weaviate self-hosted.\n```"
+      },
+      {
+        "heading": "Quick Start: Embed + Store + Query",
+        "content": "```python\n# 1. Embed text with OpenAI\nfrom openai import OpenAI\nclient = OpenAI()\n\ndef embed(text: str) -> list[float]:\n    resp = client.embeddings.create(input=text, model=\"text-embedding-3-small\")\n    return resp.data[0].embedding\n\n# 2. Store in Chroma\nimport chromadb\ndb = chromadb.Client()\ncollection = db.create_collection(\"docs\")\ncollection.add(documents=[\"RAG is retrieval augmented generation\",\n                          \"Fine-tuning changes model weights\"],\n               ids=[\"doc1\", \"doc2\"])\n\n# 3. Query\nresults = collection.query(query_texts=[\"What is RAG?\"], n_results=1)\nprint(results[\"documents\"])  # → \"RAG is retrieval augmented generation\"\n```\n\nSix lines to go from text to semantic search. Chroma handles embedding automatically if you don't pass vectors (it uses sentence-transformers under the hood by default)."
+      },
+      {
+        "heading": "Cost at Scale",
+        "content": "Embeddings are cheap — the vector store is where cost lives:\n- **Embedding 1M documents** (avg 500 tokens): ~$10 with OpenAI small\n- **Storing 1M vectors** (1536 dims): ~500MB RAM in pgvector, ~$20/mo on Pinecone\n- **Querying**: <10ms per query in any store at this scale\n\nThe real cost driver is re-embedding when you change models or chunk sizes. Design your chunking strategy first, then embed."
+      },
+      {
+        "heading": "Anti-Patterns",
+        "content": "- **Embedding entire documents** — too much content per vector dilutes meaning. Chunk first.\n- **Mixing domains in one collection** — code + prose + tables in the same vector space hurts precision. Namespace or filter by type.\n- **Ignoring metadata** — store source, date, section title alongside vectors. You'll need it for filtering and attribution.\n- **Skipping evaluation** — \"it seems to work\" is not a metric. Measure retrieval precision."
+      },
+      {
+        "heading": "Research Next Steps",
+        "content": "- [ ] Benchmark OpenAI small vs. nomic-embed on vault content (quality + latency)\n- [ ] Test pgvector on the homelab Postgres instance — measure query latency at 10K docs\n- [ ] Evaluate dimension reduction: 1536 vs. 512 vs. 256 on retrieval precision\n- [ ] Build a cost model: embedding + storage + queries for 50K vault notes"
+      }
+    ],
+    "related": [
+      "RAG - Retrieval Augmented Generation",
+      "RAG - Chunking Strategies",
+      "MOC - AI Engineering"
+    ],
+    "estimatedMinutes": 2,
+    "xpReward": 45
+  },
+  {
+    "slug": "rag-evaluation",
+    "title": "RAG Evaluation",
+    "domain": "AI Engineering",
+    "tags": [
+      "pod",
+      "ai-engineering",
+      "rag",
+      "evaluation",
+      "ragas"
+    ],
+    "status": "queue",
+    "created": "2026-04-02",
+    "sections": [
+      {
+        "heading": "Why Eval RAG",
+        "content": "RAG has two independent failure modes: retrieval and generation. You can retrieve the right documents but generate a wrong answer (generation failure). You can retrieve the wrong documents but hallucinate a plausible-sounding answer (retrieval failure masked by confident generation). Without measuring both sides independently, you can't diagnose what's broken.\n\n\"It seems to work\" is not a metric. You need numbers."
+      },
+      {
+        "heading": "The RAGAS Framework",
+        "content": "RAGAS (Retrieval Augmented Generation Assessment) is the standard evaluation framework for RAG pipelines. It defines four metrics that together cover the full pipeline:\n\n```\n                    RETRIEVAL SIDE              GENERATION SIDE\n                    ─────────────               ───────────────\n   Question ──▶  Context Precision          Answer Relevance\n                 \"Are retrieved chunks       \"Does the answer address\n                  actually relevant?\"         the question asked?\"\n\n   Ground   ──▶  Context Recall             Faithfulness\n   Truth         \"Did we get ALL the         \"Is the answer grounded\n                  relevant chunks?\"           in the retrieved context?\"\n```\n\n### Context Precision\nOf the chunks retrieved, what fraction were actually relevant to the question?\n- Low precision = you're stuffing the prompt with noise\n- Fix by: better embeddings, smaller chunks, re-ranking retrieved results\n\n### Context Recall\nOf all the relevant chunks in your corpus, what fraction did you retrieve?\n- Low recall = you're missing important information\n- Fix by: higher top-K, hybrid search (vector + keyword), better chunking\n\n### Faithfulness\nIs every claim in the generated answer actually supported by the retrieved context?\n- Low faithfulness = the model is hallucinating beyond the context\n- Fix by: stricter system prompt (\"only answer from context\"), lower temperature, shorter answers\n\n### Answer Relevance\nDoes the answer actually address the question that was asked?\n- Low relevance = the model answered a different question or went off-topic\n- Fix by: better prompt engineering, re-ranking, ensuring retrieved context is on-topic"
+      },
+      {
+        "heading": "The Diagnostic Matrix",
+        "content": "| Faithfulness | Relevance | Diagnosis |\n|-------------|-----------|-----------|\n| High | High | Working correctly |\n| High | Low | Technically correct but useless — answering the wrong question |\n| Low | High | On-topic but hallucinating — dangerous, looks right but isn't |\n| Low | Low | Completely broken — wrong answer to wrong question |\n\nThe scariest quadrant is **low faithfulness + high relevance**: the answer sounds right, addresses the question, but contains fabricated information. This is where RAG hallucination hides."
+      },
+      {
+        "heading": "LLM-as-Judge for RAG",
+        "content": "Use Claude or GPT-4 to score faithfulness and relevance. Cheaper and faster than human evaluation, and correlates well (0.8+ with human ratings on most benchmarks).\n\n```python\nJUDGE_PROMPT = \"\"\"Score the following RAG response on faithfulness (0-10).\nFaithfulness: every claim in the answer is supported by the context.\n\nContext: {context}\nQuestion: {question}\nAnswer: {answer}\n\nScore (0-10):\nReasoning:\"\"\"\n```\n\nThis is the same LLM-as-judge pattern from Claude - Eval & Testing for AI — applied to retrieval instead of general generation. The scoring rubric changes but the technique is identical."
+      },
+      {
+        "heading": "Building Eval Sets",
+        "content": "You need question-answer-context triples:\n\n```json\n{\n  \"question\": \"What embedding model should I use for RAG?\",\n  \"ground_truth\": \"text-embedding-3-small for most use cases\",\n  \"relevant_contexts\": [\"chunk_about_embedding_models\", \"chunk_about_cost\"]\n}\n```\n\n**How to build them**:\n1. Start with 50-100 real questions users would ask\n2. Have the RAG pipeline answer them\n3. Human-verify: is the answer correct? Which chunks should have been retrieved?\n4. Optionally: generate synthetic questions from your documents using an LLM, then human-filter\n\n50 triples is enough to start. 200+ for production confidence."
+      },
+      {
+        "heading": "Quick Start: Evaluate One Response with RAGAS",
+        "content": "```python\nfrom ragas import evaluate\nfrom ragas.metrics import faithfulness, answer_relevancy, context_precision, context_recall\nfrom datasets import Dataset\n\neval_data = Dataset.from_dict({\n    \"question\": [\"What is RAG?\"],\n    \"answer\": [\"RAG retrieves relevant documents and uses them to generate answers.\"],\n    \"contexts\": \"RAG combines retrieval with generation to ground LLM responses.\",\n    \"ground_truth\": [\"RAG is retrieval augmented generation.\"]\n})\n\nresult = evaluate(eval_data, metrics=[faithfulness, answer_relevancy,\n                                       context_precision, context_recall])\nprint(result)\n# {'faithfulness': 0.95, 'answer_relevancy': 0.88,\n#  'context_precision': 1.0, 'context_recall': 0.85}\n```"
+      },
+      {
+        "heading": "The Eval Loop",
+        "content": "```\nChange something (embeddings, chunks, prompt, model)\n    ↓\nRun eval suite on 50-100 questions\n    ↓\nCompare metrics to baseline\n    ↓\nBetter? → Ship it\nWorse?  → Revert, try something else\n```\n\nUse the Batch API for eval runs — 50% off and you don't need real-time latency for evaluation."
+      },
+      {
+        "heading": "Common Eval Mistakes",
+        "content": "- **No baseline**: You need a \"before\" to compare against. Run evals before making changes.\n- **Too few questions**: 10 questions is not statistically meaningful. Start at 50.\n- **Only testing happy path**: Include adversarial questions (unanswerable, ambiguous, multi-hop).\n- **Ignoring retrieval metrics**: Most teams only measure answer quality but the root cause is bad retrieval.\n- **Evaluating once**: Eval is a continuous process. Run on every pipeline change."
+      },
+      {
+        "heading": "Research Next Steps",
+        "content": "- [ ] Build a 50-question eval set from real vault queries\n- [ ] Run RAGAS on a minimal RAG pipeline over the Obsidian vault\n- [ ] Compare faithfulness scores: GPT-4 judge vs. Claude judge\n- [ ] Test impact of top-K (3 vs. 5 vs. 10) on context precision/recall tradeoff\n- [ ] Build an eval dashboard tracking metrics over time"
+      }
+    ],
+    "related": [
+      "RAG - Retrieval Augmented Generation",
+      "Claude - Eval & Testing for AI",
+      "MOC - AI Engineering"
+    ],
+    "estimatedMinutes": 2,
+    "xpReward": 45
+  },
+  {
+    "slug": "rag-retrieval-augmented-generation",
+    "title": "Retrieval Augmented Generation (RAG)",
+    "domain": "AI Engineering",
+    "tags": [
+      "pod",
+      "ai-engineering",
+      "rag",
+      "retrieval",
+      "llm"
+    ],
+    "status": "queue",
+    "created": "2026-04-02",
+    "sections": [
+      {
+        "heading": "What It Is",
+        "content": "Give LLMs access to external knowledge at inference time instead of baking it in through fine-tuning. The idea is simple: before the model generates an answer, retrieve relevant information from your own data and inject it into the prompt. The model generates a grounded answer using that context — not just its training data.\n\nRAG turns any general-purpose LLM into a domain expert without retraining a single weight."
+      },
+      {
+        "heading": "Why RAG Over Fine-Tuning",
+        "content": "| Factor | RAG | Fine-Tuning |\n|--------|-----|-------------|\n| Cost | Low — just embedding + storage | High — GPU hours for training |\n| Knowledge freshness | Update docs anytime, instant | Retrain on new data |\n| Source attribution | Cite exact chunks retrieved | Model \"just knows\" — no sources |\n| Model flexibility | Works with any model | Locked to one fine-tuned model |\n| Setup time | Hours | Days to weeks |\n| Hallucination control | Grounded in retrieved context | Still hallucinates, just differently |\n\nFine-tuning changes the model's behavior (tone, format, reasoning style). RAG changes what it knows. They solve different problems — and you can combine them."
+      },
+      {
+        "heading": "The RAG Pipeline",
+        "content": "```\n┌──────────────────────────────────────────────────────────────────┐\n│                     THE RAG PIPELINE                             │\n│                                                                  │\n│  User Query                                                      │\n│      │                                                           │\n│      ▼                                                           │\n│  ┌──────────┐    ┌──────────────┐    ┌──────────────────┐       │\n│  │  EMBED   │───▶│ SEARCH       │───▶│ RETRIEVE top-K   │       │\n│  │  query   │    │ vector store │    │ chunks (3-10)    │       │\n│  └──────────┘    └──────────────┘    └────────┬─────────┘       │\n│                                               │                  │\n│                                               ▼                  │\n│                  ┌──────────────┐    ┌──────────────────┐       │\n│                  │  GENERATE    │◀───│ AUGMENT prompt   │       │\n│                  │  answer      │    │ with chunks      │       │\n│                  └──────┬───────┘    └──────────────────┘       │\n│                         │                                        │\n│                         ▼                                        │\n│                  ┌──────────────┐                                │\n│                  │  Grounded    │                                │\n│                  │  Answer      │                                │\n│                  └──────────────┘                                │\n└──────────────────────────────────────────────────────────────────┘\n\nOffline (indexing):\n  Documents → Chunk → Embed → Store in vector DB\n```"
+      },
+      {
+        "heading": "When to Use RAG",
+        "content": "- **Knowledge bases & documentation Q&A** — the canonical use case\n- **Enterprise search** — ask questions across internal docs, wikis, Slack, email\n- **Domain expertise** — medical records, legal docs, financial filings\n- **Any domain where the model lacks specific knowledge** — your codebase, your vault, your data\n- **Chatbots that need to cite sources** — attribution is built in"
+      },
+      {
+        "heading": "When NOT to Use RAG",
+        "content": "- **Tasks requiring reasoning over the entire corpus simultaneously** — RAG retrieves fragments, not the whole picture. Use long context or summarization chains instead.\n- **Real-time data changing per-second** — stock ticks, live feeds. RAG assumes a relatively stable index.\n- **Tasks where the model already knows the answer** — \"What is Python?\" doesn't need retrieval.\n- **Creative generation** — writing fiction, brainstorming. You want the model's imagination, not grounded facts.\n- **Small corpora (<50 pages)** — just stuff it in the context window. No pipeline needed."
+      },
+      {
+        "heading": "Key Metrics",
+        "content": "| Metric | What It Measures | Target |\n|--------|-----------------|--------|\n| Retrieval precision | % of retrieved chunks that are relevant | >80% |\n| Retrieval recall | % of relevant chunks that were retrieved | >70% |\n| Answer faithfulness | Is the answer grounded in context? (no hallucination) | >90% |\n| Answer relevance | Does it actually answer the question? | >85% |\n| End-to-end latency | Query to answer time | <3s for interactive |\n\nSee RAG - Evaluation for the RAGAS framework that measures all of these."
+      },
+      {
+        "heading": "Connection to Your Work",
+        "content": "Your LearnPod vault sync is essentially a RAG-adjacent pattern: markdown notes (documents) are structured by `##` sections (chunks), which feed into an app that retrieves and presents them. The difference is your retrieval is metadata-based (tags, status) rather than semantic (embeddings). Adding embedding-based search over your vault would make it a full RAG system."
+      },
+      {
+        "heading": "Research Next Steps",
+        "content": "- [ ] Build a minimal RAG pipeline over the Obsidian vault (embed → Chroma → query)\n- [ ] Compare retrieval quality: keyword search vs. semantic search vs. hybrid\n- [ ] Benchmark latency and cost for OpenAI vs. open-source embedding models\n- [ ] Test different top-K values (3, 5, 10) on vault-sized corpus"
+      }
+    ],
+    "related": [
+      "RAG - Embedding Models & Vector Stores",
+      "RAG - Chunking Strategies",
+      "RAG - Hybrid Search",
+      "RAG - Evaluation",
+      "MOC - AI Engineering"
+    ],
+    "estimatedMinutes": 2,
+    "xpReward": 45
+  },
+  {
     "slug": "se-to-ai-engineer-6-month-roadmap",
     "title": "SE → AI Engineer: 6-Month Roadmap",
     "domain": "AI Engineering",
@@ -1707,6 +3414,190 @@ export const pods: Pod[] = [
       "Quant - Factor and Correlation",
       "OpenBB Terminal",
       "MOC - AI Engineering"
+    ],
+    "estimatedMinutes": 2,
+    "xpReward": 45
+  },
+  {
+    "slug": "trading-execution-algorithms",
+    "title": "Trading - Execution Algorithms",
+    "domain": "Quant & Trading",
+    "tags": [
+      "pod",
+      "quant",
+      "trading",
+      "execution",
+      "algorithms",
+      "twap",
+      "vwap"
+    ],
+    "status": "queue",
+    "created": "2026-04-02",
+    "sections": [
+      {
+        "heading": "What It Is",
+        "content": "Algorithms that break large orders into smaller pieces to **minimize market impact** and get better average fill prices. The last mile between \"the model says buy\" and \"you actually bought at a good price.\" The difference between amateur and professional execution."
+      },
+      {
+        "heading": "Why It Matters",
+        "content": "A large market order moves the price against you — this is **slippage**. If you market-buy $100K of a thin altcoin, you'll eat through multiple levels of the order book and your average fill will be far worse than the price you saw. Execution algos reduce this cost. For Signal Forge's current size, market orders are fine. But as position sizes grow, execution quality becomes the difference between a profitable strategy and a losing one."
+      },
+      {
+        "heading": "TWAP (Time-Weighted Average Price)",
+        "content": "Split the order into **equal-sized chunks** executed over a time window.\n\n```python\n# Basic TWAP: split $1000 buy into 10 chunks over 10 minutes\nchunk_size = total_order / n_chunks\nfor i in range(n_chunks):\n    execute_market_order(chunk_size)\n    sleep(interval_seconds)\n```\n\n**How it works**: Execute one chunk every N minutes regardless of volume or price.\n**Best for**: Orders that aren't time-sensitive, uniform liquidity environments.\n**Weakness**: Ignores volume patterns — executes the same amount at 3 AM as at market open."
+      },
+      {
+        "heading": "VWAP (Volume-Weighted Average Price)",
+        "content": "Split the order **proportional to expected volume profile**. Execute more during high-volume periods, less during low.\n\n```python\n# VWAP: weight chunks by historical volume profile\nvolume_profile = get_hourly_volume_profile(symbol)  # e.g., [0.02, 0.03, 0.08, ...]\nfor hour, weight in enumerate(volume_profile):\n    chunk = total_order * weight\n    execute_over_hour(chunk, sub_intervals=6)\n```\n\n**How it works**: If 20% of daily volume trades in the first hour, execute 20% of your order then.\n**Best for**: Matching the market's natural flow, benchmark-sensitive orders.\n**Advantage over TWAP**: Follows liquidity, so each chunk has less market impact."
+      },
+      {
+        "heading": "Iceberg Orders",
+        "content": "Show only a small \"tip\" of the order on the book. Hide the rest. When the visible portion fills, a new visible slice appears.\n\n**How it works**: Place a limit order for 100 shares, but the full order is 10,000. Exchange handles the refills automatically.\n**Best for**: Preventing front-running — other traders can't see your full size.\n**Most exchanges support this natively** — check your exchange's order types."
+      },
+      {
+        "heading": "When You DON'T Need Execution Algos",
+        "content": "- Position sizes **< $10K** on liquid pairs (BTC, ETH)\n- Market orders on major pairs — slippage is ~0.01-0.05%\n- Signal Forge is here currently — simple market orders are fine"
+      },
+      {
+        "heading": "When You DO Need Them",
+        "content": "- Position sizes **> $50K** on any pair\n- Illiquid altcoins (thin order books)\n- When your order is **> 1% of order book depth** at the top 5 levels\n- When you notice consistent negative slippage in trade logs"
+      },
+      {
+        "heading": "Measuring Execution Quality",
+        "content": "```\nExecution cost = (actual_fill_price - arrival_price) / arrival_price\n\nBenchmark against VWAP:\n  If fill < VWAP (for buys) -> you beat the benchmark\n  If fill > VWAP (for buys) -> your execution needs work\n```\n\nTrack this metric per trade. If you're consistently worse than VWAP by more than your fee tier, execution is eating your edge. Transaction costs from poor execution stack directly on top of the costs from Quant - Transaction Costs."
+      },
+      {
+        "heading": "Signal Forge Application",
+        "content": "Current state: market orders on liquid pairs, slippage negligible at current sizes. Future upgrade path as AUM grows:\n1. **$10K-$50K**: Add TWAP for altcoin entries (simple, low effort)\n2. **$50K-$200K**: Implement VWAP with historical volume profiles\n3. **$200K+**: Iceberg orders + smart order routing across exchanges"
+      },
+      {
+        "heading": "Research Next Steps",
+        "content": "- [ ] Log actual slippage per trade in Signal Forge to establish a baseline\n- [ ] Build a simple TWAP wrapper around the existing execution module\n- [ ] Study order book depth on target exchanges to find the \"execution matters\" threshold\n- [ ] Compare maker vs taker fills — limit orders as a zero-cost execution improvement"
+      }
+    ],
+    "related": [
+      "Quant - Transaction Costs",
+      "Quant - Kelly Criterion",
+      "Module - Quant Risk Management",
+      "MOC - Quant & Trading"
+    ],
+    "estimatedMinutes": 2,
+    "xpReward": 45
+  },
+  {
+    "slug": "trading-market-regime-detection",
+    "title": "Trading - Market Regime Detection",
+    "domain": "Quant & Trading",
+    "tags": [
+      "pod",
+      "quant",
+      "trading",
+      "regime-detection",
+      "hmm"
+    ],
+    "status": "queue",
+    "created": "2026-04-02",
+    "sections": [
+      {
+        "heading": "What It Is",
+        "content": "Methods for classifying the current market state into **discrete regimes** so your strategy can adapt. The bridge between \"markets change\" and \"what do I do about it?\" Regime detection answers the question every quant eventually asks: is this a trending market, a choppy market, or a crisis?"
+      },
+      {
+        "heading": "Why Detection Matters",
+        "content": "A momentum strategy that crushes it in trending markets will **bleed in choppy/mean-reverting markets**. Without regime awareness, you're running the same playbook in every environment — the equivalent of wearing the same clothes in summer and winter. Knowing the regime tells you which strategy to run, how to size positions, or whether to sit out entirely."
+      },
+      {
+        "heading": "Method 1: Hidden Markov Models (HMM)",
+        "content": "Fit a 2-4 state HMM to the return series. Each state represents a regime with its own mean and variance.\n\n```python\nfrom hmmlearn import hmm\n\nmodel = hmm.GaussianHMM(n_components=3, covariance_type=\"full\", n_iter=100)\nmodel.fit(returns.reshape(-1, 1))\nstates = model.predict(returns.reshape(-1, 1))\n# State 0: low vol trending, State 1: normal, State 2: crisis\n```\n\n**Pros**: Most academically rigorous, captures complex transitions.\n**Cons**: Slow to detect regime changes (lagging), sensitive to initialization, needs careful tuning of state count."
+      },
+      {
+        "heading": "Method 2: Changepoint Detection",
+        "content": "Detect **structural breaks** in the return series — moments where the statistical properties shift.\n\n```python\nimport ruptures as rpt\n\nalgo = rpt.Pelt(model=\"rbf\").fit(returns.values)\nbreakpoints = algo.predict(pen=10)\n# Returns indices where regime transitions occurred\n```\n\n**Pros**: Faster than HMM at detecting transitions, fewer parameters to tune.\n**Cons**: Noisy — can trigger false positives, doesn't characterize what the new regime IS."
+      },
+      {
+        "heading": "Method 3: Volatility Regime Classification",
+        "content": "Simple rule-based classification using realized volatility thresholds:\n\n| Realized Vol (annualized) | Regime | Action |\n|---------------------------|--------|--------|\n| < 15% | Low vol | Full position sizes, trend-following |\n| 15-30% | Normal | Standard sizing |\n| 30-50% | High vol | Reduce exposure, tighten stops |\n| > 50% | Crisis | Minimal exposure or flat |\n\nSignal Forge already uses a `volatility_regime` feature based on this approach. Simple, interpretable, and surprisingly effective."
+      },
+      {
+        "heading": "Method 4: Cross-Asset Signals",
+        "content": "Use other markets as leading indicators for regime classification:\n\n- **VIX > 30**: Fear regime — expect mean reversion, reduce trend bets\n- **Yield curve inversion**: Recession signal — 12-18 month leading indicator\n- **BTC correlation to S&P > 0.8**: Risk-on/risk-off macro regime — crypto loses its diversification benefit\n- **DXY strength + falling equities**: Risk-off flight — defensive positioning"
+      },
+      {
+        "heading": "Method Comparison",
+        "content": "| Method | Accuracy | Detection speed | Complexity | Best for |\n|--------|----------|----------------|------------|----------|\n| HMM | Highest | Slowest (lagging) | High | Research, offline analysis |\n| Changepoint | Medium | Fast | Medium | Real-time transition alerts |\n| Vol Rules | Good enough | Instant | **Low** | **Production systems** |\n| Cross-Asset | Variable | Leading | Medium | Macro overlay signals |"
+      },
+      {
+        "heading": "Signal Forge Application",
+        "content": "Currently uses vol regime classification (Method 3) — simple and effective for the current scale. Potential upgrade path: layer HMM on top as a second opinion. When HMM and vol rules agree on regime, increase conviction. When they disagree, reduce sizing. Could also adjust the Kelly fraction per regime: full 1/4 Kelly in normal, 1/8 Kelly in crisis."
+      },
+      {
+        "heading": "Research Next Steps",
+        "content": "- [ ] Compare HMM vs vol rules on Signal Forge backtest data (2023-2026)\n- [ ] Test 2-state vs 3-state vs 4-state HMM — diminishing returns after 3?\n- [ ] Build a regime-conditional Kelly fraction: adjust sizing based on detected regime\n- [ ] Evaluate `ruptures` changepoint detection as an early warning layer"
+      }
+    ],
+    "related": [
+      "Quant - Macro Regime Allocation",
+      "Quant - Volatility Targeting",
+      "ML - Feature Engineering for Crypto",
+      "Module - Quant Strategy Models",
+      "MOC - Quant & Trading"
+    ],
+    "estimatedMinutes": 2,
+    "xpReward": 45
+  },
+  {
+    "slug": "trading-risk-of-ruin",
+    "title": "Trading - Risk of Ruin",
+    "domain": "Quant & Trading",
+    "tags": [
+      "pod",
+      "quant",
+      "trading",
+      "risk-management",
+      "risk-of-ruin"
+    ],
+    "status": "queue",
+    "created": "2026-04-02",
+    "sections": [
+      {
+        "heading": "What It Is",
+        "content": "The probability of losing enough capital that recovery becomes **impossible or impractical**. Not the same as max drawdown — drawdown measures the worst dip, ruin means game over. If drawdown is a bad day, ruin is closing the account."
+      },
+      {
+        "heading": "The Formula (Simplified)",
+        "content": "```\nP(ruin) = ((1 - edge) / (1 + edge)) ^ (capital / bet_size)\n\nWhere:\n  edge = your expected edge per trade (e.g., 0.02 = 2%)\n  capital = total bankroll\n  bet_size = amount risked per trade\n\nExample:\n  edge = 2%, capital = $10,000, bet_size = $500\n  P(ruin) = (0.98 / 1.02) ^ (10000 / 500) = 0.961 ^ 20 = 0.45\n  -> 45% chance of ruin. Way too high.\n```\n\nAs edge → 0 or bet_size → large, P(ruin) → 1. The formula punishes over-betting ruthlessly."
+      },
+      {
+        "heading": "Why It Matters More Than Expected Return",
+        "content": "A strategy with **positive expected value can still ruin you** if position sizes are too large. A +2% EV strategy betting 50% of the bankroll each time will go broke before the edge compounds. Expected return tells you the average outcome; risk of ruin tells you whether you survive long enough to reach it."
+      },
+      {
+        "heading": "Ruin Thresholds",
+        "content": "Define YOUR ruin level — it's not universal:\n\n| Context | Ruin threshold | Why |\n|---------|---------------|-----|\n| **Signal Forge** | -50% | Would need +100% to recover — realistically game over |\n| Hedge fund | -20% | Investor redemptions trigger, fund collapses |\n| Prop desk | -10% | Risk limits hit, desk gets shut down |\n| Retail gambler | -100% | Literally zero dollars left |\n\nThe lower your ruin threshold, the more conservative your sizing must be."
+      },
+      {
+        "heading": "The Relationship to Kelly",
+        "content": "Kelly Criterion minimizes ruin probability, but the fraction matters enormously:\n\n| Fraction | P(ruin) | Drawdown experience | Reality |\n|----------|---------|---------------------|---------|\n| Full Kelly | ~0 in theory | Extreme swings, -50%+ common | Nobody can stomach this |\n| 1/2 Kelly | Negligible | Manageable, -20% possible | Aggressive but survivable |\n| **1/4 Kelly** | **Essentially zero** | **Barely noticeable** | **Signal Forge default** |\n| 2x Kelly | **100% guaranteed** | Terminal | Mathematical certainty of ruin |\n\nOver-betting (>1x Kelly) guarantees ruin. This isn't a probability — it's a mathematical certainty given enough trades."
+      },
+      {
+        "heading": "Signal Forge Context",
+        "content": "With 1/4 Kelly + circuit breakers, P(ruin) is effectively 0. The system is extremely conservative by design. The bigger risk for Signal Forge isn't ruin — it's **opportunity cost**. Being too conservative means the edge compounds slowly, and growth barely outpaces fees. The art is finding the sweet spot between \"will never blow up\" and \"will actually make money.\""
+      },
+      {
+        "heading": "Practical Rules",
+        "content": "- Never risk more than you can **emotionally** handle losing — if losing X would change your behavior, X is too much\n- Calculate P(ruin) before deploying any strategy, not after\n- Ruin is asymmetric: you only need to go broke once, but you need to win consistently forever\n- Always define your ruin threshold explicitly — vague \"I'll stop if it gets bad\" guarantees you won't"
+      },
+      {
+        "heading": "Research Next Steps",
+        "content": "- [ ] Read Ralph Vince \"The Mathematics of Money Management\" (definitive text on ruin probability)\n- [ ] Run Monte Carlo simulation of P(ruin) for Signal Forge across 10,000 paths\n- [ ] Compare P(ruin) at 1/4 Kelly vs 1/2 Kelly with realistic transaction costs\n- [ ] Model regime-dependent ruin: how does P(ruin) change in high-vol vs low-vol markets?"
+      }
+    ],
+    "related": [
+      "Quant - Kelly Criterion",
+      "Quant - Maximum Drawdown",
+      "Quant - Circuit Breakers",
+      "Module - Quant Risk Management",
+      "MOC - Quant & Trading"
     ],
     "estimatedMinutes": 2,
     "xpReward": 45

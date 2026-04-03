@@ -2,9 +2,9 @@
 import type { ContentManifest } from "@/lib/types";
 
 export const manifest: ContentManifest = {
-  podCount: 33,
+  podCount: 66,
   lessonCount: 3,
-  moduleCount: 2,
-  domains: ["AI Engineering", "Quant & Trading", "Financial Models", "Tools & Platforms"],
-  lastSynced: "2026-04-02T19:09:12.686Z",
+  moduleCount: 8,
+  domains: ["AI Engineering", "Quant & Trading", "Financial Models", "Tools & Platforms", "ML Models", "General"],
+  lastSynced: "2026-04-03T15:52:18.359Z",
 };
