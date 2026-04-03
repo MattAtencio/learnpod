@@ -57,6 +57,7 @@ function CelebrationOverlay({
   onNextPod,
   hasNextPod,
   firstAttemptBonus,
+  objectives,
 }: {
   xp: number;
   streak: number;
@@ -64,6 +65,7 @@ function CelebrationOverlay({
   onNextPod: () => void;
   hasNextPod: boolean;
   firstAttemptBonus?: number;
+  objectives?: string[];
 }) {
   const [particles, setParticles] = useState<Particle[]>([]);
   const [show, setShow] = useState(false);
@@ -252,6 +254,30 @@ function CelebrationOverlay({
           )}
         </div>
 
+        {objectives && objectives.length > 0 && (
+          <div style={{
+            textAlign: "left" as const, marginBottom: 16, padding: "12px 14px",
+            background: "rgba(110,168,254,0.08)", border: "1px solid rgba(110,168,254,0.15)",
+            borderRadius: 14,
+          }}>
+            <div style={{
+              fontSize: 10, fontWeight: 700, color: "var(--blue)",
+              textTransform: "uppercase" as const, letterSpacing: "0.06em", marginBottom: 6,
+            }}>
+              You can now:
+            </div>
+            {objectives.map((obj, i) => (
+              <div key={i} style={{
+                display: "flex", gap: 6, alignItems: "flex-start", marginBottom: 3,
+                fontSize: 12, color: "var(--text)", lineHeight: 1.4,
+              }}>
+                <span style={{ color: "var(--green)", flexShrink: 0 }}>&#x2713;</span>
+                {obj}
+              </div>
+            ))}
+          </div>
+        )}
+
         <div style={{ display: "flex", flexDirection: "column" as const, gap: 10 }}>
           {hasNextPod && (
             <button
@@ -402,6 +428,7 @@ export function PodDetailClient({ pod, lesson, parentModule, nextPodSlugs, quest
           onNextPod={handleNextPod}
           hasNextPod={!!nextPodSlug}
           firstAttemptBonus={firstAttemptBonus}
+          objectives={pod.objectives}
         />
       )}
 
@@ -432,6 +459,30 @@ export function PodDetailClient({ pod, lesson, parentModule, nextPodSlugs, quest
           </div>
         </div>
       </div>
+
+      {pod.objectives && pod.objectives.length > 0 && isStudying && currentStep === 0 && (
+        <div className="fade-2" style={{
+          margin: "12px 20px 0", padding: "14px 16px",
+          background: "rgba(110,168,254,0.08)", border: "1px solid rgba(110,168,254,0.2)",
+          borderRadius: 16,
+        }}>
+          <div style={{
+            fontSize: 11, fontWeight: 700, color: "var(--blue)",
+            textTransform: "uppercase" as const, letterSpacing: "0.06em", marginBottom: 8,
+          }}>
+            After this pod, you&apos;ll be able to:
+          </div>
+          {pod.objectives.map((obj, i) => (
+            <div key={i} style={{
+              display: "flex", gap: 8, alignItems: "flex-start", marginBottom: 4,
+              fontSize: 13, color: "var(--text)", lineHeight: 1.4,
+            }}>
+              <span style={{ color: "var(--blue)", flexShrink: 0 }}>&#x2022;</span>
+              {obj}
+            </div>
+          ))}
+        </div>
+      )}
 
       {isStudying && totalSteps > 1 && (
         <div

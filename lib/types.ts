@@ -24,6 +24,7 @@ export interface Pod {
   created: string;
   source?: string;
   sourceUrl?: string;
+  objectives?: string[];
   sections: Section[];
   questions?: Question[];
   related: string[];

@@ -5,6 +5,7 @@ import type { Pod, Module } from "@/lib/types";
 import { PodCard } from "@/components/PodCard";
 import { ModuleCard } from "@/components/ModuleCard";
 import { StreakBar } from "@/components/StreakBar";
+import { DailyGoal } from "@/components/DailyGoal";
 import { Onboarding } from "@/components/Onboarding";
 import { useLearnStore, useStoreHydrated } from "@/lib/store";
 import { useNavDirection } from "@/lib/nav-direction";
@@ -54,6 +55,10 @@ export function HomeClient({ pods, modules }: { pods: Pod[]; modules: Module[] }
 
       <div className="fade-2">
         <StreakBar />
+      </div>
+
+      <div className="fade-2">
+        <DailyGoal />
       </div>
 
       {hydrated && (

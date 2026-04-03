@@ -20,15 +20,25 @@ interface ReviewData {
   repetitions: number;
 }
 
+type DailyXpGoal = 45 | 90 | 135;
+
+interface XpLog {
+  date: string;
+  earned: number;
+}
+
 interface LearnState {
   completedItems: string[];
   quizResults: Record<string, QuizResult>;
   quizAttempts: Record<string, number>;
   domainAccuracy: Record<string, { scores: number[]; totals: number[] }>;
   xp: number;
+  dailyXpGoal: DailyXpGoal;
+  xpLog: XpLog[];
   streak: { count: number; lastDate: string };
   streakFreezes: number;
   lastFreezeReplenish: string;
+  streakRepairs: Record<string, boolean>;
   reviewSchedule: Record<string, ReviewData>;
   onboardingComplete: boolean;
   preferredDomains: Domain[];
@@ -43,6 +53,10 @@ interface LearnState {
   isStreakAtRisk: () => boolean;
   getStreakMilestone: () => number | null;
   checkFreezeReplenish: () => void;
+  setDailyXpGoal: (goal: DailyXpGoal) => void;
+  getTodayXp: () => number;
+  repairStreak: () => void;
+  canRepairStreak: () => boolean;
   scheduleReview: (slug: string, quality: number) => void;
   getDueReviews: () => string[];
   getReviewStatus: (slug: string) => "due" | "overdue" | "mastered" | "learning" | null;
@@ -94,9 +108,12 @@ export const useLearnStore = create<LearnState>()(
       quizAttempts: {},
       domainAccuracy: {},
       xp: 0,
+      dailyXpGoal: 45 as DailyXpGoal,
+      xpLog: [],
       streak: { count: 0, lastDate: "" },
       streakFreezes: 1,
       lastFreezeReplenish: "",
+      streakRepairs: {},
       reviewSchedule: {},
       onboardingComplete: false,
       preferredDomains: [],
@@ -122,9 +139,16 @@ export const useLearnStore = create<LearnState>()(
           }
         }
 
+        // Log daily XP
+        const todayLog = state.xpLog.find((l) => l.date === today);
+        const updatedLog = todayLog
+          ? state.xpLog.map((l) => l.date === today ? { ...l, earned: l.earned + xpReward } : l)
+          : [...state.xpLog, { date: today, earned: xpReward }];
+
         set({
           completedItems: [...state.completedItems, slug],
           xp: state.xp + xpReward,
+          xpLog: updatedLog,
           streak: newStreak,
           streakFreezes: newFreezes,
         });
@@ -145,11 +169,22 @@ export const useLearnStore = create<LearnState>()(
           };
         }
 
+        const xpToAdd = isFirstCompletion ? bonusXp : 0;
+        // Log daily XP
+        const today = todayStr();
+        const todayLog = state.xpLog.find((l) => l.date === today);
+        const updatedLog = xpToAdd > 0
+          ? (todayLog
+            ? state.xpLog.map((l) => l.date === today ? { ...l, earned: l.earned + xpToAdd } : l)
+            : [...state.xpLog, { date: today, earned: xpToAdd }])
+          : state.xpLog;
+
         set({
           quizResults: { ...state.quizResults, [slug]: { score, total, xpEarned: bonusXp } },
           quizAttempts: { ...state.quizAttempts, [slug]: newAttempts },
           domainAccuracy: newDomainAccuracy,
-          xp: state.xp + (isFirstCompletion ? bonusXp : 0),
+          xpLog: updatedLog,
+          xp: state.xp + xpToAdd,
         });
       },
 
@@ -189,6 +224,39 @@ export const useLearnStore = create<LearnState>()(
         const thisMonday = getMonday(now);
         if (state.lastFreezeReplenish === thisMonday) return; // Already replenished this week
         set({ streakFreezes: 1, lastFreezeReplenish: thisMonday });
+      },
+
+      setDailyXpGoal: (goal) => set({ dailyXpGoal: goal }),
+
+      getTodayXp: () => {
+        const state = get();
+        const today = todayStr();
+        const entry = state.xpLog.find((l) => l.date === today);
+        return entry?.earned || 0;
+      },
+
+      repairStreak: () => {
+        const state = get();
+        const today = todayStr();
+        if (state.streakRepairs[today]) return;
+        if (!state.streak.lastDate || isSameDay(state.streak.lastDate, today)) return;
+        // Only allow repair if streak broke (not yesterday, not same day)
+        if (isYesterday(state.streak.lastDate, today)) return;
+        if (state.streak.count <= 0) return;
+        set({
+          streak: { count: state.streak.count, lastDate: today },
+          streakRepairs: { ...state.streakRepairs, [today]: true },
+        });
+      },
+
+      canRepairStreak: () => {
+        const state = get();
+        const today = todayStr();
+        if (state.streakRepairs[today]) return false;
+        if (state.streak.count <= 0) return false;
+        if (isSameDay(state.streak.lastDate, today)) return false;
+        if (isYesterday(state.streak.lastDate, today)) return false;
+        return true;
       },
 
       scheduleReview: (slug, quality) => {

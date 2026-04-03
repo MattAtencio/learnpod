@@ -133,6 +133,7 @@ function readPods() {
       created: fm.created instanceof Date ? fm.created.toISOString().slice(0, 10) : String(fm.created || ""),
       source: fm.source || undefined,
       sourceUrl: fm["source-url"] || undefined,
+      objectives: Array.isArray(fm.objectives) ? fm.objectives : undefined,
       sections: contentSections,
       related,
       estimatedMinutes: ESTIMATED_MINUTES.pod,
