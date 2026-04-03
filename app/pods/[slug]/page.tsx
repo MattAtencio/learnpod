@@ -17,5 +17,19 @@ export default async function PodPage({ params }: { params: Promise<{ slug: stri
     m.chapters.some((ch) => ch.slug === slug)
   );
 
-  return <PodDetailClient pod={pod} lesson={lesson} parentModule={parentModule} />;
+  const allPods = getAllPods().filter((p) => p.status !== "dropped");
+  const currentIndex = allPods.findIndex((p) => p.slug === slug);
+  const nextPods = [
+    ...allPods.slice(currentIndex + 1),
+    ...allPods.slice(0, currentIndex),
+  ];
+
+  return (
+    <PodDetailClient
+      pod={pod}
+      lesson={lesson}
+      parentModule={parentModule}
+      nextPodSlugs={nextPods.map((p) => p.slug)}
+    />
+  );
 }

@@ -4,15 +4,22 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { useState, useEffect } from "react";
 
+const STREAK_MILESTONES = [7, 30, 100, 365] as const;
+
 interface LearnState {
   completedItems: string[];
   xp: number;
   streak: { count: number; lastDate: string };
+  streakFreezes: number;
+  lastFreezeReplenish: string;
   _hydrated: boolean;
 
   completeItem: (slug: string, xpReward: number) => void;
   isCompleted: (slug: string) => boolean;
   getModuleProgress: (chapterSlugs: string[]) => { done: number; total: number; pct: number };
+  isStreakAtRisk: () => boolean;
+  getStreakMilestone: () => number | null;
+  checkFreezeReplenish: () => void;
 }
 
 /** Hook that returns true only after the store has hydrated from localStorage */
@@ -44,12 +51,22 @@ function todayStr() {
   return new Date().toISOString().slice(0, 10);
 }
 
+function getMonday(date: Date): string {
+  const d = new Date(date);
+  const day = d.getDay();
+  const diff = d.getDate() - day + (day === 0 ? -6 : 1);
+  d.setDate(diff);
+  return d.toISOString().slice(0, 10);
+}
+
 export const useLearnStore = create<LearnState>()(
   persist(
     (set, get) => ({
       completedItems: [],
       xp: 0,
       streak: { count: 0, lastDate: "" },
+      streakFreezes: 1,
+      lastFreezeReplenish: "",
       _hydrated: false,
 
       completeItem: (slug, xpReward) => {
@@ -58,9 +75,14 @@ export const useLearnStore = create<LearnState>()(
 
         const today = todayStr();
         let newStreak = state.streak;
+        let newFreezes = state.streakFreezes;
 
         if (!isSameDay(state.streak.lastDate, today)) {
           if (isYesterday(state.streak.lastDate, today)) {
+            newStreak = { count: state.streak.count + 1, lastDate: today };
+          } else if (state.streakFreezes > 0 && state.streak.count > 0) {
+            // Use a freeze to keep the streak alive
+            newFreezes = state.streakFreezes - 1;
             newStreak = { count: state.streak.count + 1, lastDate: today };
           } else {
             newStreak = { count: 1, lastDate: today };
@@ -71,6 +93,7 @@ export const useLearnStore = create<LearnState>()(
           completedItems: [...state.completedItems, slug],
           xp: state.xp + xpReward,
           streak: newStreak,
+          streakFreezes: newFreezes,
         });
       },
 
@@ -81,6 +104,31 @@ export const useLearnStore = create<LearnState>()(
         const done = chapterSlugs.filter((s) => completed.includes(s)).length;
         const total = chapterSlugs.length;
         return { done, total, pct: total > 0 ? done / total : 0 };
+      },
+
+      isStreakAtRisk: () => {
+        const state = get();
+        if (state.streak.count <= 0) return false;
+        const today = todayStr();
+        if (isSameDay(state.streak.lastDate, today)) return false;
+        const now = new Date();
+        return now.getHours() >= 12;
+      },
+
+      getStreakMilestone: () => {
+        const count = get().streak.count;
+        return STREAK_MILESTONES.includes(count as typeof STREAK_MILESTONES[number])
+          ? count
+          : null;
+      },
+
+      checkFreezeReplenish: () => {
+        const state = get();
+        const now = new Date();
+        if (now.getDay() !== 1) return; // Not Monday
+        const thisMonday = getMonday(now);
+        if (state.lastFreezeReplenish === thisMonday) return; // Already replenished this week
+        set({ streakFreezes: 1, lastFreezeReplenish: thisMonday });
       },
     }),
     { name: "learnpod-store" }

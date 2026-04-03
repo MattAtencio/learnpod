@@ -12,7 +12,7 @@ export function Ring({ pct, color, size = 52, stroke = 5 }: RingProps) {
   const circ = 2 * Math.PI * r;
   const dash = circ * pct;
   return (
-    <svg width={size} height={size} style={{ transform: "rotate(-90deg)" }}>
+    <svg width={size} height={size} style={{ transform: "rotate(-90deg)" }} role="progressbar" aria-valuenow={Math.round(pct * 100)} aria-valuemin={0} aria-valuemax={100}>
       <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="rgba(255,255,255,0.07)" strokeWidth={stroke} />
       <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke={color} strokeWidth={stroke}
         strokeDasharray={`${dash} ${circ}`} strokeLinecap="round" />
