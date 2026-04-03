@@ -3,16 +3,22 @@
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import type { Pod, Lesson, Module } from "@/lib/types";
+import type { Pod, Lesson, Module, Question } from "@/lib/types";
 import { DOMAIN_CONFIG } from "@/lib/types";
 import { useLearnStore, useStoreHydrated } from "@/lib/store";
 import { Markdown } from "@/components/Markdown";
+import { PodQuiz } from "@/components/PodQuiz";
+
+// XP split: reading earns BASE_XP, quiz earns up to QUIZ_XP (scaled by score)
+const BASE_XP = 15;
+const QUIZ_XP = 30;
 
 interface Props {
   pod: Pod;
   lesson?: Lesson;
   parentModule?: Module;
   nextPodSlugs: string[];
+  questions: Question[];
 }
 
 const SECTION_LABELS: Record<string, string> = {
@@ -255,18 +261,24 @@ function CelebrationOverlay({
   );
 }
 
-export function PodDetailClient({ pod, lesson, parentModule, nextPodSlugs }: Props) {
+export function PodDetailClient({ pod, lesson, parentModule, nextPodSlugs, questions }: Props) {
   const hydrated = useStoreHydrated();
   const completeItem = useLearnStore((s) => s.completeItem);
+  const completeQuiz = useLearnStore((s) => s.completeQuiz);
+  const getQuizResult = useLearnStore((s) => s.getQuizResult);
   const isCompleted = useLearnStore((s) => s.isCompleted);
   const completedItems = useLearnStore((s) => s.completedItems);
   const streak = useLearnStore((s) => s.streak);
   const completed = hydrated && isCompleted(pod.slug);
+  const quizResult = hydrated ? getQuizResult(pod.slug) : undefined;
+  const hasQuiz = questions.length > 0;
   const domain = DOMAIN_CONFIG[pod.domain] || DOMAIN_CONFIG["Tools & Platforms"];
   const router = useRouter();
 
   const [showCelebration, setShowCelebration] = useState(false);
+  const [showQuiz, setShowQuiz] = useState(false);
   const [justCompleted, setJustCompleted] = useState(false);
+  const [totalXpEarned, setTotalXpEarned] = useState(0);
 
   const whatSection = pod.sections.find((s) =>
     s.heading.toLowerCase().includes("what it is")
@@ -294,20 +306,36 @@ export function PodDetailClient({ pod, lesson, parentModule, nextPodSlugs }: Pro
   const handleNext = useCallback(() => {
     if (isLastStep) {
       if (!completed) {
-        completeItem(pod.slug, pod.xpReward);
+        // Award base XP for reading
+        const readXp = hasQuiz ? BASE_XP : pod.xpReward;
+        completeItem(pod.slug, readXp);
         setJustCompleted(true);
-        setShowCelebration(true);
+        if (hasQuiz) {
+          setShowQuiz(true);
+          setIsStudying(false);
+        } else {
+          setTotalXpEarned(readXp);
+          setShowCelebration(true);
+        }
       } else {
         setIsStudying(false);
       }
     } else {
       setCurrentStep((s) => s + 1);
     }
-  }, [isLastStep, completed, completeItem, pod.slug, pod.xpReward]);
+  }, [isLastStep, completed, completeItem, pod.slug, pod.xpReward, hasQuiz]);
 
   function handleRedo() {
     setCurrentStep(0);
     setIsStudying(true);
+  }
+
+  function handleQuizComplete(score: number, total: number) {
+    const bonusXp = Math.round((score / total) * QUIZ_XP);
+    completeQuiz(pod.slug, score, total, bonusXp);
+    setTotalXpEarned(BASE_XP + bonusXp);
+    setShowQuiz(false);
+    setShowCelebration(true);
   }
 
   function handleCelebrationContinue() {
@@ -325,7 +353,7 @@ export function PodDetailClient({ pod, lesson, parentModule, nextPodSlugs }: Pro
     <div className="pod-detail">
       {showCelebration && (
         <CelebrationOverlay
-          xp={pod.xpReward}
+          xp={totalXpEarned || pod.xpReward}
           streak={streak.count}
           onContinue={handleCelebrationContinue}
           onNextPod={handleNextPod}
@@ -355,8 +383,8 @@ export function PodDetailClient({ pod, lesson, parentModule, nextPodSlugs }: Pro
             <div className="pod-stat-label">Concepts</div>
           </div>
           <div className="pod-stat">
-            <div className="pod-stat-val">+{pod.xpReward}</div>
-            <div className="pod-stat-label">XP</div>
+            <div className="pod-stat-val">+{hasQuiz ? `${BASE_XP}+${QUIZ_XP}` : pod.xpReward}</div>
+            <div className="pod-stat-label">{hasQuiz ? "Read+Quiz" : "XP"}</div>
           </div>
         </div>
       </div>
@@ -415,7 +443,17 @@ export function PodDetailClient({ pod, lesson, parentModule, nextPodSlugs }: Pro
         </div>
       )}
 
-      {!isStudying && (
+      {/* Quiz phase */}
+      {showQuiz && (
+        <PodQuiz
+          questions={questions}
+          podTitle={pod.title}
+          bonusXp={QUIZ_XP}
+          onComplete={handleQuizComplete}
+        />
+      )}
+
+      {!isStudying && !showQuiz && (
         <div className="concepts fade-3" style={{ marginTop: 16 }}>
           {justCompleted && nextPodSlug && (
             <div
@@ -448,6 +486,20 @@ export function PodDetailClient({ pod, lesson, parentModule, nextPodSlugs }: Pro
               <div style={{ color: "var(--amber)", fontSize: 16 }}>→</div>
             </div>
           )}
+          {quizResult && (
+            <div style={{
+              margin: "0 0 12px", padding: "12px 16px",
+              background: "rgba(93,214,140,0.08)", border: "1px solid rgba(93,214,140,0.2)",
+              borderRadius: 14, display: "flex", alignItems: "center", gap: 12,
+            }}>
+              <div style={{
+                fontSize: 12, fontWeight: 600, color: "var(--green)",
+                textTransform: "uppercase" as const, letterSpacing: "0.06em",
+              }}>
+                Quiz: {quizResult.score}/{quizResult.total} · +{quizResult.xpEarned} XP
+              </div>
+            </div>
+          )}
           {conceptSections.map((section, i) => (
             <div
               key={i}
@@ -465,15 +517,15 @@ export function PodDetailClient({ pod, lesson, parentModule, nextPodSlugs }: Pro
         </div>
       )}
 
-      <div className="pod-actions fade-5">
+      <div className="pod-actions fade-5" style={showQuiz ? { display: "none" } : undefined}>
         {isStudying ? (
           <button
             className="btn-primary"
             onClick={handleNext}
-            aria-label={isLastStep ? (completed ? "Finish Review" : `Mark Complete and earn ${pod.xpReward} XP`) : "Next Concept"}
+            aria-label={isLastStep ? (completed ? "Finish Review" : hasQuiz ? "Start Quiz" : `Mark Complete and earn ${pod.xpReward} XP`) : "Next Concept"}
           >
             {isLastStep
-              ? completed ? "Finish Review" : `Mark Complete · +${pod.xpReward} XP`
+              ? completed ? "Finish Review" : hasQuiz ? `Start Quiz · +${BASE_XP} XP` : `Mark Complete · +${pod.xpReward} XP`
               : "Next Concept →"}
           </button>
         ) : (

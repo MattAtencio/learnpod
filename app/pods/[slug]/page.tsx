@@ -1,4 +1,4 @@
-import { getAllPods, getPodBySlug, getLessonForPod } from "@/lib/content";
+import { getAllPods, getPodBySlug, getLessonForPod, getQuizForPod } from "@/lib/content";
 import { getAllModules } from "@/lib/content";
 import { notFound } from "next/navigation";
 import { PodDetailClient } from "./PodDetailClient";
@@ -24,12 +24,15 @@ export default async function PodPage({ params }: { params: Promise<{ slug: stri
     ...allPods.slice(0, currentIndex),
   ];
 
+  const questions = getQuizForPod(slug);
+
   return (
     <PodDetailClient
       pod={pod}
       lesson={lesson}
       parentModule={parentModule}
       nextPodSlugs={nextPods.map((p) => p.slug)}
+      questions={questions}
     />
   );
 }

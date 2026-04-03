@@ -7,6 +7,14 @@ export interface Section {
   content: string;
 }
 
+export interface Question {
+  id: string;
+  question: string;
+  choices: string[];
+  correctIndex: number;
+  explanation: string;
+}
+
 export interface Pod {
   slug: string;
   title: string;
@@ -17,6 +25,7 @@ export interface Pod {
   source?: string;
   sourceUrl?: string;
   sections: Section[];
+  questions?: Question[];
   related: string[];
   estimatedMinutes: number;
   xpReward: number;

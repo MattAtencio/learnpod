@@ -1,10 +1,11 @@
-import type { Pod, Lesson, Module, Domain } from "./types";
+import type { Pod, Lesson, Module, Domain, Question } from "./types";
 
 // These imports point to auto-generated files from the sync script.
 // If they don't exist yet, run `npm run sync` first.
 import { pods } from "@/data/pods";
 import { lessons } from "@/data/lessons";
 import { modules } from "@/data/modules";
+import { quizzes } from "@/data/quizzes";
 
 export function getAllPods(): Pod[] {
   return pods;
@@ -40,4 +41,8 @@ export function getAllModules(): Module[] {
 
 export function getModuleBySlug(slug: string): Module | undefined {
   return modules.find((m) => m.slug === slug);
+}
+
+export function getQuizForPod(podSlug: string): Question[] {
+  return quizzes[podSlug] ?? [];
 }

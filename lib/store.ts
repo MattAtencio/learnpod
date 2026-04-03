@@ -6,8 +6,15 @@ import { useState, useEffect } from "react";
 
 const STREAK_MILESTONES = [7, 30, 100, 365] as const;
 
+interface QuizResult {
+  score: number;
+  total: number;
+  xpEarned: number;
+}
+
 interface LearnState {
   completedItems: string[];
+  quizResults: Record<string, QuizResult>;
   xp: number;
   streak: { count: number; lastDate: string };
   streakFreezes: number;
@@ -15,6 +22,8 @@ interface LearnState {
   _hydrated: boolean;
 
   completeItem: (slug: string, xpReward: number) => void;
+  completeQuiz: (slug: string, score: number, total: number, bonusXp: number) => void;
+  getQuizResult: (slug: string) => QuizResult | undefined;
   isCompleted: (slug: string) => boolean;
   getModuleProgress: (chapterSlugs: string[]) => { done: number; total: number; pct: number };
   isStreakAtRisk: () => boolean;
@@ -63,6 +72,7 @@ export const useLearnStore = create<LearnState>()(
   persist(
     (set, get) => ({
       completedItems: [],
+      quizResults: {},
       xp: 0,
       streak: { count: 0, lastDate: "" },
       streakFreezes: 1,
@@ -96,6 +106,17 @@ export const useLearnStore = create<LearnState>()(
           streakFreezes: newFreezes,
         });
       },
+
+      completeQuiz: (slug, score, total, bonusXp) => {
+        const state = get();
+        if (state.quizResults[slug]) return;
+        set({
+          quizResults: { ...state.quizResults, [slug]: { score, total, xpEarned: bonusXp } },
+          xp: state.xp + bonusXp,
+        });
+      },
+
+      getQuizResult: (slug) => get().quizResults[slug],
 
       isCompleted: (slug) => get().completedItems.includes(slug),
 
