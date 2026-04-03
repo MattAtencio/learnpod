@@ -1845,7 +1845,7 @@ export const pods: Pod[] = [
   {
     "slug": "how-possible-is-this",
     "title": "Feasibility Analysis — \"How Possible Is This?\"",
-    "domain": "Product & Engineering",
+    "domain": "General",
     "tags": [
       "pod",
       "decision-making",
