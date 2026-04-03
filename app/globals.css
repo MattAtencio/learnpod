@@ -64,7 +64,9 @@ body::before {
   gap: 4px;
   cursor: pointer;
   transition: all 0.2s;
-  padding: 4px 12px;
+  padding: 8px 16px;
+  min-width: 48px;
+  min-height: 48px;
   border-radius: 12px;
   text-decoration: none;
 }
@@ -178,11 +180,14 @@ body::before {
   padding: 4px 24px 20px;
   overflow-x: auto;
   scrollbar-width: none;
+  scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
 }
 .pods-scroll::-webkit-scrollbar { display: none; }
 .pod-card {
   width: 200px;
   flex-shrink: 0;
+  scroll-snap-align: start;
   background: var(--surface);
   border-radius: 20px;
   border: 1px solid var(--border);
@@ -399,6 +404,7 @@ body::before {
   gap: 14px;
   align-items: flex-start;
   padding: 14px 16px;
+  min-height: 44px;
   background: var(--surface);
   border-radius: 16px;
   border: 1px solid var(--border);
@@ -472,7 +478,8 @@ body::before {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 12px 14px;
+  padding: 14px 16px;
+  min-height: 48px;
   background: var(--surface);
   border-radius: 14px;
   border: 1px solid var(--border);
@@ -562,6 +569,7 @@ body::before {
   gap: 14px;
   align-items: center;
   padding: 14px 16px;
+  min-height: 48px;
   background: var(--surface);
   border-radius: 18px;
   border: 1px solid var(--border);
@@ -648,8 +656,8 @@ body::before {
   padding: 8px 20px 4px;
 }
 .back-btn {
-  width: 34px; height: 34px;
-  border-radius: 10px;
+  width: 44px; height: 44px;
+  border-radius: 12px;
   background: var(--surface);
   border: 1px solid var(--border);
   display: flex; align-items: center; justify-content: center;

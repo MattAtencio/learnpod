@@ -58,6 +58,7 @@ function CelebrationOverlay({
   hasNextPod,
   firstAttemptBonus,
   objectives,
+  isFirstEver,
 }: {
   xp: number;
   streak: number;
@@ -66,6 +67,7 @@ function CelebrationOverlay({
   hasNextPod: boolean;
   firstAttemptBonus?: number;
   objectives?: string[];
+  isFirstEver?: boolean;
 }) {
   const [particles, setParticles] = useState<Particle[]>([]);
   const [show, setShow] = useState(false);
@@ -180,18 +182,20 @@ function CelebrationOverlay({
         }}
       >
         <div style={{ fontSize: 56, lineHeight: 1, marginBottom: 16 }}>
-          🎉
+          {isFirstEver ? "🚀" : "🎉"}
         </div>
 
         <div style={{
           fontFamily: "var(--font-fraunces), Fraunces, serif",
-          fontSize: 24, fontWeight: 600, color: "var(--text)", marginBottom: 6,
+          fontSize: 24, fontWeight: 600, color: isFirstEver ? "var(--amber)" : "var(--text)", marginBottom: 6,
         }}>
-          Pod Complete!
+          {isFirstEver ? "Your First Streak Day!" : "Pod Complete!"}
         </div>
 
         <div style={{ fontSize: 13, color: "var(--muted)", marginBottom: 24, lineHeight: 1.5 }}>
-          Great work — keep the momentum going.
+          {isFirstEver
+            ? "Welcome to the grind — complete a pod each day to build your streak."
+            : "Great work — keep the momentum going."}
         </div>
 
         <div style={{ display: "flex", gap: 12, justifyContent: "center", marginBottom: 24 }}>
@@ -429,6 +433,7 @@ export function PodDetailClient({ pod, lesson, parentModule, nextPodSlugs, quest
           hasNextPod={!!nextPodSlug}
           firstAttemptBonus={firstAttemptBonus}
           objectives={pod.objectives}
+          isFirstEver={completedItems.length === 1 && justCompleted}
         />
       )}
 

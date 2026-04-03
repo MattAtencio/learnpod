@@ -63,7 +63,13 @@ export function BottomNav() {
             href={it.href}
             className={`nav-item ${active ? "active" : ""}`}
             aria-current={active ? "page" : undefined}
-            onClick={setFade}
+            onClick={(e) => {
+              setFade();
+              if (active) {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }
+            }}
           >
             <div className="nav-icon" style={{ color: active ? "var(--amber)" : "var(--muted)" }}>
               {icons[it.id]}
