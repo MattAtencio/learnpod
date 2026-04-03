@@ -7,6 +7,7 @@ const items = [
   { id: "home", href: "/", icon: "🏠", label: "Home" },
   { id: "pods", href: "/pods", icon: "⚡", label: "Pods" },
   { id: "modules", href: "/modules", icon: "🗂", label: "Modules" },
+  { id: "explore", href: "/explore", icon: "🔍", label: "Explore" },
 ];
 
 export function BottomNav() {

@@ -8,9 +8,10 @@ import { useLearnStore, useStoreHydrated } from "@/lib/store";
 
 interface Props {
   module: Module;
+  lessonToPod: Record<string, string>;
 }
 
-export function ModuleDetailClient({ module: mod }: Props) {
+export function ModuleDetailClient({ module: mod, lessonToPod }: Props) {
   const hydrated = useStoreHydrated();
   const getModuleProgress = useLearnStore((s) => s.getModuleProgress);
   const isCompletedRaw = useLearnStore((s) => s.isCompleted);
@@ -89,7 +90,11 @@ export function ModuleDetailClient({ module: mod }: Props) {
           const isActive = !chCompleted && mod.chapters.slice(0, i).every((prev) => isCompleted(prev.slug));
           const isLocked = !chCompleted && !isActive;
           const state = chCompleted ? "completed" : isActive ? "active" : "locked";
-          const href = ch.type === "pod" ? `/pods/${ch.slug}` : "#";
+          const href = ch.type === "pod"
+            ? `/pods/${ch.slug}`
+            : ch.type === "lesson" && lessonToPod[ch.slug]
+              ? `/pods/${lessonToPod[ch.slug]}`
+              : "#";
 
           return (
             <Link

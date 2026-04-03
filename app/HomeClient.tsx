@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import type { Pod, Module } from "@/lib/types";
 import { PodCard } from "@/components/PodCard";
 import { ModuleCard } from "@/components/ModuleCard";
@@ -29,7 +30,7 @@ export function HomeClient({ pods, modules }: { pods: Pod[]; modules: Module[] }
 
       <div className="section-header fade-3">
         <div className="section-title">Today&apos;s Pods</div>
-        <div className="section-link">See all →</div>
+        <Link href="/pods" className="section-link" style={{ textDecoration: "none" }}>See all →</Link>
       </div>
 
       <div className="pods-scroll fade-3">
@@ -42,7 +43,7 @@ export function HomeClient({ pods, modules }: { pods: Pod[]; modules: Module[] }
         <>
           <div className="section-header fade-4">
             <div className="section-title">Active Modules</div>
-            <div className="section-link">See all →</div>
+            <Link href="/modules" className="section-link" style={{ textDecoration: "none" }}>See all →</Link>
           </div>
           <div className="fade-4">
             {modules.map((mod) => (

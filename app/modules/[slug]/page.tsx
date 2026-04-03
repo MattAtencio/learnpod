@@ -1,4 +1,4 @@
-import { getAllModules, getModuleBySlug } from "@/lib/content";
+import { getAllModules, getModuleBySlug, getAllLessons } from "@/lib/content";
 import { notFound } from "next/navigation";
 import { ModuleDetailClient } from "./ModuleDetailClient";
 
@@ -11,5 +11,12 @@ export default async function ModulePage({ params }: { params: Promise<{ slug: s
   const mod = getModuleBySlug(slug);
   if (!mod) notFound();
 
-  return <ModuleDetailClient module={mod} />;
+  // Build a map of lesson slug → source pod slug for chapter links
+  const lessons = getAllLessons();
+  const lessonToPod: Record<string, string> = {};
+  for (const l of lessons) {
+    lessonToPod[l.slug] = l.sourcePod;
+  }
+
+  return <ModuleDetailClient module={mod} lessonToPod={lessonToPod} />;
 }
