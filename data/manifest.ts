@@ -6,5 +6,5 @@ export const manifest: ContentManifest = {
   lessonCount: 3,
   moduleCount: 8,
   domains: ["AI Engineering", "Quant & Trading", "Financial Models", "Tools & Platforms", "ML Models", "General"],
-  lastSynced: "2026-04-03T15:52:18.359Z",
+  lastSynced: "2026-04-03T19:11:35.633Z",
 };

@@ -773,7 +773,7 @@ export const modules: Module[] = [
     "chapters": [
       {
         "slug": "quant-time-series-momentum",
-        "title": "Time-Series Momentum Models",
+        "title": "Quant - Time-Series Momentum",
         "type": "pod",
         "estimatedMinutes": 2,
         "xpReward": 45
