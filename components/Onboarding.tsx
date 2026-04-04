@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import type { Pod, Domain } from "@/lib/types";
 import { DOMAIN_CONFIG } from "@/lib/types";
 import { useLearnStore } from "@/lib/store";
+import { requestNotificationPermission } from "@/lib/notifications";
 
 const ONBOARDING_DOMAINS: Domain[] = [
   "AI Engineering",
@@ -42,6 +43,8 @@ export function Onboarding({ pods }: Props) {
 
   function handleStart() {
     completeOnboarding(selectedDomains);
+    // Request notification permission (non-blocking)
+    requestNotificationPermission();
     if (previewPod) {
       router.push(`/pods/${previewPod.slug}`);
     }

@@ -26,6 +26,16 @@ export default async function PodPage({ params }: { params: Promise<{ slug: stri
 
   const questions = getQuizForPod(slug);
 
+  // Gather review questions from other pods in the same domain for interleaving
+  const sameDomainPods = allPods.filter((p) => p.domain === pod.domain && p.slug !== slug);
+  const reviewPool: { slug: string; question: import("@/lib/types").Question }[] = [];
+  for (const p of sameDomainPods) {
+    const pQuestions = getQuizForPod(p.slug);
+    for (const q of pQuestions) {
+      reviewPool.push({ slug: p.slug, question: q });
+    }
+  }
+
   return (
     <PodDetailClient
       pod={pod}
@@ -33,6 +43,8 @@ export default async function PodPage({ params }: { params: Promise<{ slug: stri
       parentModule={parentModule}
       nextPodSlugs={nextPods.map((p) => p.slug)}
       questions={questions}
+      reviewPool={reviewPool.map((r) => r.question)}
+      reviewPoolSlugs={reviewPool.map((r) => r.slug)}
     />
   );
 }

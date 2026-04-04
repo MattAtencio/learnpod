@@ -1,6 +1,7 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
+  /* ─── Colors ─── */
   --bg:        #13100d;
   --surface:   #1e1a15;
   --surface2:  #2b2520;
@@ -16,6 +17,37 @@
   --blue:      #6ea8fe;
   --purple:    #b08ef5;
   --green:     #5dd68c;
+
+  /* ─── Spacing ─── */
+  --space-xs:  4px;
+  --space-sm:  8px;
+  --space-md:  12px;
+  --space-lg:  16px;
+  --space-xl:  20px;
+  --space-2xl: 24px;
+  --space-3xl: 32px;
+
+  /* ─── Border Radius ─── */
+  --radius-sm:  4px;
+  --radius-md:  8px;
+  --radius-lg:  12px;
+  --radius-xl:  16px;
+  --radius-2xl: 20px;
+  --radius-3xl: 24px;
+  --radius-pill: 9999px;
+
+  /* ─── Shadows ─── */
+  --shadow-card:  0 4px 20px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.04);
+  --shadow-glow:  0 0 40px rgba(245,166,35,0.07), 0 8px 32px rgba(0,0,0,0.4);
+  --shadow-btn:   0 6px 20px rgba(245,166,35,0.35);
+  --shadow-modal: 0 20px 60px rgba(0,0,0,0.5);
+
+  /* ─── Typography ─── */
+  --font-heading: var(--font-fraunces), 'Fraunces', serif;
+  --font-body:    'Outfit', sans-serif;
+
+  /* ─── Touch ─── */
+  --touch-min: 44px;
 }
 
 html, body {
@@ -812,4 +844,92 @@ body::before {
     margin-top: 2px;
     transition: opacity 0.2s ease, transform 0.2s ease;
   }
+}
+
+/* ─── DESIGN SYSTEM UTILITIES ─── */
+
+/* Cards */
+.card {
+  background: var(--surface);
+  border-radius: var(--radius-2xl);
+  border: 1px solid var(--border);
+  padding: var(--space-lg) var(--space-xl);
+  box-shadow: var(--shadow-card);
+}
+.card-glow {
+  background: var(--surface);
+  border-radius: var(--radius-3xl);
+  border: 1px solid rgba(245,166,35,0.2);
+  box-shadow: var(--shadow-glow);
+}
+
+/* Badges */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  border-radius: 6px;
+}
+.badge-amber   { color: var(--amber); background: rgba(245,166,35,0.12); }
+.badge-coral   { color: var(--coral); background: rgba(255,107,91,0.12); }
+.badge-green   { color: var(--green); background: rgba(93,214,140,0.12); }
+.badge-blue    { color: var(--blue);  background: rgba(110,168,254,0.12); }
+.badge-purple  { color: var(--purple); background: rgba(176,142,245,0.12); }
+.badge-teal    { color: var(--teal);  background: rgba(62,207,178,0.12); }
+
+/* Stat card */
+.stat-card {
+  flex: 1;
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  padding: 10px 14px;
+  text-align: center;
+  border: 1px solid var(--border);
+}
+.stat-val {
+  font-family: var(--font-heading);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1;
+}
+.stat-label {
+  font-size: 10px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-top: 2px;
+}
+
+/* Section headers */
+.section-heading {
+  font-family: var(--font-heading);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* Toggle switch base */
+.toggle {
+  position: relative;
+  width: 48px;
+  height: 28px;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.toggle-knob {
+  width: 22px;
+  height: 22px;
+  border-radius: 11px;
+  background: white;
+  position: absolute;
+  top: 3px;
+  transition: left 0.2s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
 }

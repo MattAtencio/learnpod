@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { Pod, Lesson, Module, Question } from "@/lib/types";
@@ -20,6 +20,8 @@ interface Props {
   parentModule?: Module;
   nextPodSlugs: string[];
   questions: Question[];
+  reviewPool?: Question[];
+  reviewPoolSlugs?: string[];
 }
 
 const SECTION_LABELS: Record<string, string> = {
@@ -314,7 +316,7 @@ function CelebrationOverlay({
   );
 }
 
-export function PodDetailClient({ pod, lesson, parentModule, nextPodSlugs, questions }: Props) {
+export function PodDetailClient({ pod, lesson, parentModule, nextPodSlugs, questions, reviewPool, reviewPoolSlugs }: Props) {
   const hydrated = useStoreHydrated();
   const completeItem = useLearnStore((s) => s.completeItem);
   const completeQuiz = useLearnStore((s) => s.completeQuiz);
@@ -327,6 +329,35 @@ export function PodDetailClient({ pod, lesson, parentModule, nextPodSlugs, quest
   const completed = hydrated && isCompleted(pod.slug);
   const quizResult = hydrated ? getQuizResult(pod.slug) : undefined;
   const hasQuiz = questions.length > 0;
+
+  // Build interleaved question set: 70% current pod, 30% review from completed same-domain pods
+  const interleavedQuestions = useMemo(() => {
+    if (!hydrated || !hasQuiz || !reviewPool?.length || !reviewPoolSlugs?.length) return questions;
+
+    // Filter review questions to only those from completed pods
+    const eligible = reviewPool
+      .map((q, i) => ({ question: q, slug: reviewPoolSlugs[i] }))
+      .filter((r) => completedItems.includes(r.slug));
+
+    if (eligible.length === 0) return questions;
+
+    // Target: 30% review questions
+    const reviewCount = Math.max(1, Math.round(questions.length * 0.3));
+    // Shuffle and pick
+    const shuffled = [...eligible].sort(() => Math.random() - 0.5).slice(0, reviewCount);
+    const reviewQs = shuffled.map((r) => ({ ...r.question, _isReview: true }));
+
+    // Interleave: insert review questions at regular intervals
+    const result: (typeof questions[number] & { _isReview: boolean })[] =
+      [...questions.map((q) => ({ ...q, _isReview: false }))];
+    const interval = Math.max(1, Math.floor(result.length / (reviewQs.length + 1)));
+    for (let i = 0; i < reviewQs.length; i++) {
+      const insertAt = Math.min(result.length, (i + 1) * interval + i);
+      result.splice(insertAt, 0, reviewQs[i]);
+    }
+    return result;
+  }, [hydrated, hasQuiz, questions, reviewPool, reviewPoolSlugs, completedItems]);
+
   const domain = DOMAIN_CONFIG[pod.domain] || DOMAIN_CONFIG["Tools & Platforms"];
   const router = useRouter();
   const { setBack, setForward } = useNavDirection();
@@ -546,7 +577,7 @@ export function PodDetailClient({ pod, lesson, parentModule, nextPodSlugs, quest
       {/* Quiz phase */}
       {showQuiz && (
         <PodQuiz
-          questions={questions}
+          questions={interleavedQuestions}
           podTitle={pod.title}
           bonusXp={QUIZ_XP}
           onComplete={handleQuizComplete}

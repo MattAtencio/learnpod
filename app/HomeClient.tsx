@@ -9,6 +9,8 @@ import { DailyGoal } from "@/components/DailyGoal";
 import { Onboarding } from "@/components/Onboarding";
 import { useLearnStore, useStoreHydrated } from "@/lib/store";
 import { useNavDirection } from "@/lib/nav-direction";
+import { checkStreakReminder } from "@/lib/notifications";
+import { useEffect } from "react";
 
 function getGreeting(): string {
   const hour = new Date().getHours();
@@ -23,7 +25,15 @@ export function HomeClient({ pods, modules }: { pods: Pod[]; modules: Module[] }
   const getReviewStatus = useLearnStore((s) => s.getReviewStatus);
   const onboardingComplete = useLearnStore((s) => s.onboardingComplete);
   const preferredDomains = useLearnStore((s) => s.preferredDomains);
+  const streak = useLearnStore((s) => s.streak);
   const { setForward } = useNavDirection();
+
+  // Check streak reminder on home load
+  useEffect(() => {
+    if (hydrated && onboardingComplete) {
+      checkStreakReminder(streak.count, streak.lastDate);
+    }
+  }, [hydrated, onboardingComplete, streak.count, streak.lastDate]);
 
   const dueReviewSlugs = hydrated ? getDueReviews() : [];
   const reviewPods = dueReviewSlugs

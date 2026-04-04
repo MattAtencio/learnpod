@@ -6,6 +6,7 @@ import type { Pod, Lesson, Module, Domain } from "@/lib/types";
 import { DOMAIN_CONFIG } from "@/lib/types";
 import { useLearnStore, useStoreHydrated } from "@/lib/store";
 import { useNavDirection } from "@/lib/nav-direction";
+import { NotificationSettings } from "@/components/NotificationSettings";
 
 type ContentItem = {
   slug: string;
@@ -313,6 +314,9 @@ export function ExploreClient({ pods, lessons, modules }: { pods: Pod[]; lessons
           )}
         </div>
       )}
+
+      {/* Notification Settings */}
+      {hydrated && <NotificationSettings />}
 
       {/* Search */}
       <div className="fade-2" style={{ margin: "0 20px 12px" }}>

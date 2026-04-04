@@ -3,8 +3,10 @@
 import { useState } from "react";
 import type { Question } from "@/lib/types";
 
+type QuizQuestion = Question & { _isReview?: boolean };
+
 interface Props {
-  questions: Question[];
+  questions: QuizQuestion[];
   podTitle: string;
   bonusXp: number;
   onComplete: (score: number, total: number) => void;
@@ -15,6 +17,7 @@ export function PodQuiz({ questions, podTitle, bonusXp, onComplete }: Props) {
   const [selected, setSelected] = useState<number | null>(null);
   const [confirmed, setConfirmed] = useState(false);
   const [score, setScore] = useState(0);
+  const [podScore, setPodScore] = useState(0);
   const [animClass, setAnimClass] = useState("");
 
   const q = questions[current];
@@ -30,13 +33,19 @@ export function PodQuiz({ questions, podTitle, bonusXp, onComplete }: Props) {
     if (selected === null) return;
     setConfirmed(true);
     setAnimClass(selected === q.correctIndex ? "quiz-bounce" : "quiz-shake");
-    if (isCorrect) setScore((s) => s + 1);
+    if (isCorrect) {
+      setScore((s) => s + 1);
+      if (!q._isReview) setPodScore((s) => s + 1);
+    }
   }
+
+  const podTotal = questions.filter((q) => !q._isReview).length;
 
   function handleNext() {
     if (isLast) {
-      const finalScore = score + (isCorrect ? 0 : 0); // score already updated
-      onComplete(score + (selected === q.correctIndex ? 1 : 0), questions.length);
+      // Report only pod-specific score/total for XP calculation
+      const finalPodScore = podScore + (isCorrect && !q._isReview ? 1 : 0);
+      onComplete(finalPodScore, podTotal);
     } else {
       setCurrent((c) => c + 1);
       setSelected(null);
@@ -56,8 +65,18 @@ export function PodQuiz({ questions, podTitle, bonusXp, onComplete }: Props) {
         <div style={{
           fontSize: 12, fontWeight: 600, color: "var(--amber)",
           textTransform: "uppercase" as const, letterSpacing: "0.08em",
+          display: "flex", alignItems: "center", gap: 6,
         }}>
           Quiz · {current + 1}/{questions.length}
+          {q._isReview && (
+            <span style={{
+              fontSize: 9, fontWeight: 700, color: "var(--teal)",
+              background: "rgba(62,207,178,0.12)", borderRadius: 5,
+              padding: "1px 6px", letterSpacing: "0.04em",
+            }}>
+              REVIEW
+            </span>
+          )}
         </div>
         <div style={{
           fontSize: 12, fontWeight: 600, color: "var(--green)",
