@@ -1,6 +1,7 @@
-export type Domain = "AI Engineering" | "AI for Everyone" | "DevOps" | "Quant & Trading" | "Financial Models" | "Tools & Platforms" | "ML Models" | "General";
+export type Domain = "AI Engineering" | "AI for Everyone" | "Business" | "DevOps" | "Quant & Trading" | "Financial Models" | "Tools & Platforms" | "ML Models" | "General";
 export type ContentStatus = "queue" | "in-progress" | "done" | "dropped";
 export type ContentType = "pod" | "lesson" | "module";
+export type PodContentType = "concept" | "framework" | "case-study" | "metaphor" | "methodology";
 
 export interface Section {
   heading: string;
@@ -24,6 +25,8 @@ export interface Pod {
   created: string;
   source?: string;
   sourceUrl?: string;
+  sourceRef?: string;
+  contentType?: PodContentType;
   objectives?: string[];
   sections: Section[];
   questions?: Question[];
@@ -80,6 +83,7 @@ export interface ContentManifest {
 export const DOMAIN_CONFIG: Record<Domain, { tag: string; color: string; emoji: string }> = {
   "AI Engineering":    { tag: "ai",      color: "var(--blue)",   emoji: "⚡" },
   "AI for Everyone":   { tag: "ai",      color: "var(--blue)",   emoji: "🌐" },
+  "Business":          { tag: "biz",     color: "var(--amber)",  emoji: "📖" },
   "DevOps":            { tag: "devops",  color: "var(--purple)", emoji: "🚀" },
   "Quant & Trading":   { tag: "quant",   color: "var(--green)",  emoji: "📈" },
   "Financial Models":  { tag: "finance", color: "var(--teal)",   emoji: "💰" },
