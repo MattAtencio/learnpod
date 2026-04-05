@@ -1,4 +1,4 @@
-export type Domain = "AI Engineering" | "AI for Everyone" | "Business" | "DevOps" | "Quant & Trading" | "Financial Models" | "Tools & Platforms" | "ML Models" | "General";
+export type Domain = "AI Engineering" | "AI for Everyone" | "Business" | "DevOps" | "Product & Engineering" | "Quant & Trading" | "Financial Models" | "Tools & Platforms" | "ML Models" | "General";
 export type ContentStatus = "queue" | "in-progress" | "done" | "dropped";
 export type ContentType = "pod" | "lesson" | "module";
 export type PodContentType = "concept" | "framework" | "case-study" | "metaphor" | "methodology";
@@ -85,6 +85,7 @@ export const DOMAIN_CONFIG: Record<Domain, { tag: string; color: string; emoji: 
   "AI for Everyone":   { tag: "ai",      color: "var(--blue)",   emoji: "🌐" },
   "Business":          { tag: "biz",     color: "var(--amber)",  emoji: "📖" },
   "DevOps":            { tag: "devops",  color: "var(--purple)", emoji: "🚀" },
+  "Product & Engineering": { tag: "product", color: "var(--orange)", emoji: "🛠️" },
   "Quant & Trading":   { tag: "quant",   color: "var(--green)",  emoji: "📈" },
   "Financial Models":  { tag: "finance", color: "var(--teal)",   emoji: "💰" },
   "Tools & Platforms": { tag: "tools",   color: "var(--purple)", emoji: "🔧" },
