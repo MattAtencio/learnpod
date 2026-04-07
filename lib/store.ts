@@ -39,6 +39,7 @@ interface LearnState {
   streakFreezes: number;
   lastFreezeReplenish: string;
   streakRepairs: Record<string, boolean>;
+  pendingStreakRepair: boolean;
   reviewSchedule: Record<string, ReviewData>;
   onboardingComplete: boolean;
   preferredDomains: Domain[];
@@ -114,6 +115,7 @@ export const useLearnStore = create<LearnState>()(
       streakFreezes: 1,
       lastFreezeReplenish: "",
       streakRepairs: {},
+      pendingStreakRepair: false,
       reviewSchedule: {},
       onboardingComplete: false,
       preferredDomains: [],
@@ -126,10 +128,15 @@ export const useLearnStore = create<LearnState>()(
         const today = todayStr();
         let newStreak = state.streak;
         let newFreezes = state.streakFreezes;
+        let consumeRepair = false;
 
         if (!isSameDay(state.streak.lastDate, today)) {
           if (isYesterday(state.streak.lastDate, today)) {
             newStreak = { count: state.streak.count + 1, lastDate: today };
+          } else if (state.pendingStreakRepair && state.streak.count > 0) {
+            // Pending repair: this completion is the proof-of-work that restores the streak
+            newStreak = { count: state.streak.count + 1, lastDate: today };
+            consumeRepair = true;
           } else if (state.streakFreezes > 0 && state.streak.count > 0) {
             // Use a freeze to keep the streak alive
             newFreezes = state.streakFreezes - 1;
@@ -151,6 +158,12 @@ export const useLearnStore = create<LearnState>()(
           xpLog: updatedLog,
           streak: newStreak,
           streakFreezes: newFreezes,
+          ...(consumeRepair
+            ? {
+                pendingStreakRepair: false,
+                streakRepairs: { ...state.streakRepairs, [today]: true },
+              }
+            : {}),
         });
       },
 
@@ -239,20 +252,22 @@ export const useLearnStore = create<LearnState>()(
         const state = get();
         const today = todayStr();
         if (state.streakRepairs[today]) return;
+        if (state.pendingStreakRepair) return;
         if (!state.streak.lastDate || isSameDay(state.streak.lastDate, today)) return;
         // Only allow repair if streak broke (not yesterday, not same day)
         if (isYesterday(state.streak.lastDate, today)) return;
         if (state.streak.count <= 0) return;
-        set({
-          streak: { count: state.streak.count, lastDate: today },
-          streakRepairs: { ...state.streakRepairs, [today]: true },
-        });
+        // Arm the repair: streak is NOT restored until the next completeItem call
+        // provides proof-of-work. Prevents free-repair exploit where users could
+        // resurrect a broken streak without doing any actual learning.
+        set({ pendingStreakRepair: true });
       },
 
       canRepairStreak: () => {
         const state = get();
         const today = todayStr();
         if (state.streakRepairs[today]) return false;
+        if (state.pendingStreakRepair) return false;
         if (state.streak.count <= 0) return false;
         if (isSameDay(state.streak.lastDate, today)) return false;
         if (isYesterday(state.streak.lastDate, today)) return false;
