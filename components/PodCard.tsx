@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { Pod } from "@/lib/types";
@@ -22,6 +22,13 @@ export function PodCard({ pod, featured, reviewStatus }: PodCardProps) {
   const [showRedoPopup, setShowRedoPopup] = useState(false);
   const router = useRouter();
   const { setForward } = useNavDirection();
+
+  useEffect(() => {
+    if (!showRedoPopup) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setShowRedoPopup(false); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [showRedoPopup]);
 
   function handleClick(e: React.MouseEvent) {
     if (completed) {
@@ -91,6 +98,9 @@ export function PodCard({ pod, featured, reviewStatus }: PodCardProps) {
       {/* Redo popup */}
       {showRedoPopup && (
         <div
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="redo-title"
           style={{
             position: "fixed", inset: 0, zIndex: 200,
             background: "rgba(0,0,0,0.6)",
@@ -111,10 +121,10 @@ export function PodCard({ pod, featured, reviewStatus }: PodCardProps) {
             }}
             onClick={(e) => e.stopPropagation()}
           >
-            <div style={{
+            <div aria-hidden="true" style={{
               fontSize: 28, textAlign: "center", marginBottom: 12,
             }}>✓</div>
-            <div style={{
+            <div id="redo-title" style={{
               fontFamily: "var(--font-fraunces), Fraunces, serif",
               fontSize: 18, fontWeight: 600, color: "var(--text)",
               textAlign: "center", marginBottom: 6,

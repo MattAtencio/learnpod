@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLearnStore, useStoreHydrated } from "@/lib/store";
 import { Ring } from "@/components/Ring";
 
@@ -13,6 +13,13 @@ export function DailyGoal() {
   const getTodayXp = useLearnStore((s) => s.getTodayXp);
   const setDailyXpGoal = useLearnStore((s) => s.setDailyXpGoal);
   const [showPicker, setShowPicker] = useState(false);
+
+  useEffect(() => {
+    if (!showPicker) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setShowPicker(false); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [showPicker]);
 
   const todayXp = hydrated ? getTodayXp() : 0;
   const pct = Math.min(todayXp / dailyXpGoal, 1);
@@ -63,6 +70,9 @@ export function DailyGoal() {
 
       {showPicker && (
         <div
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="goal-title"
           style={{
             position: "fixed", inset: 0, zIndex: 200,
             background: "rgba(0,0,0,0.6)", display: "flex",
@@ -79,7 +89,7 @@ export function DailyGoal() {
             }}
             onClick={(e) => e.stopPropagation()}
           >
-            <div style={{
+            <div id="goal-title" style={{
               fontFamily: "var(--font-fraunces), Fraunces, serif",
               fontSize: 18, fontWeight: 600, color: "var(--text)",
               textAlign: "center", marginBottom: 6,

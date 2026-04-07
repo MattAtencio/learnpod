@@ -319,6 +319,7 @@ function CelebrationOverlay({
 export function PodDetailClient({ pod, lesson, parentModule, nextPodSlugs, questions, reviewPool, reviewPoolSlugs }: Props) {
   const hydrated = useStoreHydrated();
   const completeItem = useLearnStore((s) => s.completeItem);
+  const setLastStartedPod = useLearnStore((s) => s.setLastStartedPod);
   const completeQuiz = useLearnStore((s) => s.completeQuiz);
   const scheduleReview = useLearnStore((s) => s.scheduleReview);
   const getQuizResult = useLearnStore((s) => s.getQuizResult);
@@ -361,6 +362,12 @@ export function PodDetailClient({ pod, lesson, parentModule, nextPodSlugs, quest
   const domain = DOMAIN_CONFIG[pod.domain] || DOMAIN_CONFIG["Tools & Platforms"];
   const router = useRouter();
   const { setBack, setForward } = useNavDirection();
+
+  // Track resume pointer: mark this pod as "in progress" on mount unless completed
+  useEffect(() => {
+    if (!hydrated) return;
+    if (!isCompleted(pod.slug)) setLastStartedPod(pod.slug);
+  }, [hydrated, pod.slug, isCompleted, setLastStartedPod]);
 
   const [showCelebration, setShowCelebration] = useState(false);
   const [showQuiz, setShowQuiz] = useState(false);
