@@ -288,8 +288,8 @@ body::before {
   gap: 4px;
 }
 .pod-start-btn {
-  width: 30px; height: 30px;
-  border-radius: 10px;
+  width: 44px; height: 44px;
+  border-radius: 12px;
   background: var(--amber);
   display: flex;
   align-items: center;
@@ -844,6 +844,142 @@ body::before {
     margin-top: 2px;
     transition: opacity 0.2s ease, transform 0.2s ease;
   }
+}
+
+/* Streak-pulse — only animates with motion preference */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes streak-pulse {
+    0%, 100% { border-color: var(--amber); }
+    50% { border-color: transparent; }
+  }
+}
+
+/* ─── HERO NEXT (state-aware home hero) ─── */
+.hero-next {
+  margin: 0 20px 16px;
+  padding: 22px 22px 20px;
+  background: var(--surface);
+  border: 1px solid rgba(245,166,35,0.18);
+  border-radius: var(--radius-3xl, 28px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.05),
+              0 0 60px rgba(245,166,35,0.06);
+  position: relative;
+  overflow: hidden;
+}
+.hero-next::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 100% 0%, rgba(245,166,35,0.12), transparent 60%);
+  pointer-events: none;
+}
+.hero-reason {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 10px;
+  position: relative;
+}
+.hero-headline {
+  font-family: var(--font-fraunces), Fraunces, serif;
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 1.15;
+  color: var(--text);
+  margin: 0 0 8px;
+  position: relative;
+}
+.hero-sub {
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--muted-strong, #c4b6a4);
+  margin: 0 0 20px;
+  position: relative;
+}
+.hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 22px;
+  border-radius: 16px;
+  font-family: var(--font-outfit), Outfit, sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+  position: relative;
+  min-height: 48px;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .hero-cta:active { transform: scale(0.97); }
+}
+
+/* Brand lockup line under header */
+.brand-lockup {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 2px;
+  letter-spacing: 0.02em;
+}
+
+/* ─── TODAY STRIP (compact stats row) ─── */
+.today-details {
+  margin: 0 20px 16px;
+}
+.today-details summary {
+  list-style: none;
+  cursor: pointer;
+}
+.today-details summary::-webkit-details-marker { display: none; }
+.today-strip {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  min-height: 48px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+}
+.today-stat {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.today-flame { font-size: 18px; }
+.today-num {
+  font-family: var(--font-fraunces), Fraunces, serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1;
+}
+.today-lbl {
+  font-size: 10px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.today-divider {
+  width: 1px;
+  height: 18px;
+  background: var(--border);
+}
+.today-expand {
+  margin-left: auto;
+  font-size: 12px;
+  color: var(--muted);
+}
+.today-details[open] .today-expand { transform: rotate(180deg); }
+.today-expanded {
+  margin-top: 10px;
+}
+
+/* Add muted-strong token for ≤12px text */
+:root {
+  --muted-strong: #c4b6a4;
 }
 
 /* ─── DESIGN SYSTEM UTILITIES ─── */

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { useLearnStore, useStoreHydrated } from "@/lib/store";
 
 const MILESTONE_META: Record<number, { label: string; color: string; bg: string; emoji: string }> = {
@@ -69,6 +69,18 @@ export function StreakBar() {
     prevStreak.current = streak.count;
   }, [hydrated, streak.count, getStreakMilestone]);
 
+  // ESC key closes whichever modal is open
+  const closeModals = useCallback(() => {
+    setShowMilestone(false);
+    setShowRepair(false);
+  }, []);
+  useEffect(() => {
+    if (!showMilestone && !showRepair) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") closeModals(); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [showMilestone, showRepair, closeModals]);
+
   const atRisk = hydrated && isStreakAtRisk();
   const milestone = hydrated ? getStreakMilestone() : null;
   const milestoneData = milestone ? MILESTONE_META[milestone] : null;
@@ -86,14 +98,9 @@ export function StreakBar() {
           animation: "streak-pulse 2s ease-in-out infinite",
         } : undefined}
       >
-        <style>{`
-          @keyframes streak-pulse {
-            0%, 100% { border-color: var(--amber); }
-            50% { border-color: transparent; }
-          }
-        `}</style>
         <div
           className={`streak-flame${count > 0 ? " flame-pulse" : ""}`}
+          aria-hidden="true"
           style={{ fontSize: getFlameSize(count) }}
         >
           {getFlameEmoji(count)}
@@ -148,6 +155,9 @@ export function StreakBar() {
       {/* Milestone celebration overlay */}
       {showMilestone && milestoneData && (
         <div
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="milestone-title"
           style={{
             position: "fixed", inset: 0, zIndex: 250,
             background: "rgba(0,0,0,0.7)", backdropFilter: "blur(6px)",
@@ -156,17 +166,17 @@ export function StreakBar() {
           }}
           onClick={() => setShowMilestone(false)}
         >
-          <div style={{
+          <div onClick={(e) => e.stopPropagation()} style={{
             background: "var(--surface)", borderRadius: 28,
             border: `1px solid ${milestoneData.color}44`,
             padding: "36px 28px 28px", maxWidth: 320, width: "100%",
             boxShadow: `0 24px 80px rgba(0,0,0,0.6), 0 0 60px ${milestoneData.color}22`,
             textAlign: "center" as const,
           }}>
-            <div style={{ fontSize: 56, lineHeight: 1, marginBottom: 16 }}>
+            <div aria-hidden="true" style={{ fontSize: 56, lineHeight: 1, marginBottom: 16 }}>
               {milestoneData.emoji}
             </div>
-            <div style={{
+            <div id="milestone-title" style={{
               fontFamily: "var(--font-fraunces), Fraunces, serif",
               fontSize: 24, fontWeight: 600, color: milestoneData.color, marginBottom: 6,
             }}>
@@ -194,6 +204,9 @@ export function StreakBar() {
       {/* Streak repair modal */}
       {showRepair && (
         <div
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="repair-title"
           style={{
             position: "fixed", inset: 0, zIndex: 200,
             background: "rgba(0,0,0,0.6)", display: "flex",
@@ -210,8 +223,8 @@ export function StreakBar() {
             }}
             onClick={(e) => e.stopPropagation()}
           >
-            <div style={{ fontSize: 40, textAlign: "center", marginBottom: 12 }}>🔧</div>
-            <div style={{
+            <div aria-hidden="true" style={{ fontSize: 40, textAlign: "center", marginBottom: 12 }}>🔧</div>
+            <div id="repair-title" style={{
               fontFamily: "var(--font-fraunces), Fraunces, serif",
               fontSize: 18, fontWeight: 600, color: "var(--text)",
               textAlign: "center", marginBottom: 6,

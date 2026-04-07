@@ -27,6 +27,26 @@ interface XpLog {
   earned: number;
 }
 
+/**
+ * Home screen state — drives state-aware hero copy and conditional rendering.
+ *
+ *  brandNew     — onboarding not yet complete (unused in HomeClient; Onboarding renders)
+ *  firstSession — onboarding done, zero pods completed
+ *  lapsed       — 3+ days since last activity
+ *  atRisk       — past noon today, no completion yet, streak count > 0
+ *  goalHit      — today's XP >= daily goal
+ *  midstreak    — streak.count between 2 and 6 (pre-Bronze)
+ *  active       — default returning user
+ */
+export type HomeState =
+  | "brandNew"
+  | "firstSession"
+  | "lapsed"
+  | "atRisk"
+  | "goalHit"
+  | "midstreak"
+  | "active";
+
 interface LearnState {
   completedItems: string[];
   quizResults: Record<string, QuizResult>;
@@ -43,6 +63,7 @@ interface LearnState {
   reviewSchedule: Record<string, ReviewData>;
   onboardingComplete: boolean;
   preferredDomains: Domain[];
+  lastStartedPodSlug: string | null;
   _hydrated: boolean;
 
   completeItem: (slug: string, xpReward: number) => void;
@@ -62,6 +83,8 @@ interface LearnState {
   getDueReviews: () => string[];
   getReviewStatus: (slug: string) => "due" | "overdue" | "mastered" | "learning" | null;
   completeOnboarding: (domains: Domain[]) => void;
+  setLastStartedPod: (slug: string) => void;
+  getHomeState: () => HomeState;
 }
 
 /** Hook that returns true only after the store has hydrated from localStorage */
@@ -119,6 +142,7 @@ export const useLearnStore = create<LearnState>()(
       reviewSchedule: {},
       onboardingComplete: false,
       preferredDomains: [],
+      lastStartedPodSlug: null,
       _hydrated: false,
 
       completeItem: (slug, xpReward) => {
@@ -158,6 +182,8 @@ export const useLearnStore = create<LearnState>()(
           xpLog: updatedLog,
           streak: newStreak,
           streakFreezes: newFreezes,
+          // Clear resume pointer if it was this pod
+          ...(state.lastStartedPodSlug === slug ? { lastStartedPodSlug: null } : {}),
           ...(consumeRepair
             ? {
                 pendingStreakRepair: false,
@@ -337,6 +363,47 @@ export const useLearnStore = create<LearnState>()(
       },
       completeOnboarding: (domains) => {
         set({ onboardingComplete: true, preferredDomains: domains });
+      },
+
+      setLastStartedPod: (slug) => {
+        const state = get();
+        // Only track pods that aren't already completed; clear when completed
+        if (state.completedItems.includes(slug)) {
+          if (state.lastStartedPodSlug === slug) set({ lastStartedPodSlug: null });
+          return;
+        }
+        if (state.lastStartedPodSlug !== slug) set({ lastStartedPodSlug: slug });
+      },
+
+      getHomeState: () => {
+        const state = get();
+        if (!state.onboardingComplete) return "brandNew";
+        if (state.completedItems.length === 0) return "firstSession";
+
+        // Lapsed: 3+ days since last activity
+        const last = state.streak.lastDate;
+        if (last) {
+          const lastDate = new Date(last + "T00:00:00");
+          const now = new Date();
+          const diffDays = Math.floor((now.getTime() - lastDate.getTime()) / (1000 * 60 * 60 * 24));
+          if (diffDays >= 3) return "lapsed";
+        }
+
+        // At-risk: past noon, no completion today yet, has a streak
+        const today = todayStr();
+        if (state.streak.count > 0 && !isSameDay(state.streak.lastDate, today)) {
+          if (new Date().getHours() >= 12) return "atRisk";
+        }
+
+        // Goal hit: today's XP >= daily goal
+        const todayLog = state.xpLog.find((l) => l.date === today);
+        const todayXp = todayLog?.earned || 0;
+        if (todayXp >= state.dailyXpGoal) return "goalHit";
+
+        // Mid-streak: 2-6 days (pre-Bronze)
+        if (state.streak.count >= 2 && state.streak.count <= 6) return "midstreak";
+
+        return "active";
       },
     }),
     {
