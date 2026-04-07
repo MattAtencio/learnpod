@@ -222,7 +222,7 @@ export function StreakBar() {
               fontSize: 12, color: "var(--muted)", textAlign: "center",
               marginBottom: 20, lineHeight: 1.5,
             }}>
-              Complete 2 pods today to restore your {count}-day streak. This can only be used once per day.
+              Complete 1 pod today to restore your {count}-day streak. This can only be used once per day.
             </div>
             <div style={{ display: "flex", gap: 10 }}>
               <button
