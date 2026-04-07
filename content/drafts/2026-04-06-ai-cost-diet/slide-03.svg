@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1350" font-family="'JetBrains Mono', monospace">
+  <rect width="1080" height="1350" fill="#0B0F19"/>
+  <text x="60" y="120" fill="#6B7280" font-size="26">01 · pick the right tool</text>
+  <text x="60" y="220" fill="#F7F5EF" font-family="'Inter Tight', sans-serif" font-weight="800" font-size="76">Right-size the model.</text>
+
+  <!-- savings badge -->
+  <g transform="translate(820,80)">
+    <rect width="200" height="90" rx="14" fill="#F5D547"/>
+    <text x="100" y="60" fill="#0B0F19" font-family="'Inter Tight', sans-serif" font-weight="800" font-size="48" text-anchor="middle">−62%</text>
+  </g>
+
+  <!-- decision tree -->
+  <g transform="translate(60,360)">
+    <!-- Root -->
+    <rect width="380" height="90" rx="12" fill="#1A2030" stroke="#3DD5F3" stroke-width="3"/>
+    <text x="190" y="58" fill="#F7F5EF" font-family="'Inter', sans-serif" font-weight="600" font-size="30" text-anchor="middle">incoming task</text>
+
+    <!-- arrows -->
+    <path d="M 190 90 L 100 200" stroke="#3DD5F3" stroke-width="3" fill="none"/>
+    <path d="M 190 90 L 480 200" stroke="#3DD5F3" stroke-width="3" fill="none"/>
+    <path d="M 190 90 L 860 200" stroke="#3DD5F3" stroke-width="3" fill="none"/>
+
+    <!-- labels on arrows -->
+    <text x="80" y="160" fill="#6B7280" font-size="22">mechanical</text>
+    <text x="430" y="160" fill="#6B7280" font-size="22">analytical</text>
+    <text x="800" y="160" fill="#6B7280" font-size="22">multi-step</text>
+
+    <!-- leaves -->
+    <g transform="translate(0,200)">
+      <rect width="280" height="200" rx="14" fill="#1A2030" stroke="#3DD5F3" stroke-width="3"/>
+      <text x="140" y="60" fill="#3DD5F3" font-family="'Inter Tight', sans-serif" font-weight="800" font-size="50" text-anchor="middle">Haiku</text>
+      <text x="140" y="100" fill="#F7F5EF" font-size="22" text-anchor="middle">$1 / $5</text>
+      <text x="140" y="140" fill="#6B7280" font-size="20" text-anchor="middle">classify · extract</text>
+      <text x="140" y="170" fill="#6B7280" font-size="20" text-anchor="middle">format · route · tag</text>
+    </g>
+    <g transform="translate(330,200)">
+      <rect width="280" height="200" rx="14" fill="#1A2030" stroke="#3DD5F3" stroke-width="3"/>
+      <text x="140" y="60" fill="#3DD5F3" font-family="'Inter Tight', sans-serif" font-weight="800" font-size="50" text-anchor="middle">Sonnet</text>
+      <text x="140" y="100" fill="#F7F5EF" font-size="22" text-anchor="middle">$3 / $15</text>
+      <text x="140" y="140" fill="#6B7280" font-size="20" text-anchor="middle">generate · summarize</text>
+      <text x="140" y="170" fill="#6B7280" font-size="20" text-anchor="middle">analyze · review · test</text>
+    </g>
+    <g transform="translate(660,200)">
+      <rect width="280" height="200" rx="14" fill="#1A2030" stroke="#3DD5F3" stroke-width="3"/>
+      <text x="140" y="60" fill="#3DD5F3" font-family="'Inter Tight', sans-serif" font-weight="800" font-size="50" text-anchor="middle">Opus</text>
+      <text x="140" y="100" fill="#F7F5EF" font-size="22" text-anchor="middle">$5 / $25</text>
+      <text x="140" y="140" fill="#6B7280" font-size="20" text-anchor="middle">plan · architect</text>
+      <text x="140" y="170" fill="#6B7280" font-size="20" text-anchor="middle">deep debug · multi-step</text>
+    </g>
+  </g>
+
+  <!-- distribution -->
+  <g transform="translate(60,1080)">
+    <text x="0" y="0" fill="#6B7280" font-size="24">real workload distribution:</text>
+    <rect x="0" y="20" width="600" height="40" rx="6" fill="#3DD5F3"/>
+    <rect x="600" y="20" width="350" height="40" rx="6" fill="#1A2030" stroke="#3DD5F3" stroke-width="2"/>
+    <rect x="950" y="20" width="50" height="40" rx="6" fill="#F5D547"/>
+    <text x="300" y="50" fill="#0B0F19" font-weight="800" font-size="22" text-anchor="middle">Haiku 60%</text>
+    <text x="775" y="50" fill="#F7F5EF" font-weight="800" font-size="22" text-anchor="middle">Sonnet 35%</text>
+    <text x="975" y="50" fill="#0B0F19" font-weight="800" font-size="22" text-anchor="middle">5%</text>
+  </g>
+
+  <text x="60" y="1300" fill="#6B7280" font-size="22">hidden costs · 01</text>
+  <text x="1020" y="1300" fill="#6B7280" font-size="22" text-anchor="end">03 / 07</text>
+</svg>

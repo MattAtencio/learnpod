@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1350" font-family="'JetBrains Mono', monospace">
+  <rect width="1080" height="1350" fill="#0B0F19"/>
+  <text x="60" y="120" fill="#6B7280" font-size="26">the cta</text>
+
+  <text x="60" y="320" fill="#F7F5EF" font-family="'Inter Tight', sans-serif" font-weight="800" font-size="80">I track 268 of</text>
+  <text x="60" y="410" fill="#F7F5EF" font-family="'Inter Tight', sans-serif" font-weight="800" font-size="80">these in</text>
+  <text x="60" y="510" fill="#F5D547" font-family="'Inter Tight', sans-serif" font-weight="800" font-size="120">LearnPod.</text>
+
+  <text x="60" y="640" fill="#F7F5EF" font-family="'Inter', sans-serif" font-weight="500" font-size="36">Free. Two-minute reads.</text>
+  <text x="60" y="690" fill="#F7F5EF" font-family="'Inter', sans-serif" font-weight="500" font-size="36">Connected by a knowledge graph.</text>
+
+  <!-- CTA button -->
+  <g transform="translate(60,820)">
+    <rect width="640" height="120" rx="14" fill="#F5D547"/>
+    <text x="40" y="78" fill="#0B0F19" font-family="'Inter Tight', sans-serif" font-weight="800" font-size="44">learnpod.app/start</text>
+    <text x="580" y="78" fill="#0B0F19" font-family="'Inter Tight', sans-serif" font-weight="800" font-size="56" text-anchor="middle">→</text>
+  </g>
+
+  <!-- QR placeholder -->
+  <g transform="translate(820,820)">
+    <rect width="200" height="200" rx="10" fill="#F7F5EF"/>
+    <rect x="20" y="20" width="160" height="160" fill="#0B0F19"/>
+    <rect x="40" y="40" width="120" height="120" fill="#F7F5EF"/>
+    <rect x="60" y="60" width="80" height="80" fill="#0B0F19"/>
+    <text x="100" y="240" fill="#6B7280" font-size="18" text-anchor="middle">scan to start</text>
+  </g>
+
+  <text x="60" y="1140" fill="#6B7280" font-size="26">next in series · hidden costs #02</text>
+  <text x="60" y="1180" fill="#F7F5EF" font-size="32">→ "Why your backtest lies to you"</text>
+
+  <text x="60" y="1300" fill="#6B7280" font-size="22">hidden costs · 01 of ∞</text>
+  <text x="1020" y="1300" fill="#6B7280" font-size="22" text-anchor="end">07 / 07</text>
+</svg>

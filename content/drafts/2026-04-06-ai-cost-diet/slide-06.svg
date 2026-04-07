@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1350" font-family="'JetBrains Mono', monospace">
+  <rect width="1080" height="1350" fill="#0B0F19"/>
+  <text x="60" y="120" fill="#6B7280" font-size="26">the full stack</text>
+  <text x="60" y="220" fill="#F7F5EF" font-family="'Inter Tight', sans-serif" font-weight="800" font-size="76">Stack all three.</text>
+
+  <defs>
+    <marker id="ar2" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L8,5 L0,10 z" fill="#3DD5F3"/>
+    </marker>
+  </defs>
+
+  <!-- Architecture diagram -->
+  <g transform="translate(60,290)">
+    <!-- entry -->
+    <rect x="380" y="0" width="220" height="60" rx="10" fill="#1A2030" stroke="#3DD5F3" stroke-width="3"/>
+    <text x="490" y="40" fill="#F7F5EF" font-weight="700" font-size="24" text-anchor="middle">incoming tasks</text>
+    <path d="M 490 60 L 490 100" stroke="#3DD5F3" stroke-width="3" marker-end="url(#ar2)"/>
+
+    <!-- classifier -->
+    <rect x="350" y="105" width="280" height="70" rx="10" fill="#1A2030" stroke="#3DD5F3" stroke-width="3"/>
+    <text x="490" y="140" fill="#3DD5F3" font-weight="800" font-size="24" text-anchor="middle">Haiku classifier</text>
+    <text x="490" y="165" fill="#6B7280" font-size="18" text-anchor="middle">routes by complexity</text>
+
+    <!-- branches to 3 models -->
+    <path d="M 490 180 L 130 230" stroke="#3DD5F3" stroke-width="3" marker-end="url(#ar2)"/>
+    <path d="M 490 180 L 490 230" stroke="#3DD5F3" stroke-width="3" marker-end="url(#ar2)"/>
+    <path d="M 490 180 L 850 230" stroke="#3DD5F3" stroke-width="3" marker-end="url(#ar2)"/>
+
+    <!-- 3 model boxes -->
+    <g transform="translate(20,240)">
+      <rect width="220" height="100" rx="10" fill="#1A2030" stroke="#3DD5F3" stroke-width="3"/>
+      <text x="110" y="40" fill="#3DD5F3" font-weight="800" font-size="28" text-anchor="middle">Haiku</text>
+      <text x="110" y="75" fill="#F5D547" font-weight="700" font-size="24" text-anchor="middle">60%</text>
+    </g>
+    <g transform="translate(380,240)">
+      <rect width="220" height="100" rx="10" fill="#1A2030" stroke="#3DD5F3" stroke-width="3"/>
+      <text x="110" y="40" fill="#3DD5F3" font-weight="800" font-size="28" text-anchor="middle">Sonnet</text>
+      <text x="110" y="75" fill="#F5D547" font-weight="700" font-size="24" text-anchor="middle">35%</text>
+    </g>
+    <g transform="translate(740,240)">
+      <rect width="220" height="100" rx="10" fill="#1A2030" stroke="#3DD5F3" stroke-width="3"/>
+      <text x="110" y="40" fill="#3DD5F3" font-weight="800" font-size="28" text-anchor="middle">Opus</text>
+      <text x="110" y="75" fill="#F5D547" font-weight="700" font-size="24" text-anchor="middle">5%</text>
+    </g>
+
+    <!-- merge to cache -->
+    <path d="M 130 340 L 490 390" stroke="#3DD5F3" stroke-width="3"/>
+    <path d="M 490 340 L 490 390" stroke="#3DD5F3" stroke-width="3"/>
+    <path d="M 850 340 L 490 390" stroke="#3DD5F3" stroke-width="3" marker-end="url(#ar2)"/>
+
+    <!-- cache layer -->
+    <rect x="200" y="395" width="580" height="70" rx="10" fill="#1A2030" stroke="#3DD5F3" stroke-width="3"/>
+    <text x="490" y="430" fill="#3DD5F3" font-weight="800" font-size="24" text-anchor="middle">prompt cache</text>
+    <text x="490" y="455" fill="#6B7280" font-size="18" text-anchor="middle">90% off on stable prefix</text>
+
+    <path d="M 490 465 L 490 510" stroke="#3DD5F3" stroke-width="3" marker-end="url(#ar2)"/>
+
+    <!-- branch realtime / batch -->
+    <path d="M 490 510 L 240 555" stroke="#3DD5F3" stroke-width="3" marker-end="url(#ar2)"/>
+    <path d="M 490 510 L 740 555" stroke="#3DD5F3" stroke-width="3" marker-end="url(#ar2)"/>
+
+    <g transform="translate(120,565)">
+      <rect width="240" height="80" rx="10" fill="#1A2030" stroke="#3DD5F3" stroke-width="3"/>
+      <text x="120" y="35" fill="#F7F5EF" font-weight="800" font-size="22" text-anchor="middle">real-time</text>
+      <text x="120" y="65" fill="#6B7280" font-size="18" text-anchor="middle">standard pricing</text>
+    </g>
+    <g transform="translate(620,565)">
+      <rect width="240" height="80" rx="10" fill="#1A2030" stroke="#F5D547" stroke-width="3"/>
+      <text x="120" y="35" fill="#F5D547" font-weight="800" font-size="22" text-anchor="middle">batch</text>
+      <text x="120" y="65" fill="#6B7280" font-size="18" text-anchor="middle">flat 50% off</text>
+    </g>
+  </g>
+
+  <!-- payoff -->
+  <g transform="translate(60,1010)">
+    <text x="0" y="0" fill="#6B7280" font-size="22">10,000 req/day · 2K input + 500 output</text>
+    <text x="0" y="60" fill="#F7F5EF" font-family="'Inter Tight', sans-serif" font-weight="800" font-size="44">$225/day  →  $33/day</text>
+    <line x1="0" y1="80" x2="640" y2="80" stroke="#3DD5F3" stroke-width="4"/>
+    <text x="0" y="140" fill="#3DD5F3" font-family="'Inter Tight', sans-serif" font-weight="800" font-size="56">85% reduction.</text>
+    <text x="0" y="190" fill="#6B7280" font-size="24">same workload · same model family · same quality</text>
+  </g>
+
+  <text x="60" y="1300" fill="#6B7280" font-size="22">hidden costs · 01</text>
+  <text x="1020" y="1300" fill="#6B7280" font-size="22" text-anchor="end">06 / 07</text>
+</svg>

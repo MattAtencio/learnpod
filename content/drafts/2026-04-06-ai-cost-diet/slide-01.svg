@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1350" font-family="'JetBrains Mono', monospace">
+  <rect width="1080" height="1350" fill="#0B0F19"/>
+  <text x="540" y="540" fill="#F7F5EF" font-family="'Inter Tight', sans-serif" font-weight="800" font-size="116" text-anchor="middle" letter-spacing="-3">$225/day</text>
+  <text x="540" y="650" fill="#6B7280" font-family="'Inter Tight', sans-serif" font-weight="600" font-size="56" text-anchor="middle">↓</text>
+  <text x="540" y="780" fill="#3DD5F3" font-family="'Inter Tight', sans-serif" font-weight="800" font-size="140" text-anchor="middle" letter-spacing="-3">$33/day</text>
+  <line x1="280" y1="820" x2="800" y2="820" stroke="#3DD5F3" stroke-width="6"/>
+  <text x="540" y="920" fill="#F7F5EF" font-family="'Inter', sans-serif" font-weight="600" font-size="42" text-anchor="middle">Same workload. Same model family.</text>
+  <text x="540" y="980" fill="#F7F5EF" font-family="'Inter', sans-serif" font-weight="600" font-size="42" text-anchor="middle">4 changes.</text>
+  <text x="60" y="1300" fill="#6B7280" font-size="22">hidden costs · 01</text>
+  <text x="1020" y="1300" fill="#6B7280" font-size="22" text-anchor="end">learnpod.app</text>
+</svg>
