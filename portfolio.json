@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/MattAtencio/portfolio/main/schemas/portfolio.schema.json",
   "title": "LearnPod",
   "tagline": "Personal learning system that turns saved content into spaced-repetition pods",
-  "description": "LearnPod is a PWA that captures learning content from Instagram, articles, and videos and organizes it into atomic Pods and Modules. Pods sync from an Obsidian vault, get enriched with research and notes, and surface back through an interleaved review queue with XP, streaks, and progress tracking.\n\nDesigned for self-directed learners who want to retain what they save instead of letting it rot in bookmarks.",
+  "description": "LearnPod is a Progressive Web App that solves the bookmark graveyard problem: you save Instagram reels, articles, and videos with the intent to learn from them, then never look at them again. LearnPod captures that content as atomic Pods (one idea each), groups related Pods into Modules (mini-courses), and surfaces them back through an interleaved review queue with XP, streaks, and progress tracking — so saved content actually becomes knowledge.\n\nThe app is backed by an Obsidian vault as the source of truth: Pods are authored as Markdown files with frontmatter, enriched with research and notes inside Obsidian, then synced into the app at build time via a custom content pipeline. The result is a learner-owned, plain-text knowledge base that doubles as a polished study app on any device.",
   "category": "featured",
   "status": "active",
   "techStack": [
@@ -11,15 +11,18 @@
     "TypeScript",
     "Zustand",
     "next-pwa",
+    "gray-matter",
     "Obsidian",
     "Vercel"
   ],
   "highlights": [
-    "268 pods synced from Obsidian vault into a structured learning library",
-    "Streaks v2 with forgiveness windows and XP-based progression",
-    "Interleaved review queue mixing pods across modules for better retention",
-    "Installable PWA with offline support for on-the-go review",
-    "Vault-as-source-of-truth pipeline: capture in Obsidian, study in the app"
+    "Vault-as-source-of-truth pipeline: capture and edit Pods in Obsidian, study them in the app",
+    "Atomic Pods + Modules content model that scales from one-off captures to structured mini-courses",
+    "Interleaved review queue that mixes Pods across Modules to fight the spacing/forgetting curve",
+    "XP, streaks with forgiveness windows, and progress tracking for habit formation",
+    "Build-time content sync from Markdown + frontmatter into typed app data — no database required",
+    "Installable PWA with offline support so review sessions work on a subway or a plane",
+    "Designed for self-directed learners who want to retain what they save instead of letting it rot in bookmarks"
   ],
   "isPublic": false,
   "startDate": "2026-03",
