@@ -1,0 +1,27 @@
+{
+  "$schema": "https://raw.githubusercontent.com/MattAtencio/portfolio/main/schemas/portfolio.schema.json",
+  "title": "LearnPod",
+  "tagline": "Personal learning system that turns saved content into spaced-repetition pods",
+  "description": "LearnPod is a PWA that captures learning content from Instagram, articles, and videos and organizes it into atomic Pods and Modules. Pods sync from an Obsidian vault, get enriched with research and notes, and surface back through an interleaved review queue with XP, streaks, and progress tracking.\n\nDesigned for self-directed learners who want to retain what they save instead of letting it rot in bookmarks.",
+  "category": "featured",
+  "status": "active",
+  "techStack": [
+    "Next.js 15",
+    "React 19",
+    "TypeScript",
+    "Zustand",
+    "next-pwa",
+    "Obsidian",
+    "Vercel"
+  ],
+  "highlights": [
+    "268 pods synced from Obsidian vault into a structured learning library",
+    "Streaks v2 with forgiveness windows and XP-based progression",
+    "Interleaved review queue mixing pods across modules for better retention",
+    "Installable PWA with offline support for on-the-go review",
+    "Vault-as-source-of-truth pipeline: capture in Obsidian, study in the app"
+  ],
+  "isPublic": false,
+  "startDate": "2026-03",
+  "featured": true
+}
