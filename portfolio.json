@@ -1,8 +1,8 @@
 {
   "$schema": "https://raw.githubusercontent.com/MattAtencio/portfolio/main/schemas/portfolio.schema.json",
   "title": "LearnPod",
-  "tagline": "Personal learning system that turns saved content into spaced-repetition pods",
-  "description": "LearnPod is a Progressive Web App that solves the bookmark graveyard problem: you save Instagram reels, articles, and videos with the intent to learn from them, then never look at them again. LearnPod captures that content as atomic Pods (one idea each), groups related Pods into Modules (mini-courses), and surfaces them back through an interleaved review queue with XP, streaks, and progress tracking — so saved content actually becomes knowledge.\n\nThe app is backed by an Obsidian vault as the source of truth: Pods are authored as Markdown files with frontmatter, enriched with research and notes inside Obsidian, then synced into the app at build time via a custom content pipeline. The result is a learner-owned, plain-text knowledge base that doubles as a polished study app on any device.",
+  "tagline": "A personal learning system that turns saved content into a compounding, gamified knowledge graph",
+  "description": "LearnPod is the #1 project in my portfolio because it is the system I actually use to learn. It solves my own problem as a self-directed learner: articles, reels, and videos get saved with the intent to learn and then rot in bookmarks. LearnPod captures those raw captures as atomic Pods (one idea each), groups related Pods into Modules (mini-courses), and surfaces them back through a spaced-repetition review queue, streaks, and daily XP goals so that saved content actually becomes durable knowledge.\n\nThe 'why' of the design is learning science first, app second. Every structural decision is grounded in principles I can defend: atomic Pods enforce one-idea-per-unit so retrieval practice has a clean target; Modules provide scaffolded sequencing and prerequisite awareness; the review queue leads with retrieval over exposure (the single thing most learning apps get wrong); interleaved review questions mix 70% new / 30% from completed same-domain Pods to engineer desirable difficulties; and SM-2 spaced repetition schedules reviews based on quiz performance so the forgetting curve is fought, not ignored. The gamification layer — streaks with freezes and repair, milestone tiers at 7/30/100/365 days, a daily XP goal with Casual/Regular/Intense commitment tiers, and first-attempt accuracy bonuses — is a deliberate Hook-Model implementation (trigger → action → variable reward → investment) that turns 'I should learn this' into a two-minute daily habit.\n\nThe content production pipeline is what makes the system sustainable. Pods are authored in Markdown with frontmatter inside an Obsidian vault (one piece of the pipeline, not the whole story), enriched with research, then pulled through a custom TypeScript sync script (`scripts/sync-learning-content.ts`) that validates, types, and emits them as build-time app data — no database, no CMS, plain text as the source of truth. A second script (`scripts/generate-quiz-questions.ts`) generates retrieval-practice assessments. The result is a content factory: capture → author → sync → ship, with the PWA installable on any device and offline-capable for review sessions on the subway.\n\nLearnPod has been shaped by four VP-level expert reviews (Education, Engagement, Design, Marketing) that I commissioned and acted on. The education review validated the SM-2 scheduler, interleaved review, and review-over-exposure home priority as 'Duolingo-grade foundations' and pushed the roadmap toward measurable learning objectives, prerequisite graphs, and assessment quality. The engagement review graded the habit loop B+/A- and guided the move toward a state-aware single-next-best-action home. The design review validated the Fraunces + Outfit type system, warm amber palette, and motion language as a rare 'premium, editorial' learning aesthetic. The marketing review reframed the home as a brand front door and surfaced the content-engine tie-ins (Pod of the Day, milestone share cards, OG previews). This is a project that has been stress-tested by real expertise, and the architecture reflects it.",
   "category": "featured",
   "status": "active",
   "techStack": [
@@ -12,17 +12,20 @@
     "Zustand",
     "next-pwa",
     "gray-matter",
-    "Obsidian",
-    "Vercel"
+    "tsx",
+    "Vercel",
+    "PWA / Service Worker",
+    "Obsidian (authoring layer)"
   ],
   "highlights": [
-    "Vault-as-source-of-truth pipeline: capture and edit Pods in Obsidian, study them in the app",
-    "Atomic Pods + Modules content model that scales from one-off captures to structured mini-courses",
-    "Interleaved review queue that mixes Pods across Modules to fight the spacing/forgetting curve",
-    "XP, streaks with forgiveness windows, and progress tracking for habit formation",
-    "Build-time content sync from Markdown + frontmatter into typed app data — no database required",
-    "Installable PWA with offline support so review sessions work on a subway or a plane",
-    "Designed for self-directed learners who want to retain what they save instead of letting it rot in bookmarks"
+    "Learning-science foundation: SM-2 spaced repetition, retrieval-practice-first home (reviews surface above new content), 70/30 interleaved review questions, and first-attempt accuracy bonuses that reward genuine mastery over grinding",
+    "Pod / Module content model: atomic one-idea Pods for clean retrieval targets, Modules for scaffolded mini-courses, domain taxonomy across AI Engineering, Quant, ML, Business and more — designed to scale from ad-hoc captures to structured learning paths",
+    "Engagement engine built on the Hook Model: streaks with freezes, repair, and milestone tiers (Bronze/Silver/Gold/Diamond at 7/30/100/365), daily XP goal with Casual/Regular/Intense commitment tiers, celebration overlays with particle confetti, and domain-accuracy tracking as the substrate for adaptive personalization",
+    "Content production pipeline: Markdown + frontmatter authoring, custom TypeScript sync script that validates and types Pods into build-time app data (no database), auto-generated quiz scaffolding, and a capture → author → sync → ship workflow that keeps material digestible and shippable",
+    "Technical architecture: Next.js 15 App Router, React 19, TypeScript end-to-end, Zustand for learner state (streaks, schedule, XP, domain accuracy), next-pwa for installable offline study, Vercel deploy — a modern, boring-in-the-good-way stack chosen to disappear behind the learning experience",
+    "Design system: Fraunces serif + Outfit sans pairing, warm amber/coral palette on near-black background for a 'study lounge' editorial feel, tokenized spacing/radius/shadow, motion language with fade stagger and reduced-motion guards — graded by a VP of Design as a premium aesthetic rare in learning apps",
+    "Shaped by four VP-level expert reviews (Education, Engagement, Design, Marketing) that validated the learning-science foundations and produced a concrete roadmap grounded in real expertise — not vibes",
+    "Self-directed learner's personal system: built first for my own learning, then productized — the test of every feature is whether it helps me actually retain what I save instead of letting it rot in bookmarks"
   ],
   "isPublic": false,
   "startDate": "2026-03",
