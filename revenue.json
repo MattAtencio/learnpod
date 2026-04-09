@@ -1,0 +1,26 @@
+{
+  "name": "learnpod",
+  "model": "content",
+  "status": "building",
+  "hypothesis": {
+    "target_mrr": 300,
+    "price_point": 0,
+    "customers_needed": 0,
+    "time_to_first_dollar_days": 90,
+    "confidence": "low",
+    "comparable": "Audience-led learning brands: Bytes.dev (newsletter sponsorships), ByteByteGo (paid newsletter $15/mo), Refind (freemium). Audience-first plays compound slowly but defensibly.",
+    "notes": "Vision: Instagram/URL → Pod → Module learning system in Obsidian. The educational product itself. Distribution happens via the separate content/ project, which repurposes learnpod material into social posts and drives audience back here. Two-stream design: learnpod = product (subscriptions / paid pods / course), content = audience/distribution. Originally conflated — confirmed separate by Matt 2026-04-08."
+  },
+  "actuals": {
+    "mrr": 0,
+    "ltd_revenue": 0,
+    "paying_customers": 0,
+    "last_updated": "2026-04-08"
+  },
+  "costs_monthly": 0,
+  "hours_invested": 0,
+  "next_revenue_action": "Ship 1 piece of public content (LinkedIn/Twitter carousel or 90s reel) per week for 4 weeks starting 2026-04-14. Track followers as the metric.",
+  "first_dollar_path": "Public content cadence → audience growth → first sponsorship OR first paid pod subscription",
+  "kill_criteria": "If no measurable audience growth (>50 net new followers across channels) by 2026-06-01, reframe approach. If still flat by 2026-08-01, treat as personal knowledge tool, not income.",
+  "created": "2026-04-08"
+}
