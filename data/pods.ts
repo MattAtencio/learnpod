@@ -22,27 +22,27 @@ export const pods: Pod[] = [
       },
       {
         "heading": "Key Mechanics",
-        "content": "```\nPOST /v1/messages/batches\n{\n  \"requests\": [\n    {\n      \"custom_id\": \"req-001\",\n      \"params\": {\n        \"model\": \"claude-sonnet-4-6-20250514\",\n        \"max_tokens\": 1024,\n        \"messages\": [{\"role\": \"user\", \"content\": \"...\"}]\n      }\n    }\n    // ... up to 100,000 requests\n  ]\n}\n```\n- **Pricing**: 50% discount on both input and output tokens\n- **SLA**: Results within 24 hours (often much faster)\n- **Limits**: 100K requests per batch, standard model context windows apply\n- **Status polling**: `GET /v1/messages/batches/{batch_id}` → `in_progress` | `ended`\n- **Results**: `GET /v1/messages/batches/{batch_id}/results` → JSONL stream"
+        "content": "```\r\nPOST /v1/messages/batches\r\n{\r\n  \"requests\": [\r\n    {\r\n      \"custom_id\": \"req-001\",\r\n      \"params\": {\r\n        \"model\": \"claude-sonnet-4-6-20250514\",\r\n        \"max_tokens\": 1024,\r\n        \"messages\": [{\"role\": \"user\", \"content\": \"...\"}]\r\n      }\r\n    }\r\n    // ... up to 100,000 requests\r\n  ]\r\n}\r\n```\r\n- **Pricing**: 50% discount on both input and output tokens\r\n- **SLA**: Results within 24 hours (often much faster)\r\n- **Limits**: 100K requests per batch, standard model context windows apply\r\n- **Status polling**: `GET /v1/messages/batches/{batch_id}` → `in_progress` | `ended`\r\n- **Results**: `GET /v1/messages/batches/{batch_id}/results` → JSONL stream"
       },
       {
         "heading": "When to Use It",
-        "content": "- **Bulk classification** — labeling datasets, tagging content, categorizing feedback\n- **Bulk generation** — generating descriptions, summaries, or embeddings at scale\n- **Evaluation** — running evals across hundreds of test cases\n- **Migration** — re-processing existing data with a new prompt\n- **Nightly jobs** — anything that can wait hours, not seconds"
+        "content": "- **Bulk classification** — labeling datasets, tagging content, categorizing feedback\r\n- **Bulk generation** — generating descriptions, summaries, or embeddings at scale\r\n- **Evaluation** — running evals across hundreds of test cases\r\n- **Migration** — re-processing existing data with a new prompt\r\n- **Nightly jobs** — anything that can wait hours, not seconds"
       },
       {
         "heading": "When NOT to Use It",
-        "content": "- Real-time chat or interactive flows\n- Anything where user is waiting for the response\n- Latency-sensitive pipelines (streaming is better)"
+        "content": "- Real-time chat or interactive flows\r\n- Anything where user is waiting for the response\r\n- Latency-sensitive pipelines (streaming is better)"
       },
       {
         "heading": "Cost Impact",
-        "content": "```\nExample: 10,000 requests × 500 input tokens × 1,000 output tokens (Sonnet 4.6)\n  Standard:  5M × $3/MTok + 10M × $15/MTok = $15 + $150 = $165\n  Batch:     5M × $1.50/MTok + 10M × $7.50/MTok = $7.50 + $75 = $82.50\n  Savings: $82.50 (50%)\n```"
+        "content": "```\r\nExample: 10,000 requests × 500 input tokens × 1,000 output tokens (Sonnet 4.6)\r\n  Standard:  5M × $3/MTok + 10M × $15/MTok = $15 + $150 = $165\r\n  Batch:     5M × $1.50/MTok + 10M × $7.50/MTok = $7.50 + $75 = $82.50\r\n  Savings: $82.50 (50%)\r\n```"
       },
       {
         "heading": "Apply It",
-        "content": "1. **Queue worker pipelines** — lab-01 Sonnet tasks that aren't time-critical can batch\n2. **Eval suites** — run prompt evals as a batch instead of sequential API calls\n3. **Content generation** — bulk game descriptions, pod summaries, portfolio text\n4. **Data processing** — classify Slack messages, categorize feedback in bulk"
+        "content": "1. **Queue worker pipelines** — lab-01 Sonnet tasks that aren't time-critical can batch\r\n2. **Eval suites** — run prompt evals as a batch instead of sequential API calls\r\n3. **Content generation** — bulk game descriptions, pod summaries, portfolio text\r\n4. **Data processing** — classify Slack messages, categorize feedback in bulk"
       },
       {
         "heading": "Research Next Steps",
-        "content": "- [ ] Build a Python batch helper: submit, poll, collect results\n- [ ] Benchmark actual turnaround times (how fast do small batches complete?)\n- [ ] Compare batch vs. streaming for the lab-01 queue worker use case\n- [ ] Test error handling: what happens when individual requests in a batch fail?"
+        "content": "- [ ] Build a Python batch helper: submit, poll, collect results\r\n- [ ] Benchmark actual turnaround times (how fast do small batches complete?)\r\n- [ ] Compare batch vs. streaming for the lab-01 queue worker use case\r\n- [ ] Test error handling: what happens when individual requests in a batch fail?"
       }
     ],
     "related": [
@@ -139,35 +139,35 @@ export const pods: Pod[] = [
       },
       {
         "heading": "Key Mechanics — Claude Model Tiers (2026 Pricing)",
-        "content": "```\nModel          Input/1M    Output/1M    Context    Best For\n─────────────  ──────────  ──────────── ────────── ──────────────────────\nHaiku 4.5      $1.00       $5.00        200K       Classification, extraction, routing\nSonnet 4.6     $3.00       $15.00       1M         Code gen, analysis, structured output\nOpus 4.6       $5.00       $25.00       1M         Complex reasoning, planning, nuance\n\nPrice ratio:   1x          3x           5x\n```"
+        "content": "```\r\nModel          Input/1M    Output/1M    Context    Best For\r\n─────────────  ──────────  ──────────── ────────── ──────────────────────\r\nHaiku 4.5      $1.00       $5.00        200K       Classification, extraction, routing\r\nSonnet 4.6     $3.00       $15.00       1M         Code gen, analysis, structured output\r\nOpus 4.6       $5.00       $25.00       1M         Complex reasoning, planning, nuance\r\n\r\nPrice ratio:   1x          3x           5x\r\n```"
       },
       {
         "heading": "The Decision Framework",
-        "content": "```\nIs the task mechanical / deterministic?\n  YES → Haiku (classification, extraction, formatting, routing)\n  NO  → Does it require multi-step reasoning or nuance?\n          NO  → Sonnet (code gen, summarization, analysis)\n          YES → Is it a high-stakes or ambiguous decision?\n                  NO  → Sonnet (most \"hard\" tasks are Sonnet-tier)\n                  YES → Opus (planning, architecture, complex debugging)\n```"
+        "content": "```\r\nIs the task mechanical / deterministic?\r\n  YES → Haiku (classification, extraction, formatting, routing)\r\n  NO  → Does it require multi-step reasoning or nuance?\r\n          NO  → Sonnet (code gen, summarization, analysis)\r\n          YES → Is it a high-stakes or ambiguous decision?\r\n                  NO  → Sonnet (most \"hard\" tasks are Sonnet-tier)\r\n                  YES → Opus (planning, architecture, complex debugging)\r\n```"
       },
       {
         "heading": "Task-to-Model Mapping",
-        "content": "| Task | Model | Why |\n|------|-------|-----|\n| Classify Slack messages | Haiku | Deterministic, low token output |\n| Extract structured data from text | Haiku | Pattern matching, not reasoning |\n| Route requests to handlers | Haiku | Simple decision tree |\n| Generate code from specs | Sonnet | Needs context + quality code |\n| Summarize documents | Sonnet | Compression requires understanding |\n| Code review | Sonnet | Catches most issues at 5x less than Opus |\n| Write unit tests | Sonnet | Mechanical once you understand the code |\n| Architecture planning | Opus | Needs to hold many constraints simultaneously |\n| Ambiguous bug debugging | Opus | Requires deep reasoning chains |\n| Prompt engineering | Opus | Meta-reasoning about AI behavior |"
+        "content": "| Task | Model | Why |\r\n|------|-------|-----|\r\n| Classify Slack messages | Haiku | Deterministic, low token output |\r\n| Extract structured data from text | Haiku | Pattern matching, not reasoning |\r\n| Route requests to handlers | Haiku | Simple decision tree |\r\n| Generate code from specs | Sonnet | Needs context + quality code |\r\n| Summarize documents | Sonnet | Compression requires understanding |\r\n| Code review | Sonnet | Catches most issues at 5x less than Opus |\r\n| Write unit tests | Sonnet | Mechanical once you understand the code |\r\n| Architecture planning | Opus | Needs to hold many constraints simultaneously |\r\n| Ambiguous bug debugging | Opus | Requires deep reasoning chains |\r\n| Prompt engineering | Opus | Meta-reasoning about AI behavior |"
       },
       {
         "heading": "Common Mistakes",
-        "content": "- **Defaulting to Opus for everything** — the #1 cost killer. Most tasks are Sonnet-tier.\n- **Using Sonnet for classification** — Haiku handles simple labels at 3.75x less cost.\n- **Not testing downgrade quality** — run an eval before assuming you need the bigger model. You'll be surprised how often Haiku/Sonnet match Opus on structured tasks.\n- **Ignoring output tokens** — output is 5x more expensive than input. Shorter prompts that produce shorter outputs save more than optimizing input length."
+        "content": "- **Defaulting to Opus for everything** — the #1 cost killer. Most tasks are Sonnet-tier.\r\n- **Using Sonnet for classification** — Haiku handles simple labels at 3.75x less cost.\r\n- **Not testing downgrade quality** — run an eval before assuming you need the bigger model. You'll be surprised how often Haiku/Sonnet match Opus on structured tasks.\r\n- **Ignoring output tokens** — output is 5x more expensive than input. Shorter prompts that produce shorter outputs save more than optimizing input length."
       },
       {
         "heading": "The Hybrid Pattern",
-        "content": "```python\ndef smart_route(task_type: str, payload: dict) -> str:\n    \"\"\"Route to cheapest model that meets quality bar.\"\"\"\n    if task_type in [\"classify\", \"extract\", \"route\", \"format\"]:\n        return \"claude-haiku-4-5-20251001\"\n    elif task_type in [\"generate\", \"summarize\", \"review\", \"test\"]:\n        return \"claude-sonnet-4-6-20250514\"\n    else:  # plan, debug_complex, architect\n        return \"claude-opus-4-6-20250514\"\n```"
+        "content": "```python\r\ndef smart_route(task_type: str, payload: dict) -> str:\r\n    \"\"\"Route to cheapest model that meets quality bar.\"\"\"\r\n    if task_type in [\"classify\", \"extract\", \"route\", \"format\"]:\r\n        return \"claude-haiku-4-5-20251001\"\r\n    elif task_type in [\"generate\", \"summarize\", \"review\", \"test\"]:\r\n        return \"claude-sonnet-4-6-20250514\"\r\n    else:  # plan, debug_complex, architect\r\n        return \"claude-opus-4-6-20250514\"\r\n```"
       },
       {
         "heading": "Cost Impact Example",
-        "content": "```\nMonthly workload: 1M requests (avg 500 input + 250 output tokens each)\n  Before (all Opus):  500M × $5/MTok + 250M × $25/MTok = $2,500 + $6,250 = $8,750\n  After (routed):\n    600K Haiku  (60%): 300M × $1 + 150M × $5   = $300 + $750   = $1,050\n    350K Sonnet (35%): 175M × $3 + 87.5M × $15  = $525 + $1,312 = $1,837\n    50K Opus    (5%):  25M × $5 + 12.5M × $25   = $125 + $312   = $437\n    Total: ~$3,324 → 62% reduction\n  Add batch API on non-urgent (50% off) + caching → 80-90% total reduction\n```"
+        "content": "```\r\nMonthly workload: 1M requests (avg 500 input + 250 output tokens each)\r\n  Before (all Opus):  500M × $5/MTok + 250M × $25/MTok = $2,500 + $6,250 = $8,750\r\n  After (routed):\r\n    600K Haiku  (60%): 300M × $1 + 150M × $5   = $300 + $750   = $1,050\r\n    350K Sonnet (35%): 175M × $3 + 87.5M × $15  = $525 + $1,312 = $1,837\r\n    50K Opus    (5%):  25M × $5 + 12.5M × $25   = $125 + $312   = $437\r\n    Total: ~$3,324 → 62% reduction\r\n  Add batch API on non-urgent (50% off) + caching → 80-90% total reduction\r\n```"
       },
       {
         "heading": "Apply It",
-        "content": "1. **lab-01 queue worker** — route tasks by complexity: Haiku for classify/extract, Sonnet for code gen, Opus only for planning\n2. **Claude Code framework** — the `/plan-for-queue` skill already uses \"Opus plans, Sonnet executes\" — extend this pattern everywhere\n3. **FitOps** — workout parsing → Haiku, program generation → Sonnet, coaching advice → Sonnet\n4. **Game NPCs** — dialog routing → Haiku, dialog generation → Sonnet, story arcs → Opus"
+        "content": "1. **lab-01 queue worker** — route tasks by complexity: Haiku for classify/extract, Sonnet for code gen, Opus only for planning\r\n2. **Claude Code framework** — the `/plan-for-queue` skill already uses \"Opus plans, Sonnet executes\" — extend this pattern everywhere\r\n3. **FitOps** — workout parsing → Haiku, program generation → Sonnet, coaching advice → Sonnet\r\n4. **Game NPCs** — dialog routing → Haiku, dialog generation → Sonnet, story arcs → Opus"
       },
       {
         "heading": "Research Next Steps",
-        "content": "- [ ] Build eval suite: run same 100 prompts across all 3 models, score quality\n- [ ] Implement model router in the lab-01 queue worker\n- [ ] Measure actual quality delta: Haiku vs. Sonnet on classification tasks\n- [ ] Track monthly cost by model tier to validate routing effectiveness"
+        "content": "- [ ] Build eval suite: run same 100 prompts across all 3 models, score quality\r\n- [ ] Implement model router in the lab-01 queue worker\r\n- [ ] Measure actual quality delta: Haiku vs. Sonnet on classification tasks\r\n- [ ] Track monthly cost by model tier to validate routing effectiveness"
       }
     ],
     "related": [
@@ -219,14 +219,35 @@ export const pods: Pod[] = [
         "content": "1. **Claude Code skills** — system prompts + tool defs are repeated every call, prime caching target\n2. **lab-01 queue worker** — if multiple tasks share context (same repo), batch them with cached prefix\n3. **FitOps API** — cache workout schema + user profile for repeated interactions\n4. **Game NPCs** — cache persona + game state for conversation turns"
       },
       {
+        "heading": "Advanced Mechanics",
+        "content": "### Cache Breakpoints (max 4 per request)\nYou can place up to **4 `cache_control` breakpoints** in a single request. Each breakpoint caches everything from the start of the prompt up through that block. More breakpoints = more granular reuse across requests that share a long prefix but diverge later (e.g., same tools + system, different retrieved docs).\n\n### Prefix-Order Rules (hierarchy)\nThe cache is strictly prefix-based. Anthropic builds it in this order:\n\n1. **`tools`** — tool definitions (first in the prefix)\n2. **`system`** — system prompt blocks\n3. **`messages`** — conversation turns (last in the prefix)\n\n**Invalidation cascades downward**: changing `tools` invalidates `tools + system + messages` caches. Changing `system` invalidates `system + messages`. Changing only the last user message leaves `tools + system` cached.\n\nRule of thumb: **put the most stable content at the start, most volatile at the end**.\n\n### Caching by Block Type\n- **`tools` block**: put `cache_control: {\"type\": \"ephemeral\"}` on the **last tool** in the array — caches all tool defs. Tool-heavy agents gain the most here; tool defs are large and stable.\n- **`system` block**: cache the last stable system chunk (persona + reference docs). Put user-specific content in `messages`, not `system`.\n- **`messages` block**: cache the last assistant turn in a multi-turn agent loop so the full conversation prefix stays warm for the next turn.\n\n### 5-min vs 1-hour TTL\n- **5-minute (default)**: write cost = 1.25× base input, read cost = 0.1× base input. TTL refreshes on each hit.\n- **1-hour (extended, beta)**: write cost = 2× base input, read cost = 0.1× base input. Supported on Sonnet 4.5+, Opus 4.5+, Haiku 4.5.\n- **2026 TTL regression**: Anthropic silently dropped Claude Code's *default* TTL from 1h to 5m in early March 2026, spiking effective API costs 30–60% for workloads that used to count on the longer window. If you need 1h, set it explicitly — don't assume a default.\n\n### Breakeven Math by TTL\n- **5-min TTL**: cache pays off at **~2 reads** (1.25× write vs 0.1× read per token → break-even at ~1.4 reads).\n- **1-hour TTL**: cache pays off at **~3 reads** (2× write vs 0.1× read per token → break-even at ~2.2 reads)."
+      },
+      {
+        "heading": "Measurement & Observability",
+        "content": "### Response Usage Fields\nEvery response includes `usage` with these keys:\n```python\nresponse.usage.input_tokens              # uncached input (billed at 1x)\nresponse.usage.cache_creation_input_tokens  # written to cache this call (1.25x or 2x)\nresponse.usage.cache_read_input_tokens      # served from cache (0.1x) ← the win\nresponse.usage.output_tokens\n```\n\nIf **both** `cache_creation_input_tokens` and `cache_read_input_tokens` are `0`, the prompt didn't cache — usually because the prefix was below the minimum token floor (see Gotchas).\n\n### Computing Hit Rate\n```python\nhit_rate = cache_read_input_tokens / (cache_read_input_tokens + input_tokens)\n```\nProduction benchmarks:\n- **< 60%** → room to optimize (reorder prefix, stabilize volatile content)\n- **~90%** → healthy active session\n- **96–99%** → excellent (Claude Code / mature multi-agent pipelines)\n\n### What to Log\nAt minimum, per request:\n- `model`, `ttl` (5m or 1h), `cache_read_input_tokens`, `cache_creation_input_tokens`, `input_tokens`, `output_tokens`\n- Derived: `hit_rate`, `effective_cost` (apply the 1.25x/0.1x multipliers)\n- Session-level: cumulative `cache_read` vs `cache_creation` to catch cache thrash\n\nCookbook pattern: wrap the SDK call in a `get_cache_stats()` helper that sums these across turns and emits to your metrics pipeline. Synthetic tests that deliberately vary inputs are the fastest way to catch silent misses."
+      },
+      {
+        "heading": "Gotchas",
+        "content": "Things that silently invalidate the cache or block it from forming:\n\n1. **Any byte change in the prefix** — even a space. Whitespace-stripping inconsistency in prompt builders has caused reports of ~80% miss rates for identical-looking prompts.\n2. **Timestamps or `now()` in the cached prefix** — e.g. `\"Current time: 2026-04-23T14:32:15Z\"` in the system prompt guarantees 100% miss. Move time into the last user message.\n3. **User-specific content in `system`** — `\"You are helping {user.name} at {user.company}\"` in the cached block forces a unique cache per user. Put personalization in `messages`.\n4. **Model version change** — switching Sonnet 4.5 → 4.6, or Opus 4.6 → 4.7 invalidates the cache. Migration windows produce a cost spike because you pay cache writes (1.25–2×) on the first call under the new model.\n5. **Tool set changes mid-conversation** — reordering, adding, or removing a tool invalidates `tools` and everything after. Keep the tool array stable for the whole session.\n6. **`tool_choice` changes** — flipping `auto` ↔ `any` ↔ specific tool invalidates the cache.\n7. **Adding/removing images anywhere** — invalidates cache from that point forward.\n8. **Breakpoint placed on volatile content** — marking a block that changes every request means you pay a fresh **write** (1.25–2× base) every call and never get a **read**. Pure anti-pattern.\n9. **Below the minimum token floor** — your call succeeds, but nothing caches and the `cache_*_input_tokens` fields are `0`.\n10. **More than 4 `cache_control` markers** — request fails validation.\n11. **TTL expiration** — 5-minute TTL means any pause > 5 min rewrites the whole prefix at write rate. For long-running agents, either keep a heartbeat call inside the window or use the 1-hour TTL.\n12. **Minimum cacheable tokens (as of Apr 2026)**: Sonnet 4.6 = **1,024**; Opus 4.7 / Opus 4.6 / Haiku 4.5 = **4,096**. Older guidance of \"2,048 for Sonnet/Opus\" is out of date — Opus floor went up."
+      },
+      {
+        "heading": "Real-World Case Studies",
+        "content": "### 1. Claude Code — 92% hit rate, 80% session cost reduction\nA documented 30-minute Claude Code session processed ~**2M tokens** with **1.84M served from cache** (92% hit rate).\n- **Without caching**: ~$6.00\n- **With caching**: **~$1.15** (~80% reduction)\n\nWell-cached active sessions consistently land around 90%; real Claude Code sessions have been measured at **96%**. Source: claudecodecamp.com / dev.to mastering-cache-hits writeup.\n\n### 2. Multi-agent investigation pipeline — 98.7% hit rate\nA production multi-agent investigation system (Claude Agent SDK) cached the full system prompt + tool definitions across exchanges and hit **98.7%**, with the remaining ~1.3% miss being new phase prompts and conversation growth.\n- Initial uncached cost estimate for a 50–70 page investigation report: **$66.25**\n- Actual cost with caching: **~$21** (**~68% reduction**)\n\nSource: dansnotebook.com \"Prompt Caching Is Everything\" / Thariq @ Anthropic.\n\n### 3. ProjectDiscovery — 59% → 70% savings\nSecurity tooling company ProjectDiscovery reported an aggregate **59% reduction** in LLM spend after adopting prompt caching, rising to **66%** after optimization passes, and **70%** in the final 10 days of their reported window. Their story emphasizes that the win came from structuring prompts with static content first and dynamic content last — the same prefix rule. Source: projectdiscovery.io/blog.\n\n### 4. Industry benchmark for agents\nFor multi-agent systems broadly, cost savings typically land in the **40–70%** range with prompt caching properly applied. Source: aimagicx.com 2026 guide."
+      },
+      {
         "heading": "Research Next Steps",
-        "content": "- [ ] Instrument API calls to measure cache hit rates and actual savings\n- [ ] Test optimal prefix ordering for multi-tool agent setups\n- [ ] Compare cache hit rates: 5-min TTL vs. request batching strategies\n- [ ] Build a wrapper that automatically adds cache_control to system messages"
+        "content": "- [x] Test optimal prefix ordering for multi-tool agent setups (answer: `tools` → `system` → `messages`; cache the last tool + last stable system block; keep volatile content in the final user message)\n- [x] Compare 5-min vs 1-hour TTL tradeoffs (5m: 1.25× write, break-even ~2 reads; 1h: 2× write, break-even ~3 reads; default silently regressed in Mar 2026 — pin explicitly)\n- [x] Document tool-use + cache interactions (`cache_control` on the last tool in `tools[]`; tool set or `tool_choice` changes invalidate)\n- [x] Document gotchas (timestamps, user personalization in system, model-version migration, whitespace drift, max 4 breakpoints, minimum-token floor)\n- [ ] Instrument MY Claude API calls (Claude Code skills, lab-01 queue worker, FitOps, game NPCs) to measure actual cache hit rates and $ savings — requires real runtime data\n- [ ] Build a wrapper that automatically adds `cache_control` to system messages + last tool across all internal Claude callers\n- [ ] A/B test 5-min vs 1-hour TTL on the lab-01 queue worker once traffic is steady enough to measure"
+      },
+      {
+        "heading": "Sources",
+        "content": "- [Anthropic Prompt caching docs](https://docs.claude.com/en/docs/build-with-claude/prompt-caching)\n- [Anthropic Tool use with prompt caching](https://platform.claude.com/docs/en/agents-and-tools/tool-use/tool-use-with-prompt-caching)\n- [Anthropic Pricing](https://platform.claude.com/docs/en/about-claude/pricing)\n- [Anthropic cookbook — prompt caching notebook](https://github.com/anthropics/anthropic-cookbook/blob/main/misc/prompt_caching.ipynb)\n- [How Prompt Caching Actually Works in Claude Code (claudecodecamp.com)](https://www.claudecodecamp.com/p/how-prompt-caching-actually-works-in-claude-code)\n- [Mastering Cache Hits in Claude Code (dev.to)](https://dev.to/kitaekatt/mastering-cache-hits-in-claude-code-5648)\n- [Prompt Caching Is Everything (dansnotebook.com)](https://dansnotebook.com/posts/prompt-caching-is-everything)\n- [How We Cut LLM Costs by 59% With Prompt Caching (ProjectDiscovery)](https://projectdiscovery.io/blog/how-we-cut-llm-cost-with-prompt-caching)\n- [Cut Your API Bill 60% in Production (AI Magicx, 2026)](https://www.aimagicx.com/blog/prompt-caching-claude-api-cost-optimization-2026)\n- [Claude Cache TTL regression to 5m (GitHub issue #46829)](https://github.com/anthropics/claude-code/issues/46829)\n- [Anthropic Silently Dropped TTL from 1h to 5m (dev.to)](https://dev.to/whoffagents/anthropic-silently-dropped-prompt-cache-ttl-from-1-hour-to-5-minutes-16ao)"
       }
     ],
     "related": [
       "Lesson - Prompt Caching",
       "AI - Batch API",
       "AI - Model Right-Sizing",
+      "Claude API - Tool Use",
       "Module - Claude API Cost Optimization",
       "MOC - AI Engineering"
     ],
@@ -252,39 +273,39 @@ export const pods: Pod[] = [
     "sections": [
       {
         "heading": "What It Is",
-        "content": "RAG (Retrieval Augmented Generation) gives an LLM access to external knowledge at query time — you retrieve relevant documents, stuff them into the prompt, and the model answers grounded in real data instead of hallucinating. If you want the deep mechanics, see RAG - Retrieval Augmented Generation.\n\nThe interesting question isn't *what* RAG is anymore — it's *where* it creates the most value. This pod maps the landscape from table-stakes use cases to the bleeding edge."
+        "content": "RAG (Retrieval Augmented Generation) gives an LLM access to external knowledge at query time — you retrieve relevant documents, stuff them into the prompt, and the model answers grounded in real data instead of hallucinating. If you want the deep mechanics, see RAG - Retrieval Augmented Generation.\r\n\r\nThe interesting question isn't *what* RAG is anymore — it's *where* it creates the most value. This pod maps the landscape from table-stakes use cases to the bleeding edge."
       },
       {
         "heading": "Most Common Use Cases",
-        "content": "These are production-proven patterns you'll see everywhere:\n\n| Use Case | What It Solves | Example |\n|---|---|---|\n| **Documentation Q&A** | Users can't find answers in sprawling docs | Embed your docs, let users ask in natural language. Stripe, Vercel, and most devtool companies ship this now. |\n| **Enterprise Search** | Knowledge trapped in Confluence/SharePoint/Slack | Unified search across siloed data sources. One query hits docs, tickets, Slack threads, and wikis. |\n| **Customer Support** | Agents waste time hunting for answers | RAG-powered copilot pulls relevant KB articles, past tickets, and product docs for each incoming query. Reduces resolution time 30-60%. |\n| **Code Assistants** | LLMs don't know your codebase | Retrieve relevant files, types, and tests before generating code. This is exactly what Cursor, Copilot, and Claude Code do under the hood. |\n| **Legal/Compliance** | Reviewing contracts against policy | Retrieve relevant clauses, regulations, and precedents. Ground the answer in your specific legal framework. |"
+        "content": "These are production-proven patterns you'll see everywhere:\r\n\r\n| Use Case | What It Solves | Example |\r\n|---|---|---|\r\n| **Documentation Q&A** | Users can't find answers in sprawling docs | Embed your docs, let users ask in natural language. Stripe, Vercel, and most devtool companies ship this now. |\r\n| **Enterprise Search** | Knowledge trapped in Confluence/SharePoint/Slack | Unified search across siloed data sources. One query hits docs, tickets, Slack threads, and wikis. |\r\n| **Customer Support** | Agents waste time hunting for answers | RAG-powered copilot pulls relevant KB articles, past tickets, and product docs for each incoming query. Reduces resolution time 30-60%. |\r\n| **Code Assistants** | LLMs don't know your codebase | Retrieve relevant files, types, and tests before generating code. This is exactly what Cursor, Copilot, and Claude Code do under the hood. |\r\n| **Legal/Compliance** | Reviewing contracts against policy | Retrieve relevant clauses, regulations, and precedents. Ground the answer in your specific legal framework. |"
       },
       {
         "heading": "New & Exciting Use Cases",
-        "content": "These are the patterns pushing RAG beyond \"fancy search\":\n\n### Agentic RAG\nThe model *decides* what to retrieve, when, and how much. Instead of a fixed retrieval step, the agent loops: retrieve → reason → retrieve more if needed → answer. Claude's tool use makes this natural — define retrieval as a tool and let the model call it as many times as it needs.\n\n### Multi-Modal RAG\nRetrieve images, diagrams, charts, and tables — not just text. Embed visual content with vision models, retrieve by similarity, and pass images directly to Claude for analysis. Think: architecture diagrams, medical imaging, product photos.\n\n### Graph RAG\nLayer a knowledge graph on top of vector search. Entities and relationships give you structured reasoning that pure vector similarity misses. \"Who reported to the VP who approved this policy?\" requires graph traversal, not just nearest-neighbor lookup.\n\n### Self-RAG\nThe model critiques its own retrieval — decides if retrieved docs are relevant, if the answer is grounded, and whether it needs another retrieval pass. Built-in quality control without external evaluators.\n\n### Corrective RAG (CRAG)\nA refinement of Self-RAG: if the initial retrieval scores low on relevance, the system automatically reformulates the query, tries alternative retrieval strategies, or falls back to web search before answering."
+        "content": "These are the patterns pushing RAG beyond \"fancy search\":\r\n\r\n### Agentic RAG\r\nThe model *decides* what to retrieve, when, and how much. Instead of a fixed retrieval step, the agent loops: retrieve → reason → retrieve more if needed → answer. Claude's tool use makes this natural — define retrieval as a tool and let the model call it as many times as it needs.\r\n\r\n### Multi-Modal RAG\r\nRetrieve images, diagrams, charts, and tables — not just text. Embed visual content with vision models, retrieve by similarity, and pass images directly to Claude for analysis. Think: architecture diagrams, medical imaging, product photos.\r\n\r\n### Graph RAG\r\nLayer a knowledge graph on top of vector search. Entities and relationships give you structured reasoning that pure vector similarity misses. \"Who reported to the VP who approved this policy?\" requires graph traversal, not just nearest-neighbor lookup.\r\n\r\n### Self-RAG\r\nThe model critiques its own retrieval — decides if retrieved docs are relevant, if the answer is grounded, and whether it needs another retrieval pass. Built-in quality control without external evaluators.\r\n\r\n### Corrective RAG (CRAG)\r\nA refinement of Self-RAG: if the initial retrieval scores low on relevance, the system automatically reformulates the query, tries alternative retrieval strategies, or falls back to web search before answering."
       },
       {
         "heading": "How RAG Pairs with Claude",
-        "content": "Claude has specific advantages that change how you architect RAG:\n\n| Claude Feature | RAG Impact |\n|---|---|\n| **200K context window** | You can stuff 10-20 retrieved documents without truncation. Other models force you to pick 3-5. More context = better answers. |\n| **Prompt caching** | Cache your chunked knowledge base prefix. Repeated queries against the same corpus cost 90% less on cached tokens. See AI - Prompt Caching. |\n| **Tool use** | Define retrieval as a tool. Claude decides when to search, what query to use, and whether to search again. This is agentic RAG out of the box. |\n| **Structured output** | Ask Claude to return citations with page numbers, confidence scores, and source attribution — all in clean JSON. |\n| **Long-form reasoning** | Claude can synthesize across many retrieved documents, not just parrot the top result. Cross-reference, compare, and draw conclusions. |"
+        "content": "Claude has specific advantages that change how you architect RAG:\r\n\r\n| Claude Feature | RAG Impact |\r\n|---|---|\r\n| **200K context window** | You can stuff 10-20 retrieved documents without truncation. Other models force you to pick 3-5. More context = better answers. |\r\n| **Prompt caching** | Cache your chunked knowledge base prefix. Repeated queries against the same corpus cost 90% less on cached tokens. See AI - Prompt Caching. |\r\n| **Tool use** | Define retrieval as a tool. Claude decides when to search, what query to use, and whether to search again. This is agentic RAG out of the box. |\r\n| **Structured output** | Ask Claude to return citations with page numbers, confidence scores, and source attribution — all in clean JSON. |\r\n| **Long-form reasoning** | Claude can synthesize across many retrieved documents, not just parrot the top result. Cross-reference, compare, and draw conclusions. |"
       },
       {
         "heading": "Personal Productivity RAG",
-        "content": "This is where it gets practical for your own life:\n\n- **Obsidian Vault Search** — Embed your entire vault (notes, pods, daily notes, project docs). Ask questions like \"what did I decide about the homelab dashboard layout?\" and get answers grounded in your own writing.\n- **Email/Slack Knowledge Base** — Index your Slack channels and email threads. \"What did the team agree on for the deploy process?\" pulls from actual conversations.\n- **Personal CRM** — Track interactions, decisions, and context for every person you work with. RAG surfaces relevant history before meetings.\n- **Learning Reinforcement** — Query your LearnPod notes. \"What do I know about prompt caching?\" retrieves your own enriched pods and connects concepts.\n- **Life Capture Integration** — Your Slack #life pipeline already classifies content into the vault. RAG makes that content *queryable* — recipes, house projects, purchase history, all searchable in natural language."
+        "content": "This is where it gets practical for your own life:\r\n\r\n- **Obsidian Vault Search** — Embed your entire vault (notes, pods, daily notes, project docs). Ask questions like \"what did I decide about the homelab dashboard layout?\" and get answers grounded in your own writing.\r\n- **Email/Slack Knowledge Base** — Index your Slack channels and email threads. \"What did the team agree on for the deploy process?\" pulls from actual conversations.\r\n- **Personal CRM** — Track interactions, decisions, and context for every person you work with. RAG surfaces relevant history before meetings.\r\n- **Learning Reinforcement** — Query your LearnPod notes. \"What do I know about prompt caching?\" retrieves your own enriched pods and connects concepts.\r\n- **Life Capture Integration** — Your Slack #life pipeline already classifies content into the vault. RAG makes that content *queryable* — recipes, house projects, purchase history, all searchable in natural language."
       },
       {
         "heading": "Developer & Tech Company Enhancements",
-        "content": "| Pattern | How It Works | Impact |\n|---|---|---|\n| **Codebase RAG** | Embed repo files, types, tests, and docs. Query returns relevant code with full context. | New devs productive in days, not weeks. |\n| **Incident Response** | Retrieve past incident reports, runbooks, and relevant monitoring data when alerts fire. | Faster MTTR, better postmortems. |\n| **Onboarding** | RAG-powered onboarding bot answers \"how do we deploy?\" and \"where's the auth logic?\" from actual codebase and docs. | Self-serve answers instead of Slack pings. |\n| **PR Review** | Retrieve related code, past review comments, and coding standards for the changed files. | Consistent, context-aware reviews. |\n| **API Documentation** | Users query your API docs in natural language, get working code examples grounded in your actual endpoints. | Fewer support tickets, faster integration. |"
+        "content": "| Pattern | How It Works | Impact |\r\n|---|---|---|\r\n| **Codebase RAG** | Embed repo files, types, tests, and docs. Query returns relevant code with full context. | New devs productive in days, not weeks. |\r\n| **Incident Response** | Retrieve past incident reports, runbooks, and relevant monitoring data when alerts fire. | Faster MTTR, better postmortems. |\r\n| **Onboarding** | RAG-powered onboarding bot answers \"how do we deploy?\" and \"where's the auth logic?\" from actual codebase and docs. | Self-serve answers instead of Slack pings. |\r\n| **PR Review** | Retrieve related code, past review comments, and coding standards for the changed files. | Consistent, context-aware reviews. |\r\n| **API Documentation** | Users query your API docs in natural language, get working code examples grounded in your actual endpoints. | Fewer support tickets, faster integration. |"
       },
       {
         "heading": "Python/Code Entry Point",
-        "content": "Minimal RAG pipeline with LangChain and Claude:\n\n```python\nfrom langchain_anthropic import ChatAnthropic\nfrom langchain_community.document_loaders import DirectoryLoader\nfrom langchain_community.vectorstores import FAISS\nfrom langchain_huggingface import HuggingFaceEmbeddings\nfrom langchain.text_splitter import RecursiveCharacterTextSplitter\nfrom langchain.chains import RetrievalQA\n\n# 1. Load and chunk your documents\nloader = DirectoryLoader(\"./docs\", glob=\"**/*.md\")\ndocs = loader.load()\n\nsplitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)\nchunks = splitter.split_documents(docs)\n\n# 2. Embed and store in a vector DB\nembeddings = HuggingFaceEmbeddings(model_name=\"all-MiniLM-L6-v2\")\nvectorstore = FAISS.from_documents(chunks, embeddings)\n\n# 3. Create retrieval chain with Claude\nllm = ChatAnthropic(model=\"claude-sonnet-4-6-20250514\", max_tokens=1024)\nqa_chain = RetrievalQA.from_chain_type(\n    llm=llm,\n    chain_type=\"stuff\",  # stuff all retrieved docs into context\n    retriever=vectorstore.as_retriever(search_kwargs={\"k\": 5}),\n    return_source_documents=True,\n)\n\n# 4. Query\nresult = qa_chain.invoke({\"query\": \"How does the auth middleware work?\"})\nprint(result[\"result\"])\nfor doc in result[\"source_documents\"]:\n    print(f\"  Source: {doc.metadata['source']}\")\n```\n\nFor an agentic approach using Claude's native tool use (no LangChain):\n\n```python\nimport anthropic\nimport json\n\nclient = anthropic.Anthropic()\n\n# Define retrieval as a tool\ntools = [{\n    \"name\": \"search_docs\",\n    \"description\": \"Search the knowledge base for relevant documents\",\n    \"input_schema\": {\n        \"type\": \"object\",\n        \"properties\": {\n            \"query\": {\"type\": \"string\", \"description\": \"Search query\"}\n        },\n        \"required\": [\"query\"]\n    }\n}]\n\ndef search_docs(query: str) -> str:\n    # Your vector search logic here\n    results = vectorstore.similarity_search(query, k=5)\n    return \"\\n\\n\".join([doc.page_content for doc in results])\n\n# Claude decides when and what to retrieve\nresponse = client.messages.create(\n    model=\"claude-sonnet-4-6-20250514\",\n    max_tokens=1024,\n    tools=tools,\n    messages=[{\"role\": \"user\", \"content\": \"Explain our deployment process\"}]\n)\n\n# Handle tool calls in a loop for agentic RAG\nwhile response.stop_reason == \"tool_use\":\n    tool_block = next(b for b in response.content if b.type == \"tool_use\")\n    result = search_docs(tool_block.input[\"query\"])\n    response = client.messages.create(\n        model=\"claude-sonnet-4-6-20250514\",\n        max_tokens=1024,\n        tools=tools,\n        messages=[\n            {\"role\": \"user\", \"content\": \"Explain our deployment process\"},\n            {\"role\": \"assistant\", \"content\": response.content},\n            {\"role\": \"user\", \"content\": [\n                {\"type\": \"tool_result\", \"tool_use_id\": tool_block.id, \"content\": result}\n            ]}\n        ]\n    )\n```"
+        "content": "Minimal RAG pipeline with LangChain and Claude:\r\n\r\n```python\r\nfrom langchain_anthropic import ChatAnthropic\r\nfrom langchain_community.document_loaders import DirectoryLoader\r\nfrom langchain_community.vectorstores import FAISS\r\nfrom langchain_huggingface import HuggingFaceEmbeddings\r\nfrom langchain.text_splitter import RecursiveCharacterTextSplitter\r\nfrom langchain.chains import RetrievalQA\r\n\r\n# 1. Load and chunk your documents\r\nloader = DirectoryLoader(\"./docs\", glob=\"**/*.md\")\r\ndocs = loader.load()\r\n\r\nsplitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)\r\nchunks = splitter.split_documents(docs)\r\n\r\n# 2. Embed and store in a vector DB\r\nembeddings = HuggingFaceEmbeddings(model_name=\"all-MiniLM-L6-v2\")\r\nvectorstore = FAISS.from_documents(chunks, embeddings)\r\n\r\n# 3. Create retrieval chain with Claude\r\nllm = ChatAnthropic(model=\"claude-sonnet-4-6-20250514\", max_tokens=1024)\r\nqa_chain = RetrievalQA.from_chain_type(\r\n    llm=llm,\r\n    chain_type=\"stuff\",  # stuff all retrieved docs into context\r\n    retriever=vectorstore.as_retriever(search_kwargs={\"k\": 5}),\r\n    return_source_documents=True,\r\n)\r\n\r\n# 4. Query\r\nresult = qa_chain.invoke({\"query\": \"How does the auth middleware work?\"})\r\nprint(result[\"result\"])\r\nfor doc in result[\"source_documents\"]:\r\n    print(f\"  Source: {doc.metadata['source']}\")\r\n```\r\n\r\nFor an agentic approach using Claude's native tool use (no LangChain):\r\n\r\n```python\r\nimport anthropic\r\nimport json\r\n\r\nclient = anthropic.Anthropic()\r\n\r\n# Define retrieval as a tool\r\ntools = [{\r\n    \"name\": \"search_docs\",\r\n    \"description\": \"Search the knowledge base for relevant documents\",\r\n    \"input_schema\": {\r\n        \"type\": \"object\",\r\n        \"properties\": {\r\n            \"query\": {\"type\": \"string\", \"description\": \"Search query\"}\r\n        },\r\n        \"required\": [\"query\"]\r\n    }\r\n}]\r\n\r\ndef search_docs(query: str) -> str:\r\n    # Your vector search logic here\r\n    results = vectorstore.similarity_search(query, k=5)\r\n    return \"\\n\\n\".join([doc.page_content for doc in results])\r\n\r\n# Claude decides when and what to retrieve\r\nresponse = client.messages.create(\r\n    model=\"claude-sonnet-4-6-20250514\",\r\n    max_tokens=1024,\r\n    tools=tools,\r\n    messages=[{\"role\": \"user\", \"content\": \"Explain our deployment process\"}]\r\n)\r\n\r\n# Handle tool calls in a loop for agentic RAG\r\nwhile response.stop_reason == \"tool_use\":\r\n    tool_block = next(b for b in response.content if b.type == \"tool_use\")\r\n    result = search_docs(tool_block.input[\"query\"])\r\n    response = client.messages.create(\r\n        model=\"claude-sonnet-4-6-20250514\",\r\n        max_tokens=1024,\r\n        tools=tools,\r\n        messages=[\r\n            {\"role\": \"user\", \"content\": \"Explain our deployment process\"},\r\n            {\"role\": \"assistant\", \"content\": response.content},\r\n            {\"role\": \"user\", \"content\": [\r\n                {\"type\": \"tool_result\", \"tool_use_id\": tool_block.id, \"content\": result}\r\n            ]}\r\n        ]\r\n    )\r\n```"
       },
       {
         "heading": "Apply It",
-        "content": "- **LearnPod Vault** — Build a RAG layer over your Learning/Pods directory. Query your own notes: \"what do I know about embeddings?\" retrieves RAG - Embedding Models & Vector Stores and related pods. This is the natural evolution of the vault as a knowledge base.\n- **Homelab Dashboard** — Add a natural-language query endpoint to the homelab dashboard. \"What's the status of lab-01?\" retrieves device metrics, recent incidents, and config from the monorepo.\n- **Claude Code Framework** — Your `~/.claude/` skills and agents are already a knowledge base. RAG over them lets you ask \"which skill handles deployments?\" instead of grepping.\n- **Life Capture Pipeline** — Your Slack #life channel already classifies into the vault. Add embeddings to make it queryable: \"what was that recipe from last week?\" or \"what did I decide about the office chair?\""
+        "content": "- **LearnPod Vault** — Build a RAG layer over your Learning/Pods directory. Query your own notes: \"what do I know about embeddings?\" retrieves RAG - Embedding Models & Vector Stores and related pods. This is the natural evolution of the vault as a knowledge base.\r\n- **Homelab Dashboard** — Add a natural-language query endpoint to the homelab dashboard. \"What's the status of lab-01?\" retrieves device metrics, recent incidents, and config from the monorepo.\r\n- **Claude Code Framework** — Your `~/.claude/` skills and agents are already a knowledge base. RAG over them lets you ask \"which skill handles deployments?\" instead of grepping.\r\n- **Life Capture Pipeline** — Your Slack #life channel already classifies into the vault. Add embeddings to make it queryable: \"what was that recipe from last week?\" or \"what did I decide about the office chair?\""
       },
       {
         "heading": "Research Next Steps",
-        "content": "- [ ] Build a minimal RAG prototype over the Obsidian vault (FAISS + local embeddings)\n- [ ] Test Claude's 200K context window vs. traditional chunked RAG for vault-sized corpora\n- [ ] Evaluate embedding models for personal notes (MiniLM vs. Nomic vs. Voyage)\n- [ ] Prototype agentic RAG with Claude tool use for the homelab dashboard\n- [ ] Research graph RAG approaches for Obsidian's wikilink structure (links = edges)\n- [ ] Compare LangChain vs. LlamaIndex vs. raw Claude tool use for retrieval pipelines\n- [ ] Explore self-RAG patterns for automatic retrieval quality filtering"
+        "content": "- [ ] Build a minimal RAG prototype over the Obsidian vault (FAISS + local embeddings)\r\n- [ ] Test Claude's 200K context window vs. traditional chunked RAG for vault-sized corpora\r\n- [ ] Evaluate embedding models for personal notes (MiniLM vs. Nomic vs. Voyage)\r\n- [ ] Prototype agentic RAG with Claude tool use for the homelab dashboard\r\n- [ ] Research graph RAG approaches for Obsidian's wikilink structure (links = edges)\r\n- [ ] Compare LangChain vs. LlamaIndex vs. raw Claude tool use for retrieval pipelines\r\n- [ ] Explore self-RAG patterns for automatic retrieval quality filtering"
       }
     ],
     "related": [
@@ -318,35 +339,35 @@ export const pods: Pod[] = [
       },
       {
         "heading": "Why It Matters",
-        "content": "Claude subscriptions enforce rate limits across two windows — a 5-hour rolling window and a 7-day rolling window. Without tracking:\n- You hit rate limits unexpectedly and lose momentum mid-session\n- You can't tell which sessions or tasks burn the most tokens\n- Cost optimization is guesswork — you don't know where to apply caching or model routing\n- No historical data means no trend analysis or capacity planning\n\nVisibility into token flow turns a black box into an optimizable system."
+        "content": "Claude subscriptions enforce rate limits across two windows — a 5-hour rolling window and a 7-day rolling window. Without tracking:\r\n- You hit rate limits unexpectedly and lose momentum mid-session\r\n- You can't tell which sessions or tasks burn the most tokens\r\n- Cost optimization is guesswork — you don't know where to apply caching or model routing\r\n- No historical data means no trend analysis or capacity planning\r\n\r\nVisibility into token flow turns a black box into an optimizable system."
       },
       {
         "heading": "Architecture",
-        "content": "```\nClaude Code (CLI)\n  │\n  ▼ (statusline mechanism)\nPython Hook Script\n  │\n  ▼ (append per-message)\nJSONL Log Files (~/.claude/token-logs/{session-id}.jsonl)\n  │\n  ▼ (file watcher)\nMonitor App (Electron)\n  │\n  ▼ (render)\nDesktop Overlay (always-on-top charts + stats)\n```\n\nThe statusline is the key integration point — Claude Code emits token metadata after each assistant response, and a hook script captures it before it disappears."
+        "content": "```\r\nClaude Code (CLI)\r\n  │\r\n  ▼ (statusline mechanism)\r\nPython Hook Script\r\n  │\r\n  ▼ (append per-message)\r\nJSONL Log Files (~/.claude/token-logs/{session-id}.jsonl)\r\n  │\r\n  ▼ (file watcher)\r\nMonitor App (Electron)\r\n  │\r\n  ▼ (render)\r\nDesktop Overlay (always-on-top charts + stats)\r\n```\r\n\r\nThe statusline is the key integration point — Claude Code emits token metadata after each assistant response, and a hook script captures it before it disappears."
       },
       {
         "heading": "Key Data Points Tracked",
-        "content": "- **Input tokens**: cumulative per session (what you send to Claude)\n- **Output tokens**: cumulative per session (what Claude generates)\n- **Cache write tokens**: tokens written to prompt cache (one-time cost)\n- **Cache read tokens**: tokens served from cache (90% cheaper)\n- **Cost in USD**: running total based on model-specific pricing\n- **Context window usage %**: how full the conversation context is\n- **Rate limit usage**: percentage consumed of 5-hour and 7-day windows\n- **Rate limit reset times**: when each window resets (countdown)\n- **Model ID**: which model is being used (affects pricing calculations)"
+        "content": "- **Input tokens**: cumulative per session (what you send to Claude)\r\n- **Output tokens**: cumulative per session (what Claude generates)\r\n- **Cache write tokens**: tokens written to prompt cache (one-time cost)\r\n- **Cache read tokens**: tokens served from cache (90% cheaper)\r\n- **Cost in USD**: running total based on model-specific pricing\r\n- **Context window usage %**: how full the conversation context is\r\n- **Rate limit usage**: percentage consumed of 5-hour and 7-day windows\r\n- **Rate limit reset times**: when each window resets (countdown)\r\n- **Model ID**: which model is being used (affects pricing calculations)"
       },
       {
         "heading": "JSONL Log Format",
-        "content": "Each assistant message appends one line to the session log file:\n\n```json\n{\n  \"timestamp\": \"2026-04-02T14:23:01Z\",\n  \"session_id\": \"abc123\",\n  \"model\": \"claude-opus-4-6-20250514\",\n  \"input_tokens\": 45200,\n  \"output_tokens\": 12800,\n  \"cache_write_tokens\": 8500,\n  \"cache_read_tokens\": 36700,\n  \"cost_usd\": 0.42,\n  \"context_window_pct\": 34.2,\n  \"rate_limit_5h_pct\": 18.5,\n  \"rate_limit_7d_pct\": 6.2\n}\n```\n\nStored at `~/.claude/token-logs/{session-id}.jsonl` — one file per session, append-only. Easy to parse, aggregate, and archive."
+        "content": "Each assistant message appends one line to the session log file:\r\n\r\n```json\r\n{\r\n  \"timestamp\": \"2026-04-02T14:23:01Z\",\r\n  \"session_id\": \"abc123\",\r\n  \"model\": \"claude-opus-4-6-20250514\",\r\n  \"input_tokens\": 45200,\r\n  \"output_tokens\": 12800,\r\n  \"cache_write_tokens\": 8500,\r\n  \"cache_read_tokens\": 36700,\r\n  \"cost_usd\": 0.42,\r\n  \"context_window_pct\": 34.2,\r\n  \"rate_limit_5h_pct\": 18.5,\r\n  \"rate_limit_7d_pct\": 6.2\r\n}\r\n```\r\n\r\nStored at `~/.claude/token-logs/{session-id}.jsonl` — one file per session, append-only. Easy to parse, aggregate, and archive."
       },
       {
         "heading": "Monitor Features",
-        "content": "The Electron overlay app reads JSONL logs and renders real-time visualizations:\n\n- **Session summary cards**: total tokens, cost, duration, model for each active/recent session\n- **5-minute bucketed timeline**: token usage over time as a bar chart, showing bursts and patterns\n- **Daily/weekly aggregates**: total spend and token volume across all sessions\n- **Rate limit bars**: visual progress bars for 5-hour and 7-day windows with reset countdowns\n- **Sparkline visualizations**: inline mini-charts showing token trends at a glance\n- **Alert thresholds**: color changes when approaching rate limits (yellow at 70%, red at 90%)"
+        "content": "The Electron overlay app reads JSONL logs and renders real-time visualizations:\r\n\r\n- **Session summary cards**: total tokens, cost, duration, model for each active/recent session\r\n- **5-minute bucketed timeline**: token usage over time as a bar chart, showing bursts and patterns\r\n- **Daily/weekly aggregates**: total spend and token volume across all sessions\r\n- **Rate limit bars**: visual progress bars for 5-hour and 7-day windows with reset countdowns\r\n- **Sparkline visualizations**: inline mini-charts showing token trends at a glance\r\n- **Alert thresholds**: color changes when approaching rate limits (yellow at 70%, red at 90%)"
       },
       {
         "heading": "Practical Insights",
-        "content": "This data answers real questions that drive optimization:\n\n- **Which sessions burn the most?** Large refactors and architecture reviews consume 5-10x more than quick fixes\n- **Cache hit rates**: if cache reads are low relative to writes, your prefix ordering needs work\n- **Rate limit awareness**: seeing 70%+ on the 5-hour window means you should batch remaining work or switch to a lighter model\n- **Cost per task type**: knowing that security reviews cost $2 vs. bug fixes at $0.30 informs how you allocate your budget\n- **Context window creep**: sessions that hit 80%+ context usage should be wrapped and restarted"
+        "content": "This data answers real questions that drive optimization:\r\n\r\n- **Which sessions burn the most?** Large refactors and architecture reviews consume 5-10x more than quick fixes\r\n- **Cache hit rates**: if cache reads are low relative to writes, your prefix ordering needs work\r\n- **Rate limit awareness**: seeing 70%+ on the 5-hour window means you should batch remaining work or switch to a lighter model\r\n- **Cost per task type**: knowing that security reviews cost $2 vs. bug fixes at $0.30 informs how you allocate your budget\r\n- **Context window creep**: sessions that hit 80%+ context usage should be wrapped and restarted"
       },
       {
         "heading": "Apply It",
-        "content": "1. **Session planning** — check rate limit bars before starting a heavy session to avoid mid-task throttling\n2. **Model routing** — use cost-per-session data to decide when Sonnet is sufficient vs. when Opus is needed\n3. **Cache optimization** — low cache read rates signal you should restructure prompts to share prefixes\n4. **Budget forecasting** — weekly aggregates predict monthly spend and flag if you're trending over budget"
+        "content": "1. **Session planning** — check rate limit bars before starting a heavy session to avoid mid-task throttling\r\n2. **Model routing** — use cost-per-session data to decide when Sonnet is sufficient vs. when Opus is needed\r\n3. **Cache optimization** — low cache read rates signal you should restructure prompts to share prefixes\r\n4. **Budget forecasting** — weekly aggregates predict monthly spend and flag if you're trending over budget"
       },
       {
         "heading": "Research Next Steps",
-        "content": "- [ ] Build per-skill cost attribution (which skills consume the most tokens?)\n- [ ] Add session tagging to correlate token usage with task types\n- [ ] Create weekly cost report that auto-posts to Slack\n- [ ] Compare token efficiency across models for the same task types"
+        "content": "- [ ] Build per-skill cost attribution (which skills consume the most tokens?)\r\n- [ ] Add session tagging to correlate token usage with task types\r\n- [ ] Create weekly cost report that auto-posts to Slack\r\n- [ ] Compare token efficiency across models for the same task types"
       }
     ],
     "related": [
@@ -381,11 +402,11 @@ export const pods: Pod[] = [
       },
       {
         "heading": "What NOT to Share",
-        "content": "- Passwords or PINs\n- Social Security numbers\n- Bank account or credit card numbers\n- Medical record numbers\n- Other people's private information without their permission"
+        "content": "- Passwords or PINs\r\n- Social Security numbers\r\n- Bank account or credit card numbers\r\n- Medical record numbers\r\n- Other people's private information without their permission"
       },
       {
         "heading": "What's Totally Fine to Share",
-        "content": "- General questions about anything\n- Help writing emails, letters, or invitations\n- Planning trips, meals, or events\n- Asking for explanations of confusing topics\n- Creative ideas and brainstorming\n- Hypothetical \"what if\" scenarios"
+        "content": "- General questions about anything\r\n- Help writing emails, letters, or invitations\r\n- Planning trips, meals, or events\r\n- Asking for explanations of confusing topics\r\n- Creative ideas and brainstorming\r\n- Hypothetical \"what if\" scenarios"
       },
       {
         "heading": "Free vs Paid Plans",
@@ -401,11 +422,11 @@ export const pods: Pod[] = [
       },
       {
         "heading": "Try This",
-        "content": "- Next time you use AI, pause and notice what you're sharing — is it personal data or just a question? Practice the coffee shop rule\n- Check whether the AI tool you use has a free or paid plan, and glance at the privacy page if you're curious\n- Read the round 1 pod on what AI actually is: AI for Everyone - What Is AI Really"
+        "content": "- Next time you use AI, pause and notice what you're sharing — is it personal data or just a question? Practice the coffee shop rule\r\n- Check whether the AI tool you use has a free or paid plan, and glance at the privacy page if you're curious\r\n- Read the round 1 pod on what AI actually is: AI for Everyone - What Is AI Really"
       },
       {
         "heading": "In This Module",
-        "content": "- AI for Everyone - Spotting AI Fakes\n- AI for Everyone - AI for Hobbies\n- AI for Everyone - Talking to AI Like a Pro\n- AI for Everyone - AI You're Already Using"
+        "content": "- AI for Everyone - Spotting AI Fakes\r\n- AI for Everyone - AI for Hobbies\r\n- AI for Everyone - Talking to AI Like a Pro\r\n- AI for Everyone - AI You're Already Using"
       }
     ],
     "related": [],
@@ -464,11 +485,11 @@ export const pods: Pod[] = [
       },
       {
         "heading": "Try This",
-        "content": "- Pick your favorite hobby and ask AI one question about it right now — you'll be surprised how helpful the answer is\n- Try asking: \"I'm a beginner at [your hobby]. What are the three things I should know first?\"\n- For a step-by-step guide to trying AI yourself: AI for Everyone - Try It Yourself"
+        "content": "- Pick your favorite hobby and ask AI one question about it right now — you'll be surprised how helpful the answer is\r\n- Try asking: \"I'm a beginner at [your hobby]. What are the three things I should know first?\"\r\n- For a step-by-step guide to trying AI yourself: AI for Everyone - Try It Yourself"
       },
       {
         "heading": "In This Module",
-        "content": "- AI for Everyone - AI and Your Privacy\n- AI for Everyone - Spotting AI Fakes\n- AI for Everyone - Talking to AI Like a Pro\n- AI for Everyone - How People Use AI Today"
+        "content": "- AI for Everyone - AI and Your Privacy\r\n- AI for Everyone - Spotting AI Fakes\r\n- AI for Everyone - Talking to AI Like a Pro\r\n- AI for Everyone - How People Use AI Today"
       }
     ],
     "related": [],
@@ -526,11 +547,11 @@ export const pods: Pod[] = [
       },
       {
         "heading": "Try This",
-        "content": "- Open your phone's photo app and search for \"food\" or \"dog\" or \"sunset\" — notice how it finds the right photos without anyone ever labeling them\n- Check your email spam folder — look at all the junk AI caught for you today\n- Next time Google Maps reroutes you, give a little nod to AI"
+        "content": "- Open your phone's photo app and search for \"food\" or \"dog\" or \"sunset\" — notice how it finds the right photos without anyone ever labeling them\r\n- Check your email spam folder — look at all the junk AI caught for you today\r\n- Next time Google Maps reroutes you, give a little nod to AI"
       },
       {
         "heading": "In This Module",
-        "content": "- AI for Everyone - What Is AI Really\n- AI for Everyone - How People Use AI Today\n- AI for Everyone - Try It Yourself"
+        "content": "- AI for Everyone - What Is AI Really\r\n- AI for Everyone - How People Use AI Today\r\n- AI for Everyone - Try It Yourself"
       }
     ],
     "related": [],
@@ -556,11 +577,11 @@ export const pods: Pod[] = [
       },
       {
         "heading": "In Personal Life",
-        "content": "**Writing help.** Drafting emails, thank-you notes, complaint letters, even sympathy cards. \"Help me write a polite but firm email to my landlord about the broken heater\" is a perfectly normal thing to ask AI. It gives you a solid first draft in seconds, and you tweak it from there.\n\n**Planning.** Trip itineraries, meal plans for the week, party checklists. \"Plan a 5-day trip to Italy for two people who love food and history\" — and you'll get a day-by-day plan with restaurant suggestions, travel tips, and packing reminders.\n\n**Understanding confusing things.** \"Explain what my doctor meant by 'elevated liver enzymes' in simple terms.\" AI is wonderful at translating medical results, insurance policies, tax forms, and other confusing documents into plain English you can actually understand.\n\n**Translating.** Real-time translation for travel, reading foreign recipes, understanding documents in another language. It's not perfect, but it's remarkably good — and it's free.\n\n**Making sense of legal language.** \"Explain this lease agreement in plain English.\" \"What does this clause in my car insurance actually mean?\" AI won't replace a lawyer, but it can help you understand what you're reading before you sign."
+        "content": "**Writing help.** Drafting emails, thank-you notes, complaint letters, even sympathy cards. \"Help me write a polite but firm email to my landlord about the broken heater\" is a perfectly normal thing to ask AI. It gives you a solid first draft in seconds, and you tweak it from there.\r\n\r\n**Planning.** Trip itineraries, meal plans for the week, party checklists. \"Plan a 5-day trip to Italy for two people who love food and history\" — and you'll get a day-by-day plan with restaurant suggestions, travel tips, and packing reminders.\r\n\r\n**Understanding confusing things.** \"Explain what my doctor meant by 'elevated liver enzymes' in simple terms.\" AI is wonderful at translating medical results, insurance policies, tax forms, and other confusing documents into plain English you can actually understand.\r\n\r\n**Translating.** Real-time translation for travel, reading foreign recipes, understanding documents in another language. It's not perfect, but it's remarkably good — and it's free.\r\n\r\n**Making sense of legal language.** \"Explain this lease agreement in plain English.\" \"What does this clause in my car insurance actually mean?\" AI won't replace a lawyer, but it can help you understand what you're reading before you sign."
       },
       {
         "heading": "In Business",
-        "content": "**Small business owners** use it for writing product descriptions, social media posts, and responses to customer reviews. A bakery owner might use AI to write their weekly Instagram captions in minutes instead of hours.\n\n**Customer service.** Many \"chat with us\" boxes on websites are AI now. They handle straightforward questions so human agents can focus on the complicated ones.\n\n**Real estate agents** use it for property descriptions, market summaries, and client emails. Teachers use it for lesson plans and quiz questions. Freelancers use it to draft proposals and invoices."
+        "content": "**Small business owners** use it for writing product descriptions, social media posts, and responses to customer reviews. A bakery owner might use AI to write their weekly Instagram captions in minutes instead of hours.\r\n\r\n**Customer service.** Many \"chat with us\" boxes on websites are AI now. They handle straightforward questions so human agents can focus on the complicated ones.\r\n\r\n**Real estate agents** use it for property descriptions, market summaries, and client emails. Teachers use it for lesson plans and quiz questions. Freelancers use it to draft proposals and invoices."
       },
       {
         "heading": "The Pattern",
@@ -568,11 +589,11 @@ export const pods: Pod[] = [
       },
       {
         "heading": "Try This",
-        "content": "- Think of an email you've been putting off writing — try asking AI to draft it for you and see how close it gets\n- Pick something confusing you received recently (a medical bill, an insurance letter, a legal notice) and ask AI to explain it in plain English\n- If you run a small business or side project, try asking AI to write a social media post about your latest product or service"
+        "content": "- Think of an email you've been putting off writing — try asking AI to draft it for you and see how close it gets\r\n- Pick something confusing you received recently (a medical bill, an insurance letter, a legal notice) and ask AI to explain it in plain English\r\n- If you run a small business or side project, try asking AI to write a social media post about your latest product or service"
       },
       {
         "heading": "In This Module",
-        "content": "- AI for Everyone - What Is AI Really\n- AI for Everyone - AI You're Already Using\n- AI for Everyone - Try It Yourself"
+        "content": "- AI for Everyone - What Is AI Really\r\n- AI for Everyone - AI You're Already Using\r\n- AI for Everyone - Try It Yourself"
       }
     ],
     "related": [],
@@ -615,7 +636,7 @@ export const pods: Pod[] = [
       },
       {
         "heading": "The Golden Rules",
-        "content": "1. If something seems too shocking, too perfect, or too outrageous — verify it before you share it\n2. If someone contacts you urgently asking for money, always verify their identity through a separate phone call\n3. If a deal looks too good to be true, it probably is — AI-generated fake online stores exist\n4. Trust your gut — if something feels off, it probably is"
+        "content": "1. If something seems too shocking, too perfect, or too outrageous — verify it before you share it\r\n2. If someone contacts you urgently asking for money, always verify their identity through a separate phone call\r\n3. If a deal looks too good to be true, it probably is — AI-generated fake online stores exist\r\n4. Trust your gut — if something feels off, it probably is"
       },
       {
         "heading": "You Don't Need to Be Paranoid",
@@ -623,11 +644,11 @@ export const pods: Pod[] = [
       },
       {
         "heading": "Try This",
-        "content": "- Next time you see a surprising video or image online, pause before sharing it and ask yourself: \"Has a real news outlet reported this?\" That one habit catches most fakes\n- Set up a family code word — a word only your family knows — so you can verify identity on unexpected calls\n- See how AI is already part of your daily life: AI for Everyone - AI You're Already Using"
+        "content": "- Next time you see a surprising video or image online, pause before sharing it and ask yourself: \"Has a real news outlet reported this?\" That one habit catches most fakes\r\n- Set up a family code word — a word only your family knows — so you can verify identity on unexpected calls\r\n- See how AI is already part of your daily life: AI for Everyone - AI You're Already Using"
       },
       {
         "heading": "In This Module",
-        "content": "- AI for Everyone - AI and Your Privacy\n- AI for Everyone - AI for Hobbies\n- AI for Everyone - Talking to AI Like a Pro\n- AI for Everyone - Try It Yourself"
+        "content": "- AI for Everyone - AI and Your Privacy\r\n- AI for Everyone - AI for Hobbies\r\n- AI for Everyone - Talking to AI Like a Pro\r\n- AI for Everyone - Try It Yourself"
       }
     ],
     "related": [],
@@ -669,7 +690,7 @@ export const pods: Pod[] = [
       },
       {
         "heading": "The Magic Phrases",
-        "content": "- \"Explain this like I'm new to it\" — adjusts the complexity to your level\n- \"Give me the pros and cons\" — gets you a balanced perspective\n- \"What questions should I be asking?\" — perfect for when you don't know where to start\n- \"What am I forgetting?\" — great for planning trips, events, or projects\n- \"Is there a simpler way to do this?\" — cuts through unnecessary complexity"
+        "content": "- \"Explain this like I'm new to it\" — adjusts the complexity to your level\r\n- \"Give me the pros and cons\" — gets you a balanced perspective\r\n- \"What questions should I be asking?\" — perfect for when you don't know where to start\r\n- \"What am I forgetting?\" — great for planning trips, events, or projects\r\n- \"Is there a simpler way to do this?\" — cuts through unnecessary complexity"
       },
       {
         "heading": "Don't Worry About Being \"Good at This\"",
@@ -677,11 +698,11 @@ export const pods: Pod[] = [
       },
       {
         "heading": "Try This",
-        "content": "- Take something you've asked AI before and try asking again with more detail and context — compare the two answers and you'll see the difference right away\n- Try one of the magic phrases on any question you have today\n- If you haven't tried AI yet, start here: AI for Everyone - Try It Yourself"
+        "content": "- Take something you've asked AI before and try asking again with more detail and context — compare the two answers and you'll see the difference right away\r\n- Try one of the magic phrases on any question you have today\r\n- If you haven't tried AI yet, start here: AI for Everyone - Try It Yourself"
       },
       {
         "heading": "In This Module",
-        "content": "- AI for Everyone - AI and Your Privacy\n- AI for Everyone - Spotting AI Fakes\n- AI for Everyone - AI for Hobbies\n- AI for Everyone - What Is AI Really"
+        "content": "- AI for Everyone - AI and Your Privacy\r\n- AI for Everyone - Spotting AI Fakes\r\n- AI for Everyone - AI for Hobbies\r\n- AI for Everyone - What Is AI Really"
       }
     ],
     "related": [],
@@ -703,7 +724,7 @@ export const pods: Pod[] = [
     "sections": [
       {
         "heading": "Where to Go",
-        "content": "You don't need to download anything or sign up for something expensive. Just open your web browser and visit one of these — they're all free to start:\n\n- **claude.ai** — Anthropic's Claude. Thoughtful, careful, great at explaining things.\n- **chatgpt.com** — OpenAI's ChatGPT. The most well-known one.\n- **gemini.google.com** — Google's Gemini. Built right into the Google ecosystem.\n\nPick whichever one you want. They all work similarly, and you can always try the others later."
+        "content": "You don't need to download anything or sign up for something expensive. Just open your web browser and visit one of these — they're all free to start:\r\n\r\n- **claude.ai** — Anthropic's Claude. Thoughtful, careful, great at explaining things.\r\n- **chatgpt.com** — OpenAI's ChatGPT. The most well-known one.\r\n- **gemini.google.com** — Google's Gemini. Built right into the Google ecosystem.\r\n\r\nPick whichever one you want. They all work similarly, and you can always try the others later."
       },
       {
         "heading": "How to Talk to It",
@@ -711,7 +732,7 @@ export const pods: Pod[] = [
       },
       {
         "heading": "Five Things to Try Right Now",
-        "content": "1. **\"Explain [something confusing] like I'm 12 years old.\"** Great for medical terms, legal jargon, financial concepts, or anything that normally makes your eyes glaze over.\n\n2. **\"Help me write a [type of message] to [person] about [topic].\"** Emails, thank-you notes, complaint letters, birthday messages — AI gives you a solid first draft in seconds.\n\n3. **\"I'm planning [event or trip]. Help me think through what I need.\"** AI is wonderful at checklists, timelines, and making sure you don't forget anything.\n\n4. **\"What's the difference between [A] and [B]?\"** Comparing insurance plans, phone models, medications, vacation destinations — anything where you're trying to make a decision.\n\n5. **\"I'm trying to [goal]. What are my options?\"** Career changes, home improvement projects, gift ideas for a picky person — AI is great at brainstorming with you."
+        "content": "1. **\"Explain [something confusing] like I'm 12 years old.\"** Great for medical terms, legal jargon, financial concepts, or anything that normally makes your eyes glaze over.\r\n\r\n2. **\"Help me write a [type of message] to [person] about [topic].\"** Emails, thank-you notes, complaint letters, birthday messages — AI gives you a solid first draft in seconds.\r\n\r\n3. **\"I'm planning [event or trip]. Help me think through what I need.\"** AI is wonderful at checklists, timelines, and making sure you don't forget anything.\r\n\r\n4. **\"What's the difference between [A] and [B]?\"** Comparing insurance plans, phone models, medications, vacation destinations — anything where you're trying to make a decision.\r\n\r\n5. **\"I'm trying to [goal]. What are my options?\"** Career changes, home improvement projects, gift ideas for a picky person — AI is great at brainstorming with you."
       },
       {
         "heading": "What to Trust and What to Double-Check",
@@ -719,7 +740,7 @@ export const pods: Pod[] = [
       },
       {
         "heading": "It's Okay To...",
-        "content": "- Ask follow-up questions. \"Tell me more about that.\"\n- Say \"that's not quite right\" and ask it to try again.\n- Say \"make it simpler\" or \"make it shorter.\"\n- Ask the same question five different ways until you get what you need.\n\nYou can't break it, and there are no dumb questions. Seriously."
+        "content": "- Ask follow-up questions. \"Tell me more about that.\"\r\n- Say \"that's not quite right\" and ask it to try again.\r\n- Say \"make it simpler\" or \"make it shorter.\"\r\n- Ask the same question five different ways until you get what you need.\r\n\r\nYou can't break it, and there are no dumb questions. Seriously."
       },
       {
         "heading": "One Privacy Tip",
@@ -731,11 +752,11 @@ export const pods: Pod[] = [
       },
       {
         "heading": "Try This",
-        "content": "- Right now, open one of the links above in a new tab and try prompt number 1 with something you've been curious about\n- Send your favorite result to a friend or family member — sharing what you discover is the fastest way to get comfortable\n- Tomorrow, try a different prompt from the list. One new thing per day, and within a week you'll feel like a pro."
+        "content": "- Right now, open one of the links above in a new tab and try prompt number 1 with something you've been curious about\r\n- Send your favorite result to a friend or family member — sharing what you discover is the fastest way to get comfortable\r\n- Tomorrow, try a different prompt from the list. One new thing per day, and within a week you'll feel like a pro."
       },
       {
         "heading": "In This Module",
-        "content": "- AI for Everyone - What Is AI Really\n- AI for Everyone - AI You're Already Using\n- AI for Everyone - How People Use AI Today"
+        "content": "- AI for Everyone - What Is AI Really\r\n- AI for Everyone - AI You're Already Using\r\n- AI for Everyone - How People Use AI Today"
       }
     ],
     "related": [],
@@ -785,11 +806,11 @@ export const pods: Pod[] = [
       },
       {
         "heading": "Try This",
-        "content": "- Ask someone near you: \"What do you think AI is?\" — you might be surprised how much mystery surrounds something that's actually pretty straightforward\n- Next time you see a news headline about AI, ask yourself: \"Is this about pattern matching, or are they making it sound like a movie villain?\"\n- Read the next pod to see how much AI you already use every day"
+        "content": "- Ask someone near you: \"What do you think AI is?\" — you might be surprised how much mystery surrounds something that's actually pretty straightforward\r\n- Next time you see a news headline about AI, ask yourself: \"Is this about pattern matching, or are they making it sound like a movie villain?\"\r\n- Read the next pod to see how much AI you already use every day"
       },
       {
         "heading": "In This Module",
-        "content": "- AI for Everyone - AI You're Already Using\n- AI for Everyone - How People Use AI Today\n- AI for Everyone - Try It Yourself"
+        "content": "- AI for Everyone - AI You're Already Using\r\n- AI for Everyone - How People Use AI Today\r\n- AI for Everyone - Try It Yourself"
       }
     ],
     "related": [],
@@ -810,8 +831,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Co-Intelligence, Ch 6 — AI as a Coworker",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -858,8 +877,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Co-Intelligence, Ch 5 — AI as a Creative",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -906,8 +923,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Co-Intelligence, Ch 7 — AI as a Tutor",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -954,8 +969,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Co-Intelligence, Ch 2 — Aligning the Alien",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -1003,8 +1016,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Competing in the Age of AI, Ch 3 — The AI Factory",
-    "contentType": "case-study",
     "sections": [
       {
         "heading": "What It Is",
@@ -1051,8 +1062,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "The Mom Test, Ch 3 — Asking Important Questions",
-    "contentType": "methodology",
     "sections": [
       {
         "heading": "What It Is",
@@ -1100,8 +1109,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Dealmaking, Ch 1 — Preparing to Negotiate",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -1149,8 +1156,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "The Age of Surveillance Capitalism, Ch 3 — The Discovery of Behavioral Surplus",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -1198,8 +1203,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "The Staff Engineer's Path, Ch 7 — You're a Role Model Now (Sorry)",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -1247,8 +1250,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Both/And Thinking, Ch 4 — Shifting to Both/And Assumptions",
-    "contentType": "methodology",
     "sections": [
       {
         "heading": "What It Is",
@@ -1296,8 +1297,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Both/And Thinking, Ch 5 — Creating Boundaries to Contain Tensions",
-    "contentType": "methodology",
     "sections": [
       {
         "heading": "What It Is",
@@ -1343,8 +1342,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Clean Code, Ch 1 — Clean Code",
-    "contentType": "metaphor",
     "sections": [
       {
         "heading": "What It Is",
@@ -1391,8 +1388,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "The Business of Platforms, Ch 5 — Old Dogs and New Tricks",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -1440,8 +1435,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Accelerate, Ch 9 — Making Work Sustainable",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -1488,8 +1481,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Good to Great, Ch 3 — First Who... Then What",
-    "contentType": "metaphor",
     "sections": [
       {
         "heading": "What It Is",
@@ -1537,8 +1528,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Venture Deals, Ch 9 — The Capitalization Table",
-    "contentType": "methodology",
     "sections": [
       {
         "heading": "What It Is",
@@ -1586,8 +1575,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "An Elegant Puzzle, Ch 6 — Careers",
-    "contentType": "methodology",
     "sections": [
       {
         "heading": "What It Is",
@@ -1633,8 +1620,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Good Strategy Bad Strategy, Ch 8 — Chain-Link Systems",
-    "contentType": "metaphor",
     "sections": [
       {
         "heading": "What It Is",
@@ -1682,8 +1667,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "We the Possibility, Ch 2 — Reach Out to Reach Up",
-    "contentType": "methodology",
     "sections": [
       {
         "heading": "What It Is",
@@ -1729,8 +1712,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Clean Code, Ch 3 — Functions",
-    "contentType": "methodology",
     "sections": [
       {
         "heading": "What It Is",
@@ -1778,8 +1759,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Smarter Collaboration, Ch 4 — Diagnosing Your Collaboration",
-    "contentType": "methodology",
     "sections": [
       {
         "heading": "What It Is",
@@ -1827,8 +1806,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Smarter Collaboration, Ch 10 — Troubleshooting: Collaboration Overload and Inclusion",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -1874,8 +1851,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Clean Code, Ch 4 — Comments",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -1922,8 +1897,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "The Mom Test, Ch 5 — Commitment and Advancement",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -1971,8 +1944,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "The Five Dysfunctions of a Team, Ch 8 — Understanding and Overcoming the Five Dysfunctions",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -2020,8 +1991,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Dependency Injection, Ch 7 — Application Composition",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -2068,8 +2037,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Continuous Delivery, Ch 2 — Configuration Management",
-    "contentType": "methodology",
     "sections": [
       {
         "heading": "What It Is",
@@ -2117,8 +2084,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Accelerate, Ch 4 — Technical Practices",
-    "contentType": "methodology",
     "sections": [
       {
         "heading": "What It Is",
@@ -2166,8 +2131,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Difficult Conversations, Ch 4 — Abandon Blame: Map the Contribution System",
-    "contentType": "methodology",
     "sections": [
       {
         "heading": "What It Is",
@@ -2215,8 +2178,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Venture Deals, Ch 8 — Convertible Debt",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -2264,8 +2225,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Team Topologies, Ch 2 — Conway's Law and Why It Matters",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -2313,8 +2272,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "The Unicorn Project, Ch 12-14 — Core vs Context",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -2362,8 +2319,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "The Case for Good Jobs, Ch 3,5 — The Good Jobs System / The Four Operational Choices",
-    "contentType": "case-study",
     "sections": [
       {
         "heading": "What It Is",
@@ -2411,8 +2366,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Teaching by Heart, Ch 5 — The Ties That Bind",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -2460,8 +2413,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Smarter Collaboration, Ch 9 — Collaborating Across Boundaries and with External Partners",
-    "contentType": "methodology",
     "sections": [
       {
         "heading": "What It Is",
@@ -2509,8 +2460,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Dependency Injection, Ch 9,10 — Interception / Aspect-Oriented Programming by Design",
-    "contentType": "methodology",
     "sections": [
       {
         "heading": "What It Is",
@@ -2557,8 +2506,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Good to Great, Ch 6 — A Culture of Discipline",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -2606,8 +2553,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "The Mom Test, Ch 7 — Choosing Your Customers",
-    "contentType": "methodology",
     "sections": [
       {
         "heading": "What It Is",
@@ -2654,8 +2599,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Good to Great, Ch 2 — Level 5 Leadership",
-    "contentType": "case-study",
     "sections": [
       {
         "heading": "What It Is",
@@ -2703,8 +2646,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "The Five Dysfunctions of a Team, Ch 1-5 — The Fable",
-    "contentType": "case-study",
     "sections": [
       {
         "heading": "What It Is",
@@ -2751,8 +2692,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Continuous Delivery, Ch 10 — Deploying and Releasing Applications",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -2799,8 +2738,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Continuous Delivery, Ch 5 — Anatomy of the Deployment Pipeline",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -2848,8 +2785,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "The Unicorn Project, Ch 1-3 — Maxine's Exile",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -2897,8 +2832,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Dependency Injection, Ch 5 — DI Anti-Patterns",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -2946,8 +2879,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Dependency Injection, Ch 4 — DI Patterns",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -2996,8 +2927,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "The Staff Engineer's Path, Ch 6 — Why Have We Stopped?",
-    "contentType": "methodology",
     "sections": [
       {
         "heading": "What It Is",
@@ -3045,8 +2974,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Competing in the Age of AI, Ch 4 — Rearchitecting the Firm",
-    "contentType": "methodology",
     "sections": [
       {
         "heading": "What It Is",
@@ -3093,8 +3020,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Inspired, Ch 8 — Key Concepts",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -3142,8 +3067,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Patterns of Enterprise Application Architecture, Ch 2,9 — Organizing Domain Logic / Domain Logic Patterns",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -3191,8 +3114,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Founding Sales, Ch 8 — Down-Funnel Selling & Closing",
-    "contentType": "methodology",
     "sections": [
       {
         "heading": "What It Is",
@@ -3240,8 +3161,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Both/And Thinking, Ch 7 — Enabling Dynamics That Unleash Tensions",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -3289,8 +3208,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Venture Deals, Ch 4 — Overview of the Term Sheet",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -3337,8 +3254,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Scrum, Ch 5 — Waste Is a Crime",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -3386,8 +3301,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Inspired, Ch 6 — The Root Causes of Failed Product Efforts",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -3435,8 +3348,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Atomic Habits, Ch 6 — Motivation Is Overrated; Environment Often Matters More",
-    "contentType": "methodology",
     "sections": [
       {
         "heading": "What It Is",
@@ -3484,8 +3395,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "We the Possibility, Ch 3 — Experimenting in Public",
-    "contentType": "methodology",
     "sections": [
       {
         "heading": "What It Is",
@@ -3533,8 +3442,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Team Topologies, Ch 1 — The Problem with Org Charts",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -3582,8 +3489,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Hearts Touched with Fire, Ch 5 — Finding Your True North",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -3632,8 +3537,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "The Staff Engineer's Path, Ch 4 — Finite Time",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -3680,8 +3583,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Clean Code, Ch 9 — Unit Tests",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -3728,8 +3629,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Good to Great, Ch 3 — First Who... Then What",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -3777,8 +3676,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "The Five Dysfunctions of a Team, Ch 6 — An Overview of the Model",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -3825,8 +3722,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Good to Great, Ch 8 — The Flywheel and the Doom Loop",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -3875,8 +3770,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Founding Sales, Ch 10,11 — Early Sales Management & Sales Hiring",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -3924,8 +3817,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Founding Sales, Ch 1 — Mindset Changes",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -3972,8 +3863,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "The Business of Platforms, Ch 4 — Common Mistakes",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -4021,8 +3910,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Team Topologies, Ch 5 — The Four Fundamental Team Topologies",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -4068,8 +3955,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Good Strategy Bad Strategy, Ch 3 — Bad Strategy",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -4117,8 +4002,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Accelerate, Ch 2 — Measuring Performance",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -4165,8 +4048,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Atomic Habits, Ch 3 — How to Build Better Habits in 4 Simple Steps",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -4214,8 +4095,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "The Case for Good Jobs, Ch 5 — The Four Operational Choices",
-    "contentType": "methodology",
     "sections": [
       {
         "heading": "What It Is",
@@ -4262,8 +4141,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Inspired, Ch 8 — Key Concepts",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -4310,8 +4187,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Co-Intelligence, Ch 3 — Four Rules for Co-Intelligence",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -4358,8 +4233,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "An Elegant Puzzle, Ch 2 — Organizations",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -4407,8 +4280,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Patterns of Enterprise Application Architecture, Ch 7 — Distribution Strategies",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -4456,8 +4327,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Atomic Habits, Ch 19 — The Goldilocks Rule: How to Stay Motivated in Life and Work",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -4506,8 +4375,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "The Staff Engineer's Path, Ch 8 — Good Influence at Scale",
-    "contentType": "methodology",
     "sections": [
       {
         "heading": "What It Is",
@@ -4555,8 +4422,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "We the Possibility, Ch 5 — Government as a Platform",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -4603,8 +4468,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Atomic Habits, Ch 5 — The Best Way to Start a New Habit",
-    "contentType": "methodology",
     "sections": [
       {
         "heading": "What It Is",
@@ -4652,8 +4515,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Scrum, Ch 7 — Happiness",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -4699,8 +4560,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Good to Great, Ch 5 — The Hedgehog Concept (Simplicity Within the Three Circles)",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -4748,8 +4607,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Blindspot, Ch 6 — The Hidden Costs of Stereotypes",
-    "contentType": "case-study",
     "sections": [
       {
         "heading": "What It Is",
@@ -4797,8 +4654,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Teaching by Heart, Ch 8,11 — Playing Favorites / When Teaching Fails",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -4846,8 +4701,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "The Hard Thing About Hard Things, Ch 5 — Take Care of the People, the Products, and the Profits — in That Order",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -4895,8 +4748,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Blindspot, Ch 5 — Homo Categoricus",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -4944,8 +4795,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Venture Deals, Ch 12 — How Venture Capital Funds Work",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -4993,8 +4842,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Difficult Conversations, Ch 6 — Ground Your Identity: Ask Yourself What's at Stake",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -5042,8 +4889,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Atomic Habits, Ch 2 — How Your Habits Shape Your Identity (and Vice Versa)",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -5091,8 +4936,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Blindspot, Ch 3 — Into the Blindspot",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -5139,8 +4982,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Good Strategy Bad Strategy, Ch 14 — Inertia and Entropy",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -5187,8 +5028,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Continuous Delivery, Ch 11 — Managing Infrastructure and Environments",
-    "contentType": "methodology",
     "sections": [
       {
         "heading": "What It Is",
@@ -5236,8 +5075,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "The Age of Surveillance Capitalism, Ch 12,13 — Two Species of Power / Big Other and the Rise of Instrumentarian Power",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -5285,8 +5122,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Blindspot, Ch 2 — Shades of Truth",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -5334,8 +5169,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Difficult Conversations, Ch 3 — Don't Assume They Meant It: Disentangle Intent from Impact",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -5382,8 +5215,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "The Mom Test, Ch 4 — Keeping it Casual",
-    "contentType": "methodology",
     "sections": [
       {
         "heading": "What It Is",
@@ -5431,8 +5262,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Hearts Touched with Fire, Ch 4 — The Keys to Resilience",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -5480,8 +5309,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Patterns of Enterprise Application Architecture, Ch 1 — Layering",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -5529,8 +5356,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "The Hard Thing About Hard Things, Ch 4 — When Things Fall Apart",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -5578,8 +5403,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Hearts Touched with Fire, Ch 9 — Managing Down, Up, and Sideways",
-    "contentType": "methodology",
     "sections": [
       {
         "heading": "What It Is",
@@ -5627,8 +5450,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "The Staff Engineer's Path, Ch 5 — Leading Big Projects",
-    "contentType": "methodology",
     "sections": [
       {
         "heading": "What It Is",
@@ -5676,8 +5497,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Accelerate, Ch 7 — Management Practices for Software",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -5724,8 +5543,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Good to Great, Ch 2 — Level 5 Leadership",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -5771,8 +5588,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Linux Essentials, Ch 6 — Getting to Know the Command Line",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -5818,8 +5633,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Linux Essentials, Ch 7,8 — Managing Files / Searching, Extracting, and Archiving Data",
-    "contentType": "methodology",
     "sections": [
       {
         "heading": "What It Is",
@@ -5865,8 +5678,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Linux Essentials, Ch 9 — Exploring Processes and Process Data",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -5912,8 +5723,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Linux Essentials, Ch 12,13,14 — Understanding Basic Security / Creating Users and Groups / Setting Ownership and Permissions",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -5961,8 +5770,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Venture Deals, Ch 5 — Economic Terms of the Term Sheet",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -6010,8 +5817,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Accelerate, Ch 5 — Architecture",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -6059,8 +5864,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "The Hard Thing About Hard Things, Ch 2-3 — I Will Survive / This Time with Feeling",
-    "contentType": "case-study",
     "sections": [
       {
         "heading": "What It Is",
@@ -6106,8 +5909,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Clean Code, Ch 2 — Meaningful Names",
-    "contentType": "methodology",
     "sections": [
       {
         "heading": "What It Is",
@@ -6154,8 +5955,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "An Elegant Puzzle, Ch 3 — Tools",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -6203,8 +6002,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Blindspot, Ch 1 — Mindbugs",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -6252,8 +6049,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Inspired, Ch 1 — Behind Every Great Product",
-    "contentType": "metaphor",
     "sections": [
       {
         "heading": "What It Is",
@@ -6301,8 +6096,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Sales Management That Works, Ch 10 — Building and Managing a Multichannel Approach",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -6350,8 +6143,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Venture Deals, Ch 13 — Negotiation Tactics",
-    "contentType": "methodology",
     "sections": [
       {
         "heading": "What It Is",
@@ -6398,8 +6189,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "The Business of Platforms, Ch 2 — Winner Take All or Most",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -6446,8 +6235,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Good Strategy Bad Strategy, Ch 1 — Good Strategy Is Unexpected",
-    "contentType": "case-study",
     "sections": [
       {
         "heading": "What It Is",
@@ -6495,8 +6282,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Dependency Injection, Ch 8 — Object Lifetime",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -6544,8 +6329,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Patterns of Enterprise Application Architecture, Ch 3,10-13 — Mapping to Relational Databases / Data Source & O-R Patterns",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -6593,8 +6376,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Patterns of Enterprise Application Architecture, Ch 5,16 — Concurrency / Offline Concurrency Patterns",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -6642,8 +6423,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Inspired, Ch 25 (within Part III — The Right Product)",
-    "contentType": "methodology",
     "sections": [
       {
         "heading": "What It Is",
@@ -6691,8 +6470,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Blindspot, Ch 8 — Outsmarting the Machine",
-    "contentType": "methodology",
     "sections": [
       {
         "heading": "What It Is",
@@ -6740,8 +6517,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Both/And Thinking, Ch 1 — Experiencing Tensions: Why Paradox? Why Now?",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -6789,8 +6564,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Smarter Collaboration, Ch 6 — Paying People to Collaborate",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -6838,8 +6611,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "The Five Dysfunctions of a Team, Ch 8 — Understanding and Overcoming the Five Dysfunctions",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -6887,8 +6658,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "The Hard Thing About Hard Things, Ch 5 — Take Care of the People, the Products, and the Profits — in That Order",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -6935,8 +6704,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Scrum, Ch 6 — Plan Reality, Not Fantasy",
-    "contentType": "methodology",
     "sections": [
       {
         "heading": "What It Is",
@@ -6983,8 +6750,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Atomic Habits, Ch 1 — The Surprising Power of Atomic Habits",
-    "contentType": "metaphor",
     "sections": [
       {
         "heading": "What It Is",
@@ -7032,8 +6797,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "The Business of Platforms, Ch 3 — Strategy and Business Models",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -7081,8 +6844,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "We the Possibility, Ch 1 — Problems as Opportunities",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -7130,8 +6891,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "The Age of Surveillance Capitalism, Ch 3,4 — The Discovery of Behavioral Surplus / The Moat Around the Castle",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -7179,8 +6938,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Sales Management That Works, Ch 8 — Pricing and Customer Value",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -7227,8 +6984,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Inspired, Ch 23-24 (within Part III — The Right Product)",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -7276,8 +7031,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "The Five Dysfunctions of a Team, Ch 8 — Understanding and Overcoming the Five Dysfunctions",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -7325,8 +7078,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Founding Sales, Ch 4 — Prospecting: Finding Your First Customers",
-    "contentType": "methodology",
     "sections": [
       {
         "heading": "What It Is",
@@ -7373,8 +7124,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Good Strategy Bad Strategy, Ch 7 — Proximate Objectives",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -7422,8 +7171,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Dependency Injection, Ch 7,12 — Application Composition / DI Container Introduction",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -7470,8 +7217,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Inspired, Ch 32 (within Part IV — The Right Process)",
-    "contentType": "methodology",
     "sections": [
       {
         "heading": "What It Is",
@@ -7518,8 +7263,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Competing in the Age of AI, Ch 2 — Rethinking the Firm",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -7567,8 +7310,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "The Age of Surveillance Capitalism, Ch 8 — Rendition: From Experience to Data",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -7616,8 +7357,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Patterns of Enterprise Application Architecture, Ch 10 — Data Source Architectural Patterns",
-    "contentType": "methodology",
     "sections": [
       {
         "heading": "What It Is",
@@ -7665,8 +7404,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Sales Management That Works, Ch 7 — Compensation and Incentives",
-    "contentType": "methodology",
     "sections": [
       {
         "heading": "What It Is",
@@ -7714,8 +7451,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Sales Management That Works, Ch 1 — Introduction",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -7763,8 +7498,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Sales Management That Works, Ch 5 — Constructing and Clarifying Sales Models",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -7812,8 +7545,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Founding Sales, Ch 2 — Product Marketing: Sales Narratives",
-    "contentType": "methodology",
     "sections": [
       {
         "heading": "What It Is",
@@ -7861,8 +7592,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Dealmaking, Ch 8 — Setup Moves",
-    "contentType": "methodology",
     "sections": [
       {
         "heading": "What It Is",
@@ -7910,8 +7639,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Hearts Touched with Fire, Ch 11 — The Seven Deadly Sins of Leadership",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -7957,8 +7684,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Linux Essentials, Ch 11 — Creating Scripts",
-    "contentType": "methodology",
     "sections": [
       {
         "heading": "What It Is",
@@ -8006,8 +7731,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Accelerate, Ch 6 — Integrating Infosec into the Delivery Lifecycle",
-    "contentType": "methodology",
     "sections": [
       {
         "heading": "What It Is",
@@ -8054,8 +7777,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Scrum, Ch 9 — Change the World",
-    "contentType": "metaphor",
     "sections": [
       {
         "heading": "What It Is",
@@ -8103,8 +7824,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Dealmaking, Ch 10 — Shut-Down Moves",
-    "contentType": "methodology",
     "sections": [
       {
         "heading": "What It Is",
@@ -8151,8 +7870,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Clean Code, Ch 10 — Classes",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -8199,8 +7916,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "An Elegant Puzzle, Ch 2 — Organizations",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -8248,8 +7963,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Smarter Collaboration, Ch 1 — What Is Smarter Collaboration?",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -8296,8 +8009,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Scrum, Ch 4 — Time",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -8344,8 +8055,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Competing in the Age of AI, Ch 7 — Strategic Collisions",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -8391,8 +8100,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Good Strategy Bad Strategy, Ch 6 — Using Leverage",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -8438,8 +8145,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Good Strategy Bad Strategy, Ch 5 — The Kernel of Good Strategy",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -8487,8 +8192,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Founding Sales, Ch 7 — Pitching: Presentations, Demos, & Objection Handling",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -8536,8 +8239,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "The Case for Good Jobs, Ch 8 — Making the Change",
-    "contentType": "methodology",
     "sections": [
       {
         "heading": "What It Is",
@@ -8584,8 +8285,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "An Elegant Puzzle, Ch 2 — Organizations",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -8633,8 +8332,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Teaching by Heart, Ch 1,2 — The Accidental Teacher / What Teaching Teaches the Teacher",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -8682,8 +8379,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Team Topologies, Ch 3 — Team-First Thinking",
-    "contentType": "methodology",
     "sections": [
       {
         "heading": "What It Is",
@@ -8731,8 +8426,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Team Topologies, Ch 3 — Team-First Thinking",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -8781,8 +8474,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "The Staff Engineer's Path, Ch 3 — Creating the Big Picture",
-    "contentType": "methodology",
     "sections": [
       {
         "heading": "What It Is",
@@ -8829,8 +8520,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Continuous Delivery, Ch 4 — Implementing a Testing Strategy",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -8877,8 +8566,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Competing in the Age of AI, Ch 3 — The AI Factory",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -8926,8 +8613,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Hearts Touched with Fire, Ch 8 — The Art of Public Persuasion",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -8975,8 +8660,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "The Case for Good Jobs, Ch 2 — The Bad Jobs System",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -9024,8 +8707,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "The Age of Surveillance Capitalism, Ch 6 — Hijacked: The Division of Learning in Society",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -9073,8 +8754,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Difficult Conversations, Ch 5 — Have Your Feelings (Or They Will Have You)",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -9122,8 +8801,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "The Unicorn Project, spanning book — The Five Ideals",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -9171,8 +8848,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Hearts Touched with Fire, Ch 3 — Surviving the Flaming Crucible",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -9220,8 +8895,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "The Case for Good Jobs, Ch 3 — The Good Jobs System",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -9269,8 +8942,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Teaching by Heart, Ch 9 — The Inner Dialogue",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -9317,8 +8988,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Co-Intelligence, Ch 3 — Four Rules for Co-Intelligence",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -9365,8 +9034,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "The Mom Test, Ch 1 — The Mom Test",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -9414,8 +9081,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Dealmaking, Ch 2 — At the Table",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -9463,8 +9128,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Dealmaking, Ch 7 — An Introduction to Negotiauctions",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -9512,8 +9175,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Both/And Thinking, Ch 3 — Enabling Virtuous Cycles with the Paradox System: Mules and Tightrope Walkers",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -9561,8 +9222,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "The Unicorn Project, Ch 8-13 — The Rebellion",
-    "contentType": "case-study",
     "sections": [
       {
         "heading": "What It Is",
@@ -9610,8 +9269,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "The Age of Surveillance Capitalism, Ch 11 — The Right to the Future Tense",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -9659,8 +9316,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "The Hard Thing About Hard Things, Ch 4 — When Things Fall Apart",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -9708,8 +9363,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Difficult Conversations, Ch 8 — Getting Started: Begin from the Third Story",
-    "contentType": "methodology",
     "sections": [
       {
         "heading": "What It Is",
@@ -9757,8 +9410,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Difficult Conversations, Ch 1 — Sort Out the Three Conversations",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -9806,8 +9457,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "The Unicorn Project, Ch 14-17 — Three Horizons",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -9855,8 +9504,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Team Topologies, Ch 7 — Team Interaction Modes",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -9904,8 +9551,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "The Staff Engineer's Path, Ch 2 — Three Maps",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -9952,8 +9597,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "The Business of Platforms, Ch 1 — Platform Thinking",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -10000,8 +9643,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "The Mom Test, Ch 2 — Avoiding Bad Data",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -10049,8 +9690,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "We the Possibility, Ch 6 — Trisector Entrepreneurs",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -10097,8 +9736,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Continuous Delivery, Ch 14 — Advanced Version Control",
-    "contentType": "methodology",
     "sections": [
       {
         "heading": "What It Is",
@@ -10146,8 +9783,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Smarter Collaboration, Ch 3 — The People Side: Competence Trust and Interpersonal Trust",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -10194,8 +9829,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Atomic Habits, Ch 13 — How to Stop Procrastinating by Using the Two-Minute Rule",
-    "contentType": "methodology",
     "sections": [
       {
         "heading": "What It Is",
@@ -10243,8 +9876,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Both/And Thinking, Ch 2 — Getting Caught in Vicious Cycles: Rabbit Holes, Wrecking Balls, and Trench Warfare",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -10292,8 +9923,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Teaching by Heart, Ch 10 — Vulnerability and Authenticity",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -10341,8 +9970,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "The Five Dysfunctions of a Team, Ch 8 — Understanding and Overcoming the Five Dysfunctions",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -10390,8 +10017,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "The Hard Thing About Hard Things, Ch 7 — How to Lead Even When You Don't Know Where You Are Going",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -10439,8 +10064,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "Accelerate, Ch 3 — Measuring and Changing Culture",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -10488,8 +10111,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "The Case for Good Jobs, Ch 4 — What Good Pay Means",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -10537,8 +10158,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-05",
     "source": "Book",
-    "sourceRef": "Dealmaking, Ch 3 — When to Auction, When to Negotiate?",
-    "contentType": "framework",
     "sections": [
       {
         "heading": "What It Is",
@@ -10585,8 +10204,6 @@ export const pods: Pod[] = [
     "status": "queue",
     "created": "2026-04-04",
     "source": "Book",
-    "sourceRef": "An Elegant Puzzle, Ch 3 — Tools",
-    "contentType": "concept",
     "sections": [
       {
         "heading": "What It Is",
@@ -10639,31 +10256,31 @@ export const pods: Pod[] = [
       },
       {
         "heading": "The ReAct Loop",
-        "content": "The foundation of tool-use agents. Claude Code runs this loop on every task you give it.\n```\n  ┌──────────────────────────────────────┐\n  │           User Task / Goal           │\n  └──────────────┬───────────────────────┘\n                 ▼\n  ┌──────────────────────────────────────┐\n  │  REASON: Analyze state, plan next    │◄──────┐\n  │  step based on goal + context        │       │\n  └──────────────┬───────────────────────┘       │\n                 ▼                                │\n  ┌──────────────────────────────────────┐       │\n  │  ACT: Call a tool (Read, Edit, Bash, │       │\n  │  Grep, API call, etc.)               │       │\n  └──────────────┬───────────────────────┘       │\n                 ▼                                │\n  ┌──────────────────────────────────────┐       │\n  │  OBSERVE: Process tool result,       │───────┘\n  │  update understanding                │\n  └──────────────┬───────────────────────┘\n                 ▼\n  ┌──────────────────────────────────────┐\n  │  DONE: Goal achieved → respond       │\n  └──────────────────────────────────────┘\n```"
+        "content": "The foundation of tool-use agents. Claude Code runs this loop on every task you give it.\r\n```\r\n  ┌──────────────────────────────────────┐\r\n  │           User Task / Goal           │\r\n  └──────────────┬───────────────────────┘\r\n                 ▼\r\n  ┌──────────────────────────────────────┐\r\n  │  REASON: Analyze state, plan next    │◄──────┐\r\n  │  step based on goal + context        │       │\r\n  └──────────────┬───────────────────────┘       │\r\n                 ▼                                │\r\n  ┌──────────────────────────────────────┐       │\r\n  │  ACT: Call a tool (Read, Edit, Bash, │       │\r\n  │  Grep, API call, etc.)               │       │\r\n  └──────────────┬───────────────────────┘       │\r\n                 ▼                                │\r\n  ┌──────────────────────────────────────┐       │\r\n  │  OBSERVE: Process tool result,       │───────┘\r\n  │  update understanding                │\r\n  └──────────────┬───────────────────────┘\r\n                 ▼\r\n  ┌──────────────────────────────────────┐\r\n  │  DONE: Goal achieved → respond       │\r\n  └──────────────────────────────────────┘\r\n```"
       },
       {
         "heading": "Core Agent Patterns",
-        "content": "### Tool-Use Agents\nThe simplest agent: model + tools + loop. Claude decides which tool to call, processes the result, decides the next step. Your Claude Code session is this pattern — Claude sees available tools and autonomously calls them to complete your request.\n\n### Multi-Agent Systems\nAn orchestrator decomposes work and delegates to specialists. Your framework does this:\n- **Plan agent** — decomposes complex tasks into subtasks\n- **Specialist skills** — each skill handles one domain (security review, deploy, git cleanup)\n- **Orchestrator** — Claude Code itself routes to the right skill based on trigger conditions\n\n### Planning Agents\nDecompose before executing. The pattern:\n1. Receive complex task\n2. Generate explicit plan (steps, dependencies, success criteria)\n3. Execute each step, checking progress\n4. Adapt plan if a step fails or reveals new information\n\nYour Plan-for-Queue skill does exactly this — Opus decomposes, Sonnet executes each step on lab-01."
+        "content": "### Tool-Use Agents\r\nThe simplest agent: model + tools + loop. Claude decides which tool to call, processes the result, decides the next step. Your Claude Code session is this pattern — Claude sees available tools and autonomously calls them to complete your request.\r\n\r\n### Multi-Agent Systems\r\nAn orchestrator decomposes work and delegates to specialists. Your framework does this:\r\n- **Plan agent** — decomposes complex tasks into subtasks\r\n- **Specialist skills** — each skill handles one domain (security review, deploy, git cleanup)\r\n- **Orchestrator** — Claude Code itself routes to the right skill based on trigger conditions\r\n\r\n### Planning Agents\r\nDecompose before executing. The pattern:\r\n1. Receive complex task\r\n2. Generate explicit plan (steps, dependencies, success criteria)\r\n3. Execute each step, checking progress\r\n4. Adapt plan if a step fails or reveals new information\r\n\r\nYour Plan-for-Queue skill does exactly this — Opus decomposes, Sonnet executes each step on lab-01."
       },
       {
         "heading": "Memory & State",
-        "content": "Agents need context beyond the current conversation:\n- **Conversation context**: the built-in message history (short-term)\n- **Persistent memory**: your MEMORY.md system — facts that survive across sessions\n- **Tool results**: file contents, command output, API responses accumulated during a session\n- **Project knowledge**: CLAUDE.md files with per-project instructions and conventions\n\nThe memory hierarchy: conversation (ephemeral) → session notes (daily) → memory entries (permanent) → CLAUDE.md (structural)."
+        "content": "Agents need context beyond the current conversation:\r\n- **Conversation context**: the built-in message history (short-term)\r\n- **Persistent memory**: your MEMORY.md system — facts that survive across sessions\r\n- **Tool results**: file contents, command output, API responses accumulated during a session\r\n- **Project knowledge**: CLAUDE.md files with per-project instructions and conventions\r\n\r\nThe memory hierarchy: conversation (ephemeral) → session notes (daily) → memory entries (permanent) → CLAUDE.md (structural)."
       },
       {
         "heading": "Guardrails",
-        "content": "Agents that can act need safety boundaries:\n- **Input validation**: check user requests before executing (your push-policy, no-secrets rules)\n- **Output filtering**: never expose secrets, PII, or internal details in responses\n- **Circuit breakers**: max iterations to prevent runaway loops (Claude Code has built-in limits)\n- **Approval gates**: pause for human confirmation on destructive actions (your Slack approval system)\n- **Scope limits**: restrict which tools/paths/commands an agent can use (permission allowlists)"
+        "content": "Agents that can act need safety boundaries:\r\n- **Input validation**: check user requests before executing (your push-policy, no-secrets rules)\r\n- **Output filtering**: never expose secrets, PII, or internal details in responses\r\n- **Circuit breakers**: max iterations to prevent runaway loops (Claude Code has built-in limits)\r\n- **Approval gates**: pause for human confirmation on destructive actions (your Slack approval system)\r\n- **Scope limits**: restrict which tools/paths/commands an agent can use (permission allowlists)"
       },
       {
         "heading": "Anti-Patterns",
-        "content": "- **No exit condition**: agent loops forever because the goal is ambiguous — always define \"done\"\n- **Over-planning**: spending more tokens planning than executing — plan just enough to start\n- **Tool sprawl**: too many tools confuse routing — keep tool sets focused per agent\n- **No error recovery**: agent crashes on first tool failure — always handle errors and retry/adapt"
+        "content": "- **No exit condition**: agent loops forever because the goal is ambiguous — always define \"done\"\r\n- **Over-planning**: spending more tokens planning than executing — plan just enough to start\r\n- **Tool sprawl**: too many tools confuse routing — keep tool sets focused per agent\r\n- **No error recovery**: agent crashes on first tool failure — always handle errors and retry/adapt"
       },
       {
         "heading": "Apply It",
-        "content": "1. **Claude Code framework** — the entire system is a multi-agent ReAct architecture\n2. **lab-01 queue worker** — planning agent decomposes, worker agent executes\n3. **Slack inbox** — routing agent classifies, specialist agents handle each category\n4. **Game feedback** — observe (scan Discord) → reason (classify) → act (create GitHub issue)"
+        "content": "1. **Claude Code framework** — the entire system is a multi-agent ReAct architecture\r\n2. **lab-01 queue worker** — planning agent decomposes, worker agent executes\r\n3. **Slack inbox** — routing agent classifies, specialist agents handle each category\r\n4. **Game feedback** — observe (scan Discord) → reason (classify) → act (create GitHub issue)"
       },
       {
         "heading": "Research Next Steps",
-        "content": "- [ ] Benchmark single-agent vs. multi-agent on complex tasks (latency, cost, quality)\n- [ ] Design a minimal agent SDK wrapper around the Anthropic API\n- [ ] Test planning depth: 3-step vs. 5-step vs. adaptive planning\n- [ ] Implement circuit breaker metrics: track iteration counts and failure rates"
+        "content": "- [ ] Benchmark single-agent vs. multi-agent on complex tasks (latency, cost, quality)\r\n- [ ] Design a minimal agent SDK wrapper around the Anthropic API\r\n- [ ] Test planning depth: 3-step vs. 5-step vs. adaptive planning\r\n- [ ] Implement circuit breaker metrics: track iteration counts and failure rates"
       }
     ],
     "related": [
@@ -10695,31 +10312,31 @@ export const pods: Pod[] = [
       },
       {
         "heading": "Types of Evals",
-        "content": "### Accuracy (Classification / Extraction)\nCompare model output against a golden label. Metrics: precision, recall, F1.\n```\nInput: \"The server is down and users can't log in\"\nExpected: {\"category\": \"bug\", \"severity\": \"critical\"}\nActual:   {\"category\": \"bug\", \"severity\": \"critical\"}  ✅\n```\n\n### Quality (LLM-as-Judge)\nUse a stronger model (Opus) to grade a weaker model's (Sonnet) output against a rubric:\n- Define 3-5 criteria with clear scoring (1-5 scale)\n- Provide the rubric, the input, and the output to the judge\n- Aggregate scores across your test set\n\n### Safety (Red-Teaming)\nProbe the model with adversarial inputs — prompt injection, jailbreaks, PII leaks. Essential before any user-facing deployment.\n\n### Latency & Cost\nTrack tokens consumed, time-to-first-token, total response time. Critical for production — a prompt that's 20% better but 3x more expensive might not be worth it."
+        "content": "### Accuracy (Classification / Extraction)\r\nCompare model output against a golden label. Metrics: precision, recall, F1.\r\n```\r\nInput: \"The server is down and users can't log in\"\r\nExpected: {\"category\": \"bug\", \"severity\": \"critical\"}\r\nActual:   {\"category\": \"bug\", \"severity\": \"critical\"}  ✅\r\n```\r\n\r\n### Quality (LLM-as-Judge)\r\nUse a stronger model (Opus) to grade a weaker model's (Sonnet) output against a rubric:\r\n- Define 3-5 criteria with clear scoring (1-5 scale)\r\n- Provide the rubric, the input, and the output to the judge\r\n- Aggregate scores across your test set\r\n\r\n### Safety (Red-Teaming)\r\nProbe the model with adversarial inputs — prompt injection, jailbreaks, PII leaks. Essential before any user-facing deployment.\r\n\r\n### Latency & Cost\r\nTrack tokens consumed, time-to-first-token, total response time. Critical for production — a prompt that's 20% better but 3x more expensive might not be worth it."
       },
       {
         "heading": "Minimal Eval Framework",
-        "content": "```python\nimport anthropic\n\nclient = anthropic.Anthropic()\n\ndef run_eval(test_cases: list[dict], prompt_template: str, judge_prompt: str) -> dict:\n    results = []\n    for case in test_cases:\n        # Run the prompt being tested\n        response = client.messages.create(\n            model=\"claude-sonnet-4-6-20250514\",\n            max_tokens=1024,\n            messages=[{\"role\": \"user\", \"content\": prompt_template.format(**case)}]\n        )\n        output = response.content[0].text\n\n        # Judge the output with a stronger model\n        judgment = client.messages.create(\n            model=\"claude-opus-4-6-20250514\",\n            max_tokens=256,\n            messages=[{\"role\": \"user\", \"content\": judge_prompt.format(\n                input=case[\"input\"], expected=case[\"expected\"], actual=output\n            )}]\n        )\n        score = int(judgment.content[0].text.strip())\n        results.append({\"case\": case[\"input\"], \"score\": score, \"output\": output})\n\n    avg_score = sum(r[\"score\"] for r in results) / len(results)\n    return {\"average_score\": avg_score, \"results\": results}\n```\nRun this with the Batch API at 50% cost for large eval suites."
+        "content": "```python\r\nimport anthropic\r\n\r\nclient = anthropic.Anthropic()\r\n\r\ndef run_eval(test_cases: list[dict], prompt_template: str, judge_prompt: str) -> dict:\r\n    results = []\r\n    for case in test_cases:\r\n        # Run the prompt being tested\r\n        response = client.messages.create(\r\n            model=\"claude-sonnet-4-6-20250514\",\r\n            max_tokens=1024,\r\n            messages=[{\"role\": \"user\", \"content\": prompt_template.format(**case)}]\r\n        )\r\n        output = response.content[0].text\r\n\r\n        # Judge the output with a stronger model\r\n        judgment = client.messages.create(\r\n            model=\"claude-opus-4-6-20250514\",\r\n            max_tokens=256,\r\n            messages=[{\"role\": \"user\", \"content\": judge_prompt.format(\r\n                input=case[\"input\"], expected=case[\"expected\"], actual=output\r\n            )}]\r\n        )\r\n        score = int(judgment.content[0].text.strip())\r\n        results.append({\"case\": case[\"input\"], \"score\": score, \"output\": output})\r\n\r\n    avg_score = sum(r[\"score\"] for r in results) / len(results)\r\n    return {\"average_score\": avg_score, \"results\": results}\r\n```\r\nRun this with the Batch API at 50% cost for large eval suites."
       },
       {
         "heading": "Eval Dataset Strategies",
-        "content": "- **Golden sets**: 50-100 hand-labeled examples covering edge cases — your ground truth\n- **Human-labeled**: have domain experts rate model output — expensive but high signal\n- **Synthetic generation**: use Claude to generate test cases, then manually review a sample\n- **Production sampling**: log real inputs/outputs, periodically review a random sample"
+        "content": "- **Golden sets**: 50-100 hand-labeled examples covering edge cases — your ground truth\r\n- **Human-labeled**: have domain experts rate model output — expensive but high signal\r\n- **Synthetic generation**: use Claude to generate test cases, then manually review a sample\r\n- **Production sampling**: log real inputs/outputs, periodically review a random sample"
       },
       {
         "heading": "A/B Testing Prompts",
-        "content": "Don't guess which prompt is better — measure it:\n1. Define your eval set (same inputs for both prompts)\n2. Run both prompts across the set\n3. Score with LLM-as-judge using the same rubric\n4. Compare averages — need ~50+ cases for meaningful signal\n5. Check for regressions: did prompt B improve overall but break a specific category?"
+        "content": "Don't guess which prompt is better — measure it:\r\n1. Define your eval set (same inputs for both prompts)\r\n2. Run both prompts across the set\r\n3. Score with LLM-as-judge using the same rubric\r\n4. Compare averages — need ~50+ cases for meaningful signal\r\n5. Check for regressions: did prompt B improve overall but break a specific category?"
       },
       {
         "heading": "Regression Testing",
-        "content": "The AI equivalent of unit tests. Every time you change a prompt, model, or context:\n1. Run the eval suite\n2. Compare against the baseline\n3. Flag any cases where the score dropped by more than 1 point\n4. Investigate regressions before shipping the change"
+        "content": "The AI equivalent of unit tests. Every time you change a prompt, model, or context:\r\n1. Run the eval suite\r\n2. Compare against the baseline\r\n3. Flag any cases where the score dropped by more than 1 point\r\n4. Investigate regressions before shipping the change"
       },
       {
         "heading": "Apply It",
-        "content": "1. **Claude Code skills** — eval skill output quality when you change system prompts or guardrails\n2. **Slack classifier** — golden set of 50 messages with expected categories, run after prompt changes\n3. **Game feedback router** — compare routing accuracy across model versions\n4. **FitOps** — eval workout recommendations against trainer-labeled golden set"
+        "content": "1. **Claude Code skills** — eval skill output quality when you change system prompts or guardrails\r\n2. **Slack classifier** — golden set of 50 messages with expected categories, run after prompt changes\r\n3. **Game feedback router** — compare routing accuracy across model versions\r\n4. **FitOps** — eval workout recommendations against trainer-labeled golden set"
       },
       {
         "heading": "Research Next Steps",
-        "content": "- [ ] Build an eval runner CLI that reads test cases from JSONL and outputs a report\n- [ ] Create golden sets for the Slack inbox classifier and game feedback router\n- [ ] Test Batch API for eval suites: submit, poll, score in one pipeline\n- [ ] Benchmark LLM-as-judge reliability: how consistent is Opus at grading Sonnet?"
+        "content": "- [ ] Build an eval runner CLI that reads test cases from JSONL and outputs a report\r\n- [ ] Create golden sets for the Slack inbox classifier and game feedback router\r\n- [ ] Test Batch API for eval suites: submit, poll, score in one pipeline\r\n- [ ] Benchmark LLM-as-judge reliability: how consistent is Opus at grading Sonnet?"
       }
     ],
     "related": [
@@ -10750,23 +10367,23 @@ export const pods: Pod[] = [
       },
       {
         "heading": "Core Patterns",
-        "content": "### System Prompts\nDefine role, constraints, and output format up front. The system prompt is your contract with the model.\n```python\nresponse = client.messages.create(\n    model=\"claude-sonnet-4-6-20250514\",\n    max_tokens=2048,\n    system=\"You are a senior TypeScript developer. Review code for bugs, \"\n           \"security issues, and performance. Output as a markdown checklist.\",\n    messages=[{\"role\": \"user\", \"content\": code_to_review}]\n)\n```\nYour Claude Code skills use this pattern — every skill's frontmatter defines the role, trigger conditions, and guardrails before the model sees any task content.\n\n### Few-Shot Examples\nProvide concrete input/output pairs to anchor the model's formatting and reasoning.\n- **1-3 examples**: formatting, tone, structure tasks\n- **5+ examples**: classification, labeling, pattern-matching tasks\n- Place examples in the system prompt or early in the conversation for cache efficiency\n\n### Chain-of-Thought\nMake reasoning explicit. Two flavors:\n- **Implicit**: \"Think step by step before answering\"\n- **Structured**: Use XML tags like `<thinking>` to separate reasoning from output — lets you parse just the answer while keeping the reasoning for debugging\n\n### Constitutional / Self-Critique\nAsk the model to check its own work before finalizing:\n- \"Review your answer for factual errors and correct them\"\n- \"Rate your confidence 1-5 and explain any uncertainty\"\n- Works well as a second pass — generate, then critique, then revise\n\n### Decomposition\nBreak complex tasks into subtasks the model handles independently. This is exactly what your skill system does — a Plan agent decomposes, then specialist skills execute each piece.\n\n### Persona Patterns\n\"You are an expert X\" improves output when domain framing matters (security reviewer, data engineer). Less useful for generic coding tasks where Claude already has strong priors."
+        "content": "### System Prompts\r\nDefine role, constraints, and output format up front. The system prompt is your contract with the model.\r\n```python\r\nresponse = client.messages.create(\r\n    model=\"claude-sonnet-4-6-20250514\",\r\n    max_tokens=2048,\r\n    system=\"You are a senior TypeScript developer. Review code for bugs, \"\r\n           \"security issues, and performance. Output as a markdown checklist.\",\r\n    messages=[{\"role\": \"user\", \"content\": code_to_review}]\r\n)\r\n```\r\nYour Claude Code skills use this pattern — every skill's frontmatter defines the role, trigger conditions, and guardrails before the model sees any task content.\r\n\r\n### Few-Shot Examples\r\nProvide concrete input/output pairs to anchor the model's formatting and reasoning.\r\n- **1-3 examples**: formatting, tone, structure tasks\r\n- **5+ examples**: classification, labeling, pattern-matching tasks\r\n- Place examples in the system prompt or early in the conversation for cache efficiency\r\n\r\n### Chain-of-Thought\r\nMake reasoning explicit. Two flavors:\r\n- **Implicit**: \"Think step by step before answering\"\r\n- **Structured**: Use XML tags like `<thinking>` to separate reasoning from output — lets you parse just the answer while keeping the reasoning for debugging\r\n\r\n### Constitutional / Self-Critique\r\nAsk the model to check its own work before finalizing:\r\n- \"Review your answer for factual errors and correct them\"\r\n- \"Rate your confidence 1-5 and explain any uncertainty\"\r\n- Works well as a second pass — generate, then critique, then revise\r\n\r\n### Decomposition\r\nBreak complex tasks into subtasks the model handles independently. This is exactly what your skill system does — a Plan agent decomposes, then specialist skills execute each piece.\r\n\r\n### Persona Patterns\r\n\"You are an expert X\" improves output when domain framing matters (security reviewer, data engineer). Less useful for generic coding tasks where Claude already has strong priors."
       },
       {
         "heading": "Pattern Decision Tree",
-        "content": "```\n                    ┌─ Need specific format? ──→ System prompt + few-shot\n                    │\n  What does the ────┼─ Need reasoning trace? ──→ Chain-of-thought (XML tags)\n  task require?     │\n                    ├─ Need reliability? ───────→ Constitutional self-critique\n                    │\n                    ├─ Too complex for one shot? → Decomposition (subtasks)\n                    │\n                    └─ Need domain depth? ──────→ Persona + system prompt\n```"
+        "content": "```\r\n                    ┌─ Need specific format? ──→ System prompt + few-shot\r\n                    │\r\n  What does the ────┼─ Need reasoning trace? ──→ Chain-of-thought (XML tags)\r\n  task require?     │\r\n                    ├─ Need reliability? ───────→ Constitutional self-critique\r\n                    │\r\n                    ├─ Too complex for one shot? → Decomposition (subtasks)\r\n                    │\r\n                    └─ Need domain depth? ──────→ Persona + system prompt\r\n```"
       },
       {
         "heading": "Common Mistakes",
-        "content": "- **Over-prompting**: adding instructions the model already follows by default — wastes tokens\n- **Conflicting constraints**: telling the model to be \"concise\" and \"thorough\" simultaneously\n- **Ignoring order**: instructions at the start and end of long prompts get more attention than the middle\n- **No output format**: if you don't specify format, you'll get inconsistent structure across calls"
+        "content": "- **Over-prompting**: adding instructions the model already follows by default — wastes tokens\r\n- **Conflicting constraints**: telling the model to be \"concise\" and \"thorough\" simultaneously\r\n- **Ignoring order**: instructions at the start and end of long prompts get more attention than the middle\r\n- **No output format**: if you don't specify format, you'll get inconsistent structure across calls"
       },
       {
         "heading": "Apply It",
-        "content": "1. **Claude Code skills** — each skill is a system prompt with role, guardrails, and format constraints\n2. **Subagent system** — decomposition pattern: orchestrator plans, specialists execute\n3. **Memory system** — chain-of-thought for deciding what to remember vs. discard\n4. **Code review** — persona (\"senior security engineer\") + constitutional (\"check for false positives\")"
+        "content": "1. **Claude Code skills** — each skill is a system prompt with role, guardrails, and format constraints\r\n2. **Subagent system** — decomposition pattern: orchestrator plans, specialists execute\r\n3. **Memory system** — chain-of-thought for deciding what to remember vs. discard\r\n4. **Code review** — persona (\"senior security engineer\") + constitutional (\"check for false positives\")"
       },
       {
         "heading": "Research Next Steps",
-        "content": "- [ ] Benchmark few-shot count vs. accuracy for classification tasks\n- [ ] Test structured CoT (XML tags) vs. implicit CoT on complex refactoring tasks\n- [ ] Build a prompt template library for common skill patterns\n- [ ] Measure token cost of self-critique pass vs. quality improvement"
+        "content": "- [ ] Benchmark few-shot count vs. accuracy for classification tasks\r\n- [ ] Test structured CoT (XML tags) vs. implicit CoT on complex refactoring tasks\r\n- [ ] Build a prompt template library for common skill patterns\r\n- [ ] Measure token cost of self-critique pass vs. quality improvement"
       }
     ],
     "related": [
@@ -10799,31 +10416,31 @@ export const pods: Pod[] = [
       },
       {
         "heading": "Structured Output Approaches",
-        "content": "### Prefilling the Assistant Response\nStart the assistant's reply to force a specific format:\n```python\nresponse = client.messages.create(\n    model=\"claude-sonnet-4-6-20250514\",\n    max_tokens=1024,\n    messages=[\n        {\"role\": \"user\", \"content\": \"Extract name and age from: 'Matt is 30'\"},\n        {\"role\": \"assistant\", \"content\": \"{\"}  # forces JSON output\n    ]\n)\n```\nSimple but fragile — no schema validation. Best for quick extractions where you control the pipeline.\n\n### Tool Use for Structured Extraction\nDefine a tool with a JSON Schema, then force Claude to call it. The output is guaranteed to match the schema.\n```python\ntools = [{\n    \"name\": \"extract_person\",\n    \"description\": \"Extract structured person data from text\",\n    \"input_schema\": {\n        \"type\": \"object\",\n        \"properties\": {\n            \"name\": {\"type\": \"string\"},\n            \"age\": {\"type\": \"integer\"},\n            \"occupation\": {\"type\": \"string\", \"description\": \"Job title if mentioned\"}\n        },\n        \"required\": [\"name\"]\n    }\n}]\n\nresponse = client.messages.create(\n    model=\"claude-sonnet-4-6-20250514\",\n    max_tokens=1024,\n    tools=tools,\n    tool_choice={\"type\": \"tool\", \"name\": \"extract_person\"},  # forced\n    messages=[{\"role\": \"user\", \"content\": \"Matt is a 30-year-old engineer\"}]\n)\n```"
+        "content": "### Prefilling the Assistant Response\r\nStart the assistant's reply to force a specific format:\r\n```python\r\nresponse = client.messages.create(\r\n    model=\"claude-sonnet-4-6-20250514\",\r\n    max_tokens=1024,\r\n    messages=[\r\n        {\"role\": \"user\", \"content\": \"Extract name and age from: 'Matt is 30'\"},\r\n        {\"role\": \"assistant\", \"content\": \"{\"}  # forces JSON output\r\n    ]\r\n)\r\n```\r\nSimple but fragile — no schema validation. Best for quick extractions where you control the pipeline.\r\n\r\n### Tool Use for Structured Extraction\r\nDefine a tool with a JSON Schema, then force Claude to call it. The output is guaranteed to match the schema.\r\n```python\r\ntools = [{\r\n    \"name\": \"extract_person\",\r\n    \"description\": \"Extract structured person data from text\",\r\n    \"input_schema\": {\r\n        \"type\": \"object\",\r\n        \"properties\": {\r\n            \"name\": {\"type\": \"string\"},\r\n            \"age\": {\"type\": \"integer\"},\r\n            \"occupation\": {\"type\": \"string\", \"description\": \"Job title if mentioned\"}\r\n        },\r\n        \"required\": [\"name\"]\r\n    }\r\n}]\r\n\r\nresponse = client.messages.create(\r\n    model=\"claude-sonnet-4-6-20250514\",\r\n    max_tokens=1024,\r\n    tools=tools,\r\n    tool_choice={\"type\": \"tool\", \"name\": \"extract_person\"},  # forced\r\n    messages=[{\"role\": \"user\", \"content\": \"Matt is a 30-year-old engineer\"}]\r\n)\r\n```"
       },
       {
         "heading": "tool_choice Modes",
-        "content": "| Mode | Behavior | Use Case |\n|------|----------|----------|\n| `{\"type\": \"auto\"}` | Claude decides whether to call a tool | Agents, open-ended tasks |\n| `{\"type\": \"any\"}` | Claude must call one tool (picks which) | Routing, classification |\n| `{\"type\": \"tool\", \"name\": \"X\"}` | Claude must call this specific tool | Structured extraction |\n\n**Key insight**: `\"any\"` + multiple tools = Claude routes to the right tool. Perfect for intent classification where each tool represents a category."
+        "content": "| Mode | Behavior | Use Case |\r\n|------|----------|----------|\r\n| `{\"type\": \"auto\"}` | Claude decides whether to call a tool | Agents, open-ended tasks |\r\n| `{\"type\": \"any\"}` | Claude must call one tool (picks which) | Routing, classification |\r\n| `{\"type\": \"tool\", \"name\": \"X\"}` | Claude must call this specific tool | Structured extraction |\r\n\r\n**Key insight**: `\"any\"` + multiple tools = Claude routes to the right tool. Perfect for intent classification where each tool represents a category."
       },
       {
         "heading": "Multi-Tool Orchestration",
-        "content": "Claude can call multiple tools in sequence within a single conversation turn. The pattern:\n1. Claude sees tools + user request\n2. Calls tool A → you return the result\n3. Claude processes result, calls tool B\n4. Repeat until Claude has enough info to respond\n\nThis is exactly how Claude Code works — it sees Read, Edit, Bash, Grep tools and decides which to call based on the task."
+        "content": "Claude can call multiple tools in sequence within a single conversation turn. The pattern:\r\n1. Claude sees tools + user request\r\n2. Calls tool A → you return the result\r\n3. Claude processes result, calls tool B\r\n4. Repeat until Claude has enough info to respond\r\n\r\nThis is exactly how Claude Code works — it sees Read, Edit, Bash, Grep tools and decides which to call based on the task."
       },
       {
         "heading": "Common Patterns",
-        "content": "- **Extraction**: forced tool use → guaranteed schema output from unstructured text\n- **Classification**: `tool_choice: \"any\"` with one tool per category\n- **Routing**: multiple tools representing downstream actions, Claude picks the right one\n- **Data transformation**: tool input schema = target format, Claude maps source data\n- **Validation**: extract with tool use, then validate the structured output programmatically"
+        "content": "- **Extraction**: forced tool use → guaranteed schema output from unstructured text\r\n- **Classification**: `tool_choice: \"any\"` with one tool per category\r\n- **Routing**: multiple tools representing downstream actions, Claude picks the right one\r\n- **Data transformation**: tool input schema = target format, Claude maps source data\r\n- **Validation**: extract with tool use, then validate the structured output programmatically"
       },
       {
         "heading": "Best Practices",
-        "content": "- **Descriptions matter**: tool and parameter descriptions guide Claude's decisions more than names\n- **Keep schemas tight**: required fields + enums reduce hallucination in structured output\n- **Use enums for classification**: `\"type\": \"string\", \"enum\": [\"bug\", \"feature\", \"question\"]`\n- **Cache tool definitions**: they're large and stable — prime prompt caching candidates\n- **Handle tool errors gracefully**: return error results so Claude can retry or adjust"
+        "content": "- **Descriptions matter**: tool and parameter descriptions guide Claude's decisions more than names\r\n- **Keep schemas tight**: required fields + enums reduce hallucination in structured output\r\n- **Use enums for classification**: `\"type\": \"string\", \"enum\": [\"bug\", \"feature\", \"question\"]`\r\n- **Cache tool definitions**: they're large and stable — prime prompt caching candidates\r\n- **Handle tool errors gracefully**: return error results so Claude can retry or adjust"
       },
       {
         "heading": "Apply It",
-        "content": "1. **Claude Code framework** — every tool (Read, Edit, Bash) is a tool definition Claude orchestrates\n2. **Slack inbox classifier** — forced tool use to extract category, priority, and action from messages\n3. **Game feedback router** — `tool_choice: \"any\"` with tools for bug, feature, and question\n4. **Portfolio sync** — extract project metadata from repos into structured portfolio.json format"
+        "content": "1. **Claude Code framework** — every tool (Read, Edit, Bash) is a tool definition Claude orchestrates\r\n2. **Slack inbox classifier** — forced tool use to extract category, priority, and action from messages\r\n3. **Game feedback router** — `tool_choice: \"any\"` with tools for bug, feature, and question\r\n4. **Portfolio sync** — extract project metadata from repos into structured portfolio.json format"
       },
       {
         "heading": "Research Next Steps",
-        "content": "- [ ] Benchmark forced tool use vs. prefilling for extraction accuracy\n- [ ] Test multi-tool chains: max useful depth before quality degrades\n- [ ] Build reusable extraction tools for common patterns (person, event, task)\n- [ ] Measure latency impact of tool_choice modes"
+        "content": "- [ ] Benchmark forced tool use vs. prefilling for extraction accuracy\r\n- [ ] Test multi-tool chains: max useful depth before quality degrades\r\n- [ ] Build reusable extraction tools for common patterns (person, event, task)\r\n- [ ] Measure latency impact of tool_choice modes"
       }
     ],
     "related": [
@@ -10855,23 +10472,23 @@ export const pods: Pod[] = [
       },
       {
         "heading": "Key Mechanics",
-        "content": "- Claude generates atomic Pod notes and saves as `.md` with frontmatter\n- Obsidian Graph View visualizes the web of connections between concepts\n- MOC (Map of Content) files = curated domain indexes, not folders — they're living link lists\n- `/capture` slash command enriches new content automatically\n- Backlinks connect across domains: quant → ML → AI engineering → your projects"
+        "content": "- Claude generates atomic Pod notes and saves as `.md` with frontmatter\r\n- Obsidian Graph View visualizes the web of connections between concepts\r\n- MOC (Map of Content) files = curated domain indexes, not folders — they're living link lists\r\n- `/capture` slash command enriches new content automatically\r\n- Backlinks connect across domains: quant → ML → AI engineering → your projects"
       },
       {
         "heading": "Second Brain Best Practices (LYT Framework)",
-        "content": "The LYT (Linking Your Thinking) method by Nick Milo is the best practice framework here:\n- **Atomic notes**: One concept per note. Link liberally.\n- **MOCs over folders**: A note linking 20 related notes beats a folder of 20 files\n- **Progressive summarization**: Raw capture → highlight → bold → extract → your own words\n- **Output forces understanding**: Writing a Pod forces you to actually grok the concept\n- **Evergreen notes**: Written as timeless claims, not dated entries"
+        "content": "The LYT (Linking Your Thinking) method by Nick Milo is the best practice framework here:\r\n- **Atomic notes**: One concept per note. Link liberally.\r\n- **MOCs over folders**: A note linking 20 related notes beats a folder of 20 files\r\n- **Progressive summarization**: Raw capture → highlight → bold → extract → your own words\r\n- **Output forces understanding**: Writing a Pod forces you to actually grok the concept\r\n- **Evergreen notes**: Written as timeless claims, not dated entries"
       },
       {
         "heading": "Obsidian Plugins Worth Adding",
-        "content": "- **Dataview**: Query your pods like a database (`WHERE status = \"🔵 Queue\"`)\n- **Templater**: Auto-fill YAML frontmatter on new pod creation\n- **Graph View** (built-in): Enable and watch your knowledge network form\n- **Canvas**: Visual mind maps for connecting related pod clusters"
+        "content": "- **Dataview**: Query your pods like a database (`WHERE status = \"🔵 Queue\"`)\r\n- **Templater**: Auto-fill YAML frontmatter on new pod creation\r\n- **Graph View** (built-in): Enable and watch your knowledge network form\r\n- **Canvas**: Visual mind maps for connecting related pod clusters"
       },
       {
         "heading": "Apply It",
-        "content": "- This IS the system being built right now — these files are your first knowledge cluster\n- Add a `/research-next` Claude Code command to deep-dive 🔵 Queue items on demand\n- Long-term: Claude generates MOC files automatically as pods accumulate\n- The quant model cluster (5 pods, all interlinked) is a proof-of-concept for the method"
+        "content": "- This IS the system being built right now — these files are your first knowledge cluster\r\n- Add a `/research-next` Claude Code command to deep-dive 🔵 Queue items on demand\r\n- Long-term: Claude generates MOC files automatically as pods accumulate\r\n- The quant model cluster (5 pods, all interlinked) is a proof-of-concept for the method"
       },
       {
         "heading": "Research Next Steps",
-        "content": "- [ ] Install Obsidian and drop this vault zip in\n- [ ] Enable Graph View — link 3 pods manually to see the network form\n- [ ] Install Dataview plugin and write: `LIST FROM #pod WHERE status = \"🔵 Queue\"`\n- [ ] Watch Nick Milo's LYT intro on YouTube (~20 min) for the philosophy"
+        "content": "- [ ] Install Obsidian and drop this vault zip in\r\n- [ ] Enable Graph View — link 3 pods manually to see the network form\r\n- [ ] Install Dataview plugin and write: `LIST FROM #pod WHERE status = \"🔵 Queue\"`\r\n- [ ] Watch Nick Milo's LYT intro on YouTube (~20 min) for the philosophy"
       }
     ],
     "related": [
@@ -10904,11 +10521,11 @@ export const pods: Pod[] = [
       },
       {
         "heading": "The 5 App Sections (with their Claude prompts)",
-        "content": "### Instagram Manager\nKanban-style board showing posts across statuses (In Progress / Ready / Published / Backlog). Cards include: caption preview, post type chip (Reel, Talking Head, Faceless), scheduled date.\n> *\"Build an Instagram content management dashboard with scheduled posts, drafts, published content, and a backlog. Include post types, statuses, captions, and scheduled dates. Dark UI, card-based layout.\"*\n\n### Analytics Page\nCross-platform metrics dashboard with bar charts + line graphs. Shows total impressions, engagement rate, follower growth, top posts per platform. Data via Metricool. Date range picker (7d / 14d / 30d / 90d).\n> *\"Create an analytics page with bar charts and line graphs showing content performance from social accounts. Use Metricool for data. Include total impressions, engagement rate, follower growth, and top posts. Dark theme with date picker.\"*\n\n### Content Calendar\nMonthly calendar view where each day holds multiple content items shown as colored status chips. Platform filters (Instagram, YouTube, Twitter, LinkedIn).\n> *\"Build a content calendar page with scheduled and previously posted content in a monthly calendar view. Each day holds multiple items as colored chips. Include platform filters and dark UI.\"*\n\n### Competitor Tracker\nAdd competitor handles/channels and track: recent posts, engagement rate, posting frequency, growth trends. Cards view + sortable table. Sync button for refreshing data.\n> *\"Create a competitor tracker dashboard. Let me add competitor handles and display recent posts, engagement, posting frequency, and growth trends across multiple social accounts. Sortable table, dark theme.\"*\n\n### News Consolidator\nRSS feed aggregator filtered by niche topics. Displays headline, source, publish date, and short AI-generated summary. Filter tabs by topic (tools, research, business). LocalLLM and Reddit tabs visible in original.\n> *\"Build a news consolidator that aggregates [niche] news from RSS feeds in a clean feed UI. Show headline, source, publish date, and a short summary. Add filtering by topic and a dark card-based layout.\"*"
+        "content": "### Instagram Manager\r\nKanban-style board showing posts across statuses (In Progress / Ready / Published / Backlog). Cards include: caption preview, post type chip (Reel, Talking Head, Faceless), scheduled date.\r\n> *\"Build an Instagram content management dashboard with scheduled posts, drafts, published content, and a backlog. Include post types, statuses, captions, and scheduled dates. Dark UI, card-based layout.\"*\r\n\r\n### Analytics Page\r\nCross-platform metrics dashboard with bar charts + line graphs. Shows total impressions, engagement rate, follower growth, top posts per platform. Data via Metricool. Date range picker (7d / 14d / 30d / 90d).\r\n> *\"Create an analytics page with bar charts and line graphs showing content performance from social accounts. Use Metricool for data. Include total impressions, engagement rate, follower growth, and top posts. Dark theme with date picker.\"*\r\n\r\n### Content Calendar\r\nMonthly calendar view where each day holds multiple content items shown as colored status chips. Platform filters (Instagram, YouTube, Twitter, LinkedIn).\r\n> *\"Build a content calendar page with scheduled and previously posted content in a monthly calendar view. Each day holds multiple items as colored chips. Include platform filters and dark UI.\"*\r\n\r\n### Competitor Tracker\r\nAdd competitor handles/channels and track: recent posts, engagement rate, posting frequency, growth trends. Cards view + sortable table. Sync button for refreshing data.\r\n> *\"Create a competitor tracker dashboard. Let me add competitor handles and display recent posts, engagement, posting frequency, and growth trends across multiple social accounts. Sortable table, dark theme.\"*\r\n\r\n### News Consolidator\r\nRSS feed aggregator filtered by niche topics. Displays headline, source, publish date, and short AI-generated summary. Filter tabs by topic (tools, research, business). LocalLLM and Reddit tabs visible in original.\r\n> *\"Build a news consolidator that aggregates [niche] news from RSS feeds in a clean feed UI. Show headline, source, publish date, and a short summary. Add filtering by topic and a dark card-based layout.\"*"
       },
       {
         "heading": "The Master Scaffolding Prompt",
-        "content": "```\nYou are building a content management dashboard.\nUse Next.js, Tailwind CSS, and shadcn/ui for components.\nSet up the project with sections: Instagram Manager, Analytics,\nContent Calendar, Competitor Tracker, and News Consolidator.\nUse a dark theme globally. Create placeholder pages for each\nsection with a shared sidebar navigation.\nWhen the project is set up, create a CLAUDE.md that documents:\ntech stack, folder structure, component conventions, and any\nimportant decisions made during setup.\n```\nThe **CLAUDE.md step is the critical unlock** — it gives Claude persistent context for all follow-up sessions without re-explaining the stack."
+        "content": "```\r\nYou are building a content management dashboard.\r\nUse Next.js, Tailwind CSS, and shadcn/ui for components.\r\nSet up the project with sections: Instagram Manager, Analytics,\r\nContent Calendar, Competitor Tracker, and News Consolidator.\r\nUse a dark theme globally. Create placeholder pages for each\r\nsection with a shared sidebar navigation.\r\nWhen the project is set up, create a CLAUDE.md that documents:\r\ntech stack, folder structure, component conventions, and any\r\nimportant decisions made during setup.\r\n```\r\nThe **CLAUDE.md step is the critical unlock** — it gives Claude persistent context for all follow-up sessions without re-explaining the stack."
       },
       {
         "heading": "Why It Matters",
@@ -10916,11 +10533,11 @@ export const pods: Pod[] = [
       },
       {
         "heading": "Apply It",
-        "content": "- **Direct build**: Build your own content ops dashboard for Instagram research capture\n- **Yoga studio client**: Competitor Tracker + Analytics = professional social media deliverable\n- **Research system**: News Consolidator with AI Claude Code / fintech RSS feeds = your research-queue front-end\n- **Template pattern**: Use this exact prompt structure for Vault, Forge & Field, FitOps expansions\n- **Enterprise demo**: Competitor Tracker concept works for mortgage market intelligence dashboard"
+        "content": "- **Direct build**: Build your own content ops dashboard for Instagram research capture\r\n- **Yoga studio client**: Competitor Tracker + Analytics = professional social media deliverable\r\n- **Research system**: News Consolidator with AI Claude Code / fintech RSS feeds = your research-queue front-end\r\n- **Template pattern**: Use this exact prompt structure for Vault, Forge & Field, FitOps expansions\r\n- **Enterprise demo**: Competitor Tracker concept works for mortgage market intelligence dashboard"
       },
       {
         "heading": "Research Next Steps",
-        "content": "- [ ] Test the master scaffolding prompt in a new Claude Code session\n- [ ] Identify which sections could pull from OpenBB or your existing data sources\n- [ ] Consider: could the Competitor Tracker track competing mortgage servicers using public filings?\n- [ ] Build the News Consolidator with your Claude Code / AI tooling RSS feeds"
+        "content": "- [ ] Test the master scaffolding prompt in a new Claude Code session\r\n- [ ] Identify which sections could pull from OpenBB or your existing data sources\r\n- [ ] Consider: could the Competitor Tracker track competing mortgage servicers using public filings?\r\n- [ ] Build the News Consolidator with your Claude Code / AI tooling RSS feeds"
       }
     ],
     "related": [
@@ -10952,11 +10569,11 @@ export const pods: Pod[] = [
       },
       {
         "heading": "The Cost Model",
-        "content": "- **Public repos**: Free, unlimited minutes\n- **Private repos**: Charged per minute against your monthly budget\n- **Runner multipliers**: Linux = 1x, Windows = 2x, macOS = 10x. A 10-minute macOS job burns 100 minutes of budget\n- **Your budget**: 3,000 minutes/month on GitHub Pro. FitOps alone burns 15+ minutes per test run. At 5 pushes per day, that's 75 minutes/day — over 2,000 minutes/month from one repo"
+        "content": "- **Public repos**: Free, unlimited minutes\r\n- **Private repos**: Charged per minute against your monthly budget\r\n- **Runner multipliers**: Linux = 1x, Windows = 2x, macOS = 10x. A 10-minute macOS job burns 100 minutes of budget\r\n- **Your budget**: 3,000 minutes/month on GitHub Pro. FitOps alone burns 15+ minutes per test run. At 5 pushes per day, that's 75 minutes/day — over 2,000 minutes/month from one repo"
       },
       {
         "heading": "Top Optimizations (Ordered by Impact)",
-        "content": "### 1. Path Filters — Biggest Single Savings\nOnly run workflows when relevant files change. A README edit should never trigger a 15-minute test suite.\n\n```yaml\non:\n  push:\n    paths:\n      - 'src/**'\n      - 'tests/**'\n      - 'package.json'\n      - '.github/workflows/**'\n    paths-ignore:\n      - '*.md'\n      - 'docs/**'\n```\n\nThis alone can eliminate 30-50% of workflow runs.\n\n### 2. Dependency Caching — Save 1-3 Minutes Per Run\nCache `node_modules`, pip packages, or build artifacts between runs. Without caching, every run downloads everything from scratch.\n\n```yaml\n- uses: actions/setup-node@v4\n  with:\n    node-version: 20\n    cache: 'npm'\n```\n\nOr the explicit cache action for more control:\n```yaml\n- uses: actions/cache@v4\n  with:\n    path: ~/.npm\n    key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}\n```\n\n### 3. Concurrency Control — Cancel Redundant Runs\nWhen you push again before the previous run finishes, cancel the old one. No point running CI on code that's already been superseded.\n\n```yaml\nconcurrency:\n  group: ${{ github.workflow }}-${{ github.ref }}\n  cancel-in-progress: true\n```\n\n### 4. Branch Scoping — Stop Running on Experiments\nOnly trigger on branches that matter. Experiment branches don't need CI until they become a PR.\n\n```yaml\non:\n  push:\n    branches: [main, 'feature/*']\n  pull_request:\n    branches: [main]\n```\n\n### 5. Job Splitting — Parallelize and Gate\nSplit long test suites into parallel jobs. Run fast unit tests on every push, slow integration tests only on PR merge.\n\n```yaml\njobs:\n  unit-tests:\n    runs-on: ubuntu-latest\n    # Fast, runs on every push\n  integration-tests:\n    runs-on: ubuntu-latest\n    if: github.event_name == 'pull_request'\n    needs: unit-tests\n    # Slow, only runs on PRs after unit tests pass\n```\n\n### 6. Batch Pushes — Fewer Triggers\nEach `git push` triggers a workflow run. Push once with all changes instead of five small pushes that each trigger a 15-minute run. Use `git rebase -i` to squash WIP commits before pushing, or batch work into deliberate push points."
+        "content": "### 1. Path Filters — Biggest Single Savings\r\nOnly run workflows when relevant files change. A README edit should never trigger a 15-minute test suite.\r\n\r\n```yaml\r\non:\r\n  push:\r\n    paths:\r\n      - 'src/**'\r\n      - 'tests/**'\r\n      - 'package.json'\r\n      - '.github/workflows/**'\r\n    paths-ignore:\r\n      - '*.md'\r\n      - 'docs/**'\r\n```\r\n\r\nThis alone can eliminate 30-50% of workflow runs.\r\n\r\n### 2. Dependency Caching — Save 1-3 Minutes Per Run\r\nCache `node_modules`, pip packages, or build artifacts between runs. Without caching, every run downloads everything from scratch.\r\n\r\n```yaml\r\n- uses: actions/setup-node@v4\r\n  with:\r\n    node-version: 20\r\n    cache: 'npm'\r\n```\r\n\r\nOr the explicit cache action for more control:\r\n```yaml\r\n- uses: actions/cache@v4\r\n  with:\r\n    path: ~/.npm\r\n    key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}\r\n```\r\n\r\n### 3. Concurrency Control — Cancel Redundant Runs\r\nWhen you push again before the previous run finishes, cancel the old one. No point running CI on code that's already been superseded.\r\n\r\n```yaml\r\nconcurrency:\r\n  group: ${{ github.workflow }}-${{ github.ref }}\r\n  cancel-in-progress: true\r\n```\r\n\r\n### 4. Branch Scoping — Stop Running on Experiments\r\nOnly trigger on branches that matter. Experiment branches don't need CI until they become a PR.\r\n\r\n```yaml\r\non:\r\n  push:\r\n    branches: [main, 'feature/*']\r\n  pull_request:\r\n    branches: [main]\r\n```\r\n\r\n### 5. Job Splitting — Parallelize and Gate\r\nSplit long test suites into parallel jobs. Run fast unit tests on every push, slow integration tests only on PR merge.\r\n\r\n```yaml\r\njobs:\r\n  unit-tests:\r\n    runs-on: ubuntu-latest\r\n    # Fast, runs on every push\r\n  integration-tests:\r\n    runs-on: ubuntu-latest\r\n    if: github.event_name == 'pull_request'\r\n    needs: unit-tests\r\n    # Slow, only runs on PRs after unit tests pass\r\n```\r\n\r\n### 6. Batch Pushes — Fewer Triggers\r\nEach `git push` triggers a workflow run. Push once with all changes instead of five small pushes that each trigger a 15-minute run. Use `git rebase -i` to squash WIP commits before pushing, or batch work into deliberate push points."
       },
       {
         "heading": "FitOps Context",
@@ -10964,19 +10581,19 @@ export const pods: Pod[] = [
       },
       {
         "heading": "Monitoring Usage",
-        "content": "Track minutes with the GitHub API:\n\n```bash\ngh api /orgs/{org}/settings/billing/actions  # org-level\ngh api /user/settings/billing/actions         # user-level\n```\n\nThe `/track-gha` skill in the Claude Code framework automates this — shows current month usage, per-repo breakdown, burn rate, and projected end-of-month total. The `/audit-gha` skill scans workflow files for specific waste patterns and recommends fixes."
+        "content": "Track minutes with the GitHub API:\r\n\r\n```bash\r\ngh api /orgs/{org}/settings/billing/actions  # org-level\r\ngh api /user/settings/billing/actions         # user-level\r\n```\r\n\r\nThe `/track-gha` skill in the Claude Code framework automates this — shows current month usage, per-repo breakdown, burn rate, and projected end-of-month total. The `/audit-gha` skill scans workflow files for specific waste patterns and recommends fixes."
       },
       {
         "heading": "Advanced Techniques",
-        "content": "- **Reusable workflows**: Extract common CI patterns into shared workflow files. Call them from multiple repos to avoid duplicating configuration\n- **Matrix strategy with fail-fast**: Test across Node versions or OS variants in parallel, but stop all jobs if any one fails\n- **Self-hosted runners**: Run on your own hardware (homelab) for zero minutes cost. Tradeoff: you maintain the runner infrastructure\n- **Conditional steps**: Use `if:` conditions to skip expensive steps (deploy, E2E tests) on non-main branches"
+        "content": "- **Reusable workflows**: Extract common CI patterns into shared workflow files. Call them from multiple repos to avoid duplicating configuration\r\n- **Matrix strategy with fail-fast**: Test across Node versions or OS variants in parallel, but stop all jobs if any one fails\r\n- **Self-hosted runners**: Run on your own hardware (homelab) for zero minutes cost. Tradeoff: you maintain the runner infrastructure\r\n- **Conditional steps**: Use `if:` conditions to skip expensive steps (deploy, E2E tests) on non-main branches"
       },
       {
         "heading": "Apply It",
-        "content": "1. Add path filters to FitOps workflow — skip runs for doc/README changes\n2. Enable dependency caching for npm in all private repo workflows\n3. Add concurrency groups to prevent redundant runs\n4. Split FitOps tests: fast unit tests on every push, integration tests on PR only\n5. Run `/audit-gha` monthly to catch new waste patterns"
+        "content": "1. Add path filters to FitOps workflow — skip runs for doc/README changes\r\n2. Enable dependency caching for npm in all private repo workflows\r\n3. Add concurrency groups to prevent redundant runs\r\n4. Split FitOps tests: fast unit tests on every push, integration tests on PR only\r\n5. Run `/audit-gha` monthly to catch new waste patterns"
       },
       {
         "heading": "Research Next Steps",
-        "content": "- [ ] Benchmark FitOps test run times before and after optimization\n- [ ] Evaluate self-hosted runner on lab-01 for zero-cost CI\n- [ ] Set up monthly `/track-gha` automated report via n8n\n- [ ] Test matrix fail-fast to reduce wasted parallel minutes"
+        "content": "- [ ] Benchmark FitOps test run times before and after optimization\r\n- [ ] Evaluate self-hosted runner on lab-01 for zero-cost CI\r\n- [ ] Set up monthly `/track-gha` automated report via n8n\r\n- [ ] Test matrix fail-fast to reduce wasted parallel minutes"
       }
     ],
     "related": [
@@ -11007,11 +10624,11 @@ export const pods: Pod[] = [
       },
       {
         "heading": "Core Concepts",
-        "content": "- **Workflows**: The complete automation — a graph of connected nodes with a trigger and one or more actions. Saved as JSON, version-controllable\n- **Nodes**: Individual steps in the workflow. Types include HTTP Request, Slack, Code (JavaScript), IF/Switch, Set, Merge, and hundreds of integrations\n- **Triggers**: What starts a workflow — a webhook (external event hits a URL), a cron schedule (run every hour), or a manual button click\n- **Credentials**: Stored API keys and OAuth tokens for connected services. Managed in n8n's credential store, encrypted at rest. Never hardcoded in workflow JSON\n- **Expressions**: Inline references to data from previous nodes using `{{ $json.field }}` syntax. How data flows between steps"
+        "content": "- **Workflows**: The complete automation — a graph of connected nodes with a trigger and one or more actions. Saved as JSON, version-controllable\r\n- **Nodes**: Individual steps in the workflow. Types include HTTP Request, Slack, Code (JavaScript), IF/Switch, Set, Merge, and hundreds of integrations\r\n- **Triggers**: What starts a workflow — a webhook (external event hits a URL), a cron schedule (run every hour), or a manual button click\r\n- **Credentials**: Stored API keys and OAuth tokens for connected services. Managed in n8n's credential store, encrypted at rest. Never hardcoded in workflow JSON\r\n- **Expressions**: Inline references to data from previous nodes using `{{ $json.field }}` syntax. How data flows between steps"
       },
       {
         "heading": "Why n8n Over Zapier",
-        "content": "| Factor | n8n | Zapier |\n|--------|-----|--------|\n| Pricing | Self-hosted, free | Per-task pricing, expensive at scale |\n| Code access | Full JavaScript/Python code nodes | Limited code steps |\n| Hosting | Your server, your data | Cloud only |\n| Customization | Fork it, extend it, no limits | Locked to their platform |\n| Downside | You maintain the server and updates | They handle everything |\n\nFor a homelab setup with Claude Code integration, self-hosting is the clear winner — no execution limits and full control over the data pipeline."
+        "content": "| Factor | n8n | Zapier |\r\n|--------|-----|--------|\r\n| Pricing | Self-hosted, free | Per-task pricing, expensive at scale |\r\n| Code access | Full JavaScript/Python code nodes | Limited code steps |\r\n| Hosting | Your server, your data | Cloud only |\r\n| Customization | Fork it, extend it, no limits | Locked to their platform |\r\n| Downside | You maintain the server and updates | They handle everything |\r\n\r\nFor a homelab setup with Claude Code integration, self-hosting is the clear winner — no execution limits and full control over the data pipeline."
       },
       {
         "heading": "The Setup",
@@ -11019,23 +10636,23 @@ export const pods: Pod[] = [
       },
       {
         "heading": "Common Patterns",
-        "content": "### Webhook → Process → Notify\nReceive an external event → transform or classify the data → send a Slack message or create a GitHub issue. The bread-and-butter pattern for event-driven automation.\n\n### Cron → Fetch → Store\nOn a schedule → call an API (GitHub, weather, fitness tracker) → write results to a database, file, or vault note. Good for aggregation and daily summaries.\n\n### Event → Claude → Action\nReceive a trigger → call the Claude API with context for classification or generation → route the result based on Claude's output. This is how n8n bridges into AI-powered workflows — Slack message comes in, Claude classifies it, n8n routes it to the right destination.\n\n### Error → Catch → Alert\nEvery production workflow should have an Error Trigger node. When any node fails, the error trigger fires and sends a Slack alert with the error details. Without this, workflows fail silently."
+        "content": "### Webhook → Process → Notify\r\nReceive an external event → transform or classify the data → send a Slack message or create a GitHub issue. The bread-and-butter pattern for event-driven automation.\r\n\r\n### Cron → Fetch → Store\r\nOn a schedule → call an API (GitHub, weather, fitness tracker) → write results to a database, file, or vault note. Good for aggregation and daily summaries.\r\n\r\n### Event → Claude → Action\r\nReceive a trigger → call the Claude API with context for classification or generation → route the result based on Claude's output. This is how n8n bridges into AI-powered workflows — Slack message comes in, Claude classifies it, n8n routes it to the right destination.\r\n\r\n### Error → Catch → Alert\r\nEvery production workflow should have an Error Trigger node. When any node fails, the error trigger fires and sends a Slack alert with the error details. Without this, workflows fail silently."
       },
       {
         "heading": "Integration with Claude Code",
-        "content": "n8n bridges the gap between the local Claude Code CLI framework and external event-driven automation. The CLI handles interactive development sessions; n8n handles what happens when you're not at the keyboard.\n\n- n8n triggers Claude API calls for classification, summarization, and generation\n- Results get posted to Slack channels, written to the Obsidian vault, or routed to GitHub\n- The `#inbox` and `#life` Slack channels feed into n8n workflows that classify and route content\n- Enables the full pipeline: external event → n8n → Claude → action → notification"
+        "content": "n8n bridges the gap between the local Claude Code CLI framework and external event-driven automation. The CLI handles interactive development sessions; n8n handles what happens when you're not at the keyboard.\r\n\r\n- n8n triggers Claude API calls for classification, summarization, and generation\r\n- Results get posted to Slack channels, written to the Obsidian vault, or routed to GitHub\r\n- The `#inbox` and `#life` Slack channels feed into n8n workflows that classify and route content\r\n- Enables the full pipeline: external event → n8n → Claude → action → notification"
       },
       {
         "heading": "Gotchas",
-        "content": "- **Credential management**: Store credentials in n8n's built-in credential store, not in the workflow JSON. If you export/share a workflow, credentials are stripped — this is by design\n- **Webhook security**: Always validate incoming webhook requests. Use header-based auth tokens or HMAC signatures. An open webhook URL is an open door\n- **Error handling**: Add an Error Trigger node to every production workflow. Silent failures are the worst kind of failures\n- **Tunnel for webhooks**: External services can't hit `localhost`. You need a Cloudflare tunnel or ngrok to expose n8n's webhook URLs to the internet. The tunnel setup is pending\n- **Execution data retention**: n8n stores execution history by default. On a homelab with limited storage, configure retention limits to avoid filling the disk"
+        "content": "- **Credential management**: Store credentials in n8n's built-in credential store, not in the workflow JSON. If you export/share a workflow, credentials are stripped — this is by design\r\n- **Webhook security**: Always validate incoming webhook requests. Use header-based auth tokens or HMAC signatures. An open webhook URL is an open door\r\n- **Error handling**: Add an Error Trigger node to every production workflow. Silent failures are the worst kind of failures\r\n- **Tunnel for webhooks**: External services can't hit `localhost`. You need a Cloudflare tunnel or ngrok to expose n8n's webhook URLs to the internet. The tunnel setup is pending\r\n- **Execution data retention**: n8n stores execution history by default. On a homelab with limited storage, configure retention limits to avoid filling the disk"
       },
       {
         "heading": "Apply It",
-        "content": "1. Configure credentials for Slack, GitHub, Claude API, and Cloudflare in the n8n credential store\n2. Set up Cloudflare tunnel so external webhooks can reach the local n8n instance\n3. Build the `#inbox` classifier workflow: Slack message → Claude classification → route to GitHub/queue/vault\n4. Add Error Trigger nodes to all 3 existing workflows"
+        "content": "1. Configure credentials for Slack, GitHub, Claude API, and Cloudflare in the n8n credential store\r\n2. Set up Cloudflare tunnel so external webhooks can reach the local n8n instance\r\n3. Build the `#inbox` classifier workflow: Slack message → Claude classification → route to GitHub/queue/vault\r\n4. Add Error Trigger nodes to all 3 existing workflows"
       },
       {
         "heading": "Research Next Steps",
-        "content": "- [ ] Complete credential setup for all connected services\n- [ ] Configure Cloudflare tunnel for external webhook access\n- [ ] Build the Slack #life → classify → Obsidian vault pipeline\n- [ ] Evaluate n8n's built-in AI nodes vs direct Claude API calls"
+        "content": "- [ ] Complete credential setup for all connected services\r\n- [ ] Configure Cloudflare tunnel for external webhook access\r\n- [ ] Build the Slack #life → classify → Obsidian vault pipeline\r\n- [ ] Evaluate n8n's built-in AI nodes vs direct Claude API calls"
       }
     ],
     "related": [
@@ -11066,19 +10683,19 @@ export const pods: Pod[] = [
       },
       {
         "heading": "Core Concepts",
-        "content": "- **Providers**: Plugins that talk to APIs — AWS, Cloudflare, Proxmox, Tailscale, etc. Each provider exposes resources you can manage\n- **Resources**: The things you create — a DNS record, a VM, a firewall rule. Each resource has a type and configuration block\n- **State**: `terraform.tfstate` tracks what Terraform has created. It maps your config to real infrastructure. This is the source of truth — never edit it manually\n- **Plan**: `terraform plan` previews what will change before you touch anything. Shows creates, updates, and destroys. Always review the plan before applying\n- **Modules**: Reusable groups of resources. Package common patterns (e.g., \"web server with DNS + firewall\") and call them with different variables"
+        "content": "- **Providers**: Plugins that talk to APIs — AWS, Cloudflare, Proxmox, Tailscale, etc. Each provider exposes resources you can manage\r\n- **Resources**: The things you create — a DNS record, a VM, a firewall rule. Each resource has a type and configuration block\r\n- **State**: `terraform.tfstate` tracks what Terraform has created. It maps your config to real infrastructure. This is the source of truth — never edit it manually\r\n- **Plan**: `terraform plan` previews what will change before you touch anything. Shows creates, updates, and destroys. Always review the plan before applying\r\n- **Modules**: Reusable groups of resources. Package common patterns (e.g., \"web server with DNS + firewall\") and call them with different variables"
       },
       {
         "heading": "The Workflow",
-        "content": "```\nWrite .tf files → terraform init → terraform plan → terraform apply → terraform destroy\n```\n\n1. **`terraform init`** — Downloads provider plugins, initializes backend. Run once per project or when adding providers\n2. **`terraform plan`** — Compares your config against state, shows what would change. No side effects\n3. **`terraform apply`** — Executes the plan. Creates, updates, or destroys resources to match your config\n4. **`terraform destroy`** — Tears down everything Terraform manages. Use with caution — this is the nuclear option"
+        "content": "```\r\nWrite .tf files → terraform init → terraform plan → terraform apply → terraform destroy\r\n```\r\n\r\n1. **`terraform init`** — Downloads provider plugins, initializes backend. Run once per project or when adding providers\r\n2. **`terraform plan`** — Compares your config against state, shows what would change. No side effects\r\n3. **`terraform apply`** — Executes the plan. Creates, updates, or destroys resources to match your config\r\n4. **`terraform destroy`** — Tears down everything Terraform manages. Use with caution — this is the nuclear option"
       },
       {
         "heading": "HCL Syntax Basics",
-        "content": "Terraform uses HashiCorp Configuration Language. Declarative blocks, not imperative scripts.\n\n```hcl\n# Variables — parameterize your config\nvariable \"zone_id\" {\n  description = \"Cloudflare zone ID\"\n  type        = string\n}\n\n# Resources — the infrastructure you're creating\nresource \"cloudflare_record\" \"game\" {\n  zone_id = var.zone_id\n  name    = \"game-name\"\n  content = var.server_ip\n  type    = \"A\"\n  proxied = true\n}\n\n# Outputs — expose values after apply\noutput \"game_url\" {\n  value = \"https://${cloudflare_record.game.name}.mattatencio.com\"\n}\n\n# Data sources — read existing infrastructure\ndata \"cloudflare_zone\" \"main\" {\n  name = \"mattatencio.com\"\n}\n```"
+        "content": "Terraform uses HashiCorp Configuration Language. Declarative blocks, not imperative scripts.\r\n\r\n```hcl\r\n# Variables — parameterize your config\r\nvariable \"zone_id\" {\r\n  description = \"Cloudflare zone ID\"\r\n  type        = string\r\n}\r\n\r\n# Resources — the infrastructure you're creating\r\nresource \"cloudflare_record\" \"game\" {\r\n  zone_id = var.zone_id\r\n  name    = \"game-name\"\r\n  content = var.server_ip\r\n  type    = \"A\"\r\n  proxied = true\r\n}\r\n\r\n# Outputs — expose values after apply\r\noutput \"game_url\" {\r\n  value = \"https://${cloudflare_record.game.name}.mattatencio.com\"\r\n}\r\n\r\n# Data sources — read existing infrastructure\r\ndata \"cloudflare_zone\" \"main\" {\r\n  name = \"mattatencio.com\"\r\n}\r\n```"
       },
       {
         "heading": "State Management",
-        "content": "- **Local state**: Single `terraform.tfstate` file on disk. Simple, works for solo homelab use. What you have now\n- **Remote state**: Store state in S3, Terraform Cloud, or a backend. Required for teams. Adds locking to prevent concurrent applies\n- **Rule**: State is the source of truth. If you change infrastructure manually (outside Terraform), state drifts and the next plan will try to \"fix\" things back"
+        "content": "- **Local state**: Single `terraform.tfstate` file on disk. Simple, works for solo homelab use. What you have now\r\n- **Remote state**: Store state in S3, Terraform Cloud, or a backend. Required for teams. Adds locking to prevent concurrent applies\r\n- **Rule**: State is the source of truth. If you change infrastructure manually (outside Terraform), state drifts and the next plan will try to \"fix\" things back"
       },
       {
         "heading": "Homelab Application",
@@ -11086,15 +10703,15 @@ export const pods: Pod[] = [
       },
       {
         "heading": "Gotchas",
-        "content": "- **State drift**: Someone (or you) changes something manually outside Terraform. Next plan shows unexpected diffs. Fix: always change through Terraform, or run `terraform import` to adopt existing resources\n- **Secret management**: Never put API keys or tokens in `.tf` files. Use `TF_VAR_*` environment variables, `.tfvars` files (gitignored), or a secret manager\n- **Blast radius**: `terraform destroy` kills everything in the state. Use `-target` to scope destructive operations, or split infrastructure into separate state files per environment\n- **Provider version pinning**: Lock provider versions in `required_providers` to avoid breaking changes on `terraform init`"
+        "content": "- **State drift**: Someone (or you) changes something manually outside Terraform. Next plan shows unexpected diffs. Fix: always change through Terraform, or run `terraform import` to adopt existing resources\r\n- **Secret management**: Never put API keys or tokens in `.tf` files. Use `TF_VAR_*` environment variables, `.tfvars` files (gitignored), or a secret manager\r\n- **Blast radius**: `terraform destroy` kills everything in the state. Use `-target` to scope destructive operations, or split infrastructure into separate state files per environment\r\n- **Provider version pinning**: Lock provider versions in `required_providers` to avoid breaking changes on `terraform init`"
       },
       {
         "heading": "Apply It",
-        "content": "1. Set up Cloudflare DNS records for the 6 kids' games using a single Terraform module\n2. Import existing Proxmox VMs into state with `terraform import`\n3. Add Tailscale ACL management as Terraform resources\n4. Store secrets in environment variables, never in committed `.tf` files"
+        "content": "1. Set up Cloudflare DNS records for the 6 kids' games using a single Terraform module\r\n2. Import existing Proxmox VMs into state with `terraform import`\r\n3. Add Tailscale ACL management as Terraform resources\r\n4. Store secrets in environment variables, never in committed `.tf` files"
       },
       {
         "heading": "Research Next Steps",
-        "content": "- [ ] Run first real `terraform apply` for Cloudflare DNS records\n- [ ] Explore Proxmox provider for VM lifecycle management\n- [ ] Evaluate remote state options for homelab (S3-compatible on nextcloud?)\n- [ ] Build a reusable module for \"game deployment\" (DNS + Vercel + monitoring)"
+        "content": "- [ ] Run first real `terraform apply` for Cloudflare DNS records\r\n- [ ] Explore Proxmox provider for VM lifecycle management\r\n- [ ] Evaluate remote state options for homelab (S3-compatible on nextcloud?)\r\n- [ ] Build a reusable module for \"game deployment\" (DNS + Vercel + monitoring)"
       }
     ],
     "related": [
@@ -11127,39 +10744,39 @@ export const pods: Pod[] = [
     "sections": [
       {
         "heading": "What It Is",
-        "content": "Accretion/dilution analysis is the first quantitative test applied to any M&A deal. It answers a single question: **does the combined company have higher or lower earnings per share (EPS) than the acquirer on a standalone basis?**\n\n- **Accretive**: Pro-forma EPS > Acquirer standalone EPS. Shareholders are better off. The market generally rewards this.\n- **Dilutive**: Pro-forma EPS < Acquirer standalone EPS. Shareholders are worse off on a per-share basis. The deal needs a compelling strategic narrative (cost synergies, market access, technology) to justify the dilution.\n\nThis is not a valuation method — it's a **deal filter**. You run it before building a full merger model. If the deal is 15%+ dilutive with no realistic synergy path to breakeven, most boards will walk away."
+        "content": "Accretion/dilution analysis is the first quantitative test applied to any M&A deal. It answers a single question: **does the combined company have higher or lower earnings per share (EPS) than the acquirer on a standalone basis?**\r\n\r\n- **Accretive**: Pro-forma EPS > Acquirer standalone EPS. Shareholders are better off. The market generally rewards this.\r\n- **Dilutive**: Pro-forma EPS < Acquirer standalone EPS. Shareholders are worse off on a per-share basis. The deal needs a compelling strategic narrative (cost synergies, market access, technology) to justify the dilution.\r\n\r\nThis is not a valuation method — it's a **deal filter**. You run it before building a full merger model. If the deal is 15%+ dilutive with no realistic synergy path to breakeven, most boards will walk away."
       },
       {
         "heading": "The Core EPS Math",
-        "content": "```\nPro-forma EPS = (Acquirer Net Income + Target Net Income + After-Tax Synergies − After-Tax Financing Cost)\n                / (Acquirer Shares Outstanding + New Shares Issued)\n```\n\n### Breaking Down Each Component\n\n**Numerator adjustments:**\n- **Acquirer Net Income**: Standalone earnings, typically LTM or NTM consensus\n- **Target Net Income**: Standalone earnings of the company being acquired\n- **Synergies**: Cost savings (headcount, facilities, systems) and revenue synergies, taxed at the combined marginal rate. Cost synergies are more credible — revenue synergies are heavily discounted by the market.\n- **Financing cost**: If debt-funded, the after-tax interest expense on new debt. If cash-funded, the lost interest income on the cash used (opportunity cost).\n\n**Denominator adjustments:**\n- **New shares issued**: Only applies to stock deals. If paying with cash or debt, no new shares are issued and the denominator stays the same.\n\n### Worked Example\n\n```\nAcquirer: $500M net income, 100M shares → $5.00 EPS\nTarget:   $100M net income\nDeal:     $2B purchase price, 100% stock at $50/share → 40M new shares issued\nSynergies: $30M pre-tax ($22.5M after-tax at 25% rate)\nNo incremental debt.\n\nPro-forma EPS = ($500M + $100M + $22.5M) / (100M + 40M)\n              = $622.5M / 140M\n              = $4.45\n\nStandalone EPS: $5.00\nPro-forma EPS:  $4.45\nDilution:       -11.1%\n```\n\nThis deal is **11% dilutive** — the acquirer needs to convince the market that synergies will grow or that the strategic value justifies the near-term hit."
+        "content": "```\r\nPro-forma EPS = (Acquirer Net Income + Target Net Income + After-Tax Synergies − After-Tax Financing Cost)\r\n                / (Acquirer Shares Outstanding + New Shares Issued)\r\n```\r\n\r\n### Breaking Down Each Component\r\n\r\n**Numerator adjustments:**\r\n- **Acquirer Net Income**: Standalone earnings, typically LTM or NTM consensus\r\n- **Target Net Income**: Standalone earnings of the company being acquired\r\n- **Synergies**: Cost savings (headcount, facilities, systems) and revenue synergies, taxed at the combined marginal rate. Cost synergies are more credible — revenue synergies are heavily discounted by the market.\r\n- **Financing cost**: If debt-funded, the after-tax interest expense on new debt. If cash-funded, the lost interest income on the cash used (opportunity cost).\r\n\r\n**Denominator adjustments:**\r\n- **New shares issued**: Only applies to stock deals. If paying with cash or debt, no new shares are issued and the denominator stays the same.\r\n\r\n### Worked Example\r\n\r\n```\r\nAcquirer: $500M net income, 100M shares → $5.00 EPS\r\nTarget:   $100M net income\r\nDeal:     $2B purchase price, 100% stock at $50/share → 40M new shares issued\r\nSynergies: $30M pre-tax ($22.5M after-tax at 25% rate)\r\nNo incremental debt.\r\n\r\nPro-forma EPS = ($500M + $100M + $22.5M) / (100M + 40M)\r\n              = $622.5M / 140M\r\n              = $4.45\r\n\r\nStandalone EPS: $5.00\r\nPro-forma EPS:  $4.45\r\nDilution:       -11.1%\r\n```\r\n\r\nThis deal is **11% dilutive** — the acquirer needs to convince the market that synergies will grow or that the strategic value justifies the near-term hit."
       },
       {
         "heading": "Stock vs. Cash vs. Mixed Consideration",
-        "content": "The form of payment fundamentally changes the accretion/dilution math:\n\n### Cash Deal\n- **Numerator impact**: Lose interest income on cash used (or add interest expense on debt raised)\n- **Denominator impact**: None — no new shares issued\n- **When it's better**: When the acquirer's P/E is low relative to the target's. Cash avoids diluting cheap equity.\n- **Risk**: Balance sheet leverage increases. Rating agencies may downgrade.\n\n### Stock Deal\n- **Numerator impact**: No financing cost (no cash leaves, no debt raised)\n- **Denominator impact**: New shares increase the share count\n- **When it's better**: When the acquirer's P/E is high relative to the target's. You're paying with \"expensive\" currency.\n- **Risk**: Existing shareholders are diluted. If the acquirer's stock drops post-announcement, the effective price paid increases.\n\n### The P/E Arbitrage Rule\nA deal is **always accretive** if the acquirer's P/E > target's P/E (in a stock deal, ignoring synergies and transaction costs). The acquirer is trading expensive shares for cheaper earnings.\n\n```\nAcquirer P/E: 25x → $1 of acquirer earnings \"costs\" $25 of equity\nTarget P/E:   15x → $1 of target earnings \"costs\" $15 of equity\n\nEach $25 of stock given away buys $25/$15 = $1.67 of target earnings.\nNet gain: $0.67 per dollar of earnings acquired.\n```\n\n### Mixed Consideration\nMost real deals are a blend — e.g., 60% cash / 40% stock. This balances dilution risk against leverage risk. The analysis models each component separately then combines."
+        "content": "The form of payment fundamentally changes the accretion/dilution math:\r\n\r\n### Cash Deal\r\n- **Numerator impact**: Lose interest income on cash used (or add interest expense on debt raised)\r\n- **Denominator impact**: None — no new shares issued\r\n- **When it's better**: When the acquirer's P/E is low relative to the target's. Cash avoids diluting cheap equity.\r\n- **Risk**: Balance sheet leverage increases. Rating agencies may downgrade.\r\n\r\n### Stock Deal\r\n- **Numerator impact**: No financing cost (no cash leaves, no debt raised)\r\n- **Denominator impact**: New shares increase the share count\r\n- **When it's better**: When the acquirer's P/E is high relative to the target's. You're paying with \"expensive\" currency.\r\n- **Risk**: Existing shareholders are diluted. If the acquirer's stock drops post-announcement, the effective price paid increases.\r\n\r\n### The P/E Arbitrage Rule\r\nA deal is **always accretive** if the acquirer's P/E > target's P/E (in a stock deal, ignoring synergies and transaction costs). The acquirer is trading expensive shares for cheaper earnings.\r\n\r\n```\r\nAcquirer P/E: 25x → $1 of acquirer earnings \"costs\" $25 of equity\r\nTarget P/E:   15x → $1 of target earnings \"costs\" $15 of equity\r\n\r\nEach $25 of stock given away buys $25/$15 = $1.67 of target earnings.\r\nNet gain: $0.67 per dollar of earnings acquired.\r\n```\r\n\r\n### Mixed Consideration\r\nMost real deals are a blend — e.g., 60% cash / 40% stock. This balances dilution risk against leverage risk. The analysis models each component separately then combines."
       },
       {
         "heading": "Breakeven Synergies",
-        "content": "The critical question for any dilutive deal:\n\n```\nBreakeven Synergies (pre-tax) = Dilution in Net Income / (1 − Tax Rate)\n\nExample: If the deal is $55M dilutive to net income and the tax rate is 25%:\nBreakeven synergies = $55M / 0.75 = $73.3M pre-tax\n```\n\n**Sanity checks:**\n- Synergies > 10% of target's revenue? Probably unrealistic.\n- Synergies require > 30% headcount reduction? Likely execution risk.\n- Revenue synergies > cost synergies? The market will discount heavily. Cost synergies are \"in your control,\" revenue synergies depend on customers."
+        "content": "The critical question for any dilutive deal:\r\n\r\n```\r\nBreakeven Synergies (pre-tax) = Dilution in Net Income / (1 − Tax Rate)\r\n\r\nExample: If the deal is $55M dilutive to net income and the tax rate is 25%:\r\nBreakeven synergies = $55M / 0.75 = $73.3M pre-tax\r\n```\r\n\r\n**Sanity checks:**\r\n- Synergies > 10% of target's revenue? Probably unrealistic.\r\n- Synergies require > 30% headcount reduction? Likely execution risk.\r\n- Revenue synergies > cost synergies? The market will discount heavily. Cost synergies are \"in your control,\" revenue synergies depend on customers."
       },
       {
         "heading": "Goodwill and Purchase Price Allocation",
-        "content": "When the purchase price exceeds the target's book value, the excess is allocated:\n\n1. **Fair value adjustments**: Mark target's assets/liabilities to fair value\n2. **Identifiable intangibles**: Customer relationships, technology, brand — amortized over useful life (reduces pro-forma earnings under GAAP)\n3. **Goodwill**: The residual — not amortized under US GAAP but tested annually for impairment\n\n**Key nuance**: Intangible amortization reduces GAAP EPS but is a non-cash charge. Many analysts look at **cash EPS** (adding back amortization) for a cleaner accretion/dilution picture. Some deals are dilutive on GAAP EPS but accretive on cash EPS."
+        "content": "When the purchase price exceeds the target's book value, the excess is allocated:\r\n\r\n1. **Fair value adjustments**: Mark target's assets/liabilities to fair value\r\n2. **Identifiable intangibles**: Customer relationships, technology, brand — amortized over useful life (reduces pro-forma earnings under GAAP)\r\n3. **Goodwill**: The residual — not amortized under US GAAP but tested annually for impairment\r\n\r\n**Key nuance**: Intangible amortization reduces GAAP EPS but is a non-cash charge. Many analysts look at **cash EPS** (adding back amortization) for a cleaner accretion/dilution picture. Some deals are dilutive on GAAP EPS but accretive on cash EPS."
       },
       {
         "heading": "Python Model",
-        "content": "```python\n\"\"\"\nAccretion / Dilution Analysis — Minimal Working Model\nRun with: python accretion_dilution.py\n\"\"\"\n\ndef accretion_dilution(\n    acquirer_ni: float,       # Acquirer net income ($M)\n    acquirer_shares: float,   # Acquirer shares outstanding (M)\n    target_ni: float,         # Target net income ($M)\n    purchase_price: float,    # Total deal value ($M)\n    pct_stock: float = 1.0,   # % of deal paid in stock (0.0 to 1.0)\n    acquirer_price: float = 50.0,  # Acquirer share price ($)\n    debt_rate: float = 0.05,  # Interest rate on acquisition debt\n    cash_yield: float = 0.03, # Yield on cash used (opportunity cost)\n    synergies_pretax: float = 0.0,  # Pre-tax annual synergies ($M)\n    tax_rate: float = 0.25,\n):\n    # --- Consideration split ---\n    stock_portion = purchase_price * pct_stock\n    cash_portion = purchase_price * (1 - pct_stock)\n    # Assume non-stock portion is split: half cash on hand, half new debt\n    debt_portion = cash_portion * 0.5\n    cash_used = cash_portion * 0.5\n\n    # --- Shares ---\n    new_shares = stock_portion / acquirer_price\n    total_shares = acquirer_shares + new_shares\n\n    # --- Earnings adjustments ---\n    interest_expense = debt_portion * debt_rate * (1 - tax_rate)\n    lost_cash_income = cash_used * cash_yield * (1 - tax_rate)\n    after_tax_synergies = synergies_pretax * (1 - tax_rate)\n\n    proforma_ni = (\n        acquirer_ni + target_ni + after_tax_synergies\n        - interest_expense - lost_cash_income\n    )\n\n    standalone_eps = acquirer_ni / acquirer_shares\n    proforma_eps = proforma_ni / total_shares\n    accretion_pct = (proforma_eps - standalone_eps) / standalone_eps * 100\n\n    # --- Breakeven synergies ---\n    # What synergies make proforma EPS = standalone EPS?\n    # standalone_eps = (acquirer_ni + target_ni + S*(1-t) - costs) / total_shares\n    # Solve for S:\n    needed_ni = standalone_eps * total_shares - acquirer_ni - target_ni + interest_expense + lost_cash_income\n    breakeven_synergies = needed_ni / (1 - tax_rate) if needed_ni > 0 else 0.0\n\n    return {\n        \"standalone_eps\": round(standalone_eps, 4),\n        \"proforma_eps\": round(proforma_eps, 4),\n        \"accretion_pct\": round(accretion_pct, 2),\n        \"accretive\": proforma_eps > standalone_eps,\n        \"new_shares_issued\": round(new_shares, 2),\n        \"breakeven_synergies_pretax\": round(breakeven_synergies, 2),\n    }\n\n\nif __name__ == \"__main__\":\n    # Example: Large tech acquirer buying a mid-cap target\n    result = accretion_dilution(\n        acquirer_ni=500,\n        acquirer_shares=100,\n        target_ni=100,\n        purchase_price=2000,\n        pct_stock=1.0,\n        acquirer_price=50,\n        synergies_pretax=30,\n        tax_rate=0.25,\n    )\n    for k, v in result.items():\n        print(f\"  {k}: {v}\")\n    # Vary consideration mix\n    print(\"\\n--- Sensitivity: Stock % vs. Accretion ---\")\n    for pct in [0.0, 0.25, 0.5, 0.75, 1.0]:\n        r = accretion_dilution(\n            acquirer_ni=500, acquirer_shares=100, target_ni=100,\n            purchase_price=2000, pct_stock=pct, acquirer_price=50,\n            synergies_pretax=30, tax_rate=0.25,\n        )\n        print(f\"  {int(pct*100)}% stock: EPS ${r['proforma_eps']:.2f} ({r['accretion_pct']:+.1f}%)\")\n```"
+        "content": "```python\r\n\"\"\"\r\nAccretion / Dilution Analysis — Minimal Working Model\r\nRun with: python accretion_dilution.py\r\n\"\"\"\r\n\r\ndef accretion_dilution(\r\n    acquirer_ni: float,       # Acquirer net income ($M)\r\n    acquirer_shares: float,   # Acquirer shares outstanding (M)\r\n    target_ni: float,         # Target net income ($M)\r\n    purchase_price: float,    # Total deal value ($M)\r\n    pct_stock: float = 1.0,   # % of deal paid in stock (0.0 to 1.0)\r\n    acquirer_price: float = 50.0,  # Acquirer share price ($)\r\n    debt_rate: float = 0.05,  # Interest rate on acquisition debt\r\n    cash_yield: float = 0.03, # Yield on cash used (opportunity cost)\r\n    synergies_pretax: float = 0.0,  # Pre-tax annual synergies ($M)\r\n    tax_rate: float = 0.25,\r\n):\r\n    # --- Consideration split ---\r\n    stock_portion = purchase_price * pct_stock\r\n    cash_portion = purchase_price * (1 - pct_stock)\r\n    # Assume non-stock portion is split: half cash on hand, half new debt\r\n    debt_portion = cash_portion * 0.5\r\n    cash_used = cash_portion * 0.5\r\n\r\n    # --- Shares ---\r\n    new_shares = stock_portion / acquirer_price\r\n    total_shares = acquirer_shares + new_shares\r\n\r\n    # --- Earnings adjustments ---\r\n    interest_expense = debt_portion * debt_rate * (1 - tax_rate)\r\n    lost_cash_income = cash_used * cash_yield * (1 - tax_rate)\r\n    after_tax_synergies = synergies_pretax * (1 - tax_rate)\r\n\r\n    proforma_ni = (\r\n        acquirer_ni + target_ni + after_tax_synergies\r\n        - interest_expense - lost_cash_income\r\n    )\r\n\r\n    standalone_eps = acquirer_ni / acquirer_shares\r\n    proforma_eps = proforma_ni / total_shares\r\n    accretion_pct = (proforma_eps - standalone_eps) / standalone_eps * 100\r\n\r\n    # --- Breakeven synergies ---\r\n    # What synergies make proforma EPS = standalone EPS?\r\n    # standalone_eps = (acquirer_ni + target_ni + S*(1-t) - costs) / total_shares\r\n    # Solve for S:\r\n    needed_ni = standalone_eps * total_shares - acquirer_ni - target_ni + interest_expense + lost_cash_income\r\n    breakeven_synergies = needed_ni / (1 - tax_rate) if needed_ni > 0 else 0.0\r\n\r\n    return {\r\n        \"standalone_eps\": round(standalone_eps, 4),\r\n        \"proforma_eps\": round(proforma_eps, 4),\r\n        \"accretion_pct\": round(accretion_pct, 2),\r\n        \"accretive\": proforma_eps > standalone_eps,\r\n        \"new_shares_issued\": round(new_shares, 2),\r\n        \"breakeven_synergies_pretax\": round(breakeven_synergies, 2),\r\n    }\r\n\r\n\r\nif __name__ == \"__main__\":\r\n    # Example: Large tech acquirer buying a mid-cap target\r\n    result = accretion_dilution(\r\n        acquirer_ni=500,\r\n        acquirer_shares=100,\r\n        target_ni=100,\r\n        purchase_price=2000,\r\n        pct_stock=1.0,\r\n        acquirer_price=50,\r\n        synergies_pretax=30,\r\n        tax_rate=0.25,\r\n    )\r\n    for k, v in result.items():\r\n        print(f\"  {k}: {v}\")\r\n    # Vary consideration mix\r\n    print(\"\\n--- Sensitivity: Stock % vs. Accretion ---\")\r\n    for pct in [0.0, 0.25, 0.5, 0.75, 1.0]:\r\n        r = accretion_dilution(\r\n            acquirer_ni=500, acquirer_shares=100, target_ni=100,\r\n            purchase_price=2000, pct_stock=pct, acquirer_price=50,\r\n            synergies_pretax=30, tax_rate=0.25,\r\n        )\r\n        print(f\"  {int(pct*100)}% stock: EPS ${r['proforma_eps']:.2f} ({r['accretion_pct']:+.1f}%)\")\r\n```"
       },
       {
         "heading": "Connection to Other Models",
-        "content": "- **DCF** sets the intrinsic value of the target — the \"what should we pay?\" question. Accretion/dilution answers \"can we afford it on an EPS basis?\"\n- **LBO** is the competing bid. PE firms don't care about EPS accretion — they care about IRR. A strategic buyer's willingness to pay is often capped by accretion math; a PE buyer's is capped by IRR math. The higher bid wins.\n- **Relative Valuation** sets the market context. If comps trade at 10x EBITDA and you're paying 14x, the deal better be accretive or the market will punish you."
+        "content": "- **DCF** sets the intrinsic value of the target — the \"what should we pay?\" question. Accretion/dilution answers \"can we afford it on an EPS basis?\"\r\n- **LBO** is the competing bid. PE firms don't care about EPS accretion — they care about IRR. A strategic buyer's willingness to pay is often capped by accretion math; a PE buyer's is capped by IRR math. The higher bid wins.\r\n- **Relative Valuation** sets the market context. If comps trade at 10x EBITDA and you're paying 14x, the deal better be accretive or the market will punish you."
       },
       {
         "heading": "Apply It",
-        "content": "- Build an M&A scenario analyzer that takes two tickers, pulls financials from OpenBB, and outputs accretion/dilution under various consideration mixes\n- Pairs with Finance - Relative Valuation for a complete M&A toolkit — comps set the price, accretion/dilution tests affordability\n- Educational content: \"Would this real deal have been accretive?\" — retroactive analysis of announced mergers"
+        "content": "- Build an M&A scenario analyzer that takes two tickers, pulls financials from OpenBB, and outputs accretion/dilution under various consideration mixes\r\n- Pairs with Finance - Relative Valuation for a complete M&A toolkit — comps set the price, accretion/dilution tests affordability\r\n- Educational content: \"Would this real deal have been accretive?\" — retroactive analysis of announced mergers"
       },
       {
         "heading": "Research Next Steps",
-        "content": "- [ ] Model the Microsoft/Activision deal — accretive or dilutive in year 1?\n- [ ] Understand how goodwill amortization affects pro-forma EPS (GAAP vs. cash EPS)\n- [ ] Learn \"purchase price allocation\" (PPA) basics\n- [ ] Build sensitivity matrix: purchase premium vs. synergy level vs. consideration mix\n- [ ] Study a failed deal where dilution killed the transaction (e.g., Pfizer/Allergan)\n- [ ] Implement the Python model and connect to OpenBB for live data"
+        "content": "- [ ] Model the Microsoft/Activision deal — accretive or dilutive in year 1?\r\n- [ ] Understand how goodwill amortization affects pro-forma EPS (GAAP vs. cash EPS)\r\n- [ ] Learn \"purchase price allocation\" (PPA) basics\r\n- [ ] Build sensitivity matrix: purchase premium vs. synergy level vs. consideration mix\r\n- [ ] Study a failed deal where dilution killed the transaction (e.g., Pfizer/Allergan)\r\n- [ ] Implement the Python model and connect to OpenBB for live data"
       }
     ],
     "related": [
@@ -11196,11 +10813,11 @@ export const pods: Pod[] = [
       },
       {
         "heading": "Key Mechanics",
-        "content": "```\nWhat Banks Track (and how they currently do it):\n\nDeposit Composition:\n├── Core deposits      (stable, relationship-driven, low rate — low \"deposit beta\")\n├── Non-core deposits  (rate-sensitive, likely to leave — high \"deposit beta\")\n├── Uninsured deposits (>$250K, highest flight risk)\n├── Concentration risk (% from top 10 depositors)\n└── Surge balances     (rate-chasers with significantly higher betas)\n\n2023 shift: time deposits grew 42% YoY, reaching ~25% of total deposits (rate-chasing)\n\nKey Metrics:\nNIM (Net Interest Margin) = (Interest Income − Interest Expense) / Avg Earning Assets\n  → Typical community bank NIM: 3.0–3.5%\n  → Compressed NIM = funding cost problem = ModernFi's value prop\n\nLiquidity Gap = Assets maturing − Liabilities maturing (per time bucket)\n  → Positive gap: more assets maturing than liabilities (reinvestment risk)\n  → Negative gap: more liabilities maturing (funding risk)\n\n\"Accounts at Risk\" — banks lose ~15% of customers/year (5-10% is acceptable):\n  → Low engagement scores = 20-30x greater chance of leaving\n  → Top drivers: high fees, unattractive rates\n  → ML models can reduce attrition by 7% in a single quarter\n\nHow SVB Failed (ALM perspective):\n1. 89% uninsured deposits (highest of any major bank vs ~40-50% industry avg)\n2. $91.3B in HTM securities (44% of assets), $86B in MBS with 10+ year maturities\n3. Had breached own internal IRR limits on and off since 2017\n4. Rates rose → HTM portfolio had $15.1B unrealized losses (HTM accounting hid them)\n5. March 8: announced $1.8B realized loss + $2B capital raise\n6. March 9: $42B withdrawn in a single day — fastest bank run in history\n7. March 10: seized by FDIC\n```"
+        "content": "```\r\nWhat Banks Track (and how they currently do it):\r\n\r\nDeposit Composition:\r\n├── Core deposits      (stable, relationship-driven, low rate — low \"deposit beta\")\r\n├── Non-core deposits  (rate-sensitive, likely to leave — high \"deposit beta\")\r\n├── Uninsured deposits (>$250K, highest flight risk)\r\n├── Concentration risk (% from top 10 depositors)\r\n└── Surge balances     (rate-chasers with significantly higher betas)\r\n\r\n2023 shift: time deposits grew 42% YoY, reaching ~25% of total deposits (rate-chasing)\r\n\r\nKey Metrics:\r\nNIM (Net Interest Margin) = (Interest Income − Interest Expense) / Avg Earning Assets\r\n  → Typical community bank NIM: 3.0–3.5%\r\n  → Compressed NIM = funding cost problem = ModernFi's value prop\r\n\r\nLiquidity Gap = Assets maturing − Liabilities maturing (per time bucket)\r\n  → Positive gap: more assets maturing than liabilities (reinvestment risk)\r\n  → Negative gap: more liabilities maturing (funding risk)\r\n\r\n\"Accounts at Risk\" — banks lose ~15% of customers/year (5-10% is acceptable):\r\n  → Low engagement scores = 20-30x greater chance of leaving\r\n  → Top drivers: high fees, unattractive rates\r\n  → ML models can reduce attrition by 7% in a single quarter\r\n\r\nHow SVB Failed (ALM perspective):\r\n1. 89% uninsured deposits (highest of any major bank vs ~40-50% industry avg)\r\n2. $91.3B in HTM securities (44% of assets), $86B in MBS with 10+ year maturities\r\n3. Had breached own internal IRR limits on and off since 2017\r\n4. Rates rose → HTM portfolio had $15.1B unrealized losses (HTM accounting hid them)\r\n5. March 8: announced $1.8B realized loss + $2B capital raise\r\n6. March 9: $42B withdrawn in a single day — fastest bank run in history\r\n7. March 10: seized by FDIC\r\n```"
       },
       {
         "heading": "Legacy vs Modern",
-        "content": "| Dimension | Legacy (Today's Banks) | Modern (ModernFi Vision) |\n|-----------|----------------------|--------------------------|\n| **Reporting cadence** | Quarterly batch | Real-time, intraday |\n| **Deposit visibility** | Aggregate totals | Per-account, per-flow |\n| **Risk identification** | Manual spreadsheet analysis | Automated \"accounts at risk\" flagging |\n| **Liquidity gaps** | Calculated quarterly in Excel | Continuous monitoring with alerts |\n| **Data source** | Core banking exports (CSV/flat file) | API-first, direct integration |\n| **Decision latency** | Weeks to months | Minutes to hours |"
+        "content": "| Dimension | Legacy (Today's Banks) | Modern (ModernFi Vision) |\r\n|-----------|----------------------|--------------------------|\r\n| **Reporting cadence** | Quarterly batch | Real-time, intraday |\r\n| **Deposit visibility** | Aggregate totals | Per-account, per-flow |\r\n| **Risk identification** | Manual spreadsheet analysis | Automated \"accounts at risk\" flagging |\r\n| **Liquidity gaps** | Calculated quarterly in Excel | Continuous monitoring with alerts |\r\n| **Data source** | Core banking exports (CSV/flat file) | API-first, direct integration |\r\n| **Decision latency** | Weeks to months | Minutes to hours |"
       },
       {
         "heading": "Why It Matters",
@@ -11208,11 +10825,11 @@ export const pods: Pod[] = [
       },
       {
         "heading": "Apply It",
-        "content": "- **Interview context**: This is ModernFi's recurring SaaS revenue play — higher-margin than deposit network fees\n- Understand that analytics can become a **standalone product** independent of the deposit network\n- Ask: \"How does the analytics product drive deposit network adoption — is it a wedge or a complement?\"\n- Ask: \"What data do you get from core banking integrations that powers the analytics layer?\""
+        "content": "- **Interview context**: This is ModernFi's recurring SaaS revenue play — higher-margin than deposit network fees\r\n- Understand that analytics can become a **standalone product** independent of the deposit network\r\n- Ask: \"How does the analytics product drive deposit network adoption — is it a wedge or a complement?\"\r\n- Ask: \"What data do you get from core banking integrations that powers the analytics layer?\""
       },
       {
         "heading": "Research Next Steps",
-        "content": "- [ ] Study ALCO meeting structures and typical decision frameworks\n- [ ] Understand Basel III LCR (Liquidity Coverage Ratio) and NSFR (Net Stable Funding Ratio)\n- [ ] Research how community banks currently do ALM (hint: mostly Excel + a consultant)\n- [ ] Review FDIC Call Report structure — what data is publicly available on bank balance sheets"
+        "content": "- [ ] Study ALCO meeting structures and typical decision frameworks\r\n- [ ] Understand Basel III LCR (Liquidity Coverage Ratio) and NSFR (Net Stable Funding Ratio)\r\n- [ ] Research how community banks currently do ALM (hint: mostly Excel + a consultant)\r\n- [ ] Review FDIC Call Report structure — what data is publicly available on bank balance sheets"
       }
     ],
     "related": [
@@ -11251,7 +10868,7 @@ export const pods: Pod[] = [
       },
       {
         "heading": "Key Mechanics",
-        "content": "```\nThe Big 3 Core Providers (collectively serve 70%+ of US banks):\n┌───────────────────────────────────────────────────────────────┐\n│ Fiserv       42% of US banks, 31% of CUs   3,800+ FIs        │\n│ Products: Premier, Precision, DNA, Cleartouch                 │\n│ AppMarket: fintech marketplace (ModernFi is listed!)          │\n│ Market cap: ~$100B+ (largest of the three)                    │\n├───────────────────────────────────────────────────────────────┤\n│ Jack Henry   21% of US banks, 12% of CUs   1,670 core clients│\n│ Products: SilverLake (banks), Symitar (CUs), Banno (digital) │\n│ Strength: community banks + credit unions — key for CUSO      │\n├───────────────────────────────────────────────────────────────┤\n│ FIS          9% of US banks, 3% of CUs     enterprise focus  │\n│ Products: Horizon, IBS, Modern Banking Platform               │\n│ Strength: large/mid-size banks by asset size                  │\n└───────────────────────────────────────────────────────────────┘\n\nAlso Critical:\nAlkami — digital banking platform (layer between core and end user)\n  301 client institutions, 21M registered users, $445M projected 2025 revenue\n  Target: FIs with $100M-$450B in assets (~250M digital users, ~10% penetrated)\n  CUs on Alkami 5+ years outperform peers in deposit growth, loan growth, revenue/FTE\n\nWhy Integration Is Hard:\n1. Legacy architectures: Many cores built in 1970s-1990s (COBOL, mainframes)\n2. Batch processing: Cores settle end-of-day — API exposure doesn't make data real-time\n3. Budget reality: FIs spend $350B/yr on legacy maintenance (70-80% of tech budgets)\n4. Contractual lock-in: Multi-year agreements, data migration complexity\n5. Political barriers: Core vendors protect their ecosystem\n6. Each bank customizes their core differently — same product, different configs\n7. Compliance: Every integration touches regulated data (PII, account info)\n\nIntegration Timelines (via Fiserv as example):\n  Communicator Open middleware:  ~30 days (no implementation fee)\n  Direct integration:            2-4 months ($60K implementation fee)\n  Complex/deep integration:      6-12 months\n  Full core replacement:         3-5 years, hundreds of millions of dollars\n```"
+        "content": "```\r\nThe Big 3 Core Providers (collectively serve 70%+ of US banks):\r\n┌───────────────────────────────────────────────────────────────┐\r\n│ Fiserv       42% of US banks, 31% of CUs   3,800+ FIs        │\r\n│ Products: Premier, Precision, DNA, Cleartouch                 │\r\n│ AppMarket: fintech marketplace (ModernFi is listed!)          │\r\n│ Market cap: ~$100B+ (largest of the three)                    │\r\n├───────────────────────────────────────────────────────────────┤\r\n│ Jack Henry   21% of US banks, 12% of CUs   1,670 core clients│\r\n│ Products: SilverLake (banks), Symitar (CUs), Banno (digital) │\r\n│ Strength: community banks + credit unions — key for CUSO      │\r\n├───────────────────────────────────────────────────────────────┤\r\n│ FIS          9% of US banks, 3% of CUs     enterprise focus  │\r\n│ Products: Horizon, IBS, Modern Banking Platform               │\r\n│ Strength: large/mid-size banks by asset size                  │\r\n└───────────────────────────────────────────────────────────────┘\r\n\r\nAlso Critical:\r\nAlkami — digital banking platform (layer between core and end user)\r\n  301 client institutions, 21M registered users, $445M projected 2025 revenue\r\n  Target: FIs with $100M-$450B in assets (~250M digital users, ~10% penetrated)\r\n  CUs on Alkami 5+ years outperform peers in deposit growth, loan growth, revenue/FTE\r\n\r\nWhy Integration Is Hard:\r\n1. Legacy architectures: Many cores built in 1970s-1990s (COBOL, mainframes)\r\n2. Batch processing: Cores settle end-of-day — API exposure doesn't make data real-time\r\n3. Budget reality: FIs spend $350B/yr on legacy maintenance (70-80% of tech budgets)\r\n4. Contractual lock-in: Multi-year agreements, data migration complexity\r\n5. Political barriers: Core vendors protect their ecosystem\r\n6. Each bank customizes their core differently — same product, different configs\r\n7. Compliance: Every integration touches regulated data (PII, account info)\r\n\r\nIntegration Timelines (via Fiserv as example):\r\n  Communicator Open middleware:  ~30 days (no implementation fee)\r\n  Direct integration:            2-4 months ($60K implementation fee)\r\n  Complex/deep integration:      6-12 months\r\n  Full core replacement:         3-5 years, hundreds of millions of dollars\r\n```"
       },
       {
         "heading": "Why It Matters",
@@ -11259,15 +10876,15 @@ export const pods: Pod[] = [
       },
       {
         "heading": "The Distribution Math",
-        "content": "```\nFiserv integration (done)  → ~12,000 FIs can now adopt\nJack Henry integration     → ~7,500 FIs unlocked (critical for CUs — Symitar)\nFIS integration            → ~9,000 FIs unlocked\nAlkami integration         → 250+ FIs, but high-value (digitally advanced)\n\nCombined: 28,000+ institutions can technically adopt\nvs. ModernFi's current 75+ CUs + NBID bank network\n= massive addressable market with each integration\n```"
+        "content": "```\r\nFiserv integration (done)  → ~12,000 FIs can now adopt\r\nJack Henry integration     → ~7,500 FIs unlocked (critical for CUs — Symitar)\r\nFIS integration            → ~9,000 FIs unlocked\r\nAlkami integration         → 250+ FIs, but high-value (digitally advanced)\r\n\r\nCombined: 28,000+ institutions can technically adopt\r\nvs. ModernFi's current 75+ CUs + NBID bank network\r\n= massive addressable market with each integration\r\n```"
       },
       {
         "heading": "Apply It",
-        "content": "- **Interview context**: This is where engineering bandwidth is most constrained — ask about it\n- Your experience integrating with legacy financial systems (mortgage servicing, mainframes) maps directly\n- Ask: \"What does the integration architecture look like? Adapter pattern per core, or unified abstraction?\"\n- Ask: \"How much of onboarding is self-serve via the core integration vs manual setup?\"\n- Ask: \"Which core integration is the biggest bottleneck right now?\""
+        "content": "- **Interview context**: This is where engineering bandwidth is most constrained — ask about it\r\n- Your experience integrating with legacy financial systems (mortgage servicing, mainframes) maps directly\r\n- Ask: \"What does the integration architecture look like? Adapter pattern per core, or unified abstraction?\"\r\n- Ask: \"How much of onboarding is self-serve via the core integration vs manual setup?\"\r\n- Ask: \"Which core integration is the biggest bottleneck right now?\""
       },
       {
         "heading": "Research Next Steps",
-        "content": "- [ ] Study Fiserv AppMarket — browse available fintech integrations, understand the listing process\n- [ ] Research Jack Henry's API strategy (Banno platform) — how modern vs legacy?\n- [ ] Understand the Symitar core (Jack Henry's CU product) — key for ModernFi CUSO expansion\n- [ ] Review Alkami's partner ecosystem and digital banking integration model"
+        "content": "- [ ] Study Fiserv AppMarket — browse available fintech integrations, understand the listing process\r\n- [ ] Research Jack Henry's API strategy (Banno platform) — how modern vs legacy?\r\n- [ ] Understand the Symitar core (Jack Henry's CU product) — key for ModernFi CUSO expansion\r\n- [ ] Review Alkami's partner ecosystem and digital banking integration model"
       }
     ],
     "related": [
@@ -11304,11 +10921,11 @@ export const pods: Pod[] = [
       },
       {
         "heading": "Key Mechanics",
-        "content": "```\nStandard NCUA limit:     $250,000 per member, per credit union\nModernFi CUSO network:   Up to $15M per account (growing with network)\n\nWhy CUSOs Exist:\n- Credit unions are nonprofit cooperatives (member-owned)\n- Regulations restrict what CUs can do directly\n- CUSOs allow pooled investment in shared services\n- Members (CUs) share in the economics — aligned incentives\n\nCUSO vs Vendor Model:\n┌─────────────────────────────────────┐\n│  IntraFi (Vendor Model - Banks)     │\n│  Bank pays fees → IntraFi keeps     │\n│  the yield spread as intermediary   │\n│  Bank has no ownership stake        │\n├─────────────────────────────────────┤\n│  ModernFi CUSO (Ownership Model)    │\n│  CU is a member-owner               │\n│  CU shares in network economics     │\n│  Aligned incentives = retention     │\n└─────────────────────────────────────┘\n\nKey CUSO Investors:\n- Curql Collective — CU-focused venture fund\n- MDC (Members Development Company) — CU service network\n  Jeff Kline (ex-MDC CEO) sits on ModernFi's board\n```"
+        "content": "```\r\nStandard NCUA limit:     $250,000 per member, per credit union\r\nModernFi CUSO network:   Up to $15M per account (growing with network)\r\n\r\nWhy CUSOs Exist:\r\n- Credit unions are nonprofit cooperatives (member-owned)\r\n- Regulations restrict what CUs can do directly\r\n- CUSOs allow pooled investment in shared services\r\n- Members (CUs) share in the economics — aligned incentives\r\n\r\nCUSO vs Vendor Model:\r\n┌─────────────────────────────────────┐\r\n│  IntraFi (Vendor Model - Banks)     │\r\n│  Bank pays fees → IntraFi keeps     │\r\n│  the yield spread as intermediary   │\r\n│  Bank has no ownership stake        │\r\n├─────────────────────────────────────┤\r\n│  ModernFi CUSO (Ownership Model)    │\r\n│  CU is a member-owner               │\r\n│  CU shares in network economics     │\r\n│  Aligned incentives = retention     │\r\n└─────────────────────────────────────┘\r\n\r\nKey CUSO Investors:\r\n- Curql Collective — CU-focused venture fund\r\n- MDC (Members Development Company) — CU service network\r\n  Jeff Kline (ex-MDC CEO) sits on ModernFi's board\r\n```"
       },
       {
         "heading": "The Credit Union Opportunity",
-        "content": "- **5,000+ credit unions** in the US\n- **~$2T in total CU deposits** — entirely untapped for deposit networks\n- ModernFi has **75+ CUs** onboarded (~1.5% penetration) in under 18 months\n- **Zero incumbent** offers a CU deposit network — IntraFi, R&T, StoneCastle all bank-only\n- NCUA insurance works identically to FDIC for credit unions — same $250K cap, same uninsured deposit risk"
+        "content": "- **5,000+ credit unions** in the US\r\n- **~$2T in total CU deposits** — entirely untapped for deposit networks\r\n- ModernFi has **75+ CUs** onboarded (~1.5% penetration) in under 18 months\r\n- **Zero incumbent** offers a CU deposit network — IntraFi, R&T, StoneCastle all bank-only\r\n- NCUA insurance works identically to FDIC for credit unions — same $250K cap, same uninsured deposit risk"
       },
       {
         "heading": "Why It Matters",
@@ -11316,11 +10933,11 @@ export const pods: Pod[] = [
       },
       {
         "heading": "Apply It",
-        "content": "- **Interview context**: The CUSO is ModernFi's fastest growth path and greenfield competitive advantage\n- Understand that CUSO structure = member ownership = fundamentally different go-to-market than selling to banks\n- Ask: \"How is the CUSO engineering team structured relative to NBID? Shared platform or separate?\"\n- Ask: \"What does CU onboarding look like vs bank onboarding — same integration complexity?\""
+        "content": "- **Interview context**: The CUSO is ModernFi's fastest growth path and greenfield competitive advantage\r\n- Understand that CUSO structure = member ownership = fundamentally different go-to-market than selling to banks\r\n- Ask: \"How is the CUSO engineering team structured relative to NBID? Shared platform or separate?\"\r\n- Ask: \"What does CU onboarding look like vs bank onboarding — same integration complexity?\""
       },
       {
         "heading": "Research Next Steps",
-        "content": "- [ ] Study NCUA regulations on CUSO formation and permissible activities\n- [ ] Understand Curql Collective's portfolio and CU investment thesis\n- [ ] Research the CU technology landscape — what cores do CUs use vs banks?\n- [ ] Study the MDC (Members Development Company) network model — precedent for CU cooperation"
+        "content": "- [ ] Study NCUA regulations on CUSO formation and permissible activities\r\n- [ ] Understand Curql Collective's portfolio and CU investment thesis\r\n- [ ] Research the CU technology landscape — what cores do CUs use vs banks?\r\n- [ ] Study the MDC (Members Development Company) network model — precedent for CU cooperation"
       }
     ],
     "related": [
@@ -11355,43 +10972,43 @@ export const pods: Pod[] = [
     "sections": [
       {
         "heading": "What It Is",
-        "content": "The foundational intrinsic valuation method. Projects a company's future free cash flows (FCF), then discounts them to present value using WACC (the cost of capital). What *you* think the business is worth, independent of what the market says.\n\nUnlike relative valuation (which asks \"what does the market pay for similar companies?\"), a DCF asks \"what is this specific company worth based on its own fundamentals?\" This makes it both more powerful and more dangerous — every assumption is yours, and small errors compound."
+        "content": "The foundational intrinsic valuation method. Projects a company's future free cash flows (FCF), then discounts them to present value using WACC (the cost of capital). What *you* think the business is worth, independent of what the market says.\r\n\r\nUnlike relative valuation (which asks \"what does the market pay for similar companies?\"), a DCF asks \"what is this specific company worth based on its own fundamentals?\" This makes it both more powerful and more dangerous — every assumption is yours, and small errors compound."
       },
       {
         "heading": "Key Mechanics",
-        "content": "```\nUnlevered FCF = EBIT × (1 − tax rate) + D&A − CapEx − ΔWorking Capital\nTerminal Value = FCF_n × (1 + g) / (WACC − g)       ← Gordon Growth Model\nEnterprise Value = Σ(FCF_t / (1+WACC)^t) + TV / (1+WACC)^n\nEquity Value = Enterprise Value − Net Debt + Non-Operating Assets\nPer Share Value = Equity Value / Diluted Shares Outstanding\n```\n\n### Step-by-Step Walkthrough\n\n**1. Project free cash flows (5-10 years)**\nBuild from revenue down:\n```\nRevenue                         (grow at X% per year)\n− Cost of Goods Sold            (% of revenue)\n= Gross Profit\n− SG&A, R&D                    (% of revenue, declining toward maturity)\n= EBIT (Operating Income)\n× (1 − Tax Rate)               (tax-effected)\n= NOPAT\n+ Depreciation & Amortization  (non-cash, add back)\n− Capital Expenditures          (cash outflow for growth + maintenance)\n− Change in Working Capital     (cash tied up in A/R, inventory, less A/P)\n= Unlevered Free Cash Flow\n```\n\n**2. Calculate terminal value**\n\nTwo approaches:\n- **Gordon Growth Model**: `TV = FCF_n × (1 + g) / (WACC − g)` — assumes FCF grows at `g` forever\n- **Exit Multiple Method**: `TV = EBITDA_n × Exit Multiple` — more market-grounded\n\nMost practitioners calculate both and cross-check. If they diverge significantly, investigate your assumptions.\n\n**3. Discount everything to present value**\n```\nPV of FCF_t = FCF_t / (1 + WACC)^t\nPV of TV = TV / (1 + WACC)^n\nEnterprise Value = Sum of all PV(FCF) + PV(TV)\n```\n\n**4. Bridge to equity value**\n```\nEquity Value = Enterprise Value − Total Debt + Cash + Investments − Minority Interests\nPer Share = Equity Value / Diluted Shares (include options via treasury stock method)\n```"
+        "content": "```\r\nUnlevered FCF = EBIT × (1 − tax rate) + D&A − CapEx − ΔWorking Capital\r\nTerminal Value = FCF_n × (1 + g) / (WACC − g)       ← Gordon Growth Model\r\nEnterprise Value = Σ(FCF_t / (1+WACC)^t) + TV / (1+WACC)^n\r\nEquity Value = Enterprise Value − Net Debt + Non-Operating Assets\r\nPer Share Value = Equity Value / Diluted Shares Outstanding\r\n```\r\n\r\n### Step-by-Step Walkthrough\r\n\r\n**1. Project free cash flows (5-10 years)**\r\nBuild from revenue down:\r\n```\r\nRevenue                         (grow at X% per year)\r\n− Cost of Goods Sold            (% of revenue)\r\n= Gross Profit\r\n− SG&A, R&D                    (% of revenue, declining toward maturity)\r\n= EBIT (Operating Income)\r\n× (1 − Tax Rate)               (tax-effected)\r\n= NOPAT\r\n+ Depreciation & Amortization  (non-cash, add back)\r\n− Capital Expenditures          (cash outflow for growth + maintenance)\r\n− Change in Working Capital     (cash tied up in A/R, inventory, less A/P)\r\n= Unlevered Free Cash Flow\r\n```\r\n\r\n**2. Calculate terminal value**\r\n\r\nTwo approaches:\r\n- **Gordon Growth Model**: `TV = FCF_n × (1 + g) / (WACC − g)` — assumes FCF grows at `g` forever\r\n- **Exit Multiple Method**: `TV = EBITDA_n × Exit Multiple` — more market-grounded\r\n\r\nMost practitioners calculate both and cross-check. If they diverge significantly, investigate your assumptions.\r\n\r\n**3. Discount everything to present value**\r\n```\r\nPV of FCF_t = FCF_t / (1 + WACC)^t\r\nPV of TV = TV / (1 + WACC)^n\r\nEnterprise Value = Sum of all PV(FCF) + PV(TV)\r\n```\r\n\r\n**4. Bridge to equity value**\r\n```\r\nEquity Value = Enterprise Value − Total Debt + Cash + Investments − Minority Interests\r\nPer Share = Equity Value / Diluted Shares (include options via treasury stock method)\r\n```"
       },
       {
         "heading": "WACC: The Discount Rate",
-        "content": "WACC is the blended cost of a company's capital — what investors (debt and equity) demand as a return.\n\n```\nWACC = (E/V) × Re + (D/V) × Rd × (1 − t)\n\nWhere:\n  E = Market value of equity\n  D = Market value of debt\n  V = E + D (total capital)\n  Re = Cost of equity (from CAPM)\n  Rd = Cost of debt (yield on company's bonds)\n  t  = Corporate tax rate\n\nCost of Equity (CAPM):\n  Re = Rf + β × (Rm − Rf) + Size Premium\n\nWhere:\n  Rf = Risk-free rate (10yr Treasury yield)\n  β  = Beta (stock volatility relative to market)\n  Rm − Rf = Equity risk premium (~5-6% historical US)\n```\n\n### Common WACC Mistakes\n- **Using book value instead of market value** for the capital structure weights\n- **Getting beta wrong**: Use unlevered beta from comps, then re-lever for target's capital structure\n- **Ignoring the size premium**: Small-cap companies should have a higher cost of equity (Duff & Phelps data)\n- **Circular reference**: WACC depends on equity value, which depends on WACC. Iterate or use target capital structure.\n\n### Typical WACC Ranges\n| Company Profile | WACC Range |\n|---|---|\n| Large-cap investment grade | 7-9% |\n| Mid-cap, moderate risk | 9-12% |\n| Small-cap or high growth | 12-16% |\n| Distressed or emerging market | 16-25% |"
+        "content": "WACC is the blended cost of a company's capital — what investors (debt and equity) demand as a return.\r\n\r\n```\r\nWACC = (E/V) × Re + (D/V) × Rd × (1 − t)\r\n\r\nWhere:\r\n  E = Market value of equity\r\n  D = Market value of debt\r\n  V = E + D (total capital)\r\n  Re = Cost of equity (from CAPM)\r\n  Rd = Cost of debt (yield on company's bonds)\r\n  t  = Corporate tax rate\r\n\r\nCost of Equity (CAPM):\r\n  Re = Rf + β × (Rm − Rf) + Size Premium\r\n\r\nWhere:\r\n  Rf = Risk-free rate (10yr Treasury yield)\r\n  β  = Beta (stock volatility relative to market)\r\n  Rm − Rf = Equity risk premium (~5-6% historical US)\r\n```\r\n\r\n### Common WACC Mistakes\r\n- **Using book value instead of market value** for the capital structure weights\r\n- **Getting beta wrong**: Use unlevered beta from comps, then re-lever for target's capital structure\r\n- **Ignoring the size premium**: Small-cap companies should have a higher cost of equity (Duff & Phelps data)\r\n- **Circular reference**: WACC depends on equity value, which depends on WACC. Iterate or use target capital structure.\r\n\r\n### Typical WACC Ranges\r\n| Company Profile | WACC Range |\r\n|---|---|\r\n| Large-cap investment grade | 7-9% |\r\n| Mid-cap, moderate risk | 9-12% |\r\n| Small-cap or high growth | 12-16% |\r\n| Distressed or emerging market | 16-25% |"
       },
       {
         "heading": "The Most Sensitive Inputs",
-        "content": "- **WACC**: A 1% change can swing valuation by 15-25%. This is the single most impactful assumption.\n- **Terminal growth rate (g)**: Usually 2-3% (GDP growth). Going from 2% to 3% with a 9% WACC increases terminal value by ~17%.\n- **FCF margin trajectory**: Where do margins stabilize at maturity? The difference between 15% and 20% mature FCF margin is enormous over a perpetuity."
+        "content": "- **WACC**: A 1% change can swing valuation by 15-25%. This is the single most impactful assumption.\r\n- **Terminal growth rate (g)**: Usually 2-3% (GDP growth). Going from 2% to 3% with a 9% WACC increases terminal value by ~17%.\r\n- **FCF margin trajectory**: Where do margins stabilize at maturity? The difference between 15% and 20% mature FCF margin is enormous over a perpetuity."
       },
       {
         "heading": "The Uncomfortable Truth: Terminal Value Dominance",
-        "content": "Terminal value typically represents **60-80%** of total DCF value. This means you're essentially valuing the company based on an assumption about what happens *after* your explicit forecast period.\n\n```\nExample (10% WACC, 3% terminal growth):\nYear 1-5 FCF PV:   $450M     (22% of EV)\nYear 6-10 FCF PV:  $320M     (16% of EV)\nTerminal Value PV:  $1,280M   (62% of EV)\nTotal EV:          $2,050M\n```\n\n**Mitigation strategies:**\n- Extend the explicit forecast to 10 years (pushes TV further out, reducing its PV)\n- Cross-check TV implied multiple: `TV / EBITDA_n` should produce a reasonable exit multiple\n- Use exit multiple method as a sanity check against Gordon Growth\n- Run sensitivity analysis on terminal growth rate"
+        "content": "Terminal value typically represents **60-80%** of total DCF value. This means you're essentially valuing the company based on an assumption about what happens *after* your explicit forecast period.\r\n\r\n```\r\nExample (10% WACC, 3% terminal growth):\r\nYear 1-5 FCF PV:   $450M     (22% of EV)\r\nYear 6-10 FCF PV:  $320M     (16% of EV)\r\nTerminal Value PV:  $1,280M   (62% of EV)\r\nTotal EV:          $2,050M\r\n```\r\n\r\n**Mitigation strategies:**\r\n- Extend the explicit forecast to 10 years (pushes TV further out, reducing its PV)\r\n- Cross-check TV implied multiple: `TV / EBITDA_n` should produce a reasonable exit multiple\r\n- Use exit multiple method as a sanity check against Gordon Growth\r\n- Run sensitivity analysis on terminal growth rate"
       },
       {
         "heading": "Complete Python Implementation",
-        "content": "```python\n\"\"\"\nDCF Model — Full Implementation with Sensitivity and Monte Carlo\nRun with: python dcf_model.py\nRequires: pip install numpy pandas\n\"\"\"\nimport numpy as np\nimport pandas as pd\nfrom typing import Dict, List, Optional\n\n\nclass DCFModel:\n    \"\"\"Discounted Cash Flow model with sensitivity and Monte Carlo support.\"\"\"\n\n    def __init__(\n        self,\n        base_revenue: float = 10_000,     # Current revenue ($M)\n        revenue_growth: List[float] = None, # Year-by-year growth rates\n        ebitda_margin: List[float] = None,  # Year-by-year EBITDA margins\n        da_pct: float = 0.03,              # D&A as % of revenue\n        capex_pct: float = 0.05,           # CapEx as % of revenue\n        nwc_pct_change: float = 0.01,      # NWC change as % of revenue change\n        tax_rate: float = 0.25,\n        wacc: float = 0.10,\n        terminal_growth: float = 0.025,\n        projection_years: int = 5,\n        net_debt: float = 2_000,           # Total debt minus cash ($M)\n        shares_outstanding: float = 500,    # Diluted shares (M)\n    ):\n        self.base_revenue = base_revenue\n        self.revenue_growth = revenue_growth or [0.12, 0.10, 0.08, 0.06, 0.04]\n        self.ebitda_margin = ebitda_margin or [0.25, 0.26, 0.27, 0.28, 0.29]\n        self.da_pct = da_pct\n        self.capex_pct = capex_pct\n        self.nwc_pct_change = nwc_pct_change\n        self.tax_rate = tax_rate\n        self.wacc = wacc\n        self.terminal_growth = terminal_growth\n        self.projection_years = projection_years\n        self.net_debt = net_debt\n        self.shares_outstanding = shares_outstanding\n\n    def project_fcf(self) -> pd.DataFrame:\n        \"\"\"Build year-by-year FCF projections.\"\"\"\n        rows = []\n        prev_revenue = self.base_revenue\n\n        for i in range(self.projection_years):\n            year = i + 1\n            growth = self.revenue_growth[i] if i < len(self.revenue_growth) else self.revenue_growth[-1]\n            margin = self.ebitda_margin[i] if i < len(self.ebitda_margin) else self.ebitda_margin[-1]\n\n            revenue = prev_revenue * (1 + growth)\n            ebitda = revenue * margin\n            da = revenue * self.da_pct\n            ebit = ebitda - da\n            nopat = ebit * (1 - self.tax_rate)\n            capex = revenue * self.capex_pct\n            delta_nwc = (revenue - prev_revenue) * self.nwc_pct_change\n            fcf = nopat + da - capex - delta_nwc\n\n            discount_factor = 1 / (1 + self.wacc) ** year\n            pv_fcf = fcf * discount_factor\n\n            rows.append({\n                \"year\": year,\n                \"revenue\": round(revenue, 1),\n                \"ebitda\": round(ebitda, 1),\n                \"ebit\": round(ebit, 1),\n                \"nopat\": round(nopat, 1),\n                \"capex\": round(capex, 1),\n                \"fcf\": round(fcf, 1),\n                \"discount_factor\": round(discount_factor, 4),\n                \"pv_fcf\": round(pv_fcf, 1),\n            })\n            prev_revenue = revenue\n\n        return pd.DataFrame(rows)\n\n    def terminal_value(self, last_fcf: float) -> Dict:\n        \"\"\"Calculate terminal value using both methods.\"\"\"\n        # Gordon Growth Model\n        gordon_tv = last_fcf * (1 + self.terminal_growth) / (self.wacc - self.terminal_growth)\n        pv_gordon = gordon_tv / (1 + self.wacc) ** self.projection_years\n\n        return {\n            \"gordon_tv\": round(gordon_tv, 1),\n            \"pv_gordon\": round(pv_gordon, 1),\n        }\n\n    def valuation(self) -> Dict:\n        \"\"\"Run the full DCF valuation.\"\"\"\n        projections = self.project_fcf()\n        sum_pv_fcf = projections[\"pv_fcf\"].sum()\n        last_fcf = projections.iloc[-1][\"fcf\"]\n\n        tv = self.terminal_value(last_fcf)\n\n        enterprise_value = sum_pv_fcf + tv[\"pv_gordon\"]\n        equity_value = enterprise_value - self.net_debt\n        per_share = equity_value / self.shares_outstanding\n\n        tv_pct = tv[\"pv_gordon\"] / enterprise_value * 100\n\n        return {\n            \"projections\": projections,\n            \"sum_pv_fcf\": round(sum_pv_fcf, 1),\n            \"terminal_value\": tv[\"gordon_tv\"],\n            \"pv_terminal_value\": tv[\"pv_gordon\"],\n            \"enterprise_value\": round(enterprise_value, 1),\n            \"equity_value\": round(equity_value, 1),\n            \"per_share_value\": round(per_share, 2),\n            \"tv_pct_of_ev\": round(tv_pct, 1),\n        }\n\n    def sensitivity_table(\n        self,\n        wacc_range: List[float] = None,\n        growth_range: List[float] = None,\n    ) -> pd.DataFrame:\n        \"\"\"Build a WACC vs. Terminal Growth sensitivity table (per share values).\"\"\"\n        wacc_range = wacc_range or [0.08, 0.09, 0.10, 0.11, 0.12]\n        growth_range = growth_range or [0.015, 0.020, 0.025, 0.030, 0.035]\n\n        results = []\n        for w in wacc_range:\n            row = {\"wacc\": f\"{w:.1%}\"}\n            for g in growth_range:\n                self.wacc = w\n                self.terminal_growth = g\n                v = self.valuation()\n                row[f\"g={g:.1%}\"] = v[\"per_share_value\"]\n            results.append(row)\n\n        return pd.DataFrame(results).set_index(\"wacc\")\n\n    def monte_carlo(\n        self,\n        n_sims: int = 10_000,\n        wacc_mean: float = 0.10,\n        wacc_std: float = 0.015,\n        growth_mean: float = 0.025,\n        growth_std: float = 0.005,\n        margin_std: float = 0.02,\n    ) -> Dict:\n        \"\"\"\n        Monte Carlo DCF — randomize key inputs across distributions.\n        Returns distribution of per-share values.\n        \"\"\"\n        per_share_values = []\n        base_margins = list(self.ebitda_margin)\n\n        for _ in range(n_sims):\n            # Randomize inputs\n            self.wacc = np.random.normal(wacc_mean, wacc_std)\n            self.wacc = max(0.05, min(0.20, self.wacc))  # Clamp\n\n            self.terminal_growth = np.random.normal(growth_mean, growth_std)\n            self.terminal_growth = max(0.005, min(self.wacc - 0.01, self.terminal_growth))\n\n            # Randomize margins slightly\n            self.ebitda_margin = [\n                max(0.05, min(0.50, m + np.random.normal(0, margin_std)))\n                for m in base_margins\n            ]\n\n            try:\n                v = self.valuation()\n                per_share_values.append(v[\"per_share_value\"])\n            except Exception:\n                continue  # Skip invalid parameter combos\n\n        # Reset\n        self.ebitda_margin = base_margins\n\n        values = np.array(per_share_values)\n        return {\n            \"n_sims\": len(values),\n            \"mean\": round(float(np.mean(values)), 2),\n            \"median\": round(float(np.median(values)), 2),\n            \"std\": round(float(np.std(values)), 2),\n            \"p10\": round(float(np.percentile(values, 10)), 2),\n            \"p25\": round(float(np.percentile(values, 25)), 2),\n            \"p75\": round(float(np.percentile(values, 75)), 2),\n            \"p90\": round(float(np.percentile(values, 90)), 2),\n            \"min\": round(float(np.min(values)), 2),\n            \"max\": round(float(np.max(values)), 2),\n        }\n\n\ndef real_world_example():\n    \"\"\"\n    Walkthrough: Simplified DCF for a company resembling Apple.\n    All numbers are illustrative — not actual Apple projections.\n    \"\"\"\n    print(\"=\" * 60)\n    print(\"REAL-WORLD EXAMPLE: Large-Cap Tech DCF\")\n    print(\"=\" * 60)\n\n    model = DCFModel(\n        base_revenue=400_000,              # ~$400B revenue\n        revenue_growth=[0.06, 0.05, 0.04, 0.04, 0.03],\n        ebitda_margin=[0.35, 0.35, 0.34, 0.34, 0.33],\n        da_pct=0.03,\n        capex_pct=0.03,\n        nwc_pct_change=0.005,\n        tax_rate=0.21,\n        wacc=0.095,\n        terminal_growth=0.025,\n        projection_years=5,\n        net_debt=-50_000,                  # Net cash position (negative = net cash)\n        shares_outstanding=15_500,         # ~15.5B diluted shares\n    )\n\n    result = model.valuation()\n\n    print(\"\\n--- Projected Free Cash Flows ---\")\n    print(result[\"projections\"]\"year\", \"revenue\", \"ebitda\", \"fcf\", \"pv_fcf\".to_string(index=False))\n\n    print(f\"\\n--- Valuation Summary ---\")\n    print(f\"  Sum of PV(FCF):        ${result['sum_pv_fcf']:>12,.1f}M\")\n    print(f\"  PV(Terminal Value):     ${result['pv_terminal_value']:>12,.1f}M\")\n    print(f\"  Enterprise Value:       ${result['enterprise_value']:>12,.1f}M\")\n    print(f\"  Equity Value:           ${result['equity_value']:>12,.1f}M\")\n    print(f\"  Per Share Value:        ${result['per_share_value']:>12.2f}\")\n    print(f\"  TV as % of EV:          {result['tv_pct_of_ev']:>11.1f}%\")\n\n    return model\n\n\nif __name__ == \"__main__\":\n    # --- Base Case ---\n    print(\"=== BASE CASE DCF ===\")\n    model = DCFModel()\n    result = model.valuation()\n\n    print(\"\\n--- Projections ---\")\n    print(result[\"projections\"]\"year\", \"revenue\", \"ebitda\", \"fcf\", \"pv_fcf\".to_string(index=False))\n    print(f\"\\n  Enterprise Value: ${result['enterprise_value']:,.1f}M\")\n    print(f\"  Equity Value:     ${result['equity_value']:,.1f}M\")\n    print(f\"  Per Share Value:  ${result['per_share_value']:.2f}\")\n    print(f\"  TV % of EV:       {result['tv_pct_of_ev']:.1f}%\")\n\n    # --- Sensitivity Table ---\n    print(\"\\n=== SENSITIVITY: WACC vs. Terminal Growth (Per Share $) ===\")\n    sens = model.sensitivity_table()\n    print(sens.to_string())\n\n    # --- Monte Carlo ---\n    print(\"\\n=== MONTE CARLO DCF (10,000 simulations) ===\")\n    mc = model.monte_carlo(n_sims=10_000)\n    for k, v in mc.items():\n        print(f\"  {k}: {v}\")\n\n    # --- Real World Example ---\n    print()\n    real_model = real_world_example()\n\n    # Sensitivity for the real-world example\n    print(\"\\n=== SENSITIVITY (Large-Cap Tech) ===\")\n    sens2 = real_model.sensitivity_table(\n        wacc_range=[0.085, 0.090, 0.095, 0.100, 0.105],\n        growth_range=[0.020, 0.025, 0.030],\n    )\n    print(sens2.to_string())\n```"
+        "content": "```python\r\n\"\"\"\r\nDCF Model — Full Implementation with Sensitivity and Monte Carlo\r\nRun with: python dcf_model.py\r\nRequires: pip install numpy pandas\r\n\"\"\"\r\nimport numpy as np\r\nimport pandas as pd\r\nfrom typing import Dict, List, Optional\r\n\r\n\r\nclass DCFModel:\r\n    \"\"\"Discounted Cash Flow model with sensitivity and Monte Carlo support.\"\"\"\r\n\r\n    def __init__(\r\n        self,\r\n        base_revenue: float = 10_000,     # Current revenue ($M)\r\n        revenue_growth: List[float] = None, # Year-by-year growth rates\r\n        ebitda_margin: List[float] = None,  # Year-by-year EBITDA margins\r\n        da_pct: float = 0.03,              # D&A as % of revenue\r\n        capex_pct: float = 0.05,           # CapEx as % of revenue\r\n        nwc_pct_change: float = 0.01,      # NWC change as % of revenue change\r\n        tax_rate: float = 0.25,\r\n        wacc: float = 0.10,\r\n        terminal_growth: float = 0.025,\r\n        projection_years: int = 5,\r\n        net_debt: float = 2_000,           # Total debt minus cash ($M)\r\n        shares_outstanding: float = 500,    # Diluted shares (M)\r\n    ):\r\n        self.base_revenue = base_revenue\r\n        self.revenue_growth = revenue_growth or [0.12, 0.10, 0.08, 0.06, 0.04]\r\n        self.ebitda_margin = ebitda_margin or [0.25, 0.26, 0.27, 0.28, 0.29]\r\n        self.da_pct = da_pct\r\n        self.capex_pct = capex_pct\r\n        self.nwc_pct_change = nwc_pct_change\r\n        self.tax_rate = tax_rate\r\n        self.wacc = wacc\r\n        self.terminal_growth = terminal_growth\r\n        self.projection_years = projection_years\r\n        self.net_debt = net_debt\r\n        self.shares_outstanding = shares_outstanding\r\n\r\n    def project_fcf(self) -> pd.DataFrame:\r\n        \"\"\"Build year-by-year FCF projections.\"\"\"\r\n        rows = []\r\n        prev_revenue = self.base_revenue\r\n\r\n        for i in range(self.projection_years):\r\n            year = i + 1\r\n            growth = self.revenue_growth[i] if i < len(self.revenue_growth) else self.revenue_growth[-1]\r\n            margin = self.ebitda_margin[i] if i < len(self.ebitda_margin) else self.ebitda_margin[-1]\r\n\r\n            revenue = prev_revenue * (1 + growth)\r\n            ebitda = revenue * margin\r\n            da = revenue * self.da_pct\r\n            ebit = ebitda - da\r\n            nopat = ebit * (1 - self.tax_rate)\r\n            capex = revenue * self.capex_pct\r\n            delta_nwc = (revenue - prev_revenue) * self.nwc_pct_change\r\n            fcf = nopat + da - capex - delta_nwc\r\n\r\n            discount_factor = 1 / (1 + self.wacc) ** year\r\n            pv_fcf = fcf * discount_factor\r\n\r\n            rows.append({\r\n                \"year\": year,\r\n                \"revenue\": round(revenue, 1),\r\n                \"ebitda\": round(ebitda, 1),\r\n                \"ebit\": round(ebit, 1),\r\n                \"nopat\": round(nopat, 1),\r\n                \"capex\": round(capex, 1),\r\n                \"fcf\": round(fcf, 1),\r\n                \"discount_factor\": round(discount_factor, 4),\r\n                \"pv_fcf\": round(pv_fcf, 1),\r\n            })\r\n            prev_revenue = revenue\r\n\r\n        return pd.DataFrame(rows)\r\n\r\n    def terminal_value(self, last_fcf: float) -> Dict:\r\n        \"\"\"Calculate terminal value using both methods.\"\"\"\r\n        # Gordon Growth Model\r\n        gordon_tv = last_fcf * (1 + self.terminal_growth) / (self.wacc - self.terminal_growth)\r\n        pv_gordon = gordon_tv / (1 + self.wacc) ** self.projection_years\r\n\r\n        return {\r\n            \"gordon_tv\": round(gordon_tv, 1),\r\n            \"pv_gordon\": round(pv_gordon, 1),\r\n        }\r\n\r\n    def valuation(self) -> Dict:\r\n        \"\"\"Run the full DCF valuation.\"\"\"\r\n        projections = self.project_fcf()\r\n        sum_pv_fcf = projections[\"pv_fcf\"].sum()\r\n        last_fcf = projections.iloc[-1][\"fcf\"]\r\n\r\n        tv = self.terminal_value(last_fcf)\r\n\r\n        enterprise_value = sum_pv_fcf + tv[\"pv_gordon\"]\r\n        equity_value = enterprise_value - self.net_debt\r\n        per_share = equity_value / self.shares_outstanding\r\n\r\n        tv_pct = tv[\"pv_gordon\"] / enterprise_value * 100\r\n\r\n        return {\r\n            \"projections\": projections,\r\n            \"sum_pv_fcf\": round(sum_pv_fcf, 1),\r\n            \"terminal_value\": tv[\"gordon_tv\"],\r\n            \"pv_terminal_value\": tv[\"pv_gordon\"],\r\n            \"enterprise_value\": round(enterprise_value, 1),\r\n            \"equity_value\": round(equity_value, 1),\r\n            \"per_share_value\": round(per_share, 2),\r\n            \"tv_pct_of_ev\": round(tv_pct, 1),\r\n        }\r\n\r\n    def sensitivity_table(\r\n        self,\r\n        wacc_range: List[float] = None,\r\n        growth_range: List[float] = None,\r\n    ) -> pd.DataFrame:\r\n        \"\"\"Build a WACC vs. Terminal Growth sensitivity table (per share values).\"\"\"\r\n        wacc_range = wacc_range or [0.08, 0.09, 0.10, 0.11, 0.12]\r\n        growth_range = growth_range or [0.015, 0.020, 0.025, 0.030, 0.035]\r\n\r\n        results = []\r\n        for w in wacc_range:\r\n            row = {\"wacc\": f\"{w:.1%}\"}\r\n            for g in growth_range:\r\n                self.wacc = w\r\n                self.terminal_growth = g\r\n                v = self.valuation()\r\n                row[f\"g={g:.1%}\"] = v[\"per_share_value\"]\r\n            results.append(row)\r\n\r\n        return pd.DataFrame(results).set_index(\"wacc\")\r\n\r\n    def monte_carlo(\r\n        self,\r\n        n_sims: int = 10_000,\r\n        wacc_mean: float = 0.10,\r\n        wacc_std: float = 0.015,\r\n        growth_mean: float = 0.025,\r\n        growth_std: float = 0.005,\r\n        margin_std: float = 0.02,\r\n    ) -> Dict:\r\n        \"\"\"\r\n        Monte Carlo DCF — randomize key inputs across distributions.\r\n        Returns distribution of per-share values.\r\n        \"\"\"\r\n        per_share_values = []\r\n        base_margins = list(self.ebitda_margin)\r\n\r\n        for _ in range(n_sims):\r\n            # Randomize inputs\r\n            self.wacc = np.random.normal(wacc_mean, wacc_std)\r\n            self.wacc = max(0.05, min(0.20, self.wacc))  # Clamp\r\n\r\n            self.terminal_growth = np.random.normal(growth_mean, growth_std)\r\n            self.terminal_growth = max(0.005, min(self.wacc - 0.01, self.terminal_growth))\r\n\r\n            # Randomize margins slightly\r\n            self.ebitda_margin = [\r\n                max(0.05, min(0.50, m + np.random.normal(0, margin_std)))\r\n                for m in base_margins\r\n            ]\r\n\r\n            try:\r\n                v = self.valuation()\r\n                per_share_values.append(v[\"per_share_value\"])\r\n            except Exception:\r\n                continue  # Skip invalid parameter combos\r\n\r\n        # Reset\r\n        self.ebitda_margin = base_margins\r\n\r\n        values = np.array(per_share_values)\r\n        return {\r\n            \"n_sims\": len(values),\r\n            \"mean\": round(float(np.mean(values)), 2),\r\n            \"median\": round(float(np.median(values)), 2),\r\n            \"std\": round(float(np.std(values)), 2),\r\n            \"p10\": round(float(np.percentile(values, 10)), 2),\r\n            \"p25\": round(float(np.percentile(values, 25)), 2),\r\n            \"p75\": round(float(np.percentile(values, 75)), 2),\r\n            \"p90\": round(float(np.percentile(values, 90)), 2),\r\n            \"min\": round(float(np.min(values)), 2),\r\n            \"max\": round(float(np.max(values)), 2),\r\n        }\r\n\r\n\r\ndef real_world_example():\r\n    \"\"\"\r\n    Walkthrough: Simplified DCF for a company resembling Apple.\r\n    All numbers are illustrative — not actual Apple projections.\r\n    \"\"\"\r\n    print(\"=\" * 60)\r\n    print(\"REAL-WORLD EXAMPLE: Large-Cap Tech DCF\")\r\n    print(\"=\" * 60)\r\n\r\n    model = DCFModel(\r\n        base_revenue=400_000,              # ~$400B revenue\r\n        revenue_growth=[0.06, 0.05, 0.04, 0.04, 0.03],\r\n        ebitda_margin=[0.35, 0.35, 0.34, 0.34, 0.33],\r\n        da_pct=0.03,\r\n        capex_pct=0.03,\r\n        nwc_pct_change=0.005,\r\n        tax_rate=0.21,\r\n        wacc=0.095,\r\n        terminal_growth=0.025,\r\n        projection_years=5,\r\n        net_debt=-50_000,                  # Net cash position (negative = net cash)\r\n        shares_outstanding=15_500,         # ~15.5B diluted shares\r\n    )\r\n\r\n    result = model.valuation()\r\n\r\n    print(\"\\n--- Projected Free Cash Flows ---\")\r\n    print(result[\"projections\"]\"year\", \"revenue\", \"ebitda\", \"fcf\", \"pv_fcf\".to_string(index=False))\r\n\r\n    print(f\"\\n--- Valuation Summary ---\")\r\n    print(f\"  Sum of PV(FCF):        ${result['sum_pv_fcf']:>12,.1f}M\")\r\n    print(f\"  PV(Terminal Value):     ${result['pv_terminal_value']:>12,.1f}M\")\r\n    print(f\"  Enterprise Value:       ${result['enterprise_value']:>12,.1f}M\")\r\n    print(f\"  Equity Value:           ${result['equity_value']:>12,.1f}M\")\r\n    print(f\"  Per Share Value:        ${result['per_share_value']:>12.2f}\")\r\n    print(f\"  TV as % of EV:          {result['tv_pct_of_ev']:>11.1f}%\")\r\n\r\n    return model\r\n\r\n\r\nif __name__ == \"__main__\":\r\n    # --- Base Case ---\r\n    print(\"=== BASE CASE DCF ===\")\r\n    model = DCFModel()\r\n    result = model.valuation()\r\n\r\n    print(\"\\n--- Projections ---\")\r\n    print(result[\"projections\"]\"year\", \"revenue\", \"ebitda\", \"fcf\", \"pv_fcf\".to_string(index=False))\r\n    print(f\"\\n  Enterprise Value: ${result['enterprise_value']:,.1f}M\")\r\n    print(f\"  Equity Value:     ${result['equity_value']:,.1f}M\")\r\n    print(f\"  Per Share Value:  ${result['per_share_value']:.2f}\")\r\n    print(f\"  TV % of EV:       {result['tv_pct_of_ev']:.1f}%\")\r\n\r\n    # --- Sensitivity Table ---\r\n    print(\"\\n=== SENSITIVITY: WACC vs. Terminal Growth (Per Share $) ===\")\r\n    sens = model.sensitivity_table()\r\n    print(sens.to_string())\r\n\r\n    # --- Monte Carlo ---\r\n    print(\"\\n=== MONTE CARLO DCF (10,000 simulations) ===\")\r\n    mc = model.monte_carlo(n_sims=10_000)\r\n    for k, v in mc.items():\r\n        print(f\"  {k}: {v}\")\r\n\r\n    # --- Real World Example ---\r\n    print()\r\n    real_model = real_world_example()\r\n\r\n    # Sensitivity for the real-world example\r\n    print(\"\\n=== SENSITIVITY (Large-Cap Tech) ===\")\r\n    sens2 = real_model.sensitivity_table(\r\n        wacc_range=[0.085, 0.090, 0.095, 0.100, 0.105],\r\n        growth_range=[0.020, 0.025, 0.030],\r\n    )\r\n    print(sens2.to_string())\r\n```"
       },
       {
         "heading": "Common Pitfalls (and How to Avoid Them)",
-        "content": "### 1. Terminal Value Dominance\n**Problem**: TV is 75%+ of your enterprise value, making the model a glorified Gordon Growth calculation.\n**Fix**: Extend explicit forecast to 10 years. Cross-check implied terminal EV/EBITDA — if it implies 30x for a mature business, your growth rate is too high.\n\n### 2. WACC Estimation Errors\n**Problem**: WACC is the most sensitive input and the hardest to estimate correctly.\n**Fix**: Use multiple beta sources (5-year monthly, 2-year weekly). Sanity check with unlevered betas from comps. Run sensitivity +/- 200bp around your base case.\n\n### 3. Hockey Stick Projections\n**Problem**: Revenue growth decelerating from 30% to 5% in year 5, then magically sustaining forever.\n**Fix**: Build a revenue bridge (new customers x ASP + expansion - churn). If you can't justify the growth bottoms-up, you're guessing.\n\n### 4. Ignoring Working Capital\n**Problem**: Treating NWC as zero or constant. For high-growth companies, working capital requirements can consume significant cash.\n**Fix**: Model each component (DSO, DIO, DPO) separately. Benchmark against industry. Fast-growing companies with long collection cycles (enterprise software) burn cash on receivables growth.\n\n### 5. CapEx Confusion\n**Problem**: Using maintenance CapEx when the company is investing heavily for growth, or vice versa.\n**Fix**: Separate growth CapEx (building new capacity) from maintenance CapEx (replacing existing assets). Only maintenance CapEx continues into terminal value — growth CapEx should decline as the company matures.\n\n### 6. Circular WACC\n**Problem**: WACC uses equity value weight, but equity value is the output of the DCF.\n**Fix**: Either iterate (set initial WACC, solve, recalculate WACC, repeat) or use target capital structure from comps.\n\n### 7. Not Sanity-Checking Against Market\n**Problem**: Your DCF says $200/share, the stock trades at $100. You assume you're right and the market is wrong.\n**Fix**: Bridge the gap. Your DCF implies 25x forward EBITDA — comps trade at 12x. Either justify the premium or re-examine assumptions. The market isn't always right, but it's rarely 2x wrong."
+        "content": "### 1. Terminal Value Dominance\r\n**Problem**: TV is 75%+ of your enterprise value, making the model a glorified Gordon Growth calculation.\r\n**Fix**: Extend explicit forecast to 10 years. Cross-check implied terminal EV/EBITDA — if it implies 30x for a mature business, your growth rate is too high.\r\n\r\n### 2. WACC Estimation Errors\r\n**Problem**: WACC is the most sensitive input and the hardest to estimate correctly.\r\n**Fix**: Use multiple beta sources (5-year monthly, 2-year weekly). Sanity check with unlevered betas from comps. Run sensitivity +/- 200bp around your base case.\r\n\r\n### 3. Hockey Stick Projections\r\n**Problem**: Revenue growth decelerating from 30% to 5% in year 5, then magically sustaining forever.\r\n**Fix**: Build a revenue bridge (new customers x ASP + expansion - churn). If you can't justify the growth bottoms-up, you're guessing.\r\n\r\n### 4. Ignoring Working Capital\r\n**Problem**: Treating NWC as zero or constant. For high-growth companies, working capital requirements can consume significant cash.\r\n**Fix**: Model each component (DSO, DIO, DPO) separately. Benchmark against industry. Fast-growing companies with long collection cycles (enterprise software) burn cash on receivables growth.\r\n\r\n### 5. CapEx Confusion\r\n**Problem**: Using maintenance CapEx when the company is investing heavily for growth, or vice versa.\r\n**Fix**: Separate growth CapEx (building new capacity) from maintenance CapEx (replacing existing assets). Only maintenance CapEx continues into terminal value — growth CapEx should decline as the company matures.\r\n\r\n### 6. Circular WACC\r\n**Problem**: WACC uses equity value weight, but equity value is the output of the DCF.\r\n**Fix**: Either iterate (set initial WACC, solve, recalculate WACC, repeat) or use target capital structure from comps.\r\n\r\n### 7. Not Sanity-Checking Against Market\r\n**Problem**: Your DCF says $200/share, the stock trades at $100. You assume you're right and the market is wrong.\r\n**Fix**: Bridge the gap. Your DCF implies 25x forward EBITDA — comps trade at 12x. Either justify the premium or re-examine assumptions. The market isn't always right, but it's rarely 2x wrong."
       },
       {
         "heading": "Monte Carlo DCF: Why It Matters",
-        "content": "A traditional DCF gives you a **single number** based on point estimates. But every input is uncertain. Monte Carlo simulation acknowledges this by:\n\n1. Defining probability distributions for each uncertain input (WACC, growth, margins)\n2. Running thousands of simulations with random draws from those distributions\n3. Producing a **distribution of outcomes** instead of a single value\n\nThe output tells you:\n- \"There's a 25% chance the stock is worth less than $X\" (P25)\n- \"The median fair value is $Y\" (P50)\n- \"There's only a 10% chance it's worth more than $Z\" (P90)\n\nThis is far more useful for decision-making than a single DCF number. It explicitly shows how much uncertainty exists in your valuation."
+        "content": "A traditional DCF gives you a **single number** based on point estimates. But every input is uncertain. Monte Carlo simulation acknowledges this by:\r\n\r\n1. Defining probability distributions for each uncertain input (WACC, growth, margins)\r\n2. Running thousands of simulations with random draws from those distributions\r\n3. Producing a **distribution of outcomes** instead of a single value\r\n\r\nThe output tells you:\r\n- \"There's a 25% chance the stock is worth less than $X\" (P25)\r\n- \"The median fair value is $Y\" (P50)\r\n- \"There's only a 10% chance it's worth more than $Z\" (P90)\r\n\r\nThis is far more useful for decision-making than a single DCF number. It explicitly shows how much uncertainty exists in your valuation."
       },
       {
         "heading": "Apply It",
-        "content": "- **Core Vault feature**: Claude generates narrative FCF assumptions + sensitivity tables\n- Pull income statements from OpenBB, feed into the DCFModel class, Claude writes the investment narrative\n- Sensitivity analysis as an interactive feature (\"growth 5% vs. 10%\") — render as a heatmap\n- Monte Carlo mode: show the distribution of outcomes alongside the base case\n- Compare DCF-implied value to trading comps and precedent transactions for a complete valuation picture"
+        "content": "- **Core Vault feature**: Claude generates narrative FCF assumptions + sensitivity tables\r\n- Pull income statements from OpenBB, feed into the DCFModel class, Claude writes the investment narrative\r\n- Sensitivity analysis as an interactive feature (\"growth 5% vs. 10%\") — render as a heatmap\r\n- Monte Carlo mode: show the distribution of outcomes alongside the base case\r\n- Compare DCF-implied value to trading comps and precedent transactions for a complete valuation picture"
       },
       {
         "heading": "Research Next Steps",
-        "content": "- [ ] Build a 5-year DCF for Apple in Python using OpenBB financials\n- [ ] Understand WACC calculation: risk-free rate + beta x equity risk premium\n- [ ] Model a sensitivity table: what does value per share look like at WACC 8%/10%/12% x g 2%/3%/4%?\n- [ ] Implement the Monte Carlo variation and visualize the distribution with matplotlib\n- [ ] Study how analysts handle negative FCF companies (biotech, high-growth SaaS) in a DCF\n- [ ] Compare Gordon Growth vs. Exit Multiple terminal value for the same company — when do they diverge?\n- [ ] Build a WACC calculator that pulls beta, risk-free rate, and credit spreads from live data\n- [ ] Model a reverse DCF: \"What growth rate is the market pricing in at the current stock price?\""
+        "content": "- [ ] Build a 5-year DCF for Apple in Python using OpenBB financials\r\n- [ ] Understand WACC calculation: risk-free rate + beta x equity risk premium\r\n- [ ] Model a sensitivity table: what does value per share look like at WACC 8%/10%/12% x g 2%/3%/4%?\r\n- [ ] Implement the Monte Carlo variation and visualize the distribution with matplotlib\r\n- [ ] Study how analysts handle negative FCF companies (biotech, high-growth SaaS) in a DCF\r\n- [ ] Compare Gordon Growth vs. Exit Multiple terminal value for the same company — when do they diverge?\r\n- [ ] Build a WACC calculator that pulls beta, risk-free rate, and credit spreads from live data\r\n- [ ] Model a reverse DCF: \"What growth rate is the market pricing in at the current stock price?\""
       }
     ],
     "related": [
@@ -11425,51 +11042,51 @@ export const pods: Pod[] = [
     "sections": [
       {
         "heading": "What It Is",
-        "content": "An LBO model values a company by simulating what a private equity firm would pay for it. The acquisition is funded primarily with debt (60-80%), with the PE fund contributing equity for the remainder. Over a 5-7 year hold period, the company's free cash flow pays down that debt. At exit, the PE firm sells the company and collects whatever equity value remains after repaying outstanding debt.\n\nThe LBO is not about \"what is this company worth intrinsically?\" (that's DCF). It's about **\"what can I pay for this company and still hit my return target?\"** The answer works backward from a target IRR (typically 20%+) to derive a maximum purchase price."
+        "content": "An LBO model values a company by simulating what a private equity firm would pay for it. The acquisition is funded primarily with debt (60-80%), with the PE fund contributing equity for the remainder. Over a 5-7 year hold period, the company's free cash flow pays down that debt. At exit, the PE firm sells the company and collects whatever equity value remains after repaying outstanding debt.\r\n\r\nThe LBO is not about \"what is this company worth intrinsically?\" (that's DCF). It's about **\"what can I pay for this company and still hit my return target?\"** The answer works backward from a target IRR (typically 20%+) to derive a maximum purchase price."
       },
       {
         "heading": "Why PE Firms Use Leverage",
-        "content": "Leverage amplifies equity returns. If you buy a $1B company with $300M equity and $700M debt, and sell it for $1.5B after paying debt down to $400M:\n\n```\nExit equity = $1,500M − $400M = $1,100M\nEntry equity = $300M\nMOIC = $1,100M / $300M = 3.67x\n```\n\nWithout leverage (all equity), MOIC would be $1,500M / $1,000M = 1.5x. Same company, same growth — but leverage turned 1.5x into 3.67x.\n\n**The three levers of LBO returns:**\n1. **Debt paydown** — FCF retires debt, growing equity value even if EBITDA is flat\n2. **EBITDA growth** — Revenue growth and margin expansion increase enterprise value\n3. **Multiple expansion** — Selling at a higher EV/EBITDA multiple than you bought at (never assume this in your base case)"
+        "content": "Leverage amplifies equity returns. If you buy a $1B company with $300M equity and $700M debt, and sell it for $1.5B after paying debt down to $400M:\r\n\r\n```\r\nExit equity = $1,500M − $400M = $1,100M\r\nEntry equity = $300M\r\nMOIC = $1,100M / $300M = 3.67x\r\n```\r\n\r\nWithout leverage (all equity), MOIC would be $1,500M / $1,000M = 1.5x. Same company, same growth — but leverage turned 1.5x into 3.67x.\r\n\r\n**The three levers of LBO returns:**\r\n1. **Debt paydown** — FCF retires debt, growing equity value even if EBITDA is flat\r\n2. **EBITDA growth** — Revenue growth and margin expansion increase enterprise value\r\n3. **Multiple expansion** — Selling at a higher EV/EBITDA multiple than you bought at (never assume this in your base case)"
       },
       {
         "heading": "Sources & Uses",
-        "content": "Every LBO starts with a sources & uses table — where the money comes from and where it goes:\n\n```\nSOURCES                          USES\n────────────────────────────     ────────────────────────────\nSenior Secured Debt    $500M     Enterprise Value      $900M\nSubordinated Debt      $200M     Transaction Fees       $25M\nSponsor Equity         $225M     Financing Fees         $15M\nRollover Equity         $15M     Cash to Balance Sheet  $10M\n────────────────────────────     ────────────────────────────\nTotal Sources          $940M     Total Uses            $950M\n                                 (Sources MUST = Uses)\n```\n\n**Debt tranches** (from cheapest/most senior to most expensive/most junior):\n| Tranche | Typical Rate | Amortization | Priority |\n|---|---|---|---|\n| Revolver | SOFR + 200-300bp | Interest only | 1st (secured) |\n| Term Loan A | SOFR + 250-350bp | Amortizing (5-10%/yr) | 1st (secured) |\n| Term Loan B | SOFR + 300-450bp | 1% annual, bullet at maturity | 1st (secured) |\n| High Yield Bonds | 6-10% fixed | Bullet maturity | 2nd (unsecured) |\n| Mezzanine | 10-15% (incl. PIK) | Bullet | 3rd (subordinated) |"
+        "content": "Every LBO starts with a sources & uses table — where the money comes from and where it goes:\r\n\r\n```\r\nSOURCES                          USES\r\n────────────────────────────     ────────────────────────────\r\nSenior Secured Debt    $500M     Enterprise Value      $900M\r\nSubordinated Debt      $200M     Transaction Fees       $25M\r\nSponsor Equity         $225M     Financing Fees         $15M\r\nRollover Equity         $15M     Cash to Balance Sheet  $10M\r\n────────────────────────────     ────────────────────────────\r\nTotal Sources          $940M     Total Uses            $950M\r\n                                 (Sources MUST = Uses)\r\n```\r\n\r\n**Debt tranches** (from cheapest/most senior to most expensive/most junior):\r\n| Tranche | Typical Rate | Amortization | Priority |\r\n|---|---|---|---|\r\n| Revolver | SOFR + 200-300bp | Interest only | 1st (secured) |\r\n| Term Loan A | SOFR + 250-350bp | Amortizing (5-10%/yr) | 1st (secured) |\r\n| Term Loan B | SOFR + 300-450bp | 1% annual, bullet at maturity | 1st (secured) |\r\n| High Yield Bonds | 6-10% fixed | Bullet maturity | 2nd (unsecured) |\r\n| Mezzanine | 10-15% (incl. PIK) | Bullet | 3rd (subordinated) |"
       },
       {
         "heading": "The Debt Schedule",
-        "content": "The debt schedule is the engine of the LBO model. For each year of the hold period:\n\n```\nBeginning Debt Balance\n+ New Borrowings (rare post-close)\n− Mandatory Amortization (scheduled repayments)\n− Optional Prepayment (from excess FCF, called \"cash sweep\")\n= Ending Debt Balance\n\nInterest Expense = Avg Balance × Interest Rate\n```\n\n**Cash sweep**: Many PE deals mandate that 50-75% of excess FCF goes to mandatory debt repayment. This accelerates deleveraging but leaves less cash for operations.\n\n**Debt covenants**: Lenders impose constraints:\n- **Leverage covenant**: Total Debt / EBITDA must stay below X (e.g., 5.0x)\n- **Interest coverage**: EBITDA / Interest Expense must stay above Y (e.g., 2.0x)\n- **Fixed charge coverage**: (EBITDA - CapEx) / (Interest + Debt Service) > Z\n\nBreaking a covenant triggers technical default — lenders can accelerate repayment, renegotiate terms, or seize assets."
+        "content": "The debt schedule is the engine of the LBO model. For each year of the hold period:\r\n\r\n```\r\nBeginning Debt Balance\r\n+ New Borrowings (rare post-close)\r\n− Mandatory Amortization (scheduled repayments)\r\n− Optional Prepayment (from excess FCF, called \"cash sweep\")\r\n= Ending Debt Balance\r\n\r\nInterest Expense = Avg Balance × Interest Rate\r\n```\r\n\r\n**Cash sweep**: Many PE deals mandate that 50-75% of excess FCF goes to mandatory debt repayment. This accelerates deleveraging but leaves less cash for operations.\r\n\r\n**Debt covenants**: Lenders impose constraints:\r\n- **Leverage covenant**: Total Debt / EBITDA must stay below X (e.g., 5.0x)\r\n- **Interest coverage**: EBITDA / Interest Expense must stay above Y (e.g., 2.0x)\r\n- **Fixed charge coverage**: (EBITDA - CapEx) / (Interest + Debt Service) > Z\r\n\r\nBreaking a covenant triggers technical default — lenders can accelerate repayment, renegotiate terms, or seize assets."
       },
       {
         "heading": "IRR and MOIC",
-        "content": "The two return metrics PE firms live and die by:\n\n**MOIC (Multiple on Invested Capital):**\n```\nMOIC = Total Distributions to Equity / Total Equity Invested\n```\nSimple, intuitive. A 3.0x MOIC means you tripled your money. But it ignores time — 3.0x in 3 years is spectacular; 3.0x in 10 years is mediocre.\n\n**IRR (Internal Rate of Return):**\n```\nThe discount rate that makes NPV of all cash flows = 0.\n\nYear 0: −$300M (equity invested)\nYear 5: +$900M (equity at exit)\n\nIRR ≈ 24.6% (solve: −300 + 900/(1+r)^5 = 0)\n```\n\n**PE fund targets:**\n| Metric | Good | Great | Exceptional |\n|---|---|---|---|\n| IRR | 20-25% | 25-30% | 30%+ |\n| MOIC | 2.0-2.5x | 2.5-3.5x | 3.5x+ |\n\n**The IRR/MOIC tradeoff**: A quick flip (buy and sell in 2 years) can have high IRR but low MOIC. A long hold can have high MOIC but lower IRR. PE firms optimize for both."
+        "content": "The two return metrics PE firms live and die by:\r\n\r\n**MOIC (Multiple on Invested Capital):**\r\n```\r\nMOIC = Total Distributions to Equity / Total Equity Invested\r\n```\r\nSimple, intuitive. A 3.0x MOIC means you tripled your money. But it ignores time — 3.0x in 3 years is spectacular; 3.0x in 10 years is mediocre.\r\n\r\n**IRR (Internal Rate of Return):**\r\n```\r\nThe discount rate that makes NPV of all cash flows = 0.\r\n\r\nYear 0: −$300M (equity invested)\r\nYear 5: +$900M (equity at exit)\r\n\r\nIRR ≈ 24.6% (solve: −300 + 900/(1+r)^5 = 0)\r\n```\r\n\r\n**PE fund targets:**\r\n| Metric | Good | Great | Exceptional |\r\n|---|---|---|---|\r\n| IRR | 20-25% | 25-30% | 30%+ |\r\n| MOIC | 2.0-2.5x | 2.5-3.5x | 3.5x+ |\r\n\r\n**The IRR/MOIC tradeoff**: A quick flip (buy and sell in 2 years) can have high IRR but low MOIC. A long hold can have high MOIC but lower IRR. PE firms optimize for both."
       },
       {
         "heading": "PE Fund Economics",
-        "content": "Understanding the fund structure explains PE behavior:\n\n- **Management fee**: 1.5-2% of committed capital annually (pays salaries regardless of performance)\n- **Carried interest (\"carry\")**: 20% of profits above a hurdle rate (typically 8% IRR)\n- **GP commitment**: The fund managers invest 1-5% of the fund themselves (skin in the game)\n- **Fund life**: 10 years (5 years investing, 5 years harvesting)\n- **J-curve**: Early years show negative returns (fees + unrealized investments). Returns come in years 4-7 as exits happen.\n\nA $1B fund charging 2/20 generates $20M/year in management fees and keeps 20% of profits above the hurdle. If the fund returns 2.5x ($2.5B), that's $1.5B profit, $300M in carry split among the partners."
+        "content": "Understanding the fund structure explains PE behavior:\r\n\r\n- **Management fee**: 1.5-2% of committed capital annually (pays salaries regardless of performance)\r\n- **Carried interest (\"carry\")**: 20% of profits above a hurdle rate (typically 8% IRR)\r\n- **GP commitment**: The fund managers invest 1-5% of the fund themselves (skin in the game)\r\n- **Fund life**: 10 years (5 years investing, 5 years harvesting)\r\n- **J-curve**: Early years show negative returns (fees + unrealized investments). Returns come in years 4-7 as exits happen.\r\n\r\nA $1B fund charging 2/20 generates $20M/year in management fees and keeps 20% of profits above the hurdle. If the fund returns 2.5x ($2.5B), that's $1.5B profit, $300M in carry split among the partners."
       },
       {
         "heading": "Entry and Exit Multiples",
-        "content": "**Entry multiple**: The EV/EBITDA you pay at acquisition.\n```\nPurchase EV = Entry Multiple × LTM EBITDA\nEquity = Purchase EV − Debt Assumed + Cash Acquired\n```\n\n**Exit multiple**: The EV/EBITDA you sell at.\n```\nExit EV = Exit Multiple × Exit Year EBITDA\nExit Equity = Exit EV − Remaining Debt\n```\n\n**Conservative modeling**: Always assume exit multiple = entry multiple in the base case. Multiple expansion is upside, not base case. If the deal doesn't work at flat multiples, it probably doesn't work.\n\n**What drives multiple expansion in practice:**\n- Company grew faster than peers\n- Margins improved significantly\n- Business was repositioned (e.g., services → SaaS)\n- Market-wide multiple expansion (rising tide)"
+        "content": "**Entry multiple**: The EV/EBITDA you pay at acquisition.\r\n```\r\nPurchase EV = Entry Multiple × LTM EBITDA\r\nEquity = Purchase EV − Debt Assumed + Cash Acquired\r\n```\r\n\r\n**Exit multiple**: The EV/EBITDA you sell at.\r\n```\r\nExit EV = Exit Multiple × Exit Year EBITDA\r\nExit Equity = Exit EV − Remaining Debt\r\n```\r\n\r\n**Conservative modeling**: Always assume exit multiple = entry multiple in the base case. Multiple expansion is upside, not base case. If the deal doesn't work at flat multiples, it probably doesn't work.\r\n\r\n**What drives multiple expansion in practice:**\r\n- Company grew faster than peers\r\n- Margins improved significantly\r\n- Business was repositioned (e.g., services → SaaS)\r\n- Market-wide multiple expansion (rising tide)"
       },
       {
         "heading": "Python Model Skeleton",
-        "content": "```python\n\"\"\"\nLBO Model — Simplified 5-Year Hold\nRun with: python lbo_model.py\n\"\"\"\nimport numpy as np\nfrom typing import Dict, List\n\n\ndef build_lbo(\n    entry_ebitda: float = 200,         # LTM EBITDA ($M)\n    entry_multiple: float = 8.0,       # EV/EBITDA at purchase\n    exit_multiple: float = 8.0,        # EV/EBITDA at sale (base = entry)\n    ebitda_growth: float = 0.05,       # Annual EBITDA growth rate\n    leverage_turns: float = 5.0,       # Total Debt / EBITDA at entry\n    senior_pct: float = 0.60,          # % of total debt that's senior\n    senior_rate: float = 0.06,         # Senior debt interest rate\n    sub_rate: float = 0.10,            # Subordinated debt interest rate\n    senior_amort: float = 0.05,        # Annual mandatory amort (% of original)\n    tax_rate: float = 0.25,\n    capex_pct: float = 0.05,           # CapEx as % of EBITDA\n    nwc_pct: float = 0.02,            # Change in NWC as % of revenue growth\n    da_pct: float = 0.03,             # D&A as % of EBITDA\n    hold_years: int = 5,\n    cash_sweep_pct: float = 0.50,      # % of excess FCF used for prepayment\n) -> Dict:\n    # --- Entry ---\n    entry_ev = entry_ebitda * entry_multiple\n    total_debt = entry_ebitda * leverage_turns\n    entry_equity = entry_ev - total_debt\n    senior_debt_orig = total_debt * senior_pct\n    sub_debt = total_debt * (1 - senior_pct)\n\n    # --- Projections ---\n    results: List[Dict] = []\n    senior_balance = senior_debt_orig\n    sub_balance = sub_debt\n\n    for year in range(1, hold_years + 1):\n        ebitda = entry_ebitda * (1 + ebitda_growth) ** year\n        da = ebitda * da_pct\n        ebit = ebitda - da\n        capex = ebitda * capex_pct\n        delta_nwc = ebitda * ebitda_growth * nwc_pct\n\n        # Interest\n        senior_interest = senior_balance * senior_rate\n        sub_interest = sub_balance * sub_rate\n        total_interest = senior_interest + sub_interest\n\n        # Tax\n        ebt = ebit - total_interest\n        taxes = max(0, ebt * tax_rate)\n        net_income = ebt - taxes\n\n        # Free cash flow\n        fcf = net_income + da - capex - delta_nwc\n\n        # Mandatory amortization\n        mandatory = min(senior_debt_orig * senior_amort, senior_balance)\n        senior_balance -= mandatory\n\n        # Optional prepayment (cash sweep)\n        excess_cash = max(0, fcf - mandatory)\n        optional_prepay = excess_cash * cash_sweep_pct\n        # Pay down senior first, then sub\n        senior_prepay = min(optional_prepay, senior_balance)\n        senior_balance -= senior_prepay\n        remaining = optional_prepay - senior_prepay\n        sub_prepay = min(remaining, sub_balance)\n        sub_balance -= sub_prepay\n\n        total_debt_eoy = senior_balance + sub_balance\n\n        results.append({\n            \"year\": year,\n            \"ebitda\": round(ebitda, 1),\n            \"fcf\": round(fcf, 1),\n            \"total_debt\": round(total_debt_eoy, 1),\n            \"leverage\": round(total_debt_eoy / ebitda, 2),\n            \"interest_coverage\": round(ebitda / total_interest, 2) if total_interest > 0 else float('inf'),\n        })\n\n    # --- Exit ---\n    exit_ebitda = results[-1][\"ebitda\"]\n    exit_ev = exit_ebitda * exit_multiple\n    remaining_debt = results[-1][\"total_debt\"]\n    exit_equity = exit_ev - remaining_debt\n\n    moic = exit_equity / entry_equity\n    irr = (exit_equity / entry_equity) ** (1 / hold_years) - 1  # Simplified\n\n    return {\n        \"entry_ev\": round(entry_ev, 1),\n        \"entry_equity\": round(entry_equity, 1),\n        \"total_debt_at_entry\": round(total_debt, 1),\n        \"exit_ev\": round(exit_ev, 1),\n        \"exit_equity\": round(exit_equity, 1),\n        \"remaining_debt_at_exit\": round(remaining_debt, 1),\n        \"moic\": round(moic, 2),\n        \"irr_pct\": round(irr * 100, 1),\n        \"annual_projections\": results,\n    }\n\n\ndef sensitivity_table(\n    base_params: Dict,\n    leverage_range: List[float] = [3.0, 4.0, 5.0, 6.0, 7.0],\n    exit_mult_range: List[float] = [6.0, 7.0, 8.0, 9.0, 10.0],\n):\n    \"\"\"IRR sensitivity on leverage turns vs. exit multiple.\"\"\"\n    print(f\"\\n{'IRR %':>8s}\", end=\"\")\n    for em in exit_mult_range:\n        print(f\"  Exit {em}x\", end=\"\")\n    print()\n    print(\"-\" * (10 + 10 * len(exit_mult_range)))\n\n    for lev in leverage_range:\n        print(f\"Lev {lev}x |\", end=\"\")\n        for em in exit_mult_range:\n            params = {**base_params, \"leverage_turns\": lev, \"exit_multiple\": em}\n            r = build_lbo(**params)\n            irr = r[\"irr_pct\"]\n            marker = \" *\" if irr >= 20 else \"\"\n            print(f\"  {irr:5.1f}%{marker}\", end=\"\")\n        print()\n    print(\"  (* = meets 20% IRR threshold)\")\n\n\nif __name__ == \"__main__\":\n    print(\"=== BASE CASE LBO ===\")\n    result = build_lbo()\n    for k, v in result.items():\n        if k != \"annual_projections\":\n            print(f\"  {k}: {v}\")\n\n    print(\"\\n--- Year-by-Year ---\")\n    print(f\"  {'Year':>4}  {'EBITDA':>8}  {'FCF':>8}  {'Debt':>8}  {'Lev':>5}  {'Cov':>5}\")\n    for yr in result[\"annual_projections\"]:\n        print(f\"  {yr['year']:>4}  {yr['ebitda']:>8.1f}  {yr['fcf']:>8.1f}  {yr['total_debt']:>8.1f}  {yr['leverage']:>5.2f}  {yr['interest_coverage']:>5.2f}\")\n\n    # --- Sensitivity ---\n    base = dict(entry_ebitda=200, entry_multiple=8.0, ebitda_growth=0.05)\n    sensitivity_table(base)\n```"
+        "content": "```python\r\n\"\"\"\r\nLBO Model — Simplified 5-Year Hold\r\nRun with: python lbo_model.py\r\n\"\"\"\r\nimport numpy as np\r\nfrom typing import Dict, List\r\n\r\n\r\ndef build_lbo(\r\n    entry_ebitda: float = 200,         # LTM EBITDA ($M)\r\n    entry_multiple: float = 8.0,       # EV/EBITDA at purchase\r\n    exit_multiple: float = 8.0,        # EV/EBITDA at sale (base = entry)\r\n    ebitda_growth: float = 0.05,       # Annual EBITDA growth rate\r\n    leverage_turns: float = 5.0,       # Total Debt / EBITDA at entry\r\n    senior_pct: float = 0.60,          # % of total debt that's senior\r\n    senior_rate: float = 0.06,         # Senior debt interest rate\r\n    sub_rate: float = 0.10,            # Subordinated debt interest rate\r\n    senior_amort: float = 0.05,        # Annual mandatory amort (% of original)\r\n    tax_rate: float = 0.25,\r\n    capex_pct: float = 0.05,           # CapEx as % of EBITDA\r\n    nwc_pct: float = 0.02,            # Change in NWC as % of revenue growth\r\n    da_pct: float = 0.03,             # D&A as % of EBITDA\r\n    hold_years: int = 5,\r\n    cash_sweep_pct: float = 0.50,      # % of excess FCF used for prepayment\r\n) -> Dict:\r\n    # --- Entry ---\r\n    entry_ev = entry_ebitda * entry_multiple\r\n    total_debt = entry_ebitda * leverage_turns\r\n    entry_equity = entry_ev - total_debt\r\n    senior_debt_orig = total_debt * senior_pct\r\n    sub_debt = total_debt * (1 - senior_pct)\r\n\r\n    # --- Projections ---\r\n    results: List[Dict] = []\r\n    senior_balance = senior_debt_orig\r\n    sub_balance = sub_debt\r\n\r\n    for year in range(1, hold_years + 1):\r\n        ebitda = entry_ebitda * (1 + ebitda_growth) ** year\r\n        da = ebitda * da_pct\r\n        ebit = ebitda - da\r\n        capex = ebitda * capex_pct\r\n        delta_nwc = ebitda * ebitda_growth * nwc_pct\r\n\r\n        # Interest\r\n        senior_interest = senior_balance * senior_rate\r\n        sub_interest = sub_balance * sub_rate\r\n        total_interest = senior_interest + sub_interest\r\n\r\n        # Tax\r\n        ebt = ebit - total_interest\r\n        taxes = max(0, ebt * tax_rate)\r\n        net_income = ebt - taxes\r\n\r\n        # Free cash flow\r\n        fcf = net_income + da - capex - delta_nwc\r\n\r\n        # Mandatory amortization\r\n        mandatory = min(senior_debt_orig * senior_amort, senior_balance)\r\n        senior_balance -= mandatory\r\n\r\n        # Optional prepayment (cash sweep)\r\n        excess_cash = max(0, fcf - mandatory)\r\n        optional_prepay = excess_cash * cash_sweep_pct\r\n        # Pay down senior first, then sub\r\n        senior_prepay = min(optional_prepay, senior_balance)\r\n        senior_balance -= senior_prepay\r\n        remaining = optional_prepay - senior_prepay\r\n        sub_prepay = min(remaining, sub_balance)\r\n        sub_balance -= sub_prepay\r\n\r\n        total_debt_eoy = senior_balance + sub_balance\r\n\r\n        results.append({\r\n            \"year\": year,\r\n            \"ebitda\": round(ebitda, 1),\r\n            \"fcf\": round(fcf, 1),\r\n            \"total_debt\": round(total_debt_eoy, 1),\r\n            \"leverage\": round(total_debt_eoy / ebitda, 2),\r\n            \"interest_coverage\": round(ebitda / total_interest, 2) if total_interest > 0 else float('inf'),\r\n        })\r\n\r\n    # --- Exit ---\r\n    exit_ebitda = results[-1][\"ebitda\"]\r\n    exit_ev = exit_ebitda * exit_multiple\r\n    remaining_debt = results[-1][\"total_debt\"]\r\n    exit_equity = exit_ev - remaining_debt\r\n\r\n    moic = exit_equity / entry_equity\r\n    irr = (exit_equity / entry_equity) ** (1 / hold_years) - 1  # Simplified\r\n\r\n    return {\r\n        \"entry_ev\": round(entry_ev, 1),\r\n        \"entry_equity\": round(entry_equity, 1),\r\n        \"total_debt_at_entry\": round(total_debt, 1),\r\n        \"exit_ev\": round(exit_ev, 1),\r\n        \"exit_equity\": round(exit_equity, 1),\r\n        \"remaining_debt_at_exit\": round(remaining_debt, 1),\r\n        \"moic\": round(moic, 2),\r\n        \"irr_pct\": round(irr * 100, 1),\r\n        \"annual_projections\": results,\r\n    }\r\n\r\n\r\ndef sensitivity_table(\r\n    base_params: Dict,\r\n    leverage_range: List[float] = [3.0, 4.0, 5.0, 6.0, 7.0],\r\n    exit_mult_range: List[float] = [6.0, 7.0, 8.0, 9.0, 10.0],\r\n):\r\n    \"\"\"IRR sensitivity on leverage turns vs. exit multiple.\"\"\"\r\n    print(f\"\\n{'IRR %':>8s}\", end=\"\")\r\n    for em in exit_mult_range:\r\n        print(f\"  Exit {em}x\", end=\"\")\r\n    print()\r\n    print(\"-\" * (10 + 10 * len(exit_mult_range)))\r\n\r\n    for lev in leverage_range:\r\n        print(f\"Lev {lev}x |\", end=\"\")\r\n        for em in exit_mult_range:\r\n            params = {**base_params, \"leverage_turns\": lev, \"exit_multiple\": em}\r\n            r = build_lbo(**params)\r\n            irr = r[\"irr_pct\"]\r\n            marker = \" *\" if irr >= 20 else \"\"\r\n            print(f\"  {irr:5.1f}%{marker}\", end=\"\")\r\n        print()\r\n    print(\"  (* = meets 20% IRR threshold)\")\r\n\r\n\r\nif __name__ == \"__main__\":\r\n    print(\"=== BASE CASE LBO ===\")\r\n    result = build_lbo()\r\n    for k, v in result.items():\r\n        if k != \"annual_projections\":\r\n            print(f\"  {k}: {v}\")\r\n\r\n    print(\"\\n--- Year-by-Year ---\")\r\n    print(f\"  {'Year':>4}  {'EBITDA':>8}  {'FCF':>8}  {'Debt':>8}  {'Lev':>5}  {'Cov':>5}\")\r\n    for yr in result[\"annual_projections\"]:\r\n        print(f\"  {yr['year']:>4}  {yr['ebitda']:>8.1f}  {yr['fcf']:>8.1f}  {yr['total_debt']:>8.1f}  {yr['leverage']:>5.2f}  {yr['interest_coverage']:>5.2f}\")\r\n\r\n    # --- Sensitivity ---\r\n    base = dict(entry_ebitda=200, entry_multiple=8.0, ebitda_growth=0.05)\r\n    sensitivity_table(base)\r\n```"
       },
       {
         "heading": "Sensitivity: What Matters Most",
-        "content": "The LBO is highly sensitive to three variables. In order of impact:\n\n1. **Exit multiple** — A 1-turn change in exit multiple on $255M exit EBITDA = ~$255M change in exit EV. On $600M entry equity, that's a ~42% swing in MOIC. This is why conservative modeling keeps exit = entry.\n\n2. **Leverage ratio** — Higher leverage means less equity in, amplifying both returns and risk. Going from 4x to 6x leverage can double the IRR — but also doubles the chance of covenant breach in a downturn.\n\n3. **EBITDA growth** — Compounds over the hold period. 5% vs 8% annual growth over 5 years is the difference between a 2.0x and 2.8x MOIC.\n\n**What matters less than you'd think:**\n- Interest rate (affects returns but not dramatically within normal ranges)\n- Hold period (PE firms optimize for 5 years; shorter is better for IRR, longer for MOIC)"
+        "content": "The LBO is highly sensitive to three variables. In order of impact:\r\n\r\n1. **Exit multiple** — A 1-turn change in exit multiple on $255M exit EBITDA = ~$255M change in exit EV. On $600M entry equity, that's a ~42% swing in MOIC. This is why conservative modeling keeps exit = entry.\r\n\r\n2. **Leverage ratio** — Higher leverage means less equity in, amplifying both returns and risk. Going from 4x to 6x leverage can double the IRR — but also doubles the chance of covenant breach in a downturn.\r\n\r\n3. **EBITDA growth** — Compounds over the hold period. 5% vs 8% annual growth over 5 years is the difference between a 2.0x and 2.8x MOIC.\r\n\r\n**What matters less than you'd think:**\r\n- Interest rate (affects returns but not dramatically within normal ranges)\r\n- Hold period (PE firms optimize for 5 years; shorter is better for IRR, longer for MOIC)"
       },
       {
         "heading": "Real-World LBO: Dell 2013",
-        "content": "The classic teaching LBO — Michael Dell took Dell private in 2013:\n- **Entry**: ~$24.9B EV at ~5.5x EBITDA\n- **Funding**: ~$15B debt, ~$4.2B from Michael Dell (rollover equity + new cash), ~$1.4B from Silver Lake\n- **Thesis**: Transform from commodity PCs to enterprise services/software — impossible under quarterly public market scrutiny\n- **Exit**: Re-IPO'd in 2018, merged with VMware tracking stock. Implied >3x MOIC for Silver Lake.\n- **Key lesson**: The LBO worked because Dell had massive FCF ($3-4B/year) to service debt, and the business transformation actually worked."
+        "content": "The classic teaching LBO — Michael Dell took Dell private in 2013:\r\n- **Entry**: ~$24.9B EV at ~5.5x EBITDA\r\n- **Funding**: ~$15B debt, ~$4.2B from Michael Dell (rollover equity + new cash), ~$1.4B from Silver Lake\r\n- **Thesis**: Transform from commodity PCs to enterprise services/software — impossible under quarterly public market scrutiny\r\n- **Exit**: Re-IPO'd in 2018, merged with VMware tracking stock. Implied >3x MOIC for Silver Lake.\r\n- **Key lesson**: The LBO worked because Dell had massive FCF ($3-4B/year) to service debt, and the business transformation actually worked."
       },
       {
         "heading": "Apply It",
-        "content": "- Build a premium deal analysis feature — input a ticker, pull financials from OpenBB, and run an LBO to determine \"what would PE pay for this?\"\n- Compare LBO-implied valuation to DCF and comps for a triangulated view\n- Model sensitivity dashboards showing how leverage and exit multiples drive returns\n- Interview prep tool: generate random LBO scenarios with target IRR, solve for max purchase price"
+        "content": "- Build a premium deal analysis feature — input a ticker, pull financials from OpenBB, and run an LBO to determine \"what would PE pay for this?\"\r\n- Compare LBO-implied valuation to DCF and comps for a triangulated view\r\n- Model sensitivity dashboards showing how leverage and exit multiples drive returns\r\n- Interview prep tool: generate random LBO scenarios with target IRR, solve for max purchase price"
       },
       {
         "heading": "Research Next Steps",
-        "content": "- [ ] Build a basic LBO model in Python using a real company (Dell's 2013 take-private is a classic)\n- [ ] Learn what \"debt covenants\" are and how they constrain operations\n- [ ] Watch Wall Street Prep or Breaking Into Wall Street LBO tutorial\n- [ ] Model a dividend recapitalization — how PE firms extract returns mid-hold\n- [ ] Study \"add-on acquisitions\" (buy-and-build strategy) and how they affect returns\n- [ ] Understand PIK (payment-in-kind) interest and when/why it's used\n- [ ] Compare LBO returns across sectors — why PE loves healthcare, software, and business services"
+        "content": "- [ ] Build a basic LBO model in Python using a real company (Dell's 2013 take-private is a classic)\r\n- [ ] Learn what \"debt covenants\" are and how they constrain operations\r\n- [ ] Watch Wall Street Prep or Breaking Into Wall Street LBO tutorial\r\n- [ ] Model a dividend recapitalization — how PE firms extract returns mid-hold\r\n- [ ] Study \"add-on acquisitions\" (buy-and-build strategy) and how they affect returns\r\n- [ ] Understand PIK (payment-in-kind) interest and when/why it's used\r\n- [ ] Compare LBO returns across sectors — why PE loves healthcare, software, and business services"
       }
     ],
     "related": [
@@ -11505,11 +11122,11 @@ export const pods: Pod[] = [
       },
       {
         "heading": "Key Mechanics",
-        "content": "```\nStandard FDIC limit:     $250,000 per depositor, per bank, per ownership category\nReciprocal network:      Splits large deposits across N banks\nExtended coverage:       Up to $50M (CDARS CDs), $125M (ICS sweep), $150M combined\nModernFi CUSO (CUs):    Up to $15M NCUA insurance per account\n\nFlow:\n1. Depositor places $5M at Bank A (their \"home bank\")\n2. Bank A keeps $250K (insured locally)\n3. Bank A sends $250K each to Banks B through T via the network\n4. Banks B-T each send $250K BACK to Bank A (dollar-for-dollar swap)\n5. Result: Depositor has $5M fully insured, single relationship with Bank A\n         Bank A's total deposits unchanged (sent out = received back)\n\nSettlement:\n- Exchanges are reciprocal, so most flows cancel out (net settlement)\n- Only NET differences settle — via Fedwire (real-time gross settlement)\n- Settlement cycle: daily (end-of-day)\n- A bank in $500M of gross placements may only settle a few $M in net differences\n```"
+        "content": "```\r\nStandard FDIC limit:     $250,000 per depositor, per bank, per ownership category\r\nReciprocal network:      Splits large deposits across N banks\r\nExtended coverage:       Up to $50M (CDARS CDs), $125M (ICS sweep), $150M combined\r\nModernFi CUSO (CUs):    Up to $15M NCUA insurance per account\r\n\r\nFlow:\r\n1. Depositor places $5M at Bank A (their \"home bank\")\r\n2. Bank A keeps $250K (insured locally)\r\n3. Bank A sends $250K each to Banks B through T via the network\r\n4. Banks B-T each send $250K BACK to Bank A (dollar-for-dollar swap)\r\n5. Result: Depositor has $5M fully insured, single relationship with Bank A\r\n         Bank A's total deposits unchanged (sent out = received back)\r\n\r\nSettlement:\r\n- Exchanges are reciprocal, so most flows cancel out (net settlement)\r\n- Only NET differences settle — via Fedwire (real-time gross settlement)\r\n- Settlement cycle: daily (end-of-day)\r\n- A bank in $500M of gross placements may only settle a few $M in net differences\r\n```"
       },
       {
         "heading": "Regulatory Classification",
-        "content": "The 2018 **Economic Growth, Regulatory Relief, and Consumer Protection Act** (Section 202) was the game-changer:\n- Reciprocal deposits are now classified as **non-brokered** (up to the lesser of $5B or 20% of total liabilities)\n- This matters enormously — brokered deposits carry higher regulatory costs, capital requirements, and restrictions\n- Only applies to banks that are **\"well capitalized\"** (CET1 >= 6.5%, Tier 1 >= 8%, Total RBC >= 10%, Leverage >= 5%)\n- Bank must also have **CAMELS rating of 1 or 2** (\"satisfactory\" or better) on most recent exam\n- If a bank loses eligibility, it can still hold reciprocal deposits up to the **average of the prior 4 quarters** — anything above reverts to brokered\n- Before 2018, all reciprocal deposits were classified as brokered, limiting adoption"
+        "content": "The 2018 **Economic Growth, Regulatory Relief, and Consumer Protection Act** (Section 202) was the game-changer:\r\n- Reciprocal deposits are now classified as **non-brokered** (up to the lesser of $5B or 20% of total liabilities)\r\n- This matters enormously — brokered deposits carry higher regulatory costs, capital requirements, and restrictions\r\n- Only applies to banks that are **\"well capitalized\"** (CET1 >= 6.5%, Tier 1 >= 8%, Total RBC >= 10%, Leverage >= 5%)\r\n- Bank must also have **CAMELS rating of 1 or 2** (\"satisfactory\" or better) on most recent exam\r\n- If a bank loses eligibility, it can still hold reciprocal deposits up to the **average of the prior 4 quarters** — anything above reverts to brokered\r\n- Before 2018, all reciprocal deposits were classified as brokered, limiting adoption"
       },
       {
         "heading": "Why It Matters",
@@ -11517,15 +11134,15 @@ export const pods: Pod[] = [
       },
       {
         "heading": "The Market Today",
-        "content": "- **$440B+** in total reciprocal deposits (Sept 2025)\n- **2,105 participating banks** (up from 1,523 in Dec 2022)\n- **$2.3T** broader wholesale funding market (the OTC market being digitized)\n- Credit unions: previously **near-zero** participation — ModernFi's CUSO is first-ever network\n- Post-SVB surge: IntraFi **grew as much in 3 weeks as they expected to grow all year**; added 125+ new banks in weeks\n- Reciprocal deposits = **6.47% of total deposits** for banks under $10B (Q1 2025)\n- Reciprocal deposits accounted for **$55B or 21%** of community bank deposit growth by Q3 2025"
+        "content": "- **$440B+** in total reciprocal deposits (Sept 2025)\r\n- **2,105 participating banks** (up from 1,523 in Dec 2022)\r\n- **$2.3T** broader wholesale funding market (the OTC market being digitized)\r\n- Credit unions: previously **near-zero** participation — ModernFi's CUSO is first-ever network\r\n- Post-SVB surge: IntraFi **grew as much in 3 weeks as they expected to grow all year**; added 125+ new banks in weeks\r\n- Reciprocal deposits = **6.47% of total deposits** for banks under $10B (Q1 2025)\r\n- Reciprocal deposits accounted for **$55B or 21%** of community bank deposit growth by Q3 2025"
       },
       {
         "heading": "Apply It",
-        "content": "- **Interview context**: This is ModernFi's core product — understand the flow cold\n- When they say \"NBID covers 40% of the reciprocal market\" — that's 40% of $440B+\n- The institution-owned model (NBID) vs broker-intermediary (IntraFi) is the key strategic differentiator\n- Ask: \"How does settlement work across the network? Real-time or batched?\""
+        "content": "- **Interview context**: This is ModernFi's core product — understand the flow cold\r\n- When they say \"NBID covers 40% of the reciprocal market\" — that's 40% of $440B+\r\n- The institution-owned model (NBID) vs broker-intermediary (IntraFi) is the key strategic differentiator\r\n- Ask: \"How does settlement work across the network? Real-time or batched?\""
       },
       {
         "heading": "Research Next Steps",
-        "content": "- [ ] Understand IntraFi's ICS and CDARS products (the legacy equivalent)\n- [ ] Read the 2018 EGRRCPA Section 202 for exact reciprocal deposit language\n- [ ] Study FDIC Call Report data on reciprocal deposit growth trends\n- [ ] Review ModernFi Insights Substack (Paolo Bertolotti) for founder's market perspective"
+        "content": "- [ ] Understand IntraFi's ICS and CDARS products (the legacy equivalent)\r\n- [ ] Read the 2018 EGRRCPA Section 202 for exact reciprocal deposit language\r\n- [ ] Study FDIC Call Report data on reciprocal deposit growth trends\r\n- [ ] Review ModernFi Insights Substack (Paolo Bertolotti) for founder's market perspective"
       }
     ],
     "related": [
@@ -11559,39 +11176,39 @@ export const pods: Pod[] = [
     "sections": [
       {
         "heading": "What It Is",
-        "content": "Relative valuation answers: **\"What would the market pay for a business like this one?\"** Instead of building a bottom-up cash flow model (DCF), you look at what similar companies trade for and apply those multiples to your target.\n\nThere are two distinct approaches:\n- **Comparable Company Analysis (Trading Comps)**: What are similar *public* companies trading at *right now*?\n- **Precedent Transaction Analysis**: What did acquirers *actually pay* for similar companies in *completed deals*?\n\nBoth produce a valuation range, not a point estimate. The range from comps anchors your DCF, and the range from precedent transactions tells you what a buyer has historically been willing to pay (which includes a control premium)."
+        "content": "Relative valuation answers: **\"What would the market pay for a business like this one?\"** Instead of building a bottom-up cash flow model (DCF), you look at what similar companies trade for and apply those multiples to your target.\r\n\r\nThere are two distinct approaches:\r\n- **Comparable Company Analysis (Trading Comps)**: What are similar *public* companies trading at *right now*?\r\n- **Precedent Transaction Analysis**: What did acquirers *actually pay* for similar companies in *completed deals*?\r\n\r\nBoth produce a valuation range, not a point estimate. The range from comps anchors your DCF, and the range from precedent transactions tells you what a buyer has historically been willing to pay (which includes a control premium)."
       },
       {
         "heading": "Comparable Company Analysis (Trading Comps)",
-        "content": "### Step-by-Step Process\n\n**1. Select the peer group (5-15 companies)**\nThis is the most subjective and important step. Bad comps = bad valuation.\n\nCriteria for selecting peers:\n- **Industry**: Same sector, same sub-sector if possible (e.g., \"cloud infrastructure\" not just \"tech\")\n- **Size**: Similar revenue or market cap range (within 0.5x-2x of target)\n- **Growth profile**: Similar revenue growth rates (a 40% grower shouldn't be comped to a 5% grower)\n- **Margin profile**: Similar EBITDA or operating margins\n- **Geography**: Same primary markets (US SaaS vs. European SaaS can trade very differently)\n- **Business model**: Recurring revenue vs. project-based, B2B vs. B2C, asset-light vs. asset-heavy\n\n**Common mistake**: Including a \"marquee\" comp that's not actually comparable. Putting Salesforce in your peer set for a $50M ARR vertical SaaS company distorts everything.\n\n**2. Gather financial data**\nFor each peer, collect:\n- Enterprise Value (EV) = Market Cap + Debt - Cash\n- Revenue (LTM and NTM estimates)\n- EBITDA (LTM and NTM)\n- Net Income / EPS\n- Key operating metrics (subscribers, GMV, etc.)\n\n**3. Calculate multiples**\n```\nEV/Revenue  = Enterprise Value / Revenue\nEV/EBITDA   = Enterprise Value / EBITDA\nP/E         = Share Price / Earnings Per Share\nEV/EBIT     = Enterprise Value / EBIT (operating income)\nP/FCF       = Share Price / Free Cash Flow Per Share\n```\n\n**4. Analyze the range**\n- Calculate mean, median, 25th/75th percentile\n- Identify outliers and understand *why* they're outliers\n- Median is generally more reliable than mean (less skewed by outliers)\n\n**5. Apply to target**\n```\nImplied EV = Target's EBITDA × Median Peer EV/EBITDA\nImplied Equity Value = Implied EV - Net Debt\nImplied Share Price = Implied Equity Value / Shares Outstanding\n```\n\n### Worked Example: Fintech Comps\n\n```\nCompany          EV ($B)   Revenue   EBITDA   EV/Rev   EV/EBITDA   Growth\n─────────────────────────────────────────────────────────────────────────\nPaymentCo A       12.0      2.4B     600M      5.0x     20.0x       12%\nPaymentCo B        8.5      1.8B     450M      4.7x     18.9x       15%\nPaymentCo C       15.0      4.0B     900M      3.8x     16.7x        8%\nPaymentCo D        6.0      1.2B     280M      5.0x     21.4x       18%\nPaymentCo E       10.0      2.5B     550M      4.0x     18.2x       10%\n─────────────────────────────────────────────────────────────────────────\nMedian                                          4.7x     18.9x\nMean                                            4.5x     19.0x\n\nTarget: $500M EBITDA, $2.0B revenue\nImplied EV (median EV/EBITDA): $500M × 18.9x = $9.45B\nImplied EV (median EV/Revenue): $2.0B × 4.7x = $9.4B\n```"
+        "content": "### Step-by-Step Process\r\n\r\n**1. Select the peer group (5-15 companies)**\r\nThis is the most subjective and important step. Bad comps = bad valuation.\r\n\r\nCriteria for selecting peers:\r\n- **Industry**: Same sector, same sub-sector if possible (e.g., \"cloud infrastructure\" not just \"tech\")\r\n- **Size**: Similar revenue or market cap range (within 0.5x-2x of target)\r\n- **Growth profile**: Similar revenue growth rates (a 40% grower shouldn't be comped to a 5% grower)\r\n- **Margin profile**: Similar EBITDA or operating margins\r\n- **Geography**: Same primary markets (US SaaS vs. European SaaS can trade very differently)\r\n- **Business model**: Recurring revenue vs. project-based, B2B vs. B2C, asset-light vs. asset-heavy\r\n\r\n**Common mistake**: Including a \"marquee\" comp that's not actually comparable. Putting Salesforce in your peer set for a $50M ARR vertical SaaS company distorts everything.\r\n\r\n**2. Gather financial data**\r\nFor each peer, collect:\r\n- Enterprise Value (EV) = Market Cap + Debt - Cash\r\n- Revenue (LTM and NTM estimates)\r\n- EBITDA (LTM and NTM)\r\n- Net Income / EPS\r\n- Key operating metrics (subscribers, GMV, etc.)\r\n\r\n**3. Calculate multiples**\r\n```\r\nEV/Revenue  = Enterprise Value / Revenue\r\nEV/EBITDA   = Enterprise Value / EBITDA\r\nP/E         = Share Price / Earnings Per Share\r\nEV/EBIT     = Enterprise Value / EBIT (operating income)\r\nP/FCF       = Share Price / Free Cash Flow Per Share\r\n```\r\n\r\n**4. Analyze the range**\r\n- Calculate mean, median, 25th/75th percentile\r\n- Identify outliers and understand *why* they're outliers\r\n- Median is generally more reliable than mean (less skewed by outliers)\r\n\r\n**5. Apply to target**\r\n```\r\nImplied EV = Target's EBITDA × Median Peer EV/EBITDA\r\nImplied Equity Value = Implied EV - Net Debt\r\nImplied Share Price = Implied Equity Value / Shares Outstanding\r\n```\r\n\r\n### Worked Example: Fintech Comps\r\n\r\n```\r\nCompany          EV ($B)   Revenue   EBITDA   EV/Rev   EV/EBITDA   Growth\r\n─────────────────────────────────────────────────────────────────────────\r\nPaymentCo A       12.0      2.4B     600M      5.0x     20.0x       12%\r\nPaymentCo B        8.5      1.8B     450M      4.7x     18.9x       15%\r\nPaymentCo C       15.0      4.0B     900M      3.8x     16.7x        8%\r\nPaymentCo D        6.0      1.2B     280M      5.0x     21.4x       18%\r\nPaymentCo E       10.0      2.5B     550M      4.0x     18.2x       10%\r\n─────────────────────────────────────────────────────────────────────────\r\nMedian                                          4.7x     18.9x\r\nMean                                            4.5x     19.0x\r\n\r\nTarget: $500M EBITDA, $2.0B revenue\r\nImplied EV (median EV/EBITDA): $500M × 18.9x = $9.45B\r\nImplied EV (median EV/Revenue): $2.0B × 4.7x = $9.4B\r\n```"
       },
       {
         "heading": "Precedent Transaction Analysis",
-        "content": "Precedent transactions differ from trading comps in critical ways:\n\n| Dimension | Trading Comps | Precedent Transactions |\n|---|---|---|\n| **Basis** | Current market prices | Actual deal prices paid |\n| **Premium** | No control premium | Includes 20-40% control premium |\n| **Timing** | Real-time snapshot | Historical (deals may be years old) |\n| **Data quality** | Public, transparent | Often limited disclosure |\n| **Use case** | \"What's it worth today?\" | \"What would an acquirer pay?\" |\n\n**Control premium**: Acquirers pay above the trading price to gain control. Typically 20-40% for public companies. This is why precedent transaction multiples are almost always higher than trading comps.\n\n### When to use each:\n- **Trading comps**: Baseline valuation, IPO pricing, fairness opinions\n- **Precedent transactions**: M&A advisory, hostile defense (\"our company is worth at least what CompanyX sold for\"), LBO exit assumptions"
+        "content": "Precedent transactions differ from trading comps in critical ways:\r\n\r\n| Dimension | Trading Comps | Precedent Transactions |\r\n|---|---|---|\r\n| **Basis** | Current market prices | Actual deal prices paid |\r\n| **Premium** | No control premium | Includes 20-40% control premium |\r\n| **Timing** | Real-time snapshot | Historical (deals may be years old) |\r\n| **Data quality** | Public, transparent | Often limited disclosure |\r\n| **Use case** | \"What's it worth today?\" | \"What would an acquirer pay?\" |\r\n\r\n**Control premium**: Acquirers pay above the trading price to gain control. Typically 20-40% for public companies. This is why precedent transaction multiples are almost always higher than trading comps.\r\n\r\n### When to use each:\r\n- **Trading comps**: Baseline valuation, IPO pricing, fairness opinions\r\n- **Precedent transactions**: M&A advisory, hostile defense (\"our company is worth at least what CompanyX sold for\"), LBO exit assumptions"
       },
       {
         "heading": "Key Multiples Deep Dive",
-        "content": "### EV/EBITDA (The Workhorse)\n- **What it measures**: How many years of cash earnings to pay for the enterprise\n- **Why it's popular**: Capital structure neutral (unlike P/E), CapEx-neutral (unlike EV/EBIT), tax-neutral across jurisdictions\n- **When to use**: Mature companies with positive EBITDA across the peer set\n- **Limitations**: Ignores CapEx differences (a company spending 30% of revenue on CapEx vs. 5% will look similar on EV/EBITDA but have very different FCF)\n\n### P/E (Price to Earnings)\n- **What it measures**: How much the market pays per dollar of earnings\n- **Why it's popular**: Intuitive, widely quoted, used in accretion/dilution analysis\n- **When to use**: Mature, profitable companies; comparing within similar capital structures\n- **Limitations**: Distorted by leverage (two identical businesses with different debt levels will have different P/Es), non-cash charges, tax rate differences\n\n### EV/Revenue\n- **What it measures**: Enterprise value relative to top-line revenue\n- **Why it's popular**: Works for unprofitable, high-growth companies where EBITDA is negative\n- **When to use**: SaaS, biotech, early-stage tech — anywhere margins are negative or volatile\n- **Limitations**: Ignores profitability entirely. A 50% margin business and a 5% margin business could have the same revenue but very different values.\n\n### Sector-Specific Multiples\n| Sector | Primary Multiple | Why |\n|---|---|---|\n| Tech SaaS | EV/Revenue, EV/ARR | Often pre-profit; ARR captures recurring value |\n| Industrials | EV/EBITDA | Stable, profitable, capital-intensive |\n| Banks/Insurance | P/Book Value, P/TBV | Debt is the product, not capital structure; assets are mark-to-market |\n| REITs | Price/FFO, Price/AFFO | GAAP earnings distorted by depreciation on appreciating assets |\n| Biotech | EV/Pipeline value | Pre-revenue; valued on drug pipeline probability-weighted NPV |\n| Retail | EV/EBITDA, EV/Store | Same-store sales growth and unit economics matter |\n| Oil & Gas | EV/EBITDAX, EV/Reserves | Exploration costs and proven reserves drive value |"
+        "content": "### EV/EBITDA (The Workhorse)\r\n- **What it measures**: How many years of cash earnings to pay for the enterprise\r\n- **Why it's popular**: Capital structure neutral (unlike P/E), CapEx-neutral (unlike EV/EBIT), tax-neutral across jurisdictions\r\n- **When to use**: Mature companies with positive EBITDA across the peer set\r\n- **Limitations**: Ignores CapEx differences (a company spending 30% of revenue on CapEx vs. 5% will look similar on EV/EBITDA but have very different FCF)\r\n\r\n### P/E (Price to Earnings)\r\n- **What it measures**: How much the market pays per dollar of earnings\r\n- **Why it's popular**: Intuitive, widely quoted, used in accretion/dilution analysis\r\n- **When to use**: Mature, profitable companies; comparing within similar capital structures\r\n- **Limitations**: Distorted by leverage (two identical businesses with different debt levels will have different P/Es), non-cash charges, tax rate differences\r\n\r\n### EV/Revenue\r\n- **What it measures**: Enterprise value relative to top-line revenue\r\n- **Why it's popular**: Works for unprofitable, high-growth companies where EBITDA is negative\r\n- **When to use**: SaaS, biotech, early-stage tech — anywhere margins are negative or volatile\r\n- **Limitations**: Ignores profitability entirely. A 50% margin business and a 5% margin business could have the same revenue but very different values.\r\n\r\n### Sector-Specific Multiples\r\n| Sector | Primary Multiple | Why |\r\n|---|---|---|\r\n| Tech SaaS | EV/Revenue, EV/ARR | Often pre-profit; ARR captures recurring value |\r\n| Industrials | EV/EBITDA | Stable, profitable, capital-intensive |\r\n| Banks/Insurance | P/Book Value, P/TBV | Debt is the product, not capital structure; assets are mark-to-market |\r\n| REITs | Price/FFO, Price/AFFO | GAAP earnings distorted by depreciation on appreciating assets |\r\n| Biotech | EV/Pipeline value | Pre-revenue; valued on drug pipeline probability-weighted NPV |\r\n| Retail | EV/EBITDA, EV/Store | Same-store sales growth and unit economics matter |\r\n| Oil & Gas | EV/EBITDAX, EV/Reserves | Exploration costs and proven reserves drive value |"
       },
       {
         "heading": "The Football Field Chart",
-        "content": "The ultimate valuation summary — a horizontal bar chart showing the implied valuation range from each methodology:\n\n```\nValuation Range ($B)        $6    $8    $10   $12   $14   $16\n                             |     |     |     |     |     |\n52-Week Range          ──────[=========]──────────────────────\nTrading Comps                ─────[==========]────────────────\nPrecedent Transactions       ──────────[==========]───────────\nDCF                          ───────[=============]───────────\nLBO (PE Can Pay)             ────[=======]────────────────────\n                             |     |     |     |     |     |\n\nSelected Range:                    [=====$10-12B=====]\n```\n\n**Key insight**: If methodologies cluster around a similar range, you have high confidence. If they diverge widely, you need to understand why and which methodology is most appropriate for this situation."
+        "content": "The ultimate valuation summary — a horizontal bar chart showing the implied valuation range from each methodology:\r\n\r\n```\r\nValuation Range ($B)        $6    $8    $10   $12   $14   $16\r\n                             |     |     |     |     |     |\r\n52-Week Range          ──────[=========]──────────────────────\r\nTrading Comps                ─────[==========]────────────────\r\nPrecedent Transactions       ──────────[==========]───────────\r\nDCF                          ───────[=============]───────────\r\nLBO (PE Can Pay)             ────[=======]────────────────────\r\n                             |     |     |     |     |     |\r\n\r\nSelected Range:                    [=====$10-12B=====]\r\n```\r\n\r\n**Key insight**: If methodologies cluster around a similar range, you have high confidence. If they diverge widely, you need to understand why and which methodology is most appropriate for this situation."
       },
       {
         "heading": "Python Entry Point: Pulling Comps from OpenBB",
-        "content": "```python\n\"\"\"\nComparable Company Analysis — Pull live data and compute multiples.\nRequires: pip install openbb pandas\n\"\"\"\nimport pandas as pd\n\n# --- OpenBB integration (uncomment when SDK is configured) ---\n# from openbb import obb\n#\n# def get_financials(ticker: str) -> dict:\n#     \"\"\"Pull key financials for a single ticker from OpenBB.\"\"\"\n#     profile = obb.equity.profile(ticker).to_df().iloc[0]\n#     income = obb.equity.fundamental.income(ticker, period=\"annual\", limit=1).to_df().iloc[0]\n#     balance = obb.equity.fundamental.balance(ticker, period=\"annual\", limit=1).to_df().iloc[0]\n#     return {\n#         \"ticker\": ticker,\n#         \"market_cap\": profile.get(\"market_cap\", 0),\n#         \"total_debt\": balance.get(\"total_debt\", 0),\n#         \"cash\": balance.get(\"cash_and_equivalents\", 0),\n#         \"revenue\": income.get(\"revenue\", 0),\n#         \"ebitda\": income.get(\"ebitda\", 0),\n#         \"net_income\": income.get(\"net_income\", 0),\n#     }\n\n# --- Offline/demo version ---\ndef demo_comps_data() -> pd.DataFrame:\n    \"\"\"Sample peer set for demonstration.\"\"\"\n    data = [\n        {\"ticker\": \"PYPL\", \"market_cap\": 70_000, \"total_debt\": 10_000, \"cash\": 8_000,\n         \"revenue\": 30_000, \"ebitda\": 6_500, \"net_income\": 4_200},\n        {\"ticker\": \"SQ\",   \"market_cap\": 45_000, \"total_debt\": 6_000,  \"cash\": 4_000,\n         \"revenue\": 22_000, \"ebitda\": 3_000, \"net_income\": 1_500},\n        {\"ticker\": \"ADYEN\", \"market_cap\": 50_000, \"total_debt\": 500,   \"cash\": 7_000,\n         \"revenue\": 1_800,  \"ebitda\": 900,   \"net_income\": 700},\n        {\"ticker\": \"FIS\",  \"market_cap\": 40_000, \"total_debt\": 20_000, \"cash\": 2_000,\n         \"revenue\": 14_000, \"ebitda\": 5_500, \"net_income\": 1_800},\n        {\"ticker\": \"GPN\",  \"market_cap\": 30_000, \"total_debt\": 15_000, \"cash\": 1_500,\n         \"revenue\": 9_000,  \"ebitda\": 4_000, \"net_income\": 1_200},\n    ]\n    return pd.DataFrame(data)\n\n\ndef compute_multiples(df: pd.DataFrame) -> pd.DataFrame:\n    \"\"\"Calculate valuation multiples for each company.\"\"\"\n    df = df.copy()\n    df[\"ev\"] = df[\"market_cap\"] + df[\"total_debt\"] - df[\"cash\"]\n    df[\"ev_revenue\"] = (df[\"ev\"] / df[\"revenue\"]).round(2)\n    df[\"ev_ebitda\"] = (df[\"ev\"] / df[\"ebitda\"]).round(1)\n    df[\"pe\"] = (df[\"market_cap\"] / df[\"net_income\"]).round(1)\n    return df\n\n\ndef apply_to_target(\n    comps_df: pd.DataFrame,\n    target_revenue: float,\n    target_ebitda: float,\n    target_net_debt: float,\n    shares_outstanding: float,\n) -> dict:\n    \"\"\"Apply median multiples to target company.\"\"\"\n    median_ev_rev = comps_df[\"ev_revenue\"].median()\n    median_ev_ebitda = comps_df[\"ev_ebitda\"].median()\n\n    implied_ev_rev = target_revenue * median_ev_rev\n    implied_ev_ebitda = target_ebitda * median_ev_ebitda\n\n    midpoint_ev = (implied_ev_rev + implied_ev_ebitda) / 2\n    equity_value = midpoint_ev - target_net_debt\n    price_per_share = equity_value / shares_outstanding\n\n    return {\n        \"median_ev_revenue\": median_ev_rev,\n        \"median_ev_ebitda\": median_ev_ebitda,\n        \"implied_ev_via_revenue\": round(implied_ev_rev, 1),\n        \"implied_ev_via_ebitda\": round(implied_ev_ebitda, 1),\n        \"midpoint_ev\": round(midpoint_ev, 1),\n        \"implied_equity_value\": round(equity_value, 1),\n        \"implied_price_per_share\": round(price_per_share, 2),\n    }\n\n\ndef print_football_field(valuations: dict, company_name: str = \"Target\"):\n    \"\"\"Print a text-based football field chart.\"\"\"\n    methods = list(valuations.items())\n    max_val = max(v[1] for v in methods) * 1.1\n    width = 50\n\n    print(f\"\\n=== Football Field: {company_name} ===\")\n    for method, (low, high) in methods:\n        start = int(low / max_val * width)\n        end = int(high / max_val * width)\n        bar = \" \" * start + \"[\" + \"=\" * (end - start) + \"]\"\n        print(f\"  {method:<25s} {bar}  ${low:.0f}-${high:.0f}M\")\n\n\nif __name__ == \"__main__\":\n    df = demo_comps_data()\n    df = compute_multiples(df)\n\n    print(\"=== COMPS TABLE ===\")\n    print(df\"ticker\", \"ev\", \"revenue\", \"ebitda\", \"ev_revenue\", \"ev_ebitda\", \"pe\".to_string(index=False))\n\n    print(f\"\\n  Median EV/Revenue: {df['ev_revenue'].median():.2f}x\")\n    print(f\"  Median EV/EBITDA:  {df['ev_ebitda'].median():.1f}x\")\n    print(f\"  Median P/E:        {df['pe'].median():.1f}x\")\n\n    print(\"\\n=== IMPLIED VALUATION ===\")\n    target = apply_to_target(df, target_revenue=5_000, target_ebitda=1_200,\n                              target_net_debt=3_000, shares_outstanding=500)\n    for k, v in target.items():\n        print(f\"  {k}: {v}\")\n\n    # Football field\n    print_football_field({\n        \"Trading Comps (EV/Rev)\":     (target[\"implied_ev_via_revenue\"] * 0.85, target[\"implied_ev_via_revenue\"] * 1.15),\n        \"Trading Comps (EV/EBITDA)\":  (target[\"implied_ev_via_ebitda\"] * 0.85, target[\"implied_ev_via_ebitda\"] * 1.15),\n        \"Precedent Txns (est.)\":      (target[\"midpoint_ev\"] * 1.0, target[\"midpoint_ev\"] * 1.35),\n        \"DCF (placeholder)\":          (target[\"midpoint_ev\"] * 0.9, target[\"midpoint_ev\"] * 1.2),\n    })\n```"
+        "content": "```python\r\n\"\"\"\r\nComparable Company Analysis — Pull live data and compute multiples.\r\nRequires: pip install openbb pandas\r\n\"\"\"\r\nimport pandas as pd\r\n\r\n# --- OpenBB integration (uncomment when SDK is configured) ---\r\n# from openbb import obb\r\n#\r\n# def get_financials(ticker: str) -> dict:\r\n#     \"\"\"Pull key financials for a single ticker from OpenBB.\"\"\"\r\n#     profile = obb.equity.profile(ticker).to_df().iloc[0]\r\n#     income = obb.equity.fundamental.income(ticker, period=\"annual\", limit=1).to_df().iloc[0]\r\n#     balance = obb.equity.fundamental.balance(ticker, period=\"annual\", limit=1).to_df().iloc[0]\r\n#     return {\r\n#         \"ticker\": ticker,\r\n#         \"market_cap\": profile.get(\"market_cap\", 0),\r\n#         \"total_debt\": balance.get(\"total_debt\", 0),\r\n#         \"cash\": balance.get(\"cash_and_equivalents\", 0),\r\n#         \"revenue\": income.get(\"revenue\", 0),\r\n#         \"ebitda\": income.get(\"ebitda\", 0),\r\n#         \"net_income\": income.get(\"net_income\", 0),\r\n#     }\r\n\r\n# --- Offline/demo version ---\r\ndef demo_comps_data() -> pd.DataFrame:\r\n    \"\"\"Sample peer set for demonstration.\"\"\"\r\n    data = [\r\n        {\"ticker\": \"PYPL\", \"market_cap\": 70_000, \"total_debt\": 10_000, \"cash\": 8_000,\r\n         \"revenue\": 30_000, \"ebitda\": 6_500, \"net_income\": 4_200},\r\n        {\"ticker\": \"SQ\",   \"market_cap\": 45_000, \"total_debt\": 6_000,  \"cash\": 4_000,\r\n         \"revenue\": 22_000, \"ebitda\": 3_000, \"net_income\": 1_500},\r\n        {\"ticker\": \"ADYEN\", \"market_cap\": 50_000, \"total_debt\": 500,   \"cash\": 7_000,\r\n         \"revenue\": 1_800,  \"ebitda\": 900,   \"net_income\": 700},\r\n        {\"ticker\": \"FIS\",  \"market_cap\": 40_000, \"total_debt\": 20_000, \"cash\": 2_000,\r\n         \"revenue\": 14_000, \"ebitda\": 5_500, \"net_income\": 1_800},\r\n        {\"ticker\": \"GPN\",  \"market_cap\": 30_000, \"total_debt\": 15_000, \"cash\": 1_500,\r\n         \"revenue\": 9_000,  \"ebitda\": 4_000, \"net_income\": 1_200},\r\n    ]\r\n    return pd.DataFrame(data)\r\n\r\n\r\ndef compute_multiples(df: pd.DataFrame) -> pd.DataFrame:\r\n    \"\"\"Calculate valuation multiples for each company.\"\"\"\r\n    df = df.copy()\r\n    df[\"ev\"] = df[\"market_cap\"] + df[\"total_debt\"] - df[\"cash\"]\r\n    df[\"ev_revenue\"] = (df[\"ev\"] / df[\"revenue\"]).round(2)\r\n    df[\"ev_ebitda\"] = (df[\"ev\"] / df[\"ebitda\"]).round(1)\r\n    df[\"pe\"] = (df[\"market_cap\"] / df[\"net_income\"]).round(1)\r\n    return df\r\n\r\n\r\ndef apply_to_target(\r\n    comps_df: pd.DataFrame,\r\n    target_revenue: float,\r\n    target_ebitda: float,\r\n    target_net_debt: float,\r\n    shares_outstanding: float,\r\n) -> dict:\r\n    \"\"\"Apply median multiples to target company.\"\"\"\r\n    median_ev_rev = comps_df[\"ev_revenue\"].median()\r\n    median_ev_ebitda = comps_df[\"ev_ebitda\"].median()\r\n\r\n    implied_ev_rev = target_revenue * median_ev_rev\r\n    implied_ev_ebitda = target_ebitda * median_ev_ebitda\r\n\r\n    midpoint_ev = (implied_ev_rev + implied_ev_ebitda) / 2\r\n    equity_value = midpoint_ev - target_net_debt\r\n    price_per_share = equity_value / shares_outstanding\r\n\r\n    return {\r\n        \"median_ev_revenue\": median_ev_rev,\r\n        \"median_ev_ebitda\": median_ev_ebitda,\r\n        \"implied_ev_via_revenue\": round(implied_ev_rev, 1),\r\n        \"implied_ev_via_ebitda\": round(implied_ev_ebitda, 1),\r\n        \"midpoint_ev\": round(midpoint_ev, 1),\r\n        \"implied_equity_value\": round(equity_value, 1),\r\n        \"implied_price_per_share\": round(price_per_share, 2),\r\n    }\r\n\r\n\r\ndef print_football_field(valuations: dict, company_name: str = \"Target\"):\r\n    \"\"\"Print a text-based football field chart.\"\"\"\r\n    methods = list(valuations.items())\r\n    max_val = max(v[1] for v in methods) * 1.1\r\n    width = 50\r\n\r\n    print(f\"\\n=== Football Field: {company_name} ===\")\r\n    for method, (low, high) in methods:\r\n        start = int(low / max_val * width)\r\n        end = int(high / max_val * width)\r\n        bar = \" \" * start + \"[\" + \"=\" * (end - start) + \"]\"\r\n        print(f\"  {method:<25s} {bar}  ${low:.0f}-${high:.0f}M\")\r\n\r\n\r\nif __name__ == \"__main__\":\r\n    df = demo_comps_data()\r\n    df = compute_multiples(df)\r\n\r\n    print(\"=== COMPS TABLE ===\")\r\n    print(df\"ticker\", \"ev\", \"revenue\", \"ebitda\", \"ev_revenue\", \"ev_ebitda\", \"pe\".to_string(index=False))\r\n\r\n    print(f\"\\n  Median EV/Revenue: {df['ev_revenue'].median():.2f}x\")\r\n    print(f\"  Median EV/EBITDA:  {df['ev_ebitda'].median():.1f}x\")\r\n    print(f\"  Median P/E:        {df['pe'].median():.1f}x\")\r\n\r\n    print(\"\\n=== IMPLIED VALUATION ===\")\r\n    target = apply_to_target(df, target_revenue=5_000, target_ebitda=1_200,\r\n                              target_net_debt=3_000, shares_outstanding=500)\r\n    for k, v in target.items():\r\n        print(f\"  {k}: {v}\")\r\n\r\n    # Football field\r\n    print_football_field({\r\n        \"Trading Comps (EV/Rev)\":     (target[\"implied_ev_via_revenue\"] * 0.85, target[\"implied_ev_via_revenue\"] * 1.15),\r\n        \"Trading Comps (EV/EBITDA)\":  (target[\"implied_ev_via_ebitda\"] * 0.85, target[\"implied_ev_via_ebitda\"] * 1.15),\r\n        \"Precedent Txns (est.)\":      (target[\"midpoint_ev\"] * 1.0, target[\"midpoint_ev\"] * 1.35),\r\n        \"DCF (placeholder)\":          (target[\"midpoint_ev\"] * 0.9, target[\"midpoint_ev\"] * 1.2),\r\n    })\r\n```"
       },
       {
         "heading": "Common Pitfalls",
-        "content": "1. **Garbage in, garbage out**: If your peer set isn't comparable, your valuation is meaningless. A 30x EV/EBITDA comp in your set can pull the median dramatically.\n\n2. **Ignoring the \"why\" behind outliers**: If one comp trades at 25x while the rest trade at 12x, don't just exclude it — understand why. It might have a premium growth profile, a pending acquisition, or a one-time charge depressing EBITDA.\n\n3. **LTM vs. NTM confusion**: LTM (last twelve months) multiples look backward. NTM (next twelve months) multiples look forward and are generally more relevant for growth companies. Never mix them in the same table.\n\n4. **Calendarization**: Companies have different fiscal year ends. Normalize all financials to the same period (calendar year or LTM as of the same date).\n\n5. **Treating the median as gospel**: The median is a starting point. Where your target sits within the range depends on its relative growth, margins, and risk profile. A faster-growing company should trade above the median."
+        "content": "1. **Garbage in, garbage out**: If your peer set isn't comparable, your valuation is meaningless. A 30x EV/EBITDA comp in your set can pull the median dramatically.\r\n\r\n2. **Ignoring the \"why\" behind outliers**: If one comp trades at 25x while the rest trade at 12x, don't just exclude it — understand why. It might have a premium growth profile, a pending acquisition, or a one-time charge depressing EBITDA.\r\n\r\n3. **LTM vs. NTM confusion**: LTM (last twelve months) multiples look backward. NTM (next twelve months) multiples look forward and are generally more relevant for growth companies. Never mix them in the same table.\r\n\r\n4. **Calendarization**: Companies have different fiscal year ends. Normalize all financials to the same period (calendar year or LTM as of the same date).\r\n\r\n5. **Treating the median as gospel**: The median is a starting point. Where your target sits within the range depends on its relative growth, margins, and risk profile. A faster-growing company should trade above the median."
       },
       {
         "heading": "Apply It",
-        "content": "- Build a comps table generator that takes a list of tickers, pulls data from OpenBB, and outputs a formatted multiples table with statistics\n- Integrate as a sanity-check layer alongside the DCF model — flag if DCF implies a multiple far outside the comps range\n- Create an interactive \"peer group builder\" that lets you add/remove comps and see how the valuation range shifts\n- Educational content for aspiring analysts: \"Build your own comps table for any sector\""
+        "content": "- Build a comps table generator that takes a list of tickers, pulls data from OpenBB, and outputs a formatted multiples table with statistics\r\n- Integrate as a sanity-check layer alongside the DCF model — flag if DCF implies a multiple far outside the comps range\r\n- Create an interactive \"peer group builder\" that lets you add/remove comps and see how the valuation range shifts\r\n- Educational content for aspiring analysts: \"Build your own comps table for any sector\""
       },
       {
         "heading": "Research Next Steps",
-        "content": "- [ ] Pull EV/EBITDA for 5 fintech companies using OpenBB\n- [ ] Build a comps table template in Python/pandas\n- [ ] Understand why banks use P/Book instead of EV/EBITDA (hint: debt is a product, not capital structure)\n- [ ] Study how consensus estimates (NTM) differ from LTM and when each is appropriate\n- [ ] Build a precedent transactions database for fintech M&A deals (2020-2025)\n- [ ] Implement the football field chart as a matplotlib visualization\n- [ ] Compare Rule of 40 (growth + margin) to EV/Revenue for SaaS companies"
+        "content": "- [ ] Pull EV/EBITDA for 5 fintech companies using OpenBB\r\n- [ ] Build a comps table template in Python/pandas\r\n- [ ] Understand why banks use P/Book instead of EV/EBITDA (hint: debt is a product, not capital structure)\r\n- [ ] Study how consensus estimates (NTM) differ from LTM and when each is appropriate\r\n- [ ] Build a precedent transactions database for fintech M&A deals (2020-2025)\r\n- [ ] Implement the football field chart as a matplotlib visualization\r\n- [ ] Compare Rule of 40 (growth + margin) to EV/Revenue for SaaS companies"
       }
     ],
     "related": [
@@ -11627,19 +11244,19 @@ export const pods: Pod[] = [
       },
       {
         "heading": "Key Mechanics",
-        "content": "```\nWholesale Funding Sources (approximate breakdown):\n├── Brokered Deposits/CDs     ~$1T+    (largest segment; 25% of total deposits by 2023)\n├── FHLB Advances              ~$700B   (Federal Home Loan Bank lending, 11 regional banks)\n├── Repos                      ~$12.6T  (daily gross exposure; $4.4T centrally cleared)\n├── Fed Funds                  ~$100-200B (overnight interbank lending)\n└── Other (commercial paper)   ~$100B+\n\nTotal wholesale funding hit $4.3T in 2023 (18% of bank assets), up 30%+ from 2021.\n\nHow Brokered CDs Work Today:\n1. Bank needs $50M in 6-month funding\n2. Bank calls 3-5 deposit brokers (IntraFi, R&T, Fidelity, Schwab, etc.)\n3. Brokers quote rates based on their own network/inventory\n4. Bank compares quotes manually (phone + spreadsheet)\n5. Bank picks best rate, broker fills the order\n6. Settlement: T+1 or T+2, manual reconciliation\n7. No centralized price discovery — no Bloomberg for deposit rates\n\nModernFi Term Funding replaces steps 2-6:\n→ Real-time price discovery + benchmark data (Treasuries, FHLB rates)\n→ Digital order management with real-time fill tracking\n→ Centralized document management (replaces scattered PDFs/emails)\n→ Can request early close if targets aren't met\n→ Launched as Fed's BTFP (Bank Term Funding Program) wound down in 2025\n```"
+        "content": "```\r\nWholesale Funding Sources (approximate breakdown):\r\n├── Brokered Deposits/CDs     ~$1T+    (largest segment; 25% of total deposits by 2023)\r\n├── FHLB Advances              ~$700B   (Federal Home Loan Bank lending, 11 regional banks)\r\n├── Repos                      ~$12.6T  (daily gross exposure; $4.4T centrally cleared)\r\n├── Fed Funds                  ~$100-200B (overnight interbank lending)\r\n└── Other (commercial paper)   ~$100B+\r\n\r\nTotal wholesale funding hit $4.3T in 2023 (18% of bank assets), up 30%+ from 2021.\r\n\r\nHow Brokered CDs Work Today:\r\n1. Bank needs $50M in 6-month funding\r\n2. Bank calls 3-5 deposit brokers (IntraFi, R&T, Fidelity, Schwab, etc.)\r\n3. Brokers quote rates based on their own network/inventory\r\n4. Bank compares quotes manually (phone + spreadsheet)\r\n5. Bank picks best rate, broker fills the order\r\n6. Settlement: T+1 or T+2, manual reconciliation\r\n7. No centralized price discovery — no Bloomberg for deposit rates\r\n\r\nModernFi Term Funding replaces steps 2-6:\r\n→ Real-time price discovery + benchmark data (Treasuries, FHLB rates)\r\n→ Digital order management with real-time fill tracking\r\n→ Centralized document management (replaces scattered PDFs/emails)\r\n→ Can request early close if targets aren't met\r\n→ Launched as Fed's BTFP (Bank Term Funding Program) wound down in 2025\r\n```"
       },
       {
         "heading": "Why It's Still Manual",
-        "content": "- **Relationship-driven**: Banks trust specific brokers built over decades\n- **Regulatory complexity**: Each instrument type has different classification rules\n- **Low transaction frequency**: A bank might do 5-10 wholesale funding transactions per month — not enough volume to justify tech investment individually\n- **Fragmented infrastructure**: No single standard for rate quoting, settlement, or reporting\n- **Incumbent lock-in**: IntraFi's 3,000+ bank network creates massive switching costs"
+        "content": "- **Relationship-driven**: Banks trust specific brokers built over decades\r\n- **Regulatory complexity**: Each instrument type has different classification rules\r\n- **Low transaction frequency**: A bank might do 5-10 wholesale funding transactions per month — not enough volume to justify tech investment individually\r\n- **Fragmented infrastructure**: No single standard for rate quoting, settlement, or reporting\r\n- **Incumbent lock-in**: IntraFi's 3,000+ bank network creates massive switching costs"
       },
       {
         "heading": "Key Players",
-        "content": "| Player | Role | Scale |\n|--------|------|-------|\n| **IntraFi** (fka Promontory) | Dominant broker-intermediary | 3,000+ banks, $2.74B raised |\n| **R&T Deposit Solutions** | Legacy broker, PE-backed | Founded 1974, GTCR/Estancia |\n| **StoneCastle** | Institutional cash management | Custodial accounts (not reciprocal) |\n| **FHLB System** | Government-sponsored lender | 11 regional banks, ~$700B outstanding |\n| **ModernFi** | API-first digital network | 75+ CUs, 40%+ reciprocal market |"
+        "content": "| Player | Role | Scale |\r\n|--------|------|-------|\r\n| **IntraFi** (fka Promontory) | Dominant broker-intermediary | 3,000+ banks, $2.74B raised |\r\n| **R&T Deposit Solutions** | Legacy broker, PE-backed | Founded 1974, GTCR/Estancia |\r\n| **StoneCastle** | Institutional cash management | Custodial accounts (not reciprocal) |\r\n| **FHLB System** | Government-sponsored lender | 11 regional banks, ~$700B outstanding |\r\n| **ModernFi** | API-first digital network | 75+ CUs, 40%+ reciprocal market |"
       },
       {
         "heading": "The LCR Problem (Why Regulation Drives This Market)",
-        "content": "```\nBasel III Liquidity Coverage Ratio — 30-day runoff assumptions:\n  FDIC-insured retail deposits:           3% runoff\n  Stable retail deposits:                  5% runoff\n  Unsecured wholesale (operational):      25% runoff\n  Unsecured wholesale (non-operational): 100% runoff  ← banks assume ALL of it leaves\n\nThis means: $100M in wholesale funding requires $100M in HQLA (high-quality liquid assets)\nvs:          $100M in insured retail deposits only requires $3M in HQLA\n```\nThe punitive 100% runoff rate on non-operational wholesale funding makes it extremely expensive from a regulatory capital perspective. This is why banks prefer sticky retail deposits — and why reciprocal deposits (which get more favorable treatment than traditional brokered) are growing so fast."
+        "content": "```\r\nBasel III Liquidity Coverage Ratio — 30-day runoff assumptions:\r\n  FDIC-insured retail deposits:           3% runoff\r\n  Stable retail deposits:                  5% runoff\r\n  Unsecured wholesale (operational):      25% runoff\r\n  Unsecured wholesale (non-operational): 100% runoff  ← banks assume ALL of it leaves\r\n\r\nThis means: $100M in wholesale funding requires $100M in HQLA (high-quality liquid assets)\r\nvs:          $100M in insured retail deposits only requires $3M in HQLA\r\n```\r\nThe punitive 100% runoff rate on non-operational wholesale funding makes it extremely expensive from a regulatory capital perspective. This is why banks prefer sticky retail deposits — and why reciprocal deposits (which get more favorable treatment than traditional brokered) are growing so fast."
       },
       {
         "heading": "Why It Matters",
@@ -11647,11 +11264,11 @@ export const pods: Pod[] = [
       },
       {
         "heading": "Apply It",
-        "content": "- **Interview context**: ModernFi's Term Funding product attacks brokered CDs specifically — ask about rate discovery mechanics\n- Understand the difference between overnight funding (reciprocal) and term funding (CDs) — different products, same infrastructure vision\n- The OTC → electronic transition is the same pattern as equities (1990s), bonds (2010s), and now deposits (2020s)\n- Ask: \"What's the current mix between reciprocal deposit volume and term funding volume?\""
+        "content": "- **Interview context**: ModernFi's Term Funding product attacks brokered CDs specifically — ask about rate discovery mechanics\r\n- Understand the difference between overnight funding (reciprocal) and term funding (CDs) — different products, same infrastructure vision\r\n- The OTC → electronic transition is the same pattern as equities (1990s), bonds (2010s), and now deposits (2020s)\r\n- Ask: \"What's the current mix between reciprocal deposit volume and term funding volume?\""
       },
       {
         "heading": "Research Next Steps",
-        "content": "- [ ] Study FHLB advance mechanics — why banks use them as alternative to brokered deposits\n- [ ] Understand Basel III LCR (Liquidity Coverage Ratio) requirements driving this market\n- [ ] Read FDIC quarterly banking profile for brokered deposit trends\n- [ ] Compare IntraFi's CDARS (CD product) vs ICS (sweep product) pricing models"
+        "content": "- [ ] Study FHLB advance mechanics — why banks use them as alternative to brokered deposits\r\n- [ ] Understand Basel III LCR (Liquidity Coverage Ratio) requirements driving this market\r\n- [ ] Read FDIC quarterly banking profile for brokered deposit trends\r\n- [ ] Compare IntraFi's CDARS (CD product) vs ICS (sweep product) pricing models"
       }
     ],
     "related": [
@@ -11690,23 +11307,23 @@ export const pods: Pod[] = [
       },
       {
         "heading": "The Feasibility Scorecard",
-        "content": "Rate each dimension 1-5, then multiply by weight:\n\n| Dimension | Weight | Score 1 (Hard) | Score 5 (Easy) |\n|-----------|--------|-----------------|-----------------|\n| **Technical complexity** | 3x | Novel tech, no precedent, R&D required | Solved problem, libraries exist, done it before |\n| **Time to MVP** | 2x | Months of work, many moving parts | Weekend build, single feature |\n| **Dependencies** | 2x | Needs third-party APIs, approvals, other people | Fully within your control |\n| **Skill gap** | 1x | Need to learn new language/platform | Already know the stack |\n| **Maintenance burden** | 1x | Ongoing ops, data pipelines, user support | Deploy and forget |\n\n**Scoring:**\n- **36-45**: Green light. Ship it this week.\n- **25-35**: Feasible with clear scope cuts. Define the MVP ruthlessly.\n- **15-24**: Risky. Prototype first, timebox to 2 days, then reassess.\n- **Below 15**: Park it. The cost-to-value ratio is upside down right now."
+        "content": "Rate each dimension 1-5, then multiply by weight:\r\n\r\n| Dimension | Weight | Score 1 (Hard) | Score 5 (Easy) |\r\n|-----------|--------|-----------------|-----------------|\r\n| **Technical complexity** | 3x | Novel tech, no precedent, R&D required | Solved problem, libraries exist, done it before |\r\n| **Time to MVP** | 2x | Months of work, many moving parts | Weekend build, single feature |\r\n| **Dependencies** | 2x | Needs third-party APIs, approvals, other people | Fully within your control |\r\n| **Skill gap** | 1x | Need to learn new language/platform | Already know the stack |\r\n| **Maintenance burden** | 1x | Ongoing ops, data pipelines, user support | Deploy and forget |\r\n\r\n**Scoring:**\r\n- **36-45**: Green light. Ship it this week.\r\n- **25-35**: Feasible with clear scope cuts. Define the MVP ruthlessly.\r\n- **15-24**: Risky. Prototype first, timebox to 2 days, then reassess.\r\n- **Below 15**: Park it. The cost-to-value ratio is upside down right now."
       },
       {
         "heading": "The 5-Minute Feasibility Check",
-        "content": "When an idea hits you (or hits Slack), run this quick pass before it enters any pipeline:\n\n```\n1. ONE SENTENCE — What does it do? (If you can't say it in one sentence, scope is unclear)\n2. WHO CARES — Who benefits and how much? (No user = no value)\n3. WHAT EXISTS — Is there prior art? Libraries? Templates? (Don't build what's solved)\n4. HARD PARTS — What's the one thing that could kill this? (Find the risk early)\n5. SHIP DATE — Can you ship an MVP in under a week? (If not, scope down until you can)\n```\n\nIf you can't answer all five cleanly, the idea isn't ready — it needs more research or a tighter scope."
+        "content": "When an idea hits you (or hits Slack), run this quick pass before it enters any pipeline:\r\n\r\n```\r\n1. ONE SENTENCE — What does it do? (If you can't say it in one sentence, scope is unclear)\r\n2. WHO CARES — Who benefits and how much? (No user = no value)\r\n3. WHAT EXISTS — Is there prior art? Libraries? Templates? (Don't build what's solved)\r\n4. HARD PARTS — What's the one thing that could kill this? (Find the risk early)\r\n5. SHIP DATE — Can you ship an MVP in under a week? (If not, scope down until you can)\r\n```\r\n\r\nIf you can't answer all five cleanly, the idea isn't ready — it needs more research or a tighter scope."
       },
       {
         "heading": "Feasibility Anti-Patterns",
-        "content": "| Anti-Pattern | What Happens | Fix |\n|-------------|-------------|-----|\n| **\"Just one more feature\"** | Scope creeps past MVP, nothing ships | Define done BEFORE you start |\n| **Complexity blindness** | \"It's easy\" — then you hit auth, state, edge cases | Always identify the hard part first |\n| **Dependency optimism** | Assumes APIs/services will work as documented | Spike the integration before committing |\n| **Solo scaling** | Plans that require 3 people but you're 1 | Scope to what YOU can ship, not a team |\n| **Ignoring maintenance** | Ships but becomes a burden you can't sustain | If you can't maintain it, don't build it |"
+        "content": "| Anti-Pattern | What Happens | Fix |\r\n|-------------|-------------|-----|\r\n| **\"Just one more feature\"** | Scope creeps past MVP, nothing ships | Define done BEFORE you start |\r\n| **Complexity blindness** | \"It's easy\" — then you hit auth, state, edge cases | Always identify the hard part first |\r\n| **Dependency optimism** | Assumes APIs/services will work as documented | Spike the integration before committing |\r\n| **Solo scaling** | Plans that require 3 people but you're 1 | Scope to what YOU can ship, not a team |\r\n| **Ignoring maintenance** | Ships but becomes a burden you can't sustain | If you can't maintain it, don't build it |"
       },
       {
         "heading": "Python Entry Point — Feasibility Scorer",
-        "content": "```python\ndef score_feasibility(idea: dict) -> dict:\n    \"\"\"Quick feasibility score for an idea.\n    \n    idea = {\n        \"name\": \"Real-time multiplayer for kids games\",\n        \"technical_complexity\": 2,  # 1=hard, 5=easy\n        \"time_to_mvp\": 2,\n        \"dependencies\": 3,\n        \"skill_gap\": 4,\n        \"maintenance\": 2,\n    }\n    \"\"\"\n    weights = {\n        \"technical_complexity\": 3,\n        \"time_to_mvp\": 2,\n        \"dependencies\": 2,\n        \"skill_gap\": 1,\n        \"maintenance\": 1,\n    }\n    \n    total = sum(idea[k] * weights[k] for k in weights)\n    max_score = sum(5 * w for w in weights.values())  # 45\n    \n    if total >= 36:\n        verdict = \"GREEN — Ship it\"\n    elif total >= 25:\n        verdict = \"YELLOW — Scope down, then ship\"\n    elif total >= 15:\n        verdict = \"ORANGE — Prototype first, timebox it\"\n    else:\n        verdict = \"RED — Park it\"\n    \n    return {\n        \"idea\": idea[\"name\"],\n        \"score\": total,\n        \"max\": max_score,\n        \"pct\": f\"{total/max_score*100:.0f}%\",\n        \"verdict\": verdict,\n    }\n```"
+        "content": "```python\r\ndef score_feasibility(idea: dict) -> dict:\r\n    \"\"\"Quick feasibility score for an idea.\r\n    \r\n    idea = {\r\n        \"name\": \"Real-time multiplayer for kids games\",\r\n        \"technical_complexity\": 2,  # 1=hard, 5=easy\r\n        \"time_to_mvp\": 2,\r\n        \"dependencies\": 3,\r\n        \"skill_gap\": 4,\r\n        \"maintenance\": 2,\r\n    }\r\n    \"\"\"\r\n    weights = {\r\n        \"technical_complexity\": 3,\r\n        \"time_to_mvp\": 2,\r\n        \"dependencies\": 2,\r\n        \"skill_gap\": 1,\r\n        \"maintenance\": 1,\r\n    }\r\n    \r\n    total = sum(idea[k] * weights[k] for k in weights)\r\n    max_score = sum(5 * w for w in weights.values())  # 45\r\n    \r\n    if total >= 36:\r\n        verdict = \"GREEN — Ship it\"\r\n    elif total >= 25:\r\n        verdict = \"YELLOW — Scope down, then ship\"\r\n    elif total >= 15:\r\n        verdict = \"ORANGE — Prototype first, timebox it\"\r\n    else:\r\n        verdict = \"RED — Park it\"\r\n    \r\n    return {\r\n        \"idea\": idea[\"name\"],\r\n        \"score\": total,\r\n        \"max\": max_score,\r\n        \"pct\": f\"{total/max_score*100:.0f}%\",\r\n        \"verdict\": verdict,\r\n    }\r\n```"
       },
       {
         "heading": "Apply It",
-        "content": "- **Pipeline triage** — Run every new idea through the 5-minute check before it enters `_pipeline/queue/`. This directly supports the ship-and-finish rule: no new ideas unless they replace a weaker one.\n- **Obsidian vault** — Add a `feasibility` frontmatter field to queue items. Sort by score during weekly pipeline review to find what to archive vs. ship.\n- **Kids games** — Before starting a new game concept, score it. \"Can I ship a playable version in a weekend?\" is the bar. If not, scope it down.\n- **Homelab / lab-01** — Evaluate infra additions (new services, automations) against maintenance burden. Solo operators can't sustain high-maintenance infra.\n- **LearnPod capture** — When a Slack idea triggers a pod, the feasibility score helps decide: enrich now, or park for later?"
+        "content": "- **Pipeline triage** — Run every new idea through the 5-minute check before it enters `_pipeline/queue/`. This directly supports the ship-and-finish rule: no new ideas unless they replace a weaker one.\r\n- **Obsidian vault** — Add a `feasibility` frontmatter field to queue items. Sort by score during weekly pipeline review to find what to archive vs. ship.\r\n- **Kids games** — Before starting a new game concept, score it. \"Can I ship a playable version in a weekend?\" is the bar. If not, scope it down.\r\n- **Homelab / lab-01** — Evaluate infra additions (new services, automations) against maintenance burden. Solo operators can't sustain high-maintenance infra.\r\n- **LearnPod capture** — When a Slack idea triggers a pod, the feasibility score helps decide: enrich now, or park for later?"
       },
       {
         "heading": "Why It Matters",
@@ -11714,13 +11331,57 @@ export const pods: Pod[] = [
       },
       {
         "heading": "Research Next Steps",
-        "content": "- [ ] Build a CLI tool or Obsidian template that runs the feasibility scorecard\n- [ ] Add `feasibility_score` field to `_pipeline/queue/` frontmatter schema\n- [ ] Test the framework against 5 recently shipped vs. 5 abandoned projects — validate scoring\n- [ ] Integrate into `/inbox` skill: auto-score ideas as they arrive from Slack\n- [ ] Create a \"feasibility check\" step in the `/start-day` pipeline review"
+        "content": "- [ ] Build a CLI tool or Obsidian template that runs the feasibility scorecard\r\n- [ ] Add `feasibility_score` field to `_pipeline/queue/` frontmatter schema\r\n- [ ] Test the framework against 5 recently shipped vs. 5 abandoned projects — validate scoring\r\n- [ ] Integrate into `/inbox` skill: auto-score ideas as they arrive from Slack\r\n- [ ] Create a \"feasibility check\" step in the `/start-day` pipeline review"
       }
     ],
     "related": [
       "MOC - Learning",
       "MOC - Product & Engineering",
       "AI - Model Right-Sizing"
+    ],
+    "estimatedMinutes": 2,
+    "xpReward": 45
+  },
+  {
+    "slug": "httpswww",
+    "title": "Httpswww",
+    "domain": "General",
+    "tags": [
+      "pod",
+      "learning"
+    ],
+    "status": "queue",
+    "created": "2026-04-08",
+    "source": "Instagram",
+    "sourceUrl": "https://www.instagram.com/reel/DWWk0duBXHn/?igsh=Mmhtc3UxNmV2d21u|https://www.instagram.com/reel/DWWk0duBXHn/?igsh=Mmhtc3UxNmV2d21u",
+    "sections": [
+      {
+        "heading": "What It Is",
+        "content": "<!-- Captured from Slack: <https://www.instagram.com/reel/DWWk0duBXHn/?igsh=Mmhtc3UxNmV2d21u|https://www.instagram.com/reel/DWWk0duBXHn/?igsh=Mmhtc3UxNmV2d21u> -->\r\n<!-- Enrich this pod with /learn-capture or manually -->"
+      },
+      {
+        "heading": "Key Mechanics",
+        "content": "<!-- To be filled during enrichment -->"
+      },
+      {
+        "heading": "Python/Code Entry Point",
+        "content": "```python\r\n# TODO: Add minimal working example\r\n```"
+      },
+      {
+        "heading": "Why It Matters",
+        "content": "<!-- To be filled during enrichment -->"
+      },
+      {
+        "heading": "Apply It",
+        "content": "- **Vault** — <!-- connection to personal finance PWA -->\r\n- **Enterprise** — <!-- connection to mortgage platform -->"
+      },
+      {
+        "heading": "Research Next Steps",
+        "content": "- [ ] Research core concept in depth\r\n- [ ] Find practical code examples\r\n- [ ] Identify project integration points"
+      }
+    ],
+    "related": [
+      "- MOC - Learning"
     ],
     "estimatedMinutes": 2,
     "xpReward": 45
@@ -11796,31 +11457,31 @@ export const pods: Pod[] = [
       },
       {
         "heading": "The Decomposition",
-        "content": "Total prediction error breaks into three components:\n```\nTotal Error = Bias² + Variance + Irreducible Noise\n```\n- **Bias²**: Error from wrong assumptions in the model (too simple to capture the pattern)\n- **Variance**: Error from sensitivity to fluctuations in training data (memorizes noise)\n- **Irreducible Noise**: Random error inherent in the data — you can't fix this no matter what\n\nYou can only control the first two. Reducing one typically increases the other."
+        "content": "Total prediction error breaks into three components:\r\n```\r\nTotal Error = Bias² + Variance + Irreducible Noise\r\n```\r\n- **Bias²**: Error from wrong assumptions in the model (too simple to capture the pattern)\r\n- **Variance**: Error from sensitivity to fluctuations in training data (memorizes noise)\r\n- **Irreducible Noise**: Random error inherent in the data — you can't fix this no matter what\r\n\r\nYou can only control the first two. Reducing one typically increases the other."
       },
       {
         "heading": "High Bias (Underfitting)",
-        "content": "Model is too simple to capture the underlying pattern.\n\n**Symptoms:**\n- Bad training accuracy\n- Bad test accuracy\n- Train and test performance are similar (both bad)\n\n**Fixes:**\n- Add more features or engineer better ones\n- Use a more complex model (tree ensemble instead of linear)\n- Reduce regularization strength\n- Train longer (for neural nets)"
+        "content": "Model is too simple to capture the underlying pattern.\r\n\r\n**Symptoms:**\r\n- Bad training accuracy\r\n- Bad test accuracy\r\n- Train and test performance are similar (both bad)\r\n\r\n**Fixes:**\r\n- Add more features or engineer better ones\r\n- Use a more complex model (tree ensemble instead of linear)\r\n- Reduce regularization strength\r\n- Train longer (for neural nets)"
       },
       {
         "heading": "High Variance (Overfitting)",
-        "content": "Model memorizes training noise instead of learning the real signal.\n\n**Symptoms:**\n- Great training accuracy\n- Bad test accuracy\n- Large gap between train and test performance\n\n**Fixes:**\n- Get more training data\n- Add regularization (ML - Regularization)\n- Use a simpler model\n- Dropout (for neural nets)\n- Ensemble methods (bagging, random forests)"
+        "content": "Model memorizes training noise instead of learning the real signal.\r\n\r\n**Symptoms:**\r\n- Great training accuracy\r\n- Bad test accuracy\r\n- Large gap between train and test performance\r\n\r\n**Fixes:**\r\n- Get more training data\r\n- Add regularization (ML - Regularization)\r\n- Use a simpler model\r\n- Dropout (for neural nets)\r\n- Ensemble methods (bagging, random forests)"
       },
       {
         "heading": "The Sweet Spot",
-        "content": "Enough complexity to capture real patterns, not so much that it learns noise. This is what hyperparameter tuning is really about — finding the right position on the bias-variance curve.\n\n```\nError\n  │\n  │ \\                    /\n  │  \\   Total Error   /\n  │   \\              /\n  │    \\           /\n  │     \\_______/    ← Sweet spot\n  │      ·     ·\n  │  Bias²     Variance\n  │   ↘           ↗\n  └──────────────────────── Model Complexity →\n       Simple              Complex\n```"
+        "content": "Enough complexity to capture real patterns, not so much that it learns noise. This is what hyperparameter tuning is really about — finding the right position on the bias-variance curve.\r\n\r\n```\r\nError\r\n  │\r\n  │ \\                    /\r\n  │  \\   Total Error   /\r\n  │   \\              /\r\n  │    \\           /\r\n  │     \\_______/    ← Sweet spot\r\n  │      ·     ·\r\n  │  Bias²     Variance\r\n  │   ↘           ↗\r\n  └──────────────────────── Model Complexity →\r\n       Simple              Complex\r\n```"
       },
       {
         "heading": "Signal Forge Connection",
-        "content": "The XGBoost config in Signal Forge tells a bias-variance story:\n- `max_depth=4` — shallow trees = variance reduction\n- `learning_rate=0.05` — slow learning = implicit regularization\n- `subsample=0.8` — row sampling = reduces variance\n- `colsample_bytree=0.8` — feature sampling = reduces variance\n\nThe **95% train / 54% test accuracy gap** = classic high-variance signal. The model has memorized the training set. The shallow trees + low learning rate are already trading bias for lower variance, but the gap says more is needed (more data, feature pruning, or stronger regularization)."
+        "content": "The XGBoost config in Signal Forge tells a bias-variance story:\r\n- `max_depth=4` — shallow trees = variance reduction\r\n- `learning_rate=0.05` — slow learning = implicit regularization\r\n- `subsample=0.8` — row sampling = reduces variance\r\n- `colsample_bytree=0.8` — feature sampling = reduces variance\r\n\r\nThe **95% train / 54% test accuracy gap** = classic high-variance signal. The model has memorized the training set. The shallow trees + low learning rate are already trading bias for lower variance, but the gap says more is needed (more data, feature pruning, or stronger regularization)."
       },
       {
         "heading": "Practical Diagnostic",
-        "content": "Plot train vs test accuracy as you increase model complexity (e.g., tree depth):\n1. Both improve → still underfitting, increase complexity\n2. Train improves but test plateaus → approaching the sweet spot\n3. Train improves but test degrades → overfitting, dial it back\n\nThis is why you always need a validation set separate from your test set — you tune on validation, evaluate on test."
+        "content": "Plot train vs test accuracy as you increase model complexity (e.g., tree depth):\r\n1. Both improve → still underfitting, increase complexity\r\n2. Train improves but test plateaus → approaching the sweet spot\r\n3. Train improves but test degrades → overfitting, dial it back\r\n\r\nThis is why you always need a validation set separate from your test set — you tune on validation, evaluate on test."
       },
       {
         "heading": "Research Next Steps",
-        "content": "- [ ] Plot learning curves for Signal Forge XGBoost (train vs test by n_estimators)\n- [ ] Experiment with max_depth 3-6 and log the bias-variance tradeoff\n- [ ] Read ESL Chapter 7 (model assessment and selection)"
+        "content": "- [ ] Plot learning curves for Signal Forge XGBoost (train vs test by n_estimators)\r\n- [ ] Experiment with max_depth 3-6 and log the bias-variance tradeoff\r\n- [ ] Read ESL Chapter 7 (model assessment and selection)"
       }
     ],
     "related": [
@@ -11948,31 +11609,31 @@ export const pods: Pod[] = [
       },
       {
         "heading": "How a Single Neuron Works",
-        "content": "```\ninputs: [x1, x2, x3]\nweights: [w1, w2, w3]\nbias: b\n\noutput = activation(w1*x1 + w2*x2 + w3*x3 + b)\n```\nThat's it. A neuron is just a weighted sum passed through a nonlinear function. The power comes from combining thousands of these."
+        "content": "```\r\ninputs: [x1, x2, x3]\r\nweights: [w1, w2, w3]\r\nbias: b\r\n\r\noutput = activation(w1*x1 + w2*x2 + w3*x3 + b)\r\n```\r\nThat's it. A neuron is just a weighted sum passed through a nonlinear function. The power comes from combining thousands of these."
       },
       {
         "heading": "Network Architecture",
-        "content": "```\nInput Layer      Hidden Layer      Output Layer\n  [x1] ──────┐\n              ├──→ [h1] ──┐\n  [x2] ──────┤            ├──→ [y]\n              ├──→ [h2] ──┘\n  [x3] ──────┘\n\n  Each arrow = weight\n  Each node = weighted sum + bias + activation\n```"
+        "content": "```\r\nInput Layer      Hidden Layer      Output Layer\r\n  [x1] ──────┐\r\n              ├──→ [h1] ──┐\r\n  [x2] ──────┤            ├──→ [y]\r\n              ├──→ [h2] ──┘\r\n  [x3] ──────┘\r\n\r\n  Each arrow = weight\r\n  Each node = weighted sum + bias + activation\r\n```"
       },
       {
         "heading": "Forward Pass",
-        "content": "Input flows through the network layer by layer:\n1. Input layer receives raw features\n2. Hidden layer(s) transform features: `h = activation(W × input + b)`\n3. Output layer produces prediction\n4. Each layer learns increasingly abstract representations"
+        "content": "Input flows through the network layer by layer:\r\n1. Input layer receives raw features\r\n2. Hidden layer(s) transform features: `h = activation(W × input + b)`\r\n3. Output layer produces prediction\r\n4. Each layer learns increasingly abstract representations"
       },
       {
         "heading": "Backpropagation",
-        "content": "How the network learns — just the chain rule from calculus applied repeatedly:\n1. **Compute loss** — how wrong is the output? (MSE for regression, cross-entropy for classification)\n2. **Compute gradients** — for each weight, how much did it contribute to the error?\n3. **Update weights** — nudge each weight in the direction that reduces loss\n4. **Repeat** — thousands of times across the training data"
+        "content": "How the network learns — just the chain rule from calculus applied repeatedly:\r\n1. **Compute loss** — how wrong is the output? (MSE for regression, cross-entropy for classification)\r\n2. **Compute gradients** — for each weight, how much did it contribute to the error?\r\n3. **Update weights** — nudge each weight in the direction that reduces loss\r\n4. **Repeat** — thousands of times across the training data"
       },
       {
         "heading": "Key Components",
-        "content": "### Activation Functions\n| Function | Formula | Output Range | Use For |\n|----------|---------|-------------|---------|\n| ReLU | max(0, x) | [0, inf) | Default hidden layer choice |\n| Sigmoid | 1/(1+e^-x) | (0, 1) | Binary classification output |\n| Softmax | e^xi / Σe^xj | (0, 1), sums to 1 | Multi-class output |\n| Tanh | (e^x - e^-x)/(e^x + e^-x) | (-1, 1) | When negative values matter |\n\n**Why ReLU dominates:** Fast to compute, avoids vanishing gradient problem, works well in practice. Start here.\n\n### Loss Functions\n- **MSE (Mean Squared Error):** Regression tasks — predicting a number\n- **Cross-entropy:** Classification tasks — predicting a category\n- **Binary cross-entropy:** Two classes (up/down, buy/sell)\n\n### Optimizers\n- **SGD:** Simple gradient descent. Reliable but slow.\n- **Adam:** Adaptive learning rate per parameter. Default choice for most tasks.\n- **Learning rate:** Too high = unstable training. Too low = painfully slow. Typical: 1e-3 to 1e-4 for Adam."
+        "content": "### Activation Functions\r\n| Function | Formula | Output Range | Use For |\r\n|----------|---------|-------------|---------|\r\n| ReLU | max(0, x) | [0, inf) | Default hidden layer choice |\r\n| Sigmoid | 1/(1+e^-x) | (0, 1) | Binary classification output |\r\n| Softmax | e^xi / Σe^xj | (0, 1), sums to 1 | Multi-class output |\r\n| Tanh | (e^x - e^-x)/(e^x + e^-x) | (-1, 1) | When negative values matter |\r\n\r\n**Why ReLU dominates:** Fast to compute, avoids vanishing gradient problem, works well in practice. Start here.\r\n\r\n### Loss Functions\r\n- **MSE (Mean Squared Error):** Regression tasks — predicting a number\r\n- **Cross-entropy:** Classification tasks — predicting a category\r\n- **Binary cross-entropy:** Two classes (up/down, buy/sell)\r\n\r\n### Optimizers\r\n- **SGD:** Simple gradient descent. Reliable but slow.\r\n- **Adam:** Adaptive learning rate per parameter. Default choice for most tasks.\r\n- **Learning rate:** Too high = unstable training. Too low = painfully slow. Typical: 1e-3 to 1e-4 for Adam."
       },
       {
         "heading": "When to Use Neural Nets vs XGBoost",
-        "content": "| Scenario | Winner | Why |\n|----------|--------|-----|\n| Tabular/structured data | XGBoost | Handles feature interactions natively |\n| Small datasets (<10K) | XGBoost | Neural nets need more data |\n| Images, text, audio | Neural nets | Learn hierarchical representations |\n| Massive datasets (>100K) | Neural nets | Scale better with more data |\n| Interpretability needed | XGBoost | Feature importance is straightforward |\n\nSignal Forge uses XGBoost because it's tabular financial data with ~3K samples. Neural nets would overfit."
+        "content": "| Scenario | Winner | Why |\r\n|----------|--------|-----|\r\n| Tabular/structured data | XGBoost | Handles feature interactions natively |\r\n| Small datasets (<10K) | XGBoost | Neural nets need more data |\r\n| Images, text, audio | Neural nets | Learn hierarchical representations |\r\n| Massive datasets (>100K) | Neural nets | Scale better with more data |\r\n| Interpretability needed | XGBoost | Feature importance is straightforward |\r\n\r\nSignal Forge uses XGBoost because it's tabular financial data with ~3K samples. Neural nets would overfit."
       },
       {
         "heading": "The Deep Learning Stack",
-        "content": "- **PyTorch:** Current standard for research and learning. More Pythonic, easier to debug.\n- **TensorFlow/Keras:** Production deployment, mobile/edge. Larger ecosystem.\n- **JAX:** Google's newer framework. Functional style, great for research.\n\nFor the SE-to-AI roadmap: start with PyTorch. It's what you'll encounter in papers, tutorials, and most AI engineering roles."
+        "content": "- **PyTorch:** Current standard for research and learning. More Pythonic, easier to debug.\r\n- **TensorFlow/Keras:** Production deployment, mobile/edge. Larger ecosystem.\r\n- **JAX:** Google's newer framework. Functional style, great for research.\r\n\r\nFor the SE-to-AI roadmap: start with PyTorch. It's what you'll encounter in papers, tutorials, and most AI engineering roles."
       },
       {
         "heading": "Connection to Transformers",
@@ -11980,7 +11641,7 @@ export const pods: Pod[] = [
       },
       {
         "heading": "Research Next Steps",
-        "content": "- [ ] Build a simple 2-layer network in PyTorch (MNIST digit classification)\n- [ ] Visualize what hidden layers learn (activation maps)\n- [ ] Compare neural net vs XGBoost on Signal Forge data\n- [ ] Read 3Blue1Brown neural network series (visual intuition)"
+        "content": "- [ ] Build a simple 2-layer network in PyTorch (MNIST digit classification)\r\n- [ ] Visualize what hidden layers learn (activation maps)\r\n- [ ] Compare neural net vs XGBoost on Signal Forge data\r\n- [ ] Read 3Blue1Brown neural network series (visual intuition)"
       }
     ],
     "related": [
@@ -12011,39 +11672,39 @@ export const pods: Pod[] = [
       },
       {
         "heading": "L1 Regularization (Lasso)",
-        "content": "Adds the sum of absolute weight values to the loss function:\n```\nLoss = Original Loss + λ × Σ|weights|\n```\n**Effect:** Drives some weights to exactly zero — automatic feature selection.\n**Use when:** You suspect many features are irrelevant and want a sparse model.\n**Typical λ:** 1e-4 to 1e-1 (tune via cross-validation)."
+        "content": "Adds the sum of absolute weight values to the loss function:\r\n```\r\nLoss = Original Loss + λ × Σ|weights|\r\n```\r\n**Effect:** Drives some weights to exactly zero — automatic feature selection.\r\n**Use when:** You suspect many features are irrelevant and want a sparse model.\r\n**Typical λ:** 1e-4 to 1e-1 (tune via cross-validation)."
       },
       {
         "heading": "L2 Regularization (Ridge)",
-        "content": "Adds the sum of squared weight values to the loss function:\n```\nLoss = Original Loss + λ × Σ(weights²)\n```\n**Effect:** Shrinks all weights toward zero but none to exactly zero — smooth, stable predictions.\n**Use when:** Default regularization choice. Good when all features may contribute.\n**Typical λ:** 1e-4 to 1e-1."
+        "content": "Adds the sum of squared weight values to the loss function:\r\n```\r\nLoss = Original Loss + λ × Σ(weights²)\r\n```\r\n**Effect:** Shrinks all weights toward zero but none to exactly zero — smooth, stable predictions.\r\n**Use when:** Default regularization choice. Good when all features may contribute.\r\n**Typical λ:** 1e-4 to 1e-1."
       },
       {
         "heading": "Elastic Net",
-        "content": "Combines L1 and L2 with a mixing parameter α:\n```\nLoss = Original Loss + λ × [α × Σ|weights| + (1-α) × Σ(weights²)]\n```\nBest of both worlds: feature selection (L1) AND stability (L2). Use when you want sparse models but have correlated features (where pure L1 picks arbitrarily)."
+        "content": "Combines L1 and L2 with a mixing parameter α:\r\n```\r\nLoss = Original Loss + λ × [α × Σ|weights| + (1-α) × Σ(weights²)]\r\n```\r\nBest of both worlds: feature selection (L1) AND stability (L2). Use when you want sparse models but have correlated features (where pure L1 picks arbitrarily)."
       },
       {
         "heading": "Comparison Table",
-        "content": "| Technique | What It Does | Best For | Hyperparameters |\n|-----------|-------------|----------|-----------------|\n| L1 (Lasso) | Zeros out weak features | Feature selection | λ: 1e-4 to 1e-1 |\n| L2 (Ridge) | Shrinks all weights | General stability | λ: 1e-4 to 1e-1 |\n| Elastic Net | L1 + L2 combined | Correlated features | λ + α (mix ratio) |\n| Dropout | Zeros random neurons | Neural networks | Rate: 0.1 to 0.5 |\n| Early Stopping | Stops at best val loss | Everything | Patience: 5-20 epochs |"
+        "content": "| Technique | What It Does | Best For | Hyperparameters |\r\n|-----------|-------------|----------|-----------------|\r\n| L1 (Lasso) | Zeros out weak features | Feature selection | λ: 1e-4 to 1e-1 |\r\n| L2 (Ridge) | Shrinks all weights | General stability | λ: 1e-4 to 1e-1 |\r\n| Elastic Net | L1 + L2 combined | Correlated features | λ + α (mix ratio) |\r\n| Dropout | Zeros random neurons | Neural networks | Rate: 0.1 to 0.5 |\r\n| Early Stopping | Stops at best val loss | Everything | Patience: 5-20 epochs |"
       },
       {
         "heading": "Dropout (Neural Networks)",
-        "content": "Randomly zero out neurons during training with probability p. Forces the network to not rely on any single neuron — builds redundancy.\n- **Typical rates:** 0.1-0.3 for input layers, 0.3-0.5 for hidden layers\n- **At inference:** All neurons active, weights scaled by (1-p)\n- Think of it as training an ensemble of sub-networks"
+        "content": "Randomly zero out neurons during training with probability p. Forces the network to not rely on any single neuron — builds redundancy.\r\n- **Typical rates:** 0.1-0.3 for input layers, 0.3-0.5 for hidden layers\r\n- **At inference:** All neurons active, weights scaled by (1-p)\r\n- Think of it as training an ensemble of sub-networks"
       },
       {
         "heading": "Early Stopping",
-        "content": "Stop training when validation loss starts increasing. Simple, effective, and nearly free to implement.\n- XGBoost supports this natively (`early_stopping_rounds`)\n- Set patience high enough to avoid stopping on noise (5-20 rounds)\n- Always use this — there's no downside"
+        "content": "Stop training when validation loss starts increasing. Simple, effective, and nearly free to implement.\r\n- XGBoost supports this natively (`early_stopping_rounds`)\r\n- Set patience high enough to avoid stopping on noise (5-20 rounds)\r\n- Always use this — there's no downside"
       },
       {
         "heading": "Signal Forge XGBoost Regularization",
-        "content": "Every hyperparameter in Signal Forge's config is a regularization technique:\n- `max_depth=4` — limits tree complexity (prevents memorizing edge cases)\n- `learning_rate=0.05` — slow learning = each tree contributes less = implicit regularization\n- `subsample=0.8` — train each tree on 80% of rows (like dropout for trees)\n- `colsample_bytree=0.8` — each tree sees 80% of features (reduces feature co-adaptation)\n- `n_estimators` with early stopping — stops adding trees when validation plateaus"
+        "content": "Every hyperparameter in Signal Forge's config is a regularization technique:\r\n- `max_depth=4` — limits tree complexity (prevents memorizing edge cases)\r\n- `learning_rate=0.05` — slow learning = each tree contributes less = implicit regularization\r\n- `subsample=0.8` — train each tree on 80% of rows (like dropout for trees)\r\n- `colsample_bytree=0.8` — each tree sees 80% of features (reduces feature co-adaptation)\r\n- `n_estimators` with early stopping — stops adding trees when validation plateaus"
       },
       {
         "heading": "How to Choose",
-        "content": "1. **Start with L2** — safe default, rarely hurts\n2. **Add L1** if you need feature selection or suspect irrelevant features\n3. **Use dropout** for neural networks (0.2-0.3 is a safe starting point)\n4. **Always use early stopping** — no reason not to\n5. **Tune λ on validation set** — never on test set"
+        "content": "1. **Start with L2** — safe default, rarely hurts\r\n2. **Add L1** if you need feature selection or suspect irrelevant features\r\n3. **Use dropout** for neural networks (0.2-0.3 is a safe starting point)\r\n4. **Always use early stopping** — no reason not to\r\n5. **Tune λ on validation set** — never on test set"
       },
       {
         "heading": "Research Next Steps",
-        "content": "- [ ] Compare Signal Forge accuracy with regularization off vs current settings\n- [ ] Test L1 feature selection on Signal Forge feature set — which features get zeroed?\n- [ ] Read about Bayesian regularization (priors as regularization)"
+        "content": "- [ ] Compare Signal Forge accuracy with regularization off vs current settings\r\n- [ ] Test L1 feature selection on Signal Forge feature set — which features get zeroed?\r\n- [ ] Read about Bayesian regularization (priors as regularization)"
       }
     ],
     "related": [
@@ -12076,35 +11737,35 @@ export const pods: Pod[] = [
       },
       {
         "heading": "The Core Idea: Self-Attention",
-        "content": "For each token in a sequence, compute how much it should \"attend to\" every other token. This creates a weighted combination of all tokens' representations.\n\nThis is how Claude \"understands\" that a pronoun 500 tokens later refers back to a specific noun — attention creates direct connections between any two positions regardless of distance."
+        "content": "For each token in a sequence, compute how much it should \"attend to\" every other token. This creates a weighted combination of all tokens' representations.\r\n\r\nThis is how Claude \"understands\" that a pronoun 500 tokens later refers back to a specific noun — attention creates direct connections between any two positions regardless of distance."
       },
       {
         "heading": "The Math (Simplified)",
-        "content": "Each token gets projected into three vectors:\n```\nQ = input x W_query    (what am I looking for?)\nK = input x W_key      (what do I contain?)\nV = input x W_value    (what should I output?)\n\nAttention(Q, K, V) = softmax(Q x K^T / sqrt(d_k)) x V\n```\n\nStep by step:\n1. **Q x K^T** — dot product between query and all keys = similarity scores\n2. **/ sqrt(d_k)** — scale down to prevent softmax saturation\n3. **softmax** — convert scores to probabilities (sum to 1)\n4. **x V** — weighted sum of values = context-aware representation"
+        "content": "Each token gets projected into three vectors:\r\n```\r\nQ = input x W_query    (what am I looking for?)\r\nK = input x W_key      (what do I contain?)\r\nV = input x W_value    (what should I output?)\r\n\r\nAttention(Q, K, V) = softmax(Q x K^T / sqrt(d_k)) x V\r\n```\r\n\r\nStep by step:\r\n1. **Q x K^T** — dot product between query and all keys = similarity scores\r\n2. **/ sqrt(d_k)** — scale down to prevent softmax saturation\r\n3. **softmax** — convert scores to probabilities (sum to 1)\r\n4. **x V** — weighted sum of values = context-aware representation"
       },
       {
         "heading": "Multi-Head Attention",
-        "content": "Run attention multiple times in parallel with different learned weight matrices:\n```\nHead 1: Attention(Q*W1_q, K*W1_k, V*W1_v)  → syntax patterns\nHead 2: Attention(Q*W2_q, K*W2_k, V*W2_v)  → semantic meaning\nHead 3: Attention(Q*W3_q, K*W3_k, V*W3_v)  → coreference\n...\nHead N: Attention(Q*Wn_q, K*Wn_k, V*Wn_v)  → other patterns\n\nOutput = Concat(Head1, ..., HeadN) x W_output\n```\nEach head learns different relationship types. The model discovers which relationships matter during training."
+        "content": "Run attention multiple times in parallel with different learned weight matrices:\r\n```\r\nHead 1: Attention(Q*W1_q, K*W1_k, V*W1_v)  → syntax patterns\r\nHead 2: Attention(Q*W2_q, K*W2_k, V*W2_v)  → semantic meaning\r\nHead 3: Attention(Q*W3_q, K*W3_k, V*W3_v)  → coreference\r\n...\r\nHead N: Attention(Q*Wn_q, K*Wn_k, V*Wn_v)  → other patterns\r\n\r\nOutput = Concat(Head1, ..., HeadN) x W_output\r\n```\r\nEach head learns different relationship types. The model discovers which relationships matter during training."
       },
       {
         "heading": "Transformer Block",
-        "content": "```\nInput\n  │\n  ├──→ Multi-Head Self-Attention\n  │         │\n  ├─────── Add & Layer Normalize (residual connection)\n  │         │\n  ├──→ Feed-Forward Network (2 dense layers + ReLU)\n  │         │\n  └─────── Add & Layer Normalize (residual connection)\n              │\n           Output\n```\nStack 12-96+ of these blocks. Each block refines the representation. Residual connections (the \"Add\" step) allow gradients to flow through deep networks without vanishing."
+        "content": "```\r\nInput\r\n  │\r\n  ├──→ Multi-Head Self-Attention\r\n  │         │\r\n  ├─────── Add & Layer Normalize (residual connection)\r\n  │         │\r\n  ├──→ Feed-Forward Network (2 dense layers + ReLU)\r\n  │         │\r\n  └─────── Add & Layer Normalize (residual connection)\r\n              │\r\n           Output\r\n```\r\nStack 12-96+ of these blocks. Each block refines the representation. Residual connections (the \"Add\" step) allow gradients to flow through deep networks without vanishing."
       },
       {
         "heading": "Encoder vs Decoder",
-        "content": "| Architecture | Direction | Examples | Best For |\n|-------------|-----------|----------|----------|\n| Encoder | Bidirectional (sees all tokens) | BERT, RoBERTa | Understanding, classification, embeddings |\n| Decoder | Autoregressive (left-to-right) | GPT, Claude, Llama | Text generation, one token at a time |\n| Encoder-Decoder | Both | T5, BART | Translation, summarization |\n\nClaude is a decoder model — it generates tokens left to right, each token attending only to tokens that came before it (causal masking)."
+        "content": "| Architecture | Direction | Examples | Best For |\r\n|-------------|-----------|----------|----------|\r\n| Encoder | Bidirectional (sees all tokens) | BERT, RoBERTa | Understanding, classification, embeddings |\r\n| Decoder | Autoregressive (left-to-right) | GPT, Claude, Llama | Text generation, one token at a time |\r\n| Encoder-Decoder | Both | T5, BART | Translation, summarization |\r\n\r\nClaude is a decoder model — it generates tokens left to right, each token attending only to tokens that came before it (causal masking)."
       },
       {
         "heading": "Why This Matters for You",
-        "content": "Understanding transformers demystifies what Claude is doing under the hood:\n- **Prompt engineering** makes more sense — token order matters because of positional encoding\n- **Context window limits** exist because attention is O(n^2) in sequence length\n- **Lost in the middle** phenomenon — attention scores can dilute across very long contexts\n- **Temperature** controls the softmax distribution over next-token predictions\n- **Token-based pricing** maps directly to the compute cost of running attention across your input"
+        "content": "Understanding transformers demystifies what Claude is doing under the hood:\r\n- **Prompt engineering** makes more sense — token order matters because of positional encoding\r\n- **Context window limits** exist because attention is O(n^2) in sequence length\r\n- **Lost in the middle** phenomenon — attention scores can dilute across very long contexts\r\n- **Temperature** controls the softmax distribution over next-token predictions\r\n- **Token-based pricing** maps directly to the compute cost of running attention across your input"
       },
       {
         "heading": "Scale and Cost",
-        "content": "Modern LLMs are transformers scaled up massively:\n- Billions of parameters across dozens of transformer blocks\n- Each parameter = one floating-point number that was tuned during training\n- More parameters + more training data = better understanding\n- This is why AI - Model Right-Sizing matters — you're paying for all those attention computations on every token"
+        "content": "Modern LLMs are transformers scaled up massively:\r\n- Billions of parameters across dozens of transformer blocks\r\n- Each parameter = one floating-point number that was tuned during training\r\n- More parameters + more training data = better understanding\r\n- This is why AI - Model Right-Sizing matters — you're paying for all those attention computations on every token"
       },
       {
         "heading": "Research Next Steps",
-        "content": "- [ ] Read \"Attention Is All You Need\" (focus on sections 3.1-3.3)\n- [ ] Watch 3Blue1Brown transformer visualization\n- [ ] Implement single-head attention from scratch in PyTorch\n- [ ] Explore attention visualization tools (BertViz) to see what heads learn\n- [ ] Read about Flash Attention and efficiency improvements"
+        "content": "- [ ] Read \"Attention Is All You Need\" (focus on sections 3.1-3.3)\r\n- [ ] Watch 3Blue1Brown transformer visualization\r\n- [ ] Implement single-head attention from scratch in PyTorch\r\n- [ ] Explore attention visualization tools (BertViz) to see what heads learn\r\n- [ ] Read about Flash Attention and efficiency improvements"
       }
     ],
     "related": [
@@ -12253,31 +11914,31 @@ export const pods: Pod[] = [
     "sections": [
       {
         "heading": "What It Is",
-        "content": "OpenBB is an **open-source financial data platform** for analysts, quants, and AI agents. Originally built as a CLI-based \"Bloomberg Terminal for retail investors,\" it has evolved into a modular Python SDK + REST API + AI-native workspace that aggregates data from close to 100 providers across every major asset class: equities, options, crypto, forex, fixed income, macro economy, and alternatives.\n\nThe platform operates on a **\"connect once, consume everywhere\"** architecture. Data engineers integrate sources once, and the platform exposes them simultaneously to:\n- **Python environments** for quants and developers\n- **OpenBB Workspace** (web UI) for analysts\n- **Excel add-in** for spreadsheet workflows\n- **MCP servers** for AI agents (Claude, custom copilots)\n- **REST API** for any language or application\n\nThe current version is **v4.7.x** (as of March 2026), built on FastAPI under the hood with a standardized `OBBject` response pattern across all endpoints.\n\n**Cost**: The core platform and most data providers (yFinance, FRED) are completely free. Bloomberg Terminal costs ~$24,000/year. OpenBB gives you programmatic access to a huge slice of that data for $0."
+        "content": "OpenBB is an **open-source financial data platform** for analysts, quants, and AI agents. Originally built as a CLI-based \"Bloomberg Terminal for retail investors,\" it has evolved into a modular Python SDK + REST API + AI-native workspace that aggregates data from close to 100 providers across every major asset class: equities, options, crypto, forex, fixed income, macro economy, and alternatives.\r\n\r\nThe platform operates on a **\"connect once, consume everywhere\"** architecture. Data engineers integrate sources once, and the platform exposes them simultaneously to:\r\n- **Python environments** for quants and developers\r\n- **OpenBB Workspace** (web UI) for analysts\r\n- **Excel add-in** for spreadsheet workflows\r\n- **MCP servers** for AI agents (Claude, custom copilots)\r\n- **REST API** for any language or application\r\n\r\nThe current version is **v4.7.x** (as of March 2026), built on FastAPI under the hood with a standardized `OBBject` response pattern across all endpoints.\r\n\r\n**Cost**: The core platform and most data providers (yFinance, FRED) are completely free. Bloomberg Terminal costs ~$24,000/year. OpenBB gives you programmatic access to a huge slice of that data for $0."
       },
       {
         "heading": "Key Mechanics",
-        "content": "### Data Architecture\n- **Standardized interface**: Every command returns an `OBBject` that converts to pandas DataFrame via `.to_df()` or `.to_dataframe()`\n- **Provider abstraction**: Same function signature, swap providers with `provider=\"yfinance\"` or `provider=\"polygon\"` — the SDK normalizes the response schema\n- **Extension framework**: Generate Workspace, MCP, CLI, and Python interfaces from existing FastAPI apps with no additional code\n\n### Data Providers (Free Tier)\n| Provider | Coverage | Notes |\n|----------|----------|-------|\n| **yFinance** | Equity prices, fundamentals, options | Free, no API key needed |\n| **FRED** | Macro indicators (GDP, CPI, rates) | Free, requires API key |\n| **SEC EDGAR** | Company filings, insider trades | Free, public data |\n| **Tiingo** | EOD prices, IEX real-time | Free tier available |\n| **CBOE** | Options data, VIX | Free endpoints |\n\n### Data Providers (Paid / Premium)\n| Provider | Coverage | Notes |\n|----------|----------|-------|\n| **Polygon.io** | Real-time equities, options, crypto | Starts $29/mo |\n| **Intrinio** | Fundamentals, options, real-time | Enterprise pricing |\n| **FMP** | Full financial statements, ratios | Free tier + paid |\n| **Benzinga** | News, analyst ratings, options activity | Paid |\n\n### Routers (Namespace Organization)\n- `obb.equity` — prices, fundamentals, estimates, ownership, screener\n- `obb.derivatives` — options chains, expirations, Greeks\n- `obb.economy` — FRED series, CPI, GDP, treasury rates, central bank data\n- `obb.crypto` — prices, on-chain metrics\n- `obb.fixedincome` — yields, spreads, corporate bonds\n- `obb.news` — multi-provider news aggregation\n- `obb.etf` — ETF holdings, performance, sectors\n- `obb.index` — major indices, constituents\n- `obb.technical` — built-in technical analysis indicators\n\n### AI & Copilot Integration\n- **OpenBB Copilot**: AI assistant embedded in Workspace for natural language financial queries\n- **MCP Server support**: Connect OpenBB as a tool source for Claude and other AI agents\n- **Pydantic AI bridge**: `openbb-pydantic-ai` library for building custom agents that speak native OpenBB\n- **Plugin Extensions**: `on_command_output` patterns for controlling response delivery"
+        "content": "### Data Architecture\r\n- **Standardized interface**: Every command returns an `OBBject` that converts to pandas DataFrame via `.to_df()` or `.to_dataframe()`\r\n- **Provider abstraction**: Same function signature, swap providers with `provider=\"yfinance\"` or `provider=\"polygon\"` — the SDK normalizes the response schema\r\n- **Extension framework**: Generate Workspace, MCP, CLI, and Python interfaces from existing FastAPI apps with no additional code\r\n\r\n### Data Providers (Free Tier)\r\n| Provider | Coverage | Notes |\r\n|----------|----------|-------|\r\n| **yFinance** | Equity prices, fundamentals, options | Free, no API key needed |\r\n| **FRED** | Macro indicators (GDP, CPI, rates) | Free, requires API key |\r\n| **SEC EDGAR** | Company filings, insider trades | Free, public data |\r\n| **Tiingo** | EOD prices, IEX real-time | Free tier available |\r\n| **CBOE** | Options data, VIX | Free endpoints |\r\n\r\n### Data Providers (Paid / Premium)\r\n| Provider | Coverage | Notes |\r\n|----------|----------|-------|\r\n| **Polygon.io** | Real-time equities, options, crypto | Starts $29/mo |\r\n| **Intrinio** | Fundamentals, options, real-time | Enterprise pricing |\r\n| **FMP** | Full financial statements, ratios | Free tier + paid |\r\n| **Benzinga** | News, analyst ratings, options activity | Paid |\r\n\r\n### Routers (Namespace Organization)\r\n- `obb.equity` — prices, fundamentals, estimates, ownership, screener\r\n- `obb.derivatives` — options chains, expirations, Greeks\r\n- `obb.economy` — FRED series, CPI, GDP, treasury rates, central bank data\r\n- `obb.crypto` — prices, on-chain metrics\r\n- `obb.fixedincome` — yields, spreads, corporate bonds\r\n- `obb.news` — multi-provider news aggregation\r\n- `obb.etf` — ETF holdings, performance, sectors\r\n- `obb.index` — major indices, constituents\r\n- `obb.technical` — built-in technical analysis indicators\r\n\r\n### AI & Copilot Integration\r\n- **OpenBB Copilot**: AI assistant embedded in Workspace for natural language financial queries\r\n- **MCP Server support**: Connect OpenBB as a tool source for Claude and other AI agents\r\n- **Pydantic AI bridge**: `openbb-pydantic-ai` library for building custom agents that speak native OpenBB\r\n- **Plugin Extensions**: `on_command_output` patterns for controlling response delivery"
       },
       {
         "heading": "Python/Code Entry Point",
-        "content": "### Installation\n```bash\n# Create a virtual environment first\npython -m venv openbb-env\nsource openbb-env/bin/activate  # Linux/Mac\nopenbb-env\\Scripts\\activate     # Windows\n\n# Core install (most common providers included)\npip install openbb\n\n# Everything — all providers and extensions\npip install openbb[all]\n\n# Bare minimum (core only, add providers individually)\npip install openbb-core && pip install openbb --no-deps\n```\n\nRequires **Python 3.10+** (supports 3.10 through 3.14).\n\n### API Keys Configuration\nStore provider API keys in `~/.openbb_platform/user_settings.json`:\n```json\n{\n  \"credentials\": {\n    \"fred_api_key\": \"YOUR_FRED_KEY\",\n    \"polygon_api_key\": \"YOUR_POLYGON_KEY\",\n    \"fmp_api_key\": \"YOUR_FMP_KEY\"\n  }\n}\n```\n\n### Core Usage Patterns\n```python\nfrom openbb import obb\n\n# --- Equity Prices ---\n# Historical daily prices (free via yFinance)\nprices = obb.equity.price.historical(\"AAPL\", provider=\"yfinance\")\ndf = prices.to_df()\nprint(df\"date\", \"close\", \"volume\".tail(10))\n\n# Multiple tickers at once\ntech = obb.equity.price.historical(\n    \"AAPL,MSFT,GOOGL\",\n    start_date=\"2025-01-01\",\n    provider=\"yfinance\"\n)\n\n# --- Financial Statements ---\n# Income statement\nincome = obb.equity.fundamental.income(\"AAPL\", provider=\"yfinance\")\nincome_df = income.to_df()\n\n# Balance sheet\nbalance = obb.equity.fundamental.balance(\"AAPL\", provider=\"fmp\")\n\n# Cash flow statement\ncashflow = obb.equity.fundamental.cash(\"AAPL\", provider=\"fmp\")\n\n# Key financial ratios\nratios = obb.equity.fundamental.ratios(\"AAPL\", provider=\"fmp\")\n\n# --- Options Chains ---\n# List all available expirations\nexpirations = obb.derivatives.options.expirations(\"SPY\")\n\n# Get full chain for a specific expiration\nchain = obb.derivatives.options.chains(\n    symbol=\"SPY\",\n    expiration=\"2026-06-19\",\n    provider=\"cboe\"\n)\nchain_df = chain.to_df()\n\n# --- Macro / Economy ---\n# GDP from FRED\ngdp = obb.economy.fred_series(symbol=\"GDP\")\n\n# CPI inflation\ncpi = obb.economy.fred_series(symbol=\"CPIAUCSL\")\n\n# Treasury yield curve\nyields = obb.fixedincome.government.treasury_rates()\n\n# --- News ---\nnews = obb.news.world(provider=\"benzinga\", limit=20)\n\n# --- ETF Holdings ---\nspy_holdings = obb.etf.holdings(\"SPY\", provider=\"fmp\")\n\n# --- Screening ---\n# Discover available coverage\nproviders = obb.coverage.providers\n```\n\n### Practical Example: Simple Momentum Signal\n```python\nfrom openbb import obb\nimport pandas as pd\n\n# Pull 12 months of daily prices\ndata = obb.equity.price.historical(\n    \"AAPL\", start_date=\"2025-04-01\", provider=\"yfinance\"\n).to_df()\n\n# Calculate 12-month momentum (return over period)\ndata[\"momentum_12m\"] = data[\"close\"].pct_change(252)\n\n# Simple signal: buy if 12m momentum > 0\ndata[\"signal\"] = (data[\"momentum_12m\"] > 0).astype(int)\n\n# Calculate strategy returns\ndata[\"strategy_return\"] = data[\"signal\"].shift(1) * data[\"close\"].pct_change()\ncumulative = (1 + data[\"strategy_return\"]).cumprod()\n\nprint(f\"Strategy cumulative return: {cumulative.iloc[-1]:.2%}\")\n```\n\n### REST API Mode\n```bash\n# Start the API server\nopenbb-api --host 0.0.0.0 --port 8000\n\n# Query from any language\ncurl http://localhost:8000/api/v1/equity/price/historical?symbol=AAPL&provider=yfinance\n```"
+        "content": "### Installation\r\n```bash\r\n# Create a virtual environment first\r\npython -m venv openbb-env\r\nsource openbb-env/bin/activate  # Linux/Mac\r\nopenbb-env\\Scripts\\activate     # Windows\r\n\r\n# Core install (most common providers included)\r\npip install openbb\r\n\r\n# Everything — all providers and extensions\r\npip install openbb[all]\r\n\r\n# Bare minimum (core only, add providers individually)\r\npip install openbb-core && pip install openbb --no-deps\r\n```\r\n\r\nRequires **Python 3.10+** (supports 3.10 through 3.14).\r\n\r\n### API Keys Configuration\r\nStore provider API keys in `~/.openbb_platform/user_settings.json`:\r\n```json\r\n{\r\n  \"credentials\": {\r\n    \"fred_api_key\": \"YOUR_FRED_KEY\",\r\n    \"polygon_api_key\": \"YOUR_POLYGON_KEY\",\r\n    \"fmp_api_key\": \"YOUR_FMP_KEY\"\r\n  }\r\n}\r\n```\r\n\r\n### Core Usage Patterns\r\n```python\r\nfrom openbb import obb\r\n\r\n# --- Equity Prices ---\r\n# Historical daily prices (free via yFinance)\r\nprices = obb.equity.price.historical(\"AAPL\", provider=\"yfinance\")\r\ndf = prices.to_df()\r\nprint(df\"date\", \"close\", \"volume\".tail(10))\r\n\r\n# Multiple tickers at once\r\ntech = obb.equity.price.historical(\r\n    \"AAPL,MSFT,GOOGL\",\r\n    start_date=\"2025-01-01\",\r\n    provider=\"yfinance\"\r\n)\r\n\r\n# --- Financial Statements ---\r\n# Income statement\r\nincome = obb.equity.fundamental.income(\"AAPL\", provider=\"yfinance\")\r\nincome_df = income.to_df()\r\n\r\n# Balance sheet\r\nbalance = obb.equity.fundamental.balance(\"AAPL\", provider=\"fmp\")\r\n\r\n# Cash flow statement\r\ncashflow = obb.equity.fundamental.cash(\"AAPL\", provider=\"fmp\")\r\n\r\n# Key financial ratios\r\nratios = obb.equity.fundamental.ratios(\"AAPL\", provider=\"fmp\")\r\n\r\n# --- Options Chains ---\r\n# List all available expirations\r\nexpirations = obb.derivatives.options.expirations(\"SPY\")\r\n\r\n# Get full chain for a specific expiration\r\nchain = obb.derivatives.options.chains(\r\n    symbol=\"SPY\",\r\n    expiration=\"2026-06-19\",\r\n    provider=\"cboe\"\r\n)\r\nchain_df = chain.to_df()\r\n\r\n# --- Macro / Economy ---\r\n# GDP from FRED\r\ngdp = obb.economy.fred_series(symbol=\"GDP\")\r\n\r\n# CPI inflation\r\ncpi = obb.economy.fred_series(symbol=\"CPIAUCSL\")\r\n\r\n# Treasury yield curve\r\nyields = obb.fixedincome.government.treasury_rates()\r\n\r\n# --- News ---\r\nnews = obb.news.world(provider=\"benzinga\", limit=20)\r\n\r\n# --- ETF Holdings ---\r\nspy_holdings = obb.etf.holdings(\"SPY\", provider=\"fmp\")\r\n\r\n# --- Screening ---\r\n# Discover available coverage\r\nproviders = obb.coverage.providers\r\n```\r\n\r\n### Practical Example: Simple Momentum Signal\r\n```python\r\nfrom openbb import obb\r\nimport pandas as pd\r\n\r\n# Pull 12 months of daily prices\r\ndata = obb.equity.price.historical(\r\n    \"AAPL\", start_date=\"2025-04-01\", provider=\"yfinance\"\r\n).to_df()\r\n\r\n# Calculate 12-month momentum (return over period)\r\ndata[\"momentum_12m\"] = data[\"close\"].pct_change(252)\r\n\r\n# Simple signal: buy if 12m momentum > 0\r\ndata[\"signal\"] = (data[\"momentum_12m\"] > 0).astype(int)\r\n\r\n# Calculate strategy returns\r\ndata[\"strategy_return\"] = data[\"signal\"].shift(1) * data[\"close\"].pct_change()\r\ncumulative = (1 + data[\"strategy_return\"]).cumprod()\r\n\r\nprint(f\"Strategy cumulative return: {cumulative.iloc[-1]:.2%}\")\r\n```\r\n\r\n### REST API Mode\r\n```bash\r\n# Start the API server\r\nopenbb-api --host 0.0.0.0 --port 8000\r\n\r\n# Query from any language\r\ncurl http://localhost:8000/api/v1/equity/price/historical?symbol=AAPL&provider=yfinance\r\n```"
       },
       {
         "heading": "Why It Matters",
-        "content": "1. **Democratizes institutional-grade data**: Bloomberg costs $24,000/yr. OpenBB provides programmatic access to a substantial subset of that data for free, removing the financial barrier that keeps individual investors and researchers locked out.\n\n2. **Python-native by design**: Unlike scraping Yahoo Finance or wrestling with inconsistent APIs, OpenBB gives you a single `from openbb import obb` entry point with normalized DataFrames across all providers. One interface, swap providers with a parameter.\n\n3. **AI-agent ready**: The MCP server support and Pydantic AI bridge mean you can wire OpenBB directly into Claude or custom AI agents for natural language financial research — \"What's AAPL's P/E ratio compared to its 5-year average?\" becomes a function call, not a manual lookup.\n\n4. **Extensible and composable**: Build once with FastAPI conventions, deploy everywhere — Python, REST, Workspace, CLI, Excel, MCP. Custom data providers slot in with the same interface.\n\n5. **Active development**: v4.7.x (March 2026) with regular releases, strong community, and backed by VC funding. Not a side project — a real company building infrastructure."
+        "content": "1. **Democratizes institutional-grade data**: Bloomberg costs $24,000/yr. OpenBB provides programmatic access to a substantial subset of that data for free, removing the financial barrier that keeps individual investors and researchers locked out.\r\n\r\n2. **Python-native by design**: Unlike scraping Yahoo Finance or wrestling with inconsistent APIs, OpenBB gives you a single `from openbb import obb` entry point with normalized DataFrames across all providers. One interface, swap providers with a parameter.\r\n\r\n3. **AI-agent ready**: The MCP server support and Pydantic AI bridge mean you can wire OpenBB directly into Claude or custom AI agents for natural language financial research — \"What's AAPL's P/E ratio compared to its 5-year average?\" becomes a function call, not a manual lookup.\r\n\r\n4. **Extensible and composable**: Build once with FastAPI conventions, deploy everywhere — Python, REST, Workspace, CLI, Excel, MCP. Custom data providers slot in with the same interface.\r\n\r\n5. **Active development**: v4.7.x (March 2026) with regular releases, strong community, and backed by VC funding. Not a side project — a real company building infrastructure."
       },
       {
         "heading": "Comparison with Alternatives",
-        "content": "| Feature | OpenBB | Bloomberg | Yahoo Finance | Alpha Vantage | TradingView |\n|---------|--------|-----------|---------------|---------------|-------------|\n| **Cost** | Free (core) | ~$24,000/yr | Free (limited) | Free tier + $50/mo | $15-60/mo |\n| **Python SDK** | Native, first-class | BLPAPI (complex) | yfinance (unofficial) | REST only | None |\n| **Data providers** | ~100, swappable | Proprietary | Yahoo only | Alpha Vantage only | TradingView only |\n| **Real-time data** | Via paid providers | Yes | 15-min delay | Via paid tier | Yes |\n| **AI/MCP support** | Native | No | No | No | No |\n| **Fundamentals** | Yes (multi-provider) | Comprehensive | Basic | Yes | Limited |\n| **Options data** | Yes | Yes | Basic | No | Charting only |\n| **Self-hosted** | Yes | No | N/A | N/A | No |\n| **Open source** | Yes (Apache 2.0) | No | N/A | No | No |\n\n**Bottom line**: Bloomberg wins on depth, real-time quality, and proprietary datasets. OpenBB wins on cost, programmability, extensibility, and AI integration. For individual investors, quant researchers, and developers building data pipelines, OpenBB is the clear choice."
+        "content": "| Feature | OpenBB | Bloomberg | Yahoo Finance | Alpha Vantage | TradingView |\r\n|---------|--------|-----------|---------------|---------------|-------------|\r\n| **Cost** | Free (core) | ~$24,000/yr | Free (limited) | Free tier + $50/mo | $15-60/mo |\r\n| **Python SDK** | Native, first-class | BLPAPI (complex) | yfinance (unofficial) | REST only | None |\r\n| **Data providers** | ~100, swappable | Proprietary | Yahoo only | Alpha Vantage only | TradingView only |\r\n| **Real-time data** | Via paid providers | Yes | 15-min delay | Via paid tier | Yes |\r\n| **AI/MCP support** | Native | No | No | No | No |\r\n| **Fundamentals** | Yes (multi-provider) | Comprehensive | Basic | Yes | Limited |\r\n| **Options data** | Yes | Yes | Basic | No | Charting only |\r\n| **Self-hosted** | Yes | No | N/A | N/A | No |\r\n| **Open source** | Yes (Apache 2.0) | No | N/A | No | No |\r\n\r\n**Bottom line**: Bloomberg wins on depth, real-time quality, and proprietary datasets. OpenBB wins on cost, programmability, extensibility, and AI integration. For individual investors, quant researchers, and developers building data pipelines, OpenBB is the clear choice."
       },
       {
         "heading": "Apply It",
-        "content": "- **Vault data backbone**: Use as the primary source for equity prices, financials, and macro indicators feeding into Obsidian-based research notes\n- **DCF models**: Pull income statements, balance sheets, and cash flows directly into Python DCF templates — no manual data entry\n- **Quant strategies**: Feed normalized price data into momentum, mean reversion, volatility targeting, and relative value models\n- **Portfolio monitoring**: Track holdings, calculate returns, and compare against benchmarks programmatically\n- **AI research pipeline**: Wire OpenBB as an MCP tool into Claude for natural language financial queries against live data\n- **News consolidation**: Aggregate financial news from multiple providers through a single SDK call\n- **Macro dashboard**: Pull FRED data (GDP, CPI, unemployment, yield curves) for economic regime analysis"
+        "content": "- **Vault data backbone**: Use as the primary source for equity prices, financials, and macro indicators feeding into Obsidian-based research notes\r\n- **DCF models**: Pull income statements, balance sheets, and cash flows directly into Python DCF templates — no manual data entry\r\n- **Quant strategies**: Feed normalized price data into momentum, mean reversion, volatility targeting, and relative value models\r\n- **Portfolio monitoring**: Track holdings, calculate returns, and compare against benchmarks programmatically\r\n- **AI research pipeline**: Wire OpenBB as an MCP tool into Claude for natural language financial queries against live data\r\n- **News consolidation**: Aggregate financial news from multiple providers through a single SDK call\r\n- **Macro dashboard**: Pull FRED data (GDP, CPI, unemployment, yield curves) for economic regime analysis"
       },
       {
         "heading": "Research Next Steps",
-        "content": "- [ ] Install: `pip install openbb` in a dedicated virtual environment\n- [ ] Configure API keys: FRED (free), FMP (free tier), explore Polygon free tier\n- [ ] Explore available data: `obb.coverage.providers` and router namespaces\n- [ ] Pull AAPL historical prices and run a simple 12-month momentum signal\n- [ ] Compare Polygon vs. yFinance for data quality and intraday coverage\n- [ ] Test options chain data for SPY — compare CBOE vs. other providers\n- [ ] Build a basic DCF template pulling live financials via `obb.equity.fundamental`\n- [ ] Experiment with the REST API server for non-Python integrations\n- [ ] Explore MCP server setup for Claude integration\n- [ ] Compare financial statement data across providers (yFinance vs. FMP vs. Intrinio)"
+        "content": "- [ ] Install: `pip install openbb` in a dedicated virtual environment\r\n- [ ] Configure API keys: FRED (free), FMP (free tier), explore Polygon free tier\r\n- [ ] Explore available data: `obb.coverage.providers` and router namespaces\r\n- [ ] Pull AAPL historical prices and run a simple 12-month momentum signal\r\n- [ ] Compare Polygon vs. yFinance for data quality and intraday coverage\r\n- [ ] Test options chain data for SPY — compare CBOE vs. other providers\r\n- [ ] Build a basic DCF template pulling live financials via `obb.equity.fundamental`\r\n- [ ] Experiment with the REST API server for non-Python integrations\r\n- [ ] Explore MCP server setup for Claude integration\r\n- [ ] Compare financial statement data across providers (yFinance vs. FMP vs. Intrinio)"
       }
     ],
     "related": [
@@ -12316,27 +11977,27 @@ export const pods: Pod[] = [
       },
       {
         "heading": "Key Mechanics",
-        "content": "### Data Ingestion Pipeline\nSocial media data flows into PowerBI through multiple paths depending on the platform:\n- **API-first** — Twitter/X API v2, Instagram Graph API, LinkedIn Marketing API, YouTube Data API v3 all return JSON that a Python script normalizes into a common schema\n- **Metricool** — aggregates cross-platform metrics and exports CSV or connects via API, reducing the number of individual platform integrations\n- **CSV fallback** — for platforms without API access, manual or scheduled exports land in a OneDrive folder that PowerBI auto-refreshes from\n- **Power Automate** — scheduled flows can call APIs on a timer, transform the JSON, and push rows into a Dataverse table or SharePoint list that PowerBI reads natively\n\n### PowerBI Data Model\nThe core model uses a star schema with a central `Posts` fact table and dimension tables for `Platforms`, `ContentTypes`, `DateDimension`, and `Campaigns`.\n\n```\nDateDimension ──┐\n                ├── Posts (fact table)\nPlatforms ──────┤    - post_id, date_key, platform_key\n                │    - impressions, reach, engagement, saves, shares\nContentTypes ───┤    - followers_gained, followers_lost\n                │    - content_type_key, campaign_key\nCampaigns ──────┘\n```\n\n### DAX Measures\nKey calculated measures that power the dashboard visuals:\n\n```dax\n// Engagement Rate — interactions divided by impressions\nEngagement Rate =\nDIVIDE(\n    [Total Engagements],\n    [Total Impressions],\n    0\n)\n\n// Follower Growth Rate — period-over-period percentage change\nFollower Growth Rate =\nVAR CurrentFollowers = [Total Followers]\nVAR PreviousFollowers =\n    CALCULATE(\n        [Total Followers],\n        DATEADD(DateDimension[Date], -7, DAY)\n    )\nRETURN\n    DIVIDE(CurrentFollowers - PreviousFollowers, PreviousFollowers, 0)\n\n// Best Posting Day — day of week with highest average engagement\nBest Posting Day =\nTOPN(\n    1,\n    SUMMARIZE(\n        Posts,\n        DateDimension[DayOfWeek],\n        \"AvgEngagement\", AVERAGE(Posts[Engagements])\n    ),\n    [AvgEngagement], DESC\n)\n\n// Content Type Performance — which format drives the most reach\nTop Content Type =\nTOPN(\n    1,\n    SUMMARIZE(\n        Posts,\n        ContentTypes[TypeName],\n        \"AvgReach\", AVERAGE(Posts[Reach])\n    ),\n    [AvgReach], DESC\n)\n```\n\n### Claude Narrative Layer\nClaude receives a structured data payload (JSON or CSV) and returns three types of intelligence:\n\n**Weekly Summary Prompt:**\n```\nYou are analyzing social media performance for a personal brand.\nHere is this week's data across all platforms: {json_payload}\nAnd here is last week's data for comparison: {prev_json_payload}\n\nWrite a 3-paragraph executive summary:\n1. What changed significantly vs. last week (cite specific numbers)\n2. What's driving performance — identify the top post, worst post, and any anomalies\n3. Two specific actions for next week based on this data\n\nTone: direct, specific, no filler. Use actual numbers from the data.\n```\n\n**Anomaly Detection Prompt:**\n```\nHere are daily follower counts for the past 30 days: {time_series}\nIdentify any days where the change was >2 standard deviations from the mean.\nFor each anomaly, suggest what might have caused it (viral post, external mention, algorithm change).\nReturn as JSON: [{\"date\": \"...\", \"change\": N, \"severity\": \"high|medium\", \"hypothesis\": \"...\"}]\n```\n\n**Content Recommendations Prompt:**\n```\nHere is performance data grouped by content type, posting time, and platform: {grouped_data}\nBased on this data, recommend:\n1. The 3 content formats to double down on\n2. The 2 formats to stop producing\n3. Optimal posting schedule (day + time) per platform\nSupport each recommendation with a specific data point.\n```"
+        "content": "### Data Ingestion Pipeline\r\nSocial media data flows into PowerBI through multiple paths depending on the platform:\r\n- **API-first** — Twitter/X API v2, Instagram Graph API, LinkedIn Marketing API, YouTube Data API v3 all return JSON that a Python script normalizes into a common schema\r\n- **Metricool** — aggregates cross-platform metrics and exports CSV or connects via API, reducing the number of individual platform integrations\r\n- **CSV fallback** — for platforms without API access, manual or scheduled exports land in a OneDrive folder that PowerBI auto-refreshes from\r\n- **Power Automate** — scheduled flows can call APIs on a timer, transform the JSON, and push rows into a Dataverse table or SharePoint list that PowerBI reads natively\r\n\r\n### PowerBI Data Model\r\nThe core model uses a star schema with a central `Posts` fact table and dimension tables for `Platforms`, `ContentTypes`, `DateDimension`, and `Campaigns`.\r\n\r\n```\r\nDateDimension ──┐\r\n                ├── Posts (fact table)\r\nPlatforms ──────┤    - post_id, date_key, platform_key\r\n                │    - impressions, reach, engagement, saves, shares\r\nContentTypes ───┤    - followers_gained, followers_lost\r\n                │    - content_type_key, campaign_key\r\nCampaigns ──────┘\r\n```\r\n\r\n### DAX Measures\r\nKey calculated measures that power the dashboard visuals:\r\n\r\n```dax\r\n// Engagement Rate — interactions divided by impressions\r\nEngagement Rate =\r\nDIVIDE(\r\n    [Total Engagements],\r\n    [Total Impressions],\r\n    0\r\n)\r\n\r\n// Follower Growth Rate — period-over-period percentage change\r\nFollower Growth Rate =\r\nVAR CurrentFollowers = [Total Followers]\r\nVAR PreviousFollowers =\r\n    CALCULATE(\r\n        [Total Followers],\r\n        DATEADD(DateDimension[Date], -7, DAY)\r\n    )\r\nRETURN\r\n    DIVIDE(CurrentFollowers - PreviousFollowers, PreviousFollowers, 0)\r\n\r\n// Best Posting Day — day of week with highest average engagement\r\nBest Posting Day =\r\nTOPN(\r\n    1,\r\n    SUMMARIZE(\r\n        Posts,\r\n        DateDimension[DayOfWeek],\r\n        \"AvgEngagement\", AVERAGE(Posts[Engagements])\r\n    ),\r\n    [AvgEngagement], DESC\r\n)\r\n\r\n// Content Type Performance — which format drives the most reach\r\nTop Content Type =\r\nTOPN(\r\n    1,\r\n    SUMMARIZE(\r\n        Posts,\r\n        ContentTypes[TypeName],\r\n        \"AvgReach\", AVERAGE(Posts[Reach])\r\n    ),\r\n    [AvgReach], DESC\r\n)\r\n```\r\n\r\n### Claude Narrative Layer\r\nClaude receives a structured data payload (JSON or CSV) and returns three types of intelligence:\r\n\r\n**Weekly Summary Prompt:**\r\n```\r\nYou are analyzing social media performance for a personal brand.\r\nHere is this week's data across all platforms: {json_payload}\r\nAnd here is last week's data for comparison: {prev_json_payload}\r\n\r\nWrite a 3-paragraph executive summary:\r\n1. What changed significantly vs. last week (cite specific numbers)\r\n2. What's driving performance — identify the top post, worst post, and any anomalies\r\n3. Two specific actions for next week based on this data\r\n\r\nTone: direct, specific, no filler. Use actual numbers from the data.\r\n```\r\n\r\n**Anomaly Detection Prompt:**\r\n```\r\nHere are daily follower counts for the past 30 days: {time_series}\r\nIdentify any days where the change was >2 standard deviations from the mean.\r\nFor each anomaly, suggest what might have caused it (viral post, external mention, algorithm change).\r\nReturn as JSON: [{\"date\": \"...\", \"change\": N, \"severity\": \"high|medium\", \"hypothesis\": \"...\"}]\r\n```\r\n\r\n**Content Recommendations Prompt:**\r\n```\r\nHere is performance data grouped by content type, posting time, and platform: {grouped_data}\r\nBased on this data, recommend:\r\n1. The 3 content formats to double down on\r\n2. The 2 formats to stop producing\r\n3. Optimal posting schedule (day + time) per platform\r\nSupport each recommendation with a specific data point.\r\n```"
       },
       {
         "heading": "Python Entry Point",
-        "content": "A Python script that pulls data from social APIs, normalizes it, feeds it to both PowerBI and Claude, and writes the narrative back.\n\n```python\n\"\"\"\nfollower_dashboard.py\nPull social metrics → push to PowerBI dataset → call Claude for narrative → update dashboard\n\"\"\"\nimport os\nimport json\nimport requests\nimport anthropic\nfrom datetime import datetime, timedelta\n\n# --- Config ---\nCLAUDE_MODEL = \"claude-sonnet-4-20250514\"\nPOWERBI_DATASET_ID = os.getenv(\"POWERBI_DATASET_ID\")\nPOWERBI_GROUP_ID = os.getenv(\"POWERBI_GROUP_ID\")\nPOWERBI_TOKEN = os.getenv(\"POWERBI_ACCESS_TOKEN\")\n\nclient = anthropic.Anthropic()\n\n# --- 1. Pull social data ---\ndef pull_instagram_metrics(access_token: str, days: int = 7) -> list[dict]:\n    \"\"\"Pull Instagram Insights via Graph API.\"\"\"\n    url = \"https://graph.instagram.com/me/media\"\n    params = {\n        \"fields\": \"id,caption,timestamp,like_count,comments_count,\"\n                  \"impressions,reach,saved,shares\",\n        \"access_token\": access_token,\n        \"limit\": 50,\n    }\n    resp = requests.get(url, params=params)\n    resp.raise_for_status()\n    posts = resp.json()[\"data\"]\n    cutoff = datetime.utcnow() - timedelta(days=days)\n    return [p for p in posts if datetime.fromisoformat(p[\"timestamp\"][:19]) > cutoff]\n\ndef pull_metricool_export(csv_path: str) -> list[dict]:\n    \"\"\"Parse a Metricool CSV export into normalized records.\"\"\"\n    import csv\n    with open(csv_path) as f:\n        return list(csv.DictReader(f))\n\ndef normalize_metrics(raw_posts: list[dict], platform: str) -> list[dict]:\n    \"\"\"Normalize raw API data into the common schema.\"\"\"\n    normalized = []\n    for post in raw_posts:\n        normalized.append({\n            \"post_id\": post.get(\"id\"),\n            \"platform\": platform,\n            \"date\": post.get(\"timestamp\", \"\")[:10],\n            \"impressions\": int(post.get(\"impressions\", 0)),\n            \"reach\": int(post.get(\"reach\", 0)),\n            \"engagements\": (\n                int(post.get(\"like_count\", 0))\n                + int(post.get(\"comments_count\", 0))\n                + int(post.get(\"saved\", 0))\n                + int(post.get(\"shares\", 0))\n            ),\n            \"followers_gained\": int(post.get(\"followers_gained\", 0)),\n        })\n    return normalized\n\n# --- 2. Push to PowerBI ---\ndef push_to_powerbi(rows: list[dict]):\n    \"\"\"Push rows to a PowerBI push dataset via REST API.\"\"\"\n    url = (\n        f\"https://api.powerbi.com/v1.0/myorg/groups/{POWERBI_GROUP_ID}\"\n        f\"/datasets/{POWERBI_DATASET_ID}/tables/Posts/rows\"\n    )\n    headers = {\"Authorization\": f\"Bearer {POWERBI_TOKEN}\",\n               \"Content-Type\": \"application/json\"}\n    resp = requests.post(url, headers=headers, json={\"rows\": rows})\n    resp.raise_for_status()\n    print(f\"Pushed {len(rows)} rows to PowerBI\")\n\n# --- 3. Claude narrative ---\ndef generate_narrative(current_data: list[dict], previous_data: list[dict]) -> str:\n    \"\"\"Send metrics to Claude, get back a narrative summary.\"\"\"\n    message = client.messages.create(\n        model=CLAUDE_MODEL,\n        max_tokens=1024,\n        messages=[{\n            \"role\": \"user\",\n            \"content\": (\n                \"You are analyzing social media performance for a personal brand.\\n\"\n                f\"This week's data:\\n{json.dumps(current_data, indent=2)}\\n\\n\"\n                f\"Last week's data:\\n{json.dumps(previous_data, indent=2)}\\n\\n\"\n                \"Write a 3-paragraph executive summary:\\n\"\n                \"1. What changed significantly vs. last week (cite numbers)\\n\"\n                \"2. What's driving performance (top post, worst post, anomalies)\\n\"\n                \"3. Two specific actions for next week\\n\"\n                \"Tone: direct, specific, no filler.\"\n            ),\n        }],\n    )\n    return message.content[0].text\n\n# --- 4. Orchestrate ---\ndef main():\n    ig_token = os.getenv(\"INSTAGRAM_ACCESS_TOKEN\")\n\n    # Pull current + previous week\n    current_raw = pull_instagram_metrics(ig_token, days=7)\n    previous_raw = pull_instagram_metrics(ig_token, days=14)\n\n    current = normalize_metrics(current_raw, \"instagram\")\n    previous = normalize_metrics(previous_raw, \"instagram\")\n\n    # Push to PowerBI\n    push_to_powerbi(current)\n\n    # Generate Claude narrative\n    narrative = generate_narrative(current, previous)\n    print(\"\\n--- Weekly Narrative ---\")\n    print(narrative)\n\n    # Save narrative for PowerBI text visual import\n    with open(\"weekly_narrative.json\", \"w\") as f:\n        json.dump({\n            \"generated_at\": datetime.utcnow().isoformat(),\n            \"narrative\": narrative,\n        }, f, indent=2)\n\nif __name__ == \"__main__\":\n    main()\n```"
+        "content": "A Python script that pulls data from social APIs, normalizes it, feeds it to both PowerBI and Claude, and writes the narrative back.\r\n\r\n```python\r\n\"\"\"\r\nfollower_dashboard.py\r\nPull social metrics → push to PowerBI dataset → call Claude for narrative → update dashboard\r\n\"\"\"\r\nimport os\r\nimport json\r\nimport requests\r\nimport anthropic\r\nfrom datetime import datetime, timedelta\r\n\r\n# --- Config ---\r\nCLAUDE_MODEL = \"claude-sonnet-4-20250514\"\r\nPOWERBI_DATASET_ID = os.getenv(\"POWERBI_DATASET_ID\")\r\nPOWERBI_GROUP_ID = os.getenv(\"POWERBI_GROUP_ID\")\r\nPOWERBI_TOKEN = os.getenv(\"POWERBI_ACCESS_TOKEN\")\r\n\r\nclient = anthropic.Anthropic()\r\n\r\n# --- 1. Pull social data ---\r\ndef pull_instagram_metrics(access_token: str, days: int = 7) -> list[dict]:\r\n    \"\"\"Pull Instagram Insights via Graph API.\"\"\"\r\n    url = \"https://graph.instagram.com/me/media\"\r\n    params = {\r\n        \"fields\": \"id,caption,timestamp,like_count,comments_count,\"\r\n                  \"impressions,reach,saved,shares\",\r\n        \"access_token\": access_token,\r\n        \"limit\": 50,\r\n    }\r\n    resp = requests.get(url, params=params)\r\n    resp.raise_for_status()\r\n    posts = resp.json()[\"data\"]\r\n    cutoff = datetime.utcnow() - timedelta(days=days)\r\n    return [p for p in posts if datetime.fromisoformat(p[\"timestamp\"][:19]) > cutoff]\r\n\r\ndef pull_metricool_export(csv_path: str) -> list[dict]:\r\n    \"\"\"Parse a Metricool CSV export into normalized records.\"\"\"\r\n    import csv\r\n    with open(csv_path) as f:\r\n        return list(csv.DictReader(f))\r\n\r\ndef normalize_metrics(raw_posts: list[dict], platform: str) -> list[dict]:\r\n    \"\"\"Normalize raw API data into the common schema.\"\"\"\r\n    normalized = []\r\n    for post in raw_posts:\r\n        normalized.append({\r\n            \"post_id\": post.get(\"id\"),\r\n            \"platform\": platform,\r\n            \"date\": post.get(\"timestamp\", \"\")[:10],\r\n            \"impressions\": int(post.get(\"impressions\", 0)),\r\n            \"reach\": int(post.get(\"reach\", 0)),\r\n            \"engagements\": (\r\n                int(post.get(\"like_count\", 0))\r\n                + int(post.get(\"comments_count\", 0))\r\n                + int(post.get(\"saved\", 0))\r\n                + int(post.get(\"shares\", 0))\r\n            ),\r\n            \"followers_gained\": int(post.get(\"followers_gained\", 0)),\r\n        })\r\n    return normalized\r\n\r\n# --- 2. Push to PowerBI ---\r\ndef push_to_powerbi(rows: list[dict]):\r\n    \"\"\"Push rows to a PowerBI push dataset via REST API.\"\"\"\r\n    url = (\r\n        f\"https://api.powerbi.com/v1.0/myorg/groups/{POWERBI_GROUP_ID}\"\r\n        f\"/datasets/{POWERBI_DATASET_ID}/tables/Posts/rows\"\r\n    )\r\n    headers = {\"Authorization\": f\"Bearer {POWERBI_TOKEN}\",\r\n               \"Content-Type\": \"application/json\"}\r\n    resp = requests.post(url, headers=headers, json={\"rows\": rows})\r\n    resp.raise_for_status()\r\n    print(f\"Pushed {len(rows)} rows to PowerBI\")\r\n\r\n# --- 3. Claude narrative ---\r\ndef generate_narrative(current_data: list[dict], previous_data: list[dict]) -> str:\r\n    \"\"\"Send metrics to Claude, get back a narrative summary.\"\"\"\r\n    message = client.messages.create(\r\n        model=CLAUDE_MODEL,\r\n        max_tokens=1024,\r\n        messages=[{\r\n            \"role\": \"user\",\r\n            \"content\": (\r\n                \"You are analyzing social media performance for a personal brand.\\n\"\r\n                f\"This week's data:\\n{json.dumps(current_data, indent=2)}\\n\\n\"\r\n                f\"Last week's data:\\n{json.dumps(previous_data, indent=2)}\\n\\n\"\r\n                \"Write a 3-paragraph executive summary:\\n\"\r\n                \"1. What changed significantly vs. last week (cite numbers)\\n\"\r\n                \"2. What's driving performance (top post, worst post, anomalies)\\n\"\r\n                \"3. Two specific actions for next week\\n\"\r\n                \"Tone: direct, specific, no filler.\"\r\n            ),\r\n        }],\r\n    )\r\n    return message.content[0].text\r\n\r\n# --- 4. Orchestrate ---\r\ndef main():\r\n    ig_token = os.getenv(\"INSTAGRAM_ACCESS_TOKEN\")\r\n\r\n    # Pull current + previous week\r\n    current_raw = pull_instagram_metrics(ig_token, days=7)\r\n    previous_raw = pull_instagram_metrics(ig_token, days=14)\r\n\r\n    current = normalize_metrics(current_raw, \"instagram\")\r\n    previous = normalize_metrics(previous_raw, \"instagram\")\r\n\r\n    # Push to PowerBI\r\n    push_to_powerbi(current)\r\n\r\n    # Generate Claude narrative\r\n    narrative = generate_narrative(current, previous)\r\n    print(\"\\n--- Weekly Narrative ---\")\r\n    print(narrative)\r\n\r\n    # Save narrative for PowerBI text visual import\r\n    with open(\"weekly_narrative.json\", \"w\") as f:\r\n        json.dump({\r\n            \"generated_at\": datetime.utcnow().isoformat(),\r\n            \"narrative\": narrative,\r\n        }, f, indent=2)\r\n\r\nif __name__ == \"__main__\":\r\n    main()\r\n```"
       },
       {
         "heading": "Dashboard Components",
-        "content": "### 1. Follower Growth Tracker\n- **Visual**: Area chart with daily follower count, 7-day moving average overlay\n- **KPI cards**: Total followers, net change this week, growth rate percentage\n- **Benchmark line**: Target growth rate (e.g., 2% weekly) shown as a reference line\n- **Drill-through**: Click a spike/dip to see which posts published that day\n\n### 2. Engagement Rate Monitor\n- **Visual**: Combo chart — bar for total engagements, line for engagement rate\n- **Breakdown**: Stacked bars showing likes vs. comments vs. saves vs. shares\n- **Platform comparison**: Side-by-side engagement rates across Instagram, LinkedIn, Twitter/X\n- **Threshold alerts**: Conditional formatting flags when engagement drops below baseline\n\n### 3. Content Performance Matrix\n- **Visual**: Scatter plot — X axis is reach, Y axis is engagement rate, bubble size is saves\n- **Quadrants**: High reach + high engagement (winners), low reach + high engagement (underrated), etc.\n- **Content type filter**: Slice by Reels, Carousels, Static posts, Stories\n- **Top/Bottom tables**: Best 5 and worst 5 posts with links and key metrics\n\n### 4. Posting Schedule Heatmap\n- **Visual**: Matrix heatmap — rows are days of week, columns are hours, color intensity is average engagement\n- **Insight**: Instantly shows the optimal posting windows per platform\n- **DAX backing**: Uses SUMMARIZE over DateDimension[DayOfWeek] and DateDimension[HourOfDay]\n\n### 5. Claude Narrative Panel\n- **Visual**: Multi-row card or HTML content visual displaying Claude's generated summary\n- **Refresh**: Updated weekly via Power Automate flow or manual Python script run\n- **Sections**: What changed, what's driving performance, recommended actions\n- **History**: Previous narratives stored in a SharePoint list for trend comparison\n\n### 6. Competitor Benchmark\n- **Visual**: Grouped bar chart comparing your metrics vs. tracked competitors\n- **Metrics**: Posting frequency, avg engagement rate, follower growth rate\n- **Data source**: Metricool competitor tracking or manual research entries"
+        "content": "### 1. Follower Growth Tracker\r\n- **Visual**: Area chart with daily follower count, 7-day moving average overlay\r\n- **KPI cards**: Total followers, net change this week, growth rate percentage\r\n- **Benchmark line**: Target growth rate (e.g., 2% weekly) shown as a reference line\r\n- **Drill-through**: Click a spike/dip to see which posts published that day\r\n\r\n### 2. Engagement Rate Monitor\r\n- **Visual**: Combo chart — bar for total engagements, line for engagement rate\r\n- **Breakdown**: Stacked bars showing likes vs. comments vs. saves vs. shares\r\n- **Platform comparison**: Side-by-side engagement rates across Instagram, LinkedIn, Twitter/X\r\n- **Threshold alerts**: Conditional formatting flags when engagement drops below baseline\r\n\r\n### 3. Content Performance Matrix\r\n- **Visual**: Scatter plot — X axis is reach, Y axis is engagement rate, bubble size is saves\r\n- **Quadrants**: High reach + high engagement (winners), low reach + high engagement (underrated), etc.\r\n- **Content type filter**: Slice by Reels, Carousels, Static posts, Stories\r\n- **Top/Bottom tables**: Best 5 and worst 5 posts with links and key metrics\r\n\r\n### 4. Posting Schedule Heatmap\r\n- **Visual**: Matrix heatmap — rows are days of week, columns are hours, color intensity is average engagement\r\n- **Insight**: Instantly shows the optimal posting windows per platform\r\n- **DAX backing**: Uses SUMMARIZE over DateDimension[DayOfWeek] and DateDimension[HourOfDay]\r\n\r\n### 5. Claude Narrative Panel\r\n- **Visual**: Multi-row card or HTML content visual displaying Claude's generated summary\r\n- **Refresh**: Updated weekly via Power Automate flow or manual Python script run\r\n- **Sections**: What changed, what's driving performance, recommended actions\r\n- **History**: Previous narratives stored in a SharePoint list for trend comparison\r\n\r\n### 6. Competitor Benchmark\r\n- **Visual**: Grouped bar chart comparing your metrics vs. tracked competitors\r\n- **Metrics**: Posting frequency, avg engagement rate, follower growth rate\r\n- **Data source**: Metricool competitor tracking or manual research entries"
       },
       {
         "heading": "Why It Matters",
-        "content": "Non-technical creators and brand builders typically face two problems: they either stare at platform-native analytics without understanding them, or they pay agencies for surface-level reports. This system solves both. PowerBI gives you real-time, interactive visuals with drill-down capability. Claude gives you the \"so what\" — the narrative layer that turns a 40% engagement drop on Thursday into \"Your Thursday carousel about X underperformed because you posted at 2pm instead of your usual 7am window, and it competed with a trending topic that dominated feeds.\" That sentence is worth more than the chart.\n\nFor personal brand building specifically, the content performance matrix and posting schedule heatmap create a feedback loop: publish content, measure what works, adjust the formula, repeat. Claude accelerates that loop by surfacing patterns a creator would miss scrolling through Instagram Insights."
+        "content": "Non-technical creators and brand builders typically face two problems: they either stare at platform-native analytics without understanding them, or they pay agencies for surface-level reports. This system solves both. PowerBI gives you real-time, interactive visuals with drill-down capability. Claude gives you the \"so what\" — the narrative layer that turns a 40% engagement drop on Thursday into \"Your Thursday carousel about X underperformed because you posted at 2pm instead of your usual 7am window, and it competed with a trending topic that dominated feeds.\" That sentence is worth more than the chart.\r\n\r\nFor personal brand building specifically, the content performance matrix and posting schedule heatmap create a feedback loop: publish content, measure what works, adjust the formula, repeat. Claude accelerates that loop by surfacing patterns a creator would miss scrolling through Instagram Insights."
       },
       {
         "heading": "Apply It",
-        "content": "- **Portfolio site (mattatencio.com)** — Build a public-facing \"Content Lab\" page showing anonymized metrics and Claude-generated insights as proof of AI + analytics capability. \"Here's how I use AI to analyze my own content strategy\" is a compelling portfolio story.\n- **Content strategy** — Run the Python script weekly to get Claude narratives on your posting performance. Use the content performance matrix to identify which post formats to double down on for LinkedIn and Instagram.\n- **Enterprise demo** — Adapt the same pattern for a mortgage platform ops dashboard: replace social metrics with loan pipeline data, keep the Claude narrative layer. Show leadership an AI-narrated executive report as a low-risk AI proof of concept.\n- **Yoga studio client** — Metricool export + PowerBI template + weekly Claude narrative = professional social media analytics deliverable without a BI team.\n- **FitOps** — Analytics module for studio operators: attendance trends, class popularity, and member engagement with Claude-written monthly summaries.\n- **Career signal** — \"I built an AI-narrated analytics dashboard\" with a live demo is a concrete AI Engineer portfolio artifact that demonstrates both data engineering and applied AI skills."
+        "content": "- **Portfolio site (mattatencio.com)** — Build a public-facing \"Content Lab\" page showing anonymized metrics and Claude-generated insights as proof of AI + analytics capability. \"Here's how I use AI to analyze my own content strategy\" is a compelling portfolio story.\r\n- **Content strategy** — Run the Python script weekly to get Claude narratives on your posting performance. Use the content performance matrix to identify which post formats to double down on for LinkedIn and Instagram.\r\n- **Enterprise demo** — Adapt the same pattern for a mortgage platform ops dashboard: replace social metrics with loan pipeline data, keep the Claude narrative layer. Show leadership an AI-narrated executive report as a low-risk AI proof of concept.\r\n- **Yoga studio client** — Metricool export + PowerBI template + weekly Claude narrative = professional social media analytics deliverable without a BI team.\r\n- **FitOps** — Analytics module for studio operators: attendance trends, class popularity, and member engagement with Claude-written monthly summaries.\r\n- **Career signal** — \"I built an AI-narrated analytics dashboard\" with a live demo is a concrete AI Engineer portfolio artifact that demonstrates both data engineering and applied AI skills."
       },
       {
         "heading": "Research Next Steps",
-        "content": "- [ ] Check if Metricool has an API or only CSV export — API would enable automated refresh\n- [ ] Test PowerBI's Python visual for inline Claude API calls (may hit timeout limits)\n- [ ] Prototype: CSV export → Python script → Claude narrative → paste into PowerBI text visual\n- [ ] Explore Power Automate + Claude API for scheduled weekly narrative generation\n- [ ] Evaluate PowerBI Embedded for displaying the dashboard on mattatencio.com\n- [ ] Research Instagram Graph API rate limits and token refresh flow for automated pulls\n- [ ] Compare PowerBI push datasets vs. import mode for near-real-time social data"
+        "content": "- [ ] Check if Metricool has an API or only CSV export — API would enable automated refresh\r\n- [ ] Test PowerBI's Python visual for inline Claude API calls (may hit timeout limits)\r\n- [ ] Prototype: CSV export → Python script → Claude narrative → paste into PowerBI text visual\r\n- [ ] Explore Power Automate + Claude API for scheduled weekly narrative generation\r\n- [ ] Evaluate PowerBI Embedded for displaying the dashboard on mattatencio.com\r\n- [ ] Research Instagram Graph API rate limits and token refresh flow for automated pulls\r\n- [ ] Compare PowerBI push datasets vs. import mode for near-real-time social data"
       }
     ],
     "related": [
@@ -12369,23 +12030,23 @@ export const pods: Pod[] = [
       },
       {
         "heading": "The Big Five",
-        "content": "### 1. Lookahead Bias\nUsing information that wasn't available at decision time. Example: using today's closing price to make a \"morning\" trading decision. Subtler: computing a feature using the full dataset (e.g., normalizing with global min/max instead of expanding-window min/max).\n\nSignal Forge guards against this with strict walk-forward validation and feature engineering rules — but you can still leak through improperly windowed features.\n\n### 2. Survivorship Bias\nOnly backtesting on assets that still exist today. Delisted coins, bankrupt companies, and failed tokens disappear from historical data. This makes everything look better because you never see the catastrophic losses.\n\nExample: backtesting on \"top 100 coins\" using today's top 100 rather than the historical top 100 at each point in time. LUNA was top 10 before it went to zero.\n\n### 3. Overfitting to the Past\nOptimizing parameters until the backtest looks great on historical data. If you test 1,000 parameter combinations and pick the best one, you've curve-fitted to noise. The strategy \"memorized\" the past rather than learning generalizable patterns.\n\nSolutions: walk-forward validation, out-of-sample holdout (never touch until final evaluation), cross-validation across time periods.\n\n### 4. Transaction Cost Underestimation\nAssuming lower costs than reality. Signal Forge uses 0.24% round-trip — some backtests assume 0% or use \"maker\" fees when execution would actually be \"taker.\"\n```\nSmall difference × many trades = huge impact\n\nStrategy with 500 trades/year:\n  At 0.00% cost: +15% annual return\n  At 0.10% cost: +10% annual return\n  At 0.24% cost: +3% annual return  ← reality\n```\n\n### 5. Regime Change\nPast patterns don't repeat in new market conditions. A strategy that worked in the 2020-2025 crypto bull run may fail in a regulatory crackdown, bear market, or entirely new macro environment.\n\nSolutions: test across multiple regimes (bull, bear, sideways), use regime detection features, avoid strategies that only worked in one regime."
+        "content": "### 1. Lookahead Bias\r\nUsing information that wasn't available at decision time. Example: using today's closing price to make a \"morning\" trading decision. Subtler: computing a feature using the full dataset (e.g., normalizing with global min/max instead of expanding-window min/max).\r\n\r\nSignal Forge guards against this with strict walk-forward validation and feature engineering rules — but you can still leak through improperly windowed features.\r\n\r\n### 2. Survivorship Bias\r\nOnly backtesting on assets that still exist today. Delisted coins, bankrupt companies, and failed tokens disappear from historical data. This makes everything look better because you never see the catastrophic losses.\r\n\r\nExample: backtesting on \"top 100 coins\" using today's top 100 rather than the historical top 100 at each point in time. LUNA was top 10 before it went to zero.\r\n\r\n### 3. Overfitting to the Past\r\nOptimizing parameters until the backtest looks great on historical data. If you test 1,000 parameter combinations and pick the best one, you've curve-fitted to noise. The strategy \"memorized\" the past rather than learning generalizable patterns.\r\n\r\nSolutions: walk-forward validation, out-of-sample holdout (never touch until final evaluation), cross-validation across time periods.\r\n\r\n### 4. Transaction Cost Underestimation\r\nAssuming lower costs than reality. Signal Forge uses 0.24% round-trip — some backtests assume 0% or use \"maker\" fees when execution would actually be \"taker.\"\r\n```\r\nSmall difference × many trades = huge impact\r\n\r\nStrategy with 500 trades/year:\r\n  At 0.00% cost: +15% annual return\r\n  At 0.10% cost: +10% annual return\r\n  At 0.24% cost: +3% annual return  ← reality\r\n```\r\n\r\n### 5. Regime Change\r\nPast patterns don't repeat in new market conditions. A strategy that worked in the 2020-2025 crypto bull run may fail in a regulatory crackdown, bear market, or entirely new macro environment.\r\n\r\nSolutions: test across multiple regimes (bull, bear, sideways), use regime detection features, avoid strategies that only worked in one regime."
       },
       {
         "heading": "The Multiple Testing Problem",
-        "content": "If you test 20 strategies and one shows p < 0.05 significance, that result is expected by random chance alone. The more strategies you test, the more likely you find a \"significant\" result that's just noise.\n\n**Bonferroni correction**: divide your significance threshold by the number of tests. Testing 20 strategies? Your threshold is 0.05/20 = 0.0025 per strategy."
+        "content": "If you test 20 strategies and one shows p < 0.05 significance, that result is expected by random chance alone. The more strategies you test, the more likely you find a \"significant\" result that's just noise.\r\n\r\n**Bonferroni correction**: divide your significance threshold by the number of tests. Testing 20 strategies? Your threshold is 0.05/20 = 0.0025 per strategy."
       },
       {
         "heading": "The Backtest-to-Live Gap",
-        "content": "Backtests always look better than live trading. Always. Expect 30-50% performance degradation going live.\n```\nBacktest Sharpe 2.0 → Live Sharpe ~1.0-1.4\nBacktest Sharpe 1.0 → Live Sharpe ~0.5-0.7\nBacktest Sharpe 0.5 → Live Sharpe ~0.0-0.3 (probably not worth trading)\n```\nIf your backtest isn't impressive, your live results will be worse."
+        "content": "Backtests always look better than live trading. Always. Expect 30-50% performance degradation going live.\r\n```\r\nBacktest Sharpe 2.0 → Live Sharpe ~1.0-1.4\r\nBacktest Sharpe 1.0 → Live Sharpe ~0.5-0.7\r\nBacktest Sharpe 0.5 → Live Sharpe ~0.0-0.3 (probably not worth trading)\r\n```\r\nIf your backtest isn't impressive, your live results will be worse."
       },
       {
         "heading": "Signal Forge's Current Defenses",
-        "content": "- **Walk-forward validation** — prevents lookahead bias and overfitting (pitfalls 1 + 3)\n- **Explicit cost modeling at 0.24%** — prevents cost underestimation (pitfall 4)\n- **Baseline comparison** — detects overfitting by comparing to naive strategies\n- **Regime-aware features** — partially addresses regime change (pitfall 5)\n- **Still vulnerable to**: survivorship bias (testing on coins that still exist) and the multiple testing problem (testing many feature combinations)"
+        "content": "- **Walk-forward validation** — prevents lookahead bias and overfitting (pitfalls 1 + 3)\r\n- **Explicit cost modeling at 0.24%** — prevents cost underestimation (pitfall 4)\r\n- **Baseline comparison** — detects overfitting by comparing to naive strategies\r\n- **Regime-aware features** — partially addresses regime change (pitfall 5)\r\n- **Still vulnerable to**: survivorship bias (testing on coins that still exist) and the multiple testing problem (testing many feature combinations)"
       },
       {
         "heading": "Research Next Steps",
-        "content": "- [ ] Audit Signal Forge features for any remaining lookahead leakage\n- [ ] Build a \"delisted coins\" dataset to test survivorship bias impact\n- [ ] Implement Bonferroni-corrected significance testing for strategy comparison\n- [ ] Compare backtest vs paper-trading results to measure the live gap"
+        "content": "- [ ] Audit Signal Forge features for any remaining lookahead leakage\r\n- [ ] Build a \"delisted coins\" dataset to test survivorship bias impact\r\n- [ ] Implement Bonferroni-corrected significance testing for strategy comparison\r\n- [ ] Compare backtest vs paper-trading results to measure the live gap"
       }
     ],
     "related": [
@@ -12466,27 +12127,27 @@ export const pods: Pod[] = [
     "sections": [
       {
         "heading": "What It Is",
-        "content": "Decomposes asset returns into exposure to systematic risk factors (value, momentum, quality, size) via regression. PCA or factor analysis identifies hidden correlation structure and prevents building a portfolio where everything moves together.\n\nYou think you're diversified holding 20 stocks — factor models tell you whether you actually are or whether you're just holding 20 flavors of the same bet."
+        "content": "Decomposes asset returns into exposure to systematic risk factors (value, momentum, quality, size) via regression. PCA or factor analysis identifies hidden correlation structure and prevents building a portfolio where everything moves together.\r\n\r\nYou think you're diversified holding 20 stocks — factor models tell you whether you actually are or whether you're just holding 20 flavors of the same bet."
       },
       {
         "heading": "Key Mechanics",
-        "content": "### Factor Regression Model\n```\nr_i = α + β₁·MKT + β₂·SMB + β₃·HML + β₄·RMW + β₅·CMA + ε\n```\n- **α (alpha)**: the return your portfolio earns *after* accounting for factor exposure — the holy grail\n- **βs (factor loadings)**: how much exposure you have to each systematic factor\n- **ε (residual)**: idiosyncratic return — the stock-specific noise\n\n### Fama-French 5-Factor Model\n| Factor | What It Captures | Long | Short |\n|--------|-----------------|------|-------|\n| MKT | Market risk premium | Market | Risk-free |\n| SMB | Size effect | Small caps | Large caps |\n| HML | Value effect | High B/M | Low B/M |\n| RMW | Profitability | Robust profits | Weak profits |\n| CMA | Investment | Conservative | Aggressive |\n\n### Correlation Matrices and Their Lies\nRaw correlation tells you the *average* relationship. It hides two critical things:\n\n1. **Regime-dependent correlations**: In a crisis, correlations spike toward 1.0. That \"diversifying\" asset starts moving in lockstep with everything else. The 2008 crisis, March 2020 COVID crash, and 2022 rate shock all showed correlations converging when you need diversification most.\n\n2. **Spurious correlation from shared factor exposure**: Two stocks might show 0.3 correlation, but if you decompose them, they're both 80% momentum factor — when momentum reverses, they both get crushed together.\n\n### PCA for Hidden Structure\nPCA reduces your N×N correlation matrix into a handful of uncorrelated principal components. In practice:\n- **PC1** almost always maps to \"the market\" (explains 40-60% of variance)\n- **PC2** often maps to a growth-vs-value rotation\n- **PC3+** capture sector rotations, rates sensitivity, etc.\n\nIf your first 2 PCs explain 80%+ of your portfolio's variance, you don't have 20 positions — you have 2 bets with a lot of window dressing.\n\n### Decorrelation Benefits\nAdding a genuinely uncorrelated return stream to a portfolio improves Sharpe ratio even if the stream itself has a mediocre Sharpe:\n```\nSharpe_portfolio = (w₁·S₁ + w₂·S₂) / √(w₁²+ w₂² + 2·w₁·w₂·ρ·σ₁·σ₂)\n```\nWhen ρ → 0, the denominator shrinks and portfolio Sharpe goes up. This is why hedge funds pay a premium for uncorrelated alpha."
+        "content": "### Factor Regression Model\r\n```\r\nr_i = α + β₁·MKT + β₂·SMB + β₃·HML + β₄·RMW + β₅·CMA + ε\r\n```\r\n- **α (alpha)**: the return your portfolio earns *after* accounting for factor exposure — the holy grail\r\n- **βs (factor loadings)**: how much exposure you have to each systematic factor\r\n- **ε (residual)**: idiosyncratic return — the stock-specific noise\r\n\r\n### Fama-French 5-Factor Model\r\n| Factor | What It Captures | Long | Short |\r\n|--------|-----------------|------|-------|\r\n| MKT | Market risk premium | Market | Risk-free |\r\n| SMB | Size effect | Small caps | Large caps |\r\n| HML | Value effect | High B/M | Low B/M |\r\n| RMW | Profitability | Robust profits | Weak profits |\r\n| CMA | Investment | Conservative | Aggressive |\r\n\r\n### Correlation Matrices and Their Lies\r\nRaw correlation tells you the *average* relationship. It hides two critical things:\r\n\r\n1. **Regime-dependent correlations**: In a crisis, correlations spike toward 1.0. That \"diversifying\" asset starts moving in lockstep with everything else. The 2008 crisis, March 2020 COVID crash, and 2022 rate shock all showed correlations converging when you need diversification most.\r\n\r\n2. **Spurious correlation from shared factor exposure**: Two stocks might show 0.3 correlation, but if you decompose them, they're both 80% momentum factor — when momentum reverses, they both get crushed together.\r\n\r\n### PCA for Hidden Structure\r\nPCA reduces your N×N correlation matrix into a handful of uncorrelated principal components. In practice:\r\n- **PC1** almost always maps to \"the market\" (explains 40-60% of variance)\r\n- **PC2** often maps to a growth-vs-value rotation\r\n- **PC3+** capture sector rotations, rates sensitivity, etc.\r\n\r\nIf your first 2 PCs explain 80%+ of your portfolio's variance, you don't have 20 positions — you have 2 bets with a lot of window dressing.\r\n\r\n### Decorrelation Benefits\r\nAdding a genuinely uncorrelated return stream to a portfolio improves Sharpe ratio even if the stream itself has a mediocre Sharpe:\r\n```\r\nSharpe_portfolio = (w₁·S₁ + w₂·S₂) / √(w₁²+ w₂² + 2·w₁·w₂·ρ·σ₁·σ₂)\r\n```\r\nWhen ρ → 0, the denominator shrinks and portfolio Sharpe goes up. This is why hedge funds pay a premium for uncorrelated alpha."
       },
       {
         "heading": "Python Entry Point",
-        "content": "### Full Factor Exposure Report\n```python\nimport pandas as pd\nimport numpy as np\nimport statsmodels.api as sm\nfrom sklearn.decomposition import PCA\nimport pandas_datareader.data as web\n\n# 1. Download Fama-French 5 factors from Ken French's data library\nff5 = web.DataReader(\"F-F_Research_Data_5_Factors_2x3_daily\", \"famafrench\")[0]\nff5 = ff5 / 100  # Convert from percentage to decimal\n\n# 2. Get your portfolio returns (example: SPY + QQQ + IWM blend)\n# Replace with your actual returns series\nportfolio_returns = pd.read_csv(\"portfolio_returns.csv\", index_col=0, parse_dates=True)\nportfolio_returns.columns = [\"portfolio\"]\n\n# 3. Align dates and run regression\ndata = portfolio_returns.join(ff5, how=\"inner\")\ndata[\"excess_return\"] = data[\"portfolio\"] - data[\"RF\"]\n\ny = data[\"excess_return\"]\nX = sm.add_constant(data\"Mkt-RF\", \"SMB\", \"HML\", \"RMW\", \"CMA\")\nmodel = sm.OLS(y, X).fit()\n\nprint(\"=== Factor Exposure Report ===\")\nprint(f\"Alpha (annualized): {model.params['const'] * 252:.2%}\")\nprint(f\"R-squared: {model.rsquared:.2%}\")\nprint(\"\\nFactor Loadings:\")\nfor factor in [\"Mkt-RF\", \"SMB\", \"HML\", \"RMW\", \"CMA\"]:\n    beta = model.params[factor]\n    pval = model.pvalues[factor]\n    sig = \"***\" if pval < 0.01 else \"**\" if pval < 0.05 else \"*\" if pval < 0.1 else \"\"\n    print(f\"  {factor:>6}: {beta:+.3f} {sig}\")\n\n# 4. PCA on the correlation matrix\nreturns_matrix = data\"Mkt-RF\", \"SMB\", \"HML\", \"RMW\", \"CMA\"\npca = PCA(n_components=5)\npca.fit(returns_matrix)\n\nprint(\"\\n=== PCA Variance Explained ===\")\nfor i, var in enumerate(pca.explained_variance_ratio_):\n    cumulative = sum(pca.explained_variance_ratio_[:i+1])\n    print(f\"  PC{i+1}: {var:.1%} (cumulative: {cumulative:.1%})\")\n```\n\n### Rolling Correlation Heatmap (Regime Detection)\n```python\nimport seaborn as sns\nimport matplotlib.pyplot as plt\n\n# Rolling 60-day correlation between asset returns\nassets = pd.DataFrame({\n    \"SPY\": spy_returns,\n    \"TLT\": tlt_returns,\n    \"GLD\": gld_returns,\n    \"VNQ\": vnq_returns,\n})\n\n# Snapshot: calm period vs crisis period\ncalm_corr = assets[\"2019-06\":\"2019-12\"].corr()\ncrisis_corr = assets[\"2020-02\":\"2020-04\"].corr()\n\nfig, axes = plt.subplots(1, 2, figsize=(14, 5))\nsns.heatmap(calm_corr, annot=True, cmap=\"RdBu_r\", vmin=-1, vmax=1, ax=axes[0])\naxes[0].set_title(\"Calm Period (H2 2019)\")\nsns.heatmap(crisis_corr, annot=True, cmap=\"RdBu_r\", vmin=-1, vmax=1, ax=axes[1])\naxes[1].set_title(\"Crisis Period (Feb-Apr 2020)\")\nplt.tight_layout()\nplt.savefig(\"regime_correlation_comparison.png\")\n```\n\nKey libs: `statsmodels`, `sklearn`, `pandas-datareader`, `riskfolio-lib`, `seaborn`"
+        "content": "### Full Factor Exposure Report\r\n```python\r\nimport pandas as pd\r\nimport numpy as np\r\nimport statsmodels.api as sm\r\nfrom sklearn.decomposition import PCA\r\nimport pandas_datareader.data as web\r\n\r\n# 1. Download Fama-French 5 factors from Ken French's data library\r\nff5 = web.DataReader(\"F-F_Research_Data_5_Factors_2x3_daily\", \"famafrench\")[0]\r\nff5 = ff5 / 100  # Convert from percentage to decimal\r\n\r\n# 2. Get your portfolio returns (example: SPY + QQQ + IWM blend)\r\n# Replace with your actual returns series\r\nportfolio_returns = pd.read_csv(\"portfolio_returns.csv\", index_col=0, parse_dates=True)\r\nportfolio_returns.columns = [\"portfolio\"]\r\n\r\n# 3. Align dates and run regression\r\ndata = portfolio_returns.join(ff5, how=\"inner\")\r\ndata[\"excess_return\"] = data[\"portfolio\"] - data[\"RF\"]\r\n\r\ny = data[\"excess_return\"]\r\nX = sm.add_constant(data\"Mkt-RF\", \"SMB\", \"HML\", \"RMW\", \"CMA\")\r\nmodel = sm.OLS(y, X).fit()\r\n\r\nprint(\"=== Factor Exposure Report ===\")\r\nprint(f\"Alpha (annualized): {model.params['const'] * 252:.2%}\")\r\nprint(f\"R-squared: {model.rsquared:.2%}\")\r\nprint(\"\\nFactor Loadings:\")\r\nfor factor in [\"Mkt-RF\", \"SMB\", \"HML\", \"RMW\", \"CMA\"]:\r\n    beta = model.params[factor]\r\n    pval = model.pvalues[factor]\r\n    sig = \"***\" if pval < 0.01 else \"**\" if pval < 0.05 else \"*\" if pval < 0.1 else \"\"\r\n    print(f\"  {factor:>6}: {beta:+.3f} {sig}\")\r\n\r\n# 4. PCA on the correlation matrix\r\nreturns_matrix = data\"Mkt-RF\", \"SMB\", \"HML\", \"RMW\", \"CMA\"\r\npca = PCA(n_components=5)\r\npca.fit(returns_matrix)\r\n\r\nprint(\"\\n=== PCA Variance Explained ===\")\r\nfor i, var in enumerate(pca.explained_variance_ratio_):\r\n    cumulative = sum(pca.explained_variance_ratio_[:i+1])\r\n    print(f\"  PC{i+1}: {var:.1%} (cumulative: {cumulative:.1%})\")\r\n```\r\n\r\n### Rolling Correlation Heatmap (Regime Detection)\r\n```python\r\nimport seaborn as sns\r\nimport matplotlib.pyplot as plt\r\n\r\n# Rolling 60-day correlation between asset returns\r\nassets = pd.DataFrame({\r\n    \"SPY\": spy_returns,\r\n    \"TLT\": tlt_returns,\r\n    \"GLD\": gld_returns,\r\n    \"VNQ\": vnq_returns,\r\n})\r\n\r\n# Snapshot: calm period vs crisis period\r\ncalm_corr = assets[\"2019-06\":\"2019-12\"].corr()\r\ncrisis_corr = assets[\"2020-02\":\"2020-04\"].corr()\r\n\r\nfig, axes = plt.subplots(1, 2, figsize=(14, 5))\r\nsns.heatmap(calm_corr, annot=True, cmap=\"RdBu_r\", vmin=-1, vmax=1, ax=axes[0])\r\naxes[0].set_title(\"Calm Period (H2 2019)\")\r\nsns.heatmap(crisis_corr, annot=True, cmap=\"RdBu_r\", vmin=-1, vmax=1, ax=axes[1])\r\naxes[1].set_title(\"Crisis Period (Feb-Apr 2020)\")\r\nplt.tight_layout()\r\nplt.savefig(\"regime_correlation_comparison.png\")\r\n```\r\n\r\nKey libs: `statsmodels`, `sklearn`, `pandas-datareader`, `riskfolio-lib`, `seaborn`"
       },
       {
         "heading": "Why It Matters",
-        "content": "Portfolio construction backbone. Two assets that look \"different\" may have 0.95 correlation when markets stress — factor models surface this before it hurts you.\n\nBeyond risk management, factor exposure analysis answers three practical questions:\n1. **Am I getting paid for the risk I'm taking?** If your alpha is zero, you could replicate your returns cheaper with factor ETFs.\n2. **What's my actual bet?** A \"diversified\" tech portfolio might be 90% momentum factor — one momentum reversal wipes you out.\n3. **Where should I look for decorrelation?** PCA shows you which return dimensions you're missing entirely."
+        "content": "Portfolio construction backbone. Two assets that look \"different\" may have 0.95 correlation when markets stress — factor models surface this before it hurts you.\r\n\r\nBeyond risk management, factor exposure analysis answers three practical questions:\r\n1. **Am I getting paid for the risk I'm taking?** If your alpha is zero, you could replicate your returns cheaper with factor ETFs.\r\n2. **What's my actual bet?** A \"diversified\" tech portfolio might be 90% momentum factor — one momentum reversal wipes you out.\r\n3. **Where should I look for decorrelation?** PCA shows you which return dimensions you're missing entirely."
       },
       {
         "heading": "Apply It",
-        "content": "- Run factor exposure reports in **Signal Forge** to decompose any strategy into factor bets vs. genuine alpha\n- Build a \"Factor X-Ray\" view in **Vault** showing real-time factor loadings (\"your portfolio is 70% momentum, 20% value, 10% alpha\")\n- Use **OpenBB** `economy` and `stocks.fa` modules to pull factor data and fundamental ratios for screening\n- Feature engineering for ML trading models — factor residuals (the ε term) are cleaner inputs than raw returns\n- Rolling correlation dashboard showing how diversification breaks down in stress periods"
+        "content": "- Run factor exposure reports in **Signal Forge** to decompose any strategy into factor bets vs. genuine alpha\r\n- Build a \"Factor X-Ray\" view in **Vault** showing real-time factor loadings (\"your portfolio is 70% momentum, 20% value, 10% alpha\")\r\n- Use **OpenBB** `economy` and `stocks.fa` modules to pull factor data and fundamental ratios for screening\r\n- Feature engineering for ML trading models — factor residuals (the ε term) are cleaner inputs than raw returns\r\n- Rolling correlation dashboard showing how diversification breaks down in stress periods"
       },
       {
         "heading": "Research Next Steps",
-        "content": "- [ ] Download Fama-French factors from Ken French's data library and run the exposure report above\n- [ ] Run OLS on a sample portfolio against FF5 factors — interpret the alpha and loadings\n- [ ] Compare calm-period vs crisis-period correlation matrices for SPY/TLT/GLD/VNQ\n- [ ] Explore `riskfolio-lib` for portfolio optimization with factor constraints\n- [ ] Build a rolling 60-day correlation heatmap to visualize regime shifts\n- [ ] Test whether PCA-based decorrelation improves out-of-sample Sharpe ratio"
+        "content": "- [ ] Download Fama-French factors from Ken French's data library and run the exposure report above\r\n- [ ] Run OLS on a sample portfolio against FF5 factors — interpret the alpha and loadings\r\n- [ ] Compare calm-period vs crisis-period correlation matrices for SPY/TLT/GLD/VNQ\r\n- [ ] Explore `riskfolio-lib` for portfolio optimization with factor constraints\r\n- [ ] Build a rolling 60-day correlation heatmap to visualize regime shifts\r\n- [ ] Test whether PCA-based decorrelation improves out-of-sample Sharpe ratio"
       }
     ],
     "related": [
@@ -12576,27 +12237,27 @@ export const pods: Pod[] = [
     "sections": [
       {
         "heading": "What It Is",
-        "content": "Classifies the current macroeconomic environment into a discrete regime (growth/recession × inflation/deflation), then allocates to asset classes that historically outperform in that regime. A top-down overlay on bottom-up signals.\n\nThe core insight: asset class returns aren't random — they cluster around macro conditions. Equities love growth with low inflation. Commodities love inflation. Bonds love deflation. If you can identify the regime, you can tilt toward what works and away from what doesn't."
+        "content": "Classifies the current macroeconomic environment into a discrete regime (growth/recession × inflation/deflation), then allocates to asset classes that historically outperform in that regime. A top-down overlay on bottom-up signals.\r\n\r\nThe core insight: asset class returns aren't random — they cluster around macro conditions. Equities love growth with low inflation. Commodities love inflation. Bonds love deflation. If you can identify the regime, you can tilt toward what works and away from what doesn't."
       },
       {
         "heading": "Key Mechanics",
-        "content": "### The Growth × Inflation Quadrant\n| | ↑ Growth | ↓ Growth |\n|---|---------|---------|\n| **↑ Inflation** | **Reflation** — Commodities, TIPS, value stocks, EM equities | **Stagflation** — Cash, commodities, gold, short duration |\n| **↓ Inflation** | **Goldilocks** — Equities, credit, growth stocks, risk-on | **Deflation** — Long bonds, quality stocks, USD, safe havens |\n\nThis is the Bridgewater \"All Weather\" insight: every asset class has a macro environment where it shines. A balanced portfolio holds assets that cover all four quadrants so *something* is always working.\n\n### Regime Indicators\nYou detect regimes from leading macro data. Key signals:\n\n| Indicator | Source | What It Tells You |\n|-----------|--------|-------------------|\n| PMI (Manufacturing/Services) | ISM, Markit | Growth direction and momentum |\n| CPI / PCE | BLS, BEA | Inflation trend |\n| 10Y-2Y yield spread | Treasury | Recession probability (inverted = danger) |\n| Initial jobless claims | DOL | Labor market turning points |\n| Credit spreads (HY-IG) | FRED | Risk appetite / stress |\n| Copper/Gold ratio | Markets | Growth expectations |\n\n### Rule-Based vs ML-Based Regime Switching\n\n**Rule-based approach** (simpler, more interpretable):\n- Define thresholds: PMI > 50 = growth, CPI YoY > 3% = inflation\n- Combine into quadrant classification\n- Pros: transparent, easy to override manually, no overfitting risk\n- Cons: arbitrary thresholds, binary classification misses transitions\n\n**ML-based approach** (HMM, K-Means, GMM):\n- Let the data discover regimes from return patterns\n- HMM adds temporal structure — regimes are \"sticky\" and transitions have probabilities\n- Pros: discovers non-obvious regimes, handles gradual transitions, probabilistic\n- Cons: regime labels aren't interpretable by default, sensitive to hyperparameters, can overfit in-sample\n\n### Hidden Markov Models (HMM) for Regime Detection\nHMMs model the market as a system that switches between hidden states. You observe returns; the model infers which regime generated them.\n\nKey concepts:\n- **States**: The discrete regimes (e.g., 4 states for the growth/inflation quadrant)\n- **Transition matrix**: Probability of moving from regime i to regime j — captures regime persistence\n- **Emission distribution**: The return distribution in each state (mean, variance)\n- **Viterbi algorithm**: Finds the most likely sequence of regimes given observed data\n\nIn practice, HMM regimes often map to:\n- **State 1**: Low vol, positive returns (bull market / Goldilocks)\n- **State 2**: High vol, negative returns (crisis / bear market)\n- **State 3**: Moderate vol, low returns (transition / uncertainty)\n- **State 4**: High vol, positive returns (recovery / reflation)\n\n### Tactical Allocation Tilts\nOnce you identify the regime, shift portfolio weights. You're not going 100% into the \"winner\" — you're tilting:\n\n```\nw_tactical = w_strategic + Δw_regime\n```\n\nExample tilts from a 60/40 baseline:\n| Regime | Equity Δ | Bond Δ | Commodity Δ | Cash Δ |\n|--------|---------|--------|-------------|--------|\n| Goldilocks | +10% | -5% | 0% | -5% |\n| Reflation | -5% | -10% | +10% | +5% |\n| Stagflation | -15% | -5% | +10% | +10% |\n| Deflation | -10% | +15% | -5% | 0% |\n\nKeep tilts modest (±5-15%). Regime detection isn't precise enough to justify massive bets."
+        "content": "### The Growth × Inflation Quadrant\r\n| | ↑ Growth | ↓ Growth |\r\n|---|---------|---------|\r\n| **↑ Inflation** | **Reflation** — Commodities, TIPS, value stocks, EM equities | **Stagflation** — Cash, commodities, gold, short duration |\r\n| **↓ Inflation** | **Goldilocks** — Equities, credit, growth stocks, risk-on | **Deflation** — Long bonds, quality stocks, USD, safe havens |\r\n\r\nThis is the Bridgewater \"All Weather\" insight: every asset class has a macro environment where it shines. A balanced portfolio holds assets that cover all four quadrants so *something* is always working.\r\n\r\n### Regime Indicators\r\nYou detect regimes from leading macro data. Key signals:\r\n\r\n| Indicator | Source | What It Tells You |\r\n|-----------|--------|-------------------|\r\n| PMI (Manufacturing/Services) | ISM, Markit | Growth direction and momentum |\r\n| CPI / PCE | BLS, BEA | Inflation trend |\r\n| 10Y-2Y yield spread | Treasury | Recession probability (inverted = danger) |\r\n| Initial jobless claims | DOL | Labor market turning points |\r\n| Credit spreads (HY-IG) | FRED | Risk appetite / stress |\r\n| Copper/Gold ratio | Markets | Growth expectations |\r\n\r\n### Rule-Based vs ML-Based Regime Switching\r\n\r\n**Rule-based approach** (simpler, more interpretable):\r\n- Define thresholds: PMI > 50 = growth, CPI YoY > 3% = inflation\r\n- Combine into quadrant classification\r\n- Pros: transparent, easy to override manually, no overfitting risk\r\n- Cons: arbitrary thresholds, binary classification misses transitions\r\n\r\n**ML-based approach** (HMM, K-Means, GMM):\r\n- Let the data discover regimes from return patterns\r\n- HMM adds temporal structure — regimes are \"sticky\" and transitions have probabilities\r\n- Pros: discovers non-obvious regimes, handles gradual transitions, probabilistic\r\n- Cons: regime labels aren't interpretable by default, sensitive to hyperparameters, can overfit in-sample\r\n\r\n### Hidden Markov Models (HMM) for Regime Detection\r\nHMMs model the market as a system that switches between hidden states. You observe returns; the model infers which regime generated them.\r\n\r\nKey concepts:\r\n- **States**: The discrete regimes (e.g., 4 states for the growth/inflation quadrant)\r\n- **Transition matrix**: Probability of moving from regime i to regime j — captures regime persistence\r\n- **Emission distribution**: The return distribution in each state (mean, variance)\r\n- **Viterbi algorithm**: Finds the most likely sequence of regimes given observed data\r\n\r\nIn practice, HMM regimes often map to:\r\n- **State 1**: Low vol, positive returns (bull market / Goldilocks)\r\n- **State 2**: High vol, negative returns (crisis / bear market)\r\n- **State 3**: Moderate vol, low returns (transition / uncertainty)\r\n- **State 4**: High vol, positive returns (recovery / reflation)\r\n\r\n### Tactical Allocation Tilts\r\nOnce you identify the regime, shift portfolio weights. You're not going 100% into the \"winner\" — you're tilting:\r\n\r\n```\r\nw_tactical = w_strategic + Δw_regime\r\n```\r\n\r\nExample tilts from a 60/40 baseline:\r\n| Regime | Equity Δ | Bond Δ | Commodity Δ | Cash Δ |\r\n|--------|---------|--------|-------------|--------|\r\n| Goldilocks | +10% | -5% | 0% | -5% |\r\n| Reflation | -5% | -10% | +10% | +5% |\r\n| Stagflation | -15% | -5% | +10% | +10% |\r\n| Deflation | -10% | +15% | -5% | 0% |\r\n\r\nKeep tilts modest (±5-15%). Regime detection isn't precise enough to justify massive bets."
       },
       {
         "heading": "Python Entry Point",
-        "content": "### Full HMM Regime Detection Pipeline\n```python\nimport numpy as np\nimport pandas as pd\nfrom hmmlearn import hmm\nimport pandas_datareader.data as web\nimport matplotlib.pyplot as plt\nfrom datetime import datetime\n\n# 1. Pull macro data from FRED\nstart = \"2000-01-01\"\nend = \"2026-01-01\"\n\n# Get market returns and macro indicators\nspy = web.DataReader(\"SP500\", \"fred\", start, end).pct_change().dropna()\ntlt_proxy = web.DataReader(\"DGS10\", \"fred\", start, end)  # 10Y yield as bond proxy\n\n# Pull macro indicators\npmi = web.DataReader(\"MANEMP\", \"fred\", start, end).pct_change(12)  # Manufacturing employment as PMI proxy\ncpi = web.DataReader(\"CPIAUCSL\", \"fred\", start, end).pct_change(12)  # CPI YoY\nspread_10y2y = web.DataReader(\"T10Y2Y\", \"fred\", start, end)\n\n# 2. Prepare features for HMM\nfeatures = pd.concat([spy, cpi, spread_10y2y], axis=1).dropna()\nfeatures.columns = [\"returns\", \"cpi_yoy\", \"yield_spread\"]\nfeatures_scaled = (features - features.mean()) / features.std()\n\n# 3. Fit Gaussian HMM with 4 regimes\nmodel = hmm.GaussianHMM(\n    n_components=4,\n    covariance_type=\"full\",\n    n_iter=1000,\n    random_state=42\n)\nmodel.fit(features_scaled.values)\nregimes = model.predict(features_scaled.values)\n\n# 4. Analyze regime characteristics\nfeatures[\"regime\"] = regimes\nprint(\"=== Regime Characteristics ===\")\nfor regime in range(4):\n    subset = features[features[\"regime\"] == regime]\n    print(f\"\\nRegime {regime} ({len(subset)} observations, {len(subset)/len(features):.0%} of time):\")\n    print(f\"  Avg return:     {subset['returns'].mean() * 252:.1%} annualized\")\n    print(f\"  Volatility:     {subset['returns'].std() * np.sqrt(252):.1%} annualized\")\n    print(f\"  Avg CPI YoY:    {subset['cpi_yoy'].mean():.1%}\")\n    print(f\"  Avg yield spread: {subset['yield_spread'].mean():.2f}%\")\n\n# 5. Transition matrix — how sticky are regimes?\nprint(\"\\n=== Transition Matrix ===\")\ntrans = pd.DataFrame(\n    model.transmat_,\n    index=[f\"From R{i}\" for i in range(4)],\n    columns=[f\"To R{i}\" for i in range(4)]\n)\nprint(trans.round(3))\n\n# 6. Plot regimes over time\nfig, axes = plt.subplots(2, 1, figsize=(14, 8), sharex=True)\ncolors = [\"green\", \"red\", \"orange\", \"blue\"]\nfor regime in range(4):\n    mask = features[\"regime\"] == regime\n    axes[0].scatter(\n        features.index[mask], features[\"returns\"][mask],\n        c=colors[regime], alpha=0.5, s=5, label=f\"Regime {regime}\"\n    )\naxes[0].set_title(\"Market Returns by Regime\")\naxes[0].legend()\n\n# Regime timeline\naxes[1].fill_between(features.index, 0, 1,\n    where=(features[\"regime\"] == 0), color=\"green\", alpha=0.3, label=\"R0\")\naxes[1].fill_between(features.index, 0, 1,\n    where=(features[\"regime\"] == 1), color=\"red\", alpha=0.3, label=\"R1\")\naxes[1].fill_between(features.index, 0, 1,\n    where=(features[\"regime\"] == 2), color=\"orange\", alpha=0.3, label=\"R2\")\naxes[1].fill_between(features.index, 0, 1,\n    where=(features[\"regime\"] == 3), color=\"blue\", alpha=0.3, label=\"R3\")\naxes[1].set_title(\"Regime Timeline\")\naxes[1].legend()\nplt.tight_layout()\nplt.savefig(\"regime_detection.png\")\n```\n\n### Rule-Based Alternative (Simpler, More Transparent)\n```python\ndef classify_regime(pmi_value, cpi_yoy):\n    \"\"\"Simple rule-based regime classification.\"\"\"\n    growth = pmi_value > 50\n    inflation = cpi_yoy > 0.03  # 3% threshold\n\n    if growth and not inflation:\n        return \"Goldilocks\"\n    elif growth and inflation:\n        return \"Reflation\"\n    elif not growth and inflation:\n        return \"Stagflation\"\n    else:\n        return \"Deflation\"\n\n# Allocation tilts per regime\nTILTS = {\n    \"Goldilocks\":  {\"equity\": 0.70, \"bonds\": 0.15, \"commodities\": 0.05, \"cash\": 0.10},\n    \"Reflation\":   {\"equity\": 0.45, \"bonds\": 0.10, \"commodities\": 0.25, \"cash\": 0.20},\n    \"Stagflation\": {\"equity\": 0.25, \"bonds\": 0.15, \"commodities\": 0.25, \"cash\": 0.35},\n    \"Deflation\":   {\"equity\": 0.30, \"bonds\": 0.45, \"commodities\": 0.05, \"cash\": 0.20},\n}\n\ncurrent_regime = classify_regime(pmi=48.5, cpi_yoy=0.028)\nprint(f\"Current regime: {current_regime}\")\nprint(f\"Target allocation: {TILTS[current_regime]}\")\n```\n\nKey libs: `hmmlearn`, `scikit-learn`, `pandas-datareader`, `matplotlib`"
+        "content": "### Full HMM Regime Detection Pipeline\r\n```python\r\nimport numpy as np\r\nimport pandas as pd\r\nfrom hmmlearn import hmm\r\nimport pandas_datareader.data as web\r\nimport matplotlib.pyplot as plt\r\nfrom datetime import datetime\r\n\r\n# 1. Pull macro data from FRED\r\nstart = \"2000-01-01\"\r\nend = \"2026-01-01\"\r\n\r\n# Get market returns and macro indicators\r\nspy = web.DataReader(\"SP500\", \"fred\", start, end).pct_change().dropna()\r\ntlt_proxy = web.DataReader(\"DGS10\", \"fred\", start, end)  # 10Y yield as bond proxy\r\n\r\n# Pull macro indicators\r\npmi = web.DataReader(\"MANEMP\", \"fred\", start, end).pct_change(12)  # Manufacturing employment as PMI proxy\r\ncpi = web.DataReader(\"CPIAUCSL\", \"fred\", start, end).pct_change(12)  # CPI YoY\r\nspread_10y2y = web.DataReader(\"T10Y2Y\", \"fred\", start, end)\r\n\r\n# 2. Prepare features for HMM\r\nfeatures = pd.concat([spy, cpi, spread_10y2y], axis=1).dropna()\r\nfeatures.columns = [\"returns\", \"cpi_yoy\", \"yield_spread\"]\r\nfeatures_scaled = (features - features.mean()) / features.std()\r\n\r\n# 3. Fit Gaussian HMM with 4 regimes\r\nmodel = hmm.GaussianHMM(\r\n    n_components=4,\r\n    covariance_type=\"full\",\r\n    n_iter=1000,\r\n    random_state=42\r\n)\r\nmodel.fit(features_scaled.values)\r\nregimes = model.predict(features_scaled.values)\r\n\r\n# 4. Analyze regime characteristics\r\nfeatures[\"regime\"] = regimes\r\nprint(\"=== Regime Characteristics ===\")\r\nfor regime in range(4):\r\n    subset = features[features[\"regime\"] == regime]\r\n    print(f\"\\nRegime {regime} ({len(subset)} observations, {len(subset)/len(features):.0%} of time):\")\r\n    print(f\"  Avg return:     {subset['returns'].mean() * 252:.1%} annualized\")\r\n    print(f\"  Volatility:     {subset['returns'].std() * np.sqrt(252):.1%} annualized\")\r\n    print(f\"  Avg CPI YoY:    {subset['cpi_yoy'].mean():.1%}\")\r\n    print(f\"  Avg yield spread: {subset['yield_spread'].mean():.2f}%\")\r\n\r\n# 5. Transition matrix — how sticky are regimes?\r\nprint(\"\\n=== Transition Matrix ===\")\r\ntrans = pd.DataFrame(\r\n    model.transmat_,\r\n    index=[f\"From R{i}\" for i in range(4)],\r\n    columns=[f\"To R{i}\" for i in range(4)]\r\n)\r\nprint(trans.round(3))\r\n\r\n# 6. Plot regimes over time\r\nfig, axes = plt.subplots(2, 1, figsize=(14, 8), sharex=True)\r\ncolors = [\"green\", \"red\", \"orange\", \"blue\"]\r\nfor regime in range(4):\r\n    mask = features[\"regime\"] == regime\r\n    axes[0].scatter(\r\n        features.index[mask], features[\"returns\"][mask],\r\n        c=colors[regime], alpha=0.5, s=5, label=f\"Regime {regime}\"\r\n    )\r\naxes[0].set_title(\"Market Returns by Regime\")\r\naxes[0].legend()\r\n\r\n# Regime timeline\r\naxes[1].fill_between(features.index, 0, 1,\r\n    where=(features[\"regime\"] == 0), color=\"green\", alpha=0.3, label=\"R0\")\r\naxes[1].fill_between(features.index, 0, 1,\r\n    where=(features[\"regime\"] == 1), color=\"red\", alpha=0.3, label=\"R1\")\r\naxes[1].fill_between(features.index, 0, 1,\r\n    where=(features[\"regime\"] == 2), color=\"orange\", alpha=0.3, label=\"R2\")\r\naxes[1].fill_between(features.index, 0, 1,\r\n    where=(features[\"regime\"] == 3), color=\"blue\", alpha=0.3, label=\"R3\")\r\naxes[1].set_title(\"Regime Timeline\")\r\naxes[1].legend()\r\nplt.tight_layout()\r\nplt.savefig(\"regime_detection.png\")\r\n```\r\n\r\n### Rule-Based Alternative (Simpler, More Transparent)\r\n```python\r\ndef classify_regime(pmi_value, cpi_yoy):\r\n    \"\"\"Simple rule-based regime classification.\"\"\"\r\n    growth = pmi_value > 50\r\n    inflation = cpi_yoy > 0.03  # 3% threshold\r\n\r\n    if growth and not inflation:\r\n        return \"Goldilocks\"\r\n    elif growth and inflation:\r\n        return \"Reflation\"\r\n    elif not growth and inflation:\r\n        return \"Stagflation\"\r\n    else:\r\n        return \"Deflation\"\r\n\r\n# Allocation tilts per regime\r\nTILTS = {\r\n    \"Goldilocks\":  {\"equity\": 0.70, \"bonds\": 0.15, \"commodities\": 0.05, \"cash\": 0.10},\r\n    \"Reflation\":   {\"equity\": 0.45, \"bonds\": 0.10, \"commodities\": 0.25, \"cash\": 0.20},\r\n    \"Stagflation\": {\"equity\": 0.25, \"bonds\": 0.15, \"commodities\": 0.25, \"cash\": 0.35},\r\n    \"Deflation\":   {\"equity\": 0.30, \"bonds\": 0.45, \"commodities\": 0.05, \"cash\": 0.20},\r\n}\r\n\r\ncurrent_regime = classify_regime(pmi=48.5, cpi_yoy=0.028)\r\nprint(f\"Current regime: {current_regime}\")\r\nprint(f\"Target allocation: {TILTS[current_regime]}\")\r\n```\r\n\r\nKey libs: `hmmlearn`, `scikit-learn`, `pandas-datareader`, `matplotlib`"
       },
       {
         "heading": "Why It Matters",
-        "content": "Prevents applying micro-level signals in the wrong macro context. Knowing \"we are in a recession regime\" changes which strategies you should run entirely.\n\nConcrete impact:\n- **Drawdown reduction**: Tilting toward bonds and cash before a recession regime fully materializes can cut peak-to-trough drawdown by 30-50%.\n- **Signal filtering**: A momentum strategy that works beautifully in Goldilocks can get destroyed in regime transitions. Regime awareness lets you dial down conviction at the right time.\n- **Risk budgeting**: In Stagflation, *nothing works well* — the right move is to shrink risk across the board, not hunt for a winner.\n\nThe biggest mistake beginners make is assuming the current regime will persist forever. Transition detection matters more than regime labeling."
+        "content": "Prevents applying micro-level signals in the wrong macro context. Knowing \"we are in a recession regime\" changes which strategies you should run entirely.\r\n\r\nConcrete impact:\r\n- **Drawdown reduction**: Tilting toward bonds and cash before a recession regime fully materializes can cut peak-to-trough drawdown by 30-50%.\r\n- **Signal filtering**: A momentum strategy that works beautifully in Goldilocks can get destroyed in regime transitions. Regime awareness lets you dial down conviction at the right time.\r\n- **Risk budgeting**: In Stagflation, *nothing works well* — the right move is to shrink risk across the board, not hunt for a winner.\r\n\r\nThe biggest mistake beginners make is assuming the current regime will persist forever. Transition detection matters more than regime labeling."
       },
       {
         "heading": "Apply It",
-        "content": "- Build a \"Macro Dashboard\" panel in **Signal Forge** showing current regime classification (both rule-based and HMM) with confidence level\n- Feed regime labels as features into ML alpha models — \"regime-aware\" models consistently outperform regime-agnostic ones\n- Use **OpenBB** `economy` module to pull PMI, CPI, yield curve data directly for regime classification\n- Regime filter in **Vault** strategy backtester: \"only run this strategy in Goldilocks/Reflation\"\n- Slack alert when HMM detects a regime transition with >70% probability"
+        "content": "- Build a \"Macro Dashboard\" panel in **Signal Forge** showing current regime classification (both rule-based and HMM) with confidence level\r\n- Feed regime labels as features into ML alpha models — \"regime-aware\" models consistently outperform regime-agnostic ones\r\n- Use **OpenBB** `economy` module to pull PMI, CPI, yield curve data directly for regime classification\r\n- Regime filter in **Vault** strategy backtester: \"only run this strategy in Goldilocks/Reflation\"\r\n- Slack alert when HMM detects a regime transition with >70% probability"
       },
       {
         "heading": "Research Next Steps",
-        "content": "- [ ] Pull FRED data (PMI, CPI, 10Y-2Y spread) via OpenBB and classify last 5 years into regimes\n- [ ] Compare HMM vs. rule-based regime classification — measure which detects transitions earlier\n- [ ] Research Bridgewater's \"All Weather\" framework — the canonical regime-based portfolio\n- [ ] Backtest tactical tilts: does regime-aware allocation beat static 60/40 after costs?\n- [ ] Explore Gaussian Mixture Models (GMM) as an alternative to HMM for regime clustering\n- [ ] Test regime persistence — how long does each regime typically last? What triggers transitions?"
+        "content": "- [ ] Pull FRED data (PMI, CPI, 10Y-2Y spread) via OpenBB and classify last 5 years into regimes\r\n- [ ] Compare HMM vs. rule-based regime classification — measure which detects transitions earlier\r\n- [ ] Research Bridgewater's \"All Weather\" framework — the canonical regime-based portfolio\r\n- [ ] Backtest tactical tilts: does regime-aware allocation beat static 60/40 after costs?\r\n- [ ] Explore Gaussian Mixture Models (GMM) as an alternative to HMM for regime clustering\r\n- [ ] Test regime persistence — how long does each regime typically last? What triggers transitions?"
       }
     ],
     "related": [
@@ -12686,19 +12347,19 @@ export const pods: Pod[] = [
       },
       {
         "heading": "Types of Mean Reversion",
-        "content": "### Statistical (Z-Score)\nTrade when the z-score of price vs its rolling mean exceeds a threshold. Buy when |z| > 2 below the mean, exit when z approaches 0.\n\n```python\nz_score = (price - price.rolling(20).mean()) / price.rolling(20).std()\nsignal = -z_score  # buy when below mean, sell when above\n```\n\n### Bollinger Band\nPrice crosses below the lower band = buy signal, above the upper band = sell signal. Already implemented in Signal Forge as features (`bb_upper`, `bb_lower`). The bands dynamically adjust to volatility, making them adaptive.\n\n### RSI-Based\nRSI < 30 = oversold (buy), RSI > 70 = overbought (sell). Also present in Signal Forge's feature set (`rsi_14`). Simple and widely used, but generates many false signals in trending markets.\n\n### Pairs / Cointegration\nThe spread between two cointegrated assets mean-reverts even when the individual assets don't. Classic example: Coca-Cola and Pepsi. In crypto: BTC/ETH ratio. See Quant - Relative Value Spread."
+        "content": "### Statistical (Z-Score)\r\nTrade when the z-score of price vs its rolling mean exceeds a threshold. Buy when |z| > 2 below the mean, exit when z approaches 0.\r\n\r\n```python\r\nz_score = (price - price.rolling(20).mean()) / price.rolling(20).std()\r\nsignal = -z_score  # buy when below mean, sell when above\r\n```\r\n\r\n### Bollinger Band\r\nPrice crosses below the lower band = buy signal, above the upper band = sell signal. Already implemented in Signal Forge as features (`bb_upper`, `bb_lower`). The bands dynamically adjust to volatility, making them adaptive.\r\n\r\n### RSI-Based\r\nRSI < 30 = oversold (buy), RSI > 70 = overbought (sell). Also present in Signal Forge's feature set (`rsi_14`). Simple and widely used, but generates many false signals in trending markets.\r\n\r\n### Pairs / Cointegration\r\nThe spread between two cointegrated assets mean-reverts even when the individual assets don't. Classic example: Coca-Cola and Pepsi. In crypto: BTC/ETH ratio. See Quant - Relative Value Spread."
       },
       {
         "heading": "When It Works vs When It Fails",
-        "content": "- **Works**: Range-bound/choppy markets, high-volatility environments where price overshoots, liquid markets with tight spreads\n- **Fails**: Strong directional trends, structural breaks (regulation, delistings), low-liquidity assets where \"oversold\" means \"dying\"\n\nThis is the regime detection connection — use momentum strategies in trending regimes and mean reversion in range-bound regimes."
+        "content": "- **Works**: Range-bound/choppy markets, high-volatility environments where price overshoots, liquid markets with tight spreads\r\n- **Fails**: Strong directional trends, structural breaks (regulation, delistings), low-liquidity assets where \"oversold\" means \"dying\"\r\n\r\nThis is the regime detection connection — use momentum strategies in trending regimes and mean reversion in range-bound regimes."
       },
       {
         "heading": "The Timescale Matters",
-        "content": "```\nIntraday / seconds-minutes  → Mean-reverting (microstructure noise)\nShort-term / days-weeks     → Mixed (news-driven, noisy)\nMedium-term / 1-12 months   → Momentum (trends persist)\nLong-term / 3-5 years       → Mean-reverting (value/fundamentals)\n```\nChoosing the wrong timescale for your strategy type is a common mistake."
+        "content": "```\r\nIntraday / seconds-minutes  → Mean-reverting (microstructure noise)\r\nShort-term / days-weeks     → Mixed (news-driven, noisy)\r\nMedium-term / 1-12 months   → Momentum (trends persist)\r\nLong-term / 3-5 years       → Mean-reverting (value/fundamentals)\r\n```\r\nChoosing the wrong timescale for your strategy type is a common mistake."
       },
       {
         "heading": "Signal Forge Connection",
-        "content": "RSI and Bollinger Bands are already features in the model. The ML model implicitly learns some mean-reversion patterns when these features correlate with future returns. Potential improvements:\n- Add explicit z-score features at multiple lookback windows\n- Add spread features for pairs (BTC/ETH ratio z-score)\n- Combine with regime detection to toggle mean-reversion features on/off"
+        "content": "RSI and Bollinger Bands are already features in the model. The ML model implicitly learns some mean-reversion patterns when these features correlate with future returns. Potential improvements:\r\n- Add explicit z-score features at multiple lookback windows\r\n- Add spread features for pairs (BTC/ETH ratio z-score)\r\n- Combine with regime detection to toggle mean-reversion features on/off"
       },
       {
         "heading": "Danger",
@@ -12706,7 +12367,7 @@ export const pods: Pod[] = [
       },
       {
         "heading": "Research Next Steps",
-        "content": "- [ ] Compare z-score vs Bollinger vs RSI signal quality on Signal Forge's BTC data\n- [ ] Test mean-reversion signals filtered by regime (only trade in range-bound regimes)\n- [ ] Explore pairs trading on crypto (BTC/ETH, SOL/ETH) for cointegration\n- [ ] Backtest combined momentum + mean-reversion ensemble"
+        "content": "- [ ] Compare z-score vs Bollinger vs RSI signal quality on Signal Forge's BTC data\r\n- [ ] Test mean-reversion signals filtered by regime (only trade in range-bound regimes)\r\n- [ ] Explore pairs trading on crypto (BTC/ETH, SOL/ETH) for cointegration\r\n- [ ] Backtest combined momentum + mean-reversion ensemble"
       }
     ],
     "related": [
@@ -12739,15 +12400,15 @@ export const pods: Pod[] = [
       },
       {
         "heading": "Order Book Anatomy",
-        "content": "```\nASKS (sell orders):              BIDS (buy orders):\n$101.50  |  50 BTC               $100.50  |  30 BTC\n$101.00  |  120 BTC  ← best ask  $100.00  |  200 BTC ← best bid\n                                  $99.50   |  80 BTC\n\nSpread    = $101.00 - $100.00 = $1.00 (0.1%)\nMid-price = $100.50\n```\nThe best bid and best ask define the \"top of book.\" Everything else is the depth."
+        "content": "```\r\nASKS (sell orders):              BIDS (buy orders):\r\n$101.50  |  50 BTC               $100.50  |  30 BTC\r\n$101.00  |  120 BTC  ← best ask  $100.00  |  200 BTC ← best bid\r\n                                  $99.50   |  80 BTC\r\n\r\nSpread    = $101.00 - $100.00 = $1.00 (0.1%)\r\nMid-price = $100.50\r\n```\r\nThe best bid and best ask define the \"top of book.\" Everything else is the depth."
       },
       {
         "heading": "Key Concepts",
-        "content": "### Bid-Ask Spread\nThe cost of immediacy. Market orders \"cross the spread\" — you pay more to buy and receive less to sell. Tighter spread = more liquid market. BTC/USDT on Binance: ~0.01%. Small altcoins: 0.5-2%.\n\n### Depth\nVolume available at each price level. Deep book = your order fills without moving the price. Thin book = your order eats through multiple levels, causing slippage. Always check depth before sizing a trade.\n\n### Market Impact\nYour buy order consumes ask-side liquidity. If you buy 200 BTC and only 120 sit at $101.00, the remaining 80 fill at $101.50 or higher. This IS slippage — the difference between expected and actual fill price.\n\n### Maker vs Taker\n- **Maker**: Limit orders that add liquidity to the book. Lower fees (often 0.02-0.04%).\n- **Taker**: Market orders that remove liquidity from the book. Higher fees (often 0.04-0.10%).\n- Fee difference matters at scale — a high-frequency strategy must be maker-dominant to survive."
+        "content": "### Bid-Ask Spread\r\nThe cost of immediacy. Market orders \"cross the spread\" — you pay more to buy and receive less to sell. Tighter spread = more liquid market. BTC/USDT on Binance: ~0.01%. Small altcoins: 0.5-2%.\r\n\r\n### Depth\r\nVolume available at each price level. Deep book = your order fills without moving the price. Thin book = your order eats through multiple levels, causing slippage. Always check depth before sizing a trade.\r\n\r\n### Market Impact\r\nYour buy order consumes ask-side liquidity. If you buy 200 BTC and only 120 sit at $101.00, the remaining 80 fill at $101.50 or higher. This IS slippage — the difference between expected and actual fill price.\r\n\r\n### Maker vs Taker\r\n- **Maker**: Limit orders that add liquidity to the book. Lower fees (often 0.02-0.04%).\r\n- **Taker**: Market orders that remove liquidity from the book. Higher fees (often 0.04-0.10%).\r\n- Fee difference matters at scale — a high-frequency strategy must be maker-dominant to survive."
       },
       {
         "heading": "Order Types",
-        "content": "| Type | Behavior | When to Use |\n|------|----------|-------------|\n| Market | Instant fill at best available price | Need immediate execution |\n| Limit | Set your price, wait for fill | Price-sensitive, willing to wait |\n| Stop | Triggers at price, becomes market | Stop losses, breakout entries |\n| Stop-Limit | Triggers at price, becomes limit | Controlled stop losses |"
+        "content": "| Type | Behavior | When to Use |\r\n|------|----------|-------------|\r\n| Market | Instant fill at best available price | Need immediate execution |\r\n| Limit | Set your price, wait for fill | Price-sensitive, willing to wait |\r\n| Stop | Triggers at price, becomes market | Stop losses, breakout entries |\r\n| Stop-Limit | Triggers at price, becomes limit | Controlled stop losses |"
       },
       {
         "heading": "Why It Matters for Signal Forge",
@@ -12755,15 +12416,15 @@ export const pods: Pod[] = [
       },
       {
         "heading": "Order Flow Imbalance",
-        "content": "The ratio of buy vs sell pressure at the top of book is a leading indicator of short-term price direction. When bids are stacking up faster than asks, price tends to move up in the next few seconds/minutes.\n```\nimbalance = (bid_volume - ask_volume) / (bid_volume + ask_volume)\n# +1 = all buy pressure, -1 = all sell pressure\n```\nThis is a feature currently missing from Signal Forge's feature set — adding it would capture microstructure alpha."
+        "content": "The ratio of buy vs sell pressure at the top of book is a leading indicator of short-term price direction. When bids are stacking up faster than asks, price tends to move up in the next few seconds/minutes.\r\n```\r\nimbalance = (bid_volume - ask_volume) / (bid_volume + ask_volume)\r\n# +1 = all buy pressure, -1 = all sell pressure\r\n```\r\nThis is a feature currently missing from Signal Forge's feature set — adding it would capture microstructure alpha."
       },
       {
         "heading": "Data Sources",
-        "content": "- **Binance WebSocket API** — free, real-time L2 order book snapshots and diffs\n- **Kaiko** — professional-grade historical order book data, expensive but complete\n- **CoinGecko** — aggregated market data, delayed, good for overview not microstructure\n- **CCXT** — unified Python library for accessing order books across 100+ exchanges"
+        "content": "- **Binance WebSocket API** — free, real-time L2 order book snapshots and diffs\r\n- **Kaiko** — professional-grade historical order book data, expensive but complete\r\n- **CoinGecko** — aggregated market data, delayed, good for overview not microstructure\r\n- **CCXT** — unified Python library for accessing order books across 100+ exchanges"
       },
       {
         "heading": "Research Next Steps",
-        "content": "- [ ] Capture L2 order book snapshots for BTC/USDT via Binance WebSocket\n- [ ] Compute order flow imbalance and test as a Signal Forge feature\n- [ ] Measure actual slippage on recent trades vs the 0.02% estimate\n- [ ] Analyze depth patterns before large price moves (does depth thin before dumps?)"
+        "content": "- [ ] Capture L2 order book snapshots for BTC/USDT via Binance WebSocket\r\n- [ ] Compute order flow imbalance and test as a Signal Forge feature\r\n- [ ] Measure actual slippage on recent trades vs the 0.02% estimate\r\n- [ ] Analyze depth patterns before large price moves (does depth thin before dumps?)"
       }
     ],
     "related": [
@@ -12795,23 +12456,23 @@ export const pods: Pod[] = [
       },
       {
         "heading": "Markowitz Mean-Variance Optimization (1952)",
-        "content": "The original framework. Maximize expected return minus a risk penalty across all possible weight combinations.\n\n**Objective**: maximize `E[return] - λ × Var[return]`\n\n**Inputs**: expected returns vector, covariance matrix of returns\n**Output**: the \"efficient frontier\" — the set of portfolios offering the best risk/return tradeoff\n\n```\nExpected Return ↑\n       |        * ← max Sharpe portfolio\n       |      *\n       |    *  ← efficient frontier\n       |   *\n       |  *\n       | *\n       +————————————→ Risk (Std Dev)\n```\n\n**The fatal flaw**: Extremely sensitive to estimated inputs. Small errors in expected returns produce wildly different \"optimal\" portfolios. Garbage in, garbage out. In practice, Markowitz portfolios are unstable and often concentrate in a few assets."
+        "content": "The original framework. Maximize expected return minus a risk penalty across all possible weight combinations.\r\n\r\n**Objective**: maximize `E[return] - λ × Var[return]`\r\n\r\n**Inputs**: expected returns vector, covariance matrix of returns\r\n**Output**: the \"efficient frontier\" — the set of portfolios offering the best risk/return tradeoff\r\n\r\n```\r\nExpected Return ↑\r\n       |        * ← max Sharpe portfolio\r\n       |      *\r\n       |    *  ← efficient frontier\r\n       |   *\r\n       |  *\r\n       | *\r\n       +————————————→ Risk (Std Dev)\r\n```\r\n\r\n**The fatal flaw**: Extremely sensitive to estimated inputs. Small errors in expected returns produce wildly different \"optimal\" portfolios. Garbage in, garbage out. In practice, Markowitz portfolios are unstable and often concentrate in a few assets."
       },
       {
         "heading": "Black-Litterman Model (1992)",
-        "content": "The fix for Markowitz. Start from market equilibrium weights (what the market \"thinks\" is optimal), then adjust based on your \"views\" (predictions).\n\n- **Views** = \"I think BTC will outperform ETH by 2% next month with 60% confidence\"\n- **Blends** your views with the market's implied returns → more stable, intuitive portfolios\n- **Confidence matters** — weak views produce small tilts, strong views produce large tilts\n\n**Perfect fit for Signal Forge**: the model's predictions ARE the views. High-confidence predictions get larger portfolio tilts. Low-confidence predictions stay close to market weights."
+        "content": "The fix for Markowitz. Start from market equilibrium weights (what the market \"thinks\" is optimal), then adjust based on your \"views\" (predictions).\r\n\r\n- **Views** = \"I think BTC will outperform ETH by 2% next month with 60% confidence\"\r\n- **Blends** your views with the market's implied returns → more stable, intuitive portfolios\r\n- **Confidence matters** — weak views produce small tilts, strong views produce large tilts\r\n\r\n**Perfect fit for Signal Forge**: the model's predictions ARE the views. High-confidence predictions get larger portfolio tilts. Low-confidence predictions stay close to market weights."
       },
       {
         "heading": "Risk Parity",
-        "content": "Weight assets so each contributes equal risk to the portfolio. No return estimation needed — just risk (volatility and correlation). Simple, robust, and hard to overfit.\n\n```\nIf BTC volatility = 60% and ETH volatility = 80%:\n  Equal weight: 50/50 → BTC contributes 43% of risk, ETH 57%\n  Risk parity:  57/43 → each contributes 50% of risk\n```\n\nBridgewater's All Weather fund uses this approach. Works well when you don't have strong return forecasts."
+        "content": "Weight assets so each contributes equal risk to the portfolio. No return estimation needed — just risk (volatility and correlation). Simple, robust, and hard to overfit.\r\n\r\n```\r\nIf BTC volatility = 60% and ETH volatility = 80%:\r\n  Equal weight: 50/50 → BTC contributes 43% of risk, ETH 57%\r\n  Risk parity:  57/43 → each contributes 50% of risk\r\n```\r\n\r\nBridgewater's All Weather fund uses this approach. Works well when you don't have strong return forecasts."
       },
       {
         "heading": "Python Quick Start",
-        "content": "```python\nimport riskfolio as rp\n\nport = rp.Portfolio(returns=returns_df)\nport.assets_stats(method_mu='hist', method_cov='hist')\n\n# Mean-variance (max Sharpe)\nw_mv = port.optimization(model='Classic', rm='MV', obj='Sharpe')\n\n# Risk parity\nw_rp = port.rp_optimization(model='Classic', rm='MV')\n\n# Black-Litterman with views\nport.blacklitterman_stats(P=views_matrix, Q=expected_returns, delta=2.5)\nw_bl = port.optimization(model='BL', rm='MV', obj='Sharpe')\n```"
+        "content": "```python\r\nimport riskfolio as rp\r\n\r\nport = rp.Portfolio(returns=returns_df)\r\nport.assets_stats(method_mu='hist', method_cov='hist')\r\n\r\n# Mean-variance (max Sharpe)\r\nw_mv = port.optimization(model='Classic', rm='MV', obj='Sharpe')\r\n\r\n# Risk parity\r\nw_rp = port.rp_optimization(model='Classic', rm='MV')\r\n\r\n# Black-Litterman with views\r\nport.blacklitterman_stats(P=views_matrix, Q=expected_returns, delta=2.5)\r\nw_bl = port.optimization(model='BL', rm='MV', obj='Sharpe')\r\n```"
       },
       {
         "heading": "Signal Forge Application",
-        "content": "Currently Signal Forge trades each signal independently — each asset gets its own position without considering the portfolio as a whole. Portfolio optimization would:\n1. **Combine BTC and altcoin signals** into optimal weights accounting for correlation\n2. **Reduce correlated risk** — if BTC and ETH signals both say \"long,\" the portfolio shouldn't be 2x leveraged on crypto beta\n3. **Respect overall risk budget** — total portfolio volatility stays within a target regardless of individual signal strength"
+        "content": "Currently Signal Forge trades each signal independently — each asset gets its own position without considering the portfolio as a whole. Portfolio optimization would:\r\n1. **Combine BTC and altcoin signals** into optimal weights accounting for correlation\r\n2. **Reduce correlated risk** — if BTC and ETH signals both say \"long,\" the portfolio shouldn't be 2x leveraged on crypto beta\r\n3. **Respect overall risk budget** — total portfolio volatility stays within a target regardless of individual signal strength"
       },
       {
         "heading": "The Practical Reality",
@@ -12819,7 +12480,7 @@ export const pods: Pod[] = [
       },
       {
         "heading": "Research Next Steps",
-        "content": "- [ ] Implement risk parity weighting for Signal Forge's multi-asset portfolio\n- [ ] Test Black-Litterman using Signal Forge predictions as views\n- [ ] Compare equal-weight vs risk-parity vs BL on historical Signal Forge signals\n- [ ] Measure correlation between BTC and altcoin positions to quantify diversification benefit"
+        "content": "- [ ] Implement risk parity weighting for Signal Forge's multi-asset portfolio\r\n- [ ] Test Black-Litterman using Signal Forge predictions as views\r\n- [ ] Compare equal-weight vs risk-parity vs BL on historical Signal Forge signals\r\n- [ ] Measure correlation between BTC and altcoin positions to quantify diversification benefit"
       }
     ],
     "related": [
@@ -12852,27 +12513,27 @@ export const pods: Pod[] = [
     "sections": [
       {
         "heading": "What It Is",
-        "content": "Identifies mispriced relationships between related assets (pairs or baskets). Goes long the cheap asset, short the expensive one, and waits for the spread to revert to its historical mean. Also called stat arb or pairs trading.\n\nThis is the purest form of \"the market is wrong about something specific.\" You're not betting on direction — you're betting that the *relationship* between two things will return to normal."
+        "content": "Identifies mispriced relationships between related assets (pairs or baskets). Goes long the cheap asset, short the expensive one, and waits for the spread to revert to its historical mean. Also called stat arb or pairs trading.\r\n\r\nThis is the purest form of \"the market is wrong about something specific.\" You're not betting on direction — you're betting that the *relationship* between two things will return to normal."
       },
       {
         "heading": "Key Mechanics",
-        "content": "### Spread Construction\nThe spread between two assets isn't just `price_A - price_B`. You need a hedge ratio (β) that accounts for the scaling relationship:\n\n```\nspread = price_A - β × price_B\n```\n\nWhere β comes from either:\n- **OLS regression**: `price_A = α + β × price_B + ε` — simple but assumes a static relationship\n- **Kalman filter**: dynamically updates β as the relationship evolves — handles structural shifts\n- **Total Least Squares (TLS)**: accounts for noise in both variables — more statistically sound than OLS\n\n### Cointegration: The Foundation\nTwo series are cointegrated if they wander around individually but their *linear combination* is stationary (mean-reverting). This is different from correlation:\n\n- **High correlation, no cointegration**: Two stocks that trend up together but can drift apart permanently (e.g., AAPL and MSFT)\n- **Low correlation, cointegrated**: Two assets that move differently day-to-day but always snap back to a fixed spread (e.g., spot gold and gold futures)\n\nCointegration is what you need for pairs trading. Correlation is not enough.\n\n### Cointegration Tests\n\n**Engle-Granger Two-Step**:\n1. Regress price_A on price_B to get residuals\n2. Test residuals for stationarity (ADF test)\n3. If ADF p-value < 0.05, the pair is cointegrated\n- Pros: simple, intuitive\n- Cons: sensitive to which variable you put on the left side\n\n**Johansen Test**:\n1. Tests for cointegration in a VAR framework\n2. Can test multiple assets simultaneously (baskets, not just pairs)\n3. Returns the number of cointegrating relationships and their vectors\n- Pros: handles multiple assets, direction-independent\n- Cons: more complex, assumes linear relationships\n\n### Z-Score Entry/Exit Signals\nOnce you have a stationary spread, normalize it to a z-score:\n```\nz = (spread - mean(spread)) / std(spread)\n```\n\nTrading rules:\n| Signal | Z-Score | Action |\n|--------|---------|--------|\n| Entry long spread | z < -2.0 | Buy A, sell B |\n| Entry short spread | z > +2.0 | Sell A, buy B |\n| Exit | z crosses 0 | Close position |\n| Stop loss | \\|z\\| > 3.5 | Close — relationship may be broken |\n\nThe stop loss is critical. When z hits extreme values, the cointegration relationship may have structurally broken. Common causes: M&A, sector rotation, regulatory change. You need to know when to abandon the trade, not just when to enter.\n\n### Mean Reversion: The Assumption You're Betting On\nThe entire strategy depends on mean reversion being real and persistent. Test this by:\n- **Half-life of mean reversion**: How long does it take the spread to revert halfway to the mean? If it's > 60 days, the trade ties up capital too long.\n  ```\n  half_life = -log(2) / log(1 + θ)  # θ from AR(1) on the spread\n  ```\n- **Hurst exponent**: H < 0.5 = mean-reverting, H = 0.5 = random walk, H > 0.5 = trending. You want H well below 0.5.\n\n### Classic Pairs to Investigate\n| Pair | Rationale |\n|------|-----------|\n| GLD / GDX | Gold price vs. gold miners — mining costs create a mean-reverting spread |\n| XLE / CL (crude) | Energy stocks vs. underlying commodity |\n| KO / PEP | Same-sector competitors with similar business models |\n| SPY / IVV | Near-identical ETFs tracking the same index |\n| EWA / EWC | Australia and Canada — commodity-driven economies with correlated macro |"
+        "content": "### Spread Construction\r\nThe spread between two assets isn't just `price_A - price_B`. You need a hedge ratio (β) that accounts for the scaling relationship:\r\n\r\n```\r\nspread = price_A - β × price_B\r\n```\r\n\r\nWhere β comes from either:\r\n- **OLS regression**: `price_A = α + β × price_B + ε` — simple but assumes a static relationship\r\n- **Kalman filter**: dynamically updates β as the relationship evolves — handles structural shifts\r\n- **Total Least Squares (TLS)**: accounts for noise in both variables — more statistically sound than OLS\r\n\r\n### Cointegration: The Foundation\r\nTwo series are cointegrated if they wander around individually but their *linear combination* is stationary (mean-reverting). This is different from correlation:\r\n\r\n- **High correlation, no cointegration**: Two stocks that trend up together but can drift apart permanently (e.g., AAPL and MSFT)\r\n- **Low correlation, cointegrated**: Two assets that move differently day-to-day but always snap back to a fixed spread (e.g., spot gold and gold futures)\r\n\r\nCointegration is what you need for pairs trading. Correlation is not enough.\r\n\r\n### Cointegration Tests\r\n\r\n**Engle-Granger Two-Step**:\r\n1. Regress price_A on price_B to get residuals\r\n2. Test residuals for stationarity (ADF test)\r\n3. If ADF p-value < 0.05, the pair is cointegrated\r\n- Pros: simple, intuitive\r\n- Cons: sensitive to which variable you put on the left side\r\n\r\n**Johansen Test**:\r\n1. Tests for cointegration in a VAR framework\r\n2. Can test multiple assets simultaneously (baskets, not just pairs)\r\n3. Returns the number of cointegrating relationships and their vectors\r\n- Pros: handles multiple assets, direction-independent\r\n- Cons: more complex, assumes linear relationships\r\n\r\n### Z-Score Entry/Exit Signals\r\nOnce you have a stationary spread, normalize it to a z-score:\r\n```\r\nz = (spread - mean(spread)) / std(spread)\r\n```\r\n\r\nTrading rules:\r\n| Signal | Z-Score | Action |\r\n|--------|---------|--------|\r\n| Entry long spread | z < -2.0 | Buy A, sell B |\r\n| Entry short spread | z > +2.0 | Sell A, buy B |\r\n| Exit | z crosses 0 | Close position |\r\n| Stop loss | \\|z\\| > 3.5 | Close — relationship may be broken |\r\n\r\nThe stop loss is critical. When z hits extreme values, the cointegration relationship may have structurally broken. Common causes: M&A, sector rotation, regulatory change. You need to know when to abandon the trade, not just when to enter.\r\n\r\n### Mean Reversion: The Assumption You're Betting On\r\nThe entire strategy depends on mean reversion being real and persistent. Test this by:\r\n- **Half-life of mean reversion**: How long does it take the spread to revert halfway to the mean? If it's > 60 days, the trade ties up capital too long.\r\n  ```\r\n  half_life = -log(2) / log(1 + θ)  # θ from AR(1) on the spread\r\n  ```\r\n- **Hurst exponent**: H < 0.5 = mean-reverting, H = 0.5 = random walk, H > 0.5 = trending. You want H well below 0.5.\r\n\r\n### Classic Pairs to Investigate\r\n| Pair | Rationale |\r\n|------|-----------|\r\n| GLD / GDX | Gold price vs. gold miners — mining costs create a mean-reverting spread |\r\n| XLE / CL (crude) | Energy stocks vs. underlying commodity |\r\n| KO / PEP | Same-sector competitors with similar business models |\r\n| SPY / IVV | Near-identical ETFs tracking the same index |\r\n| EWA / EWC | Australia and Canada — commodity-driven economies with correlated macro |"
       },
       {
         "heading": "Python Entry Point",
-        "content": "### Full Cointegration Test and Signal Generation\n```python\nimport numpy as np\nimport pandas as pd\nimport statsmodels.api as sm\nfrom statsmodels.tsa.stattools import coint, adfuller\nfrom statsmodels.tsa.vector_ar.vecm import coint_johansen\nimport matplotlib.pyplot as plt\n\n# 1. Load price data (replace with your data source)\n# Using OpenBB or yfinance:\n# from openbb_terminal.sdk import openbb\n# gld = openbb.stocks.load(\"GLD\")[\"Close\"]\n# gdx = openbb.stocks.load(\"GDX\")[\"Close\"]\nimport yfinance as yf\ngld = yf.download(\"GLD\", start=\"2020-01-01\")[\"Close\"]\ngdx = yf.download(\"GDX\", start=\"2020-01-01\")[\"Close\"]\n\n# 2. Engle-Granger cointegration test\nscore, pvalue, _ = coint(gld, gdx)\nprint(f\"=== Engle-Granger Cointegration Test ===\")\nprint(f\"Test statistic: {score:.4f}\")\nprint(f\"P-value: {pvalue:.4f}\")\nprint(f\"Cointegrated: {'YES' if pvalue < 0.05 else 'NO'}\")\n\n# 3. Johansen test (handles multiple assets)\ndata_johansen = pd.concat([gld, gdx], axis=1).dropna()\nresult = coint_johansen(data_johansen, det_order=0, k_ar_diff=1)\nprint(f\"\\n=== Johansen Test ===\")\nprint(f\"Trace statistic: {result.lr1}\")\nprint(f\"Critical values (90%, 95%, 99%): {result.cvt}\")\n\n# 4. Compute hedge ratio via OLS\nX = sm.add_constant(gdx)\nmodel = sm.OLS(gld, X).fit()\nhedge_ratio = model.params.iloc[1]\nprint(f\"\\nHedge ratio (β): {hedge_ratio:.4f}\")\n\n# 5. Build spread and z-score\nspread = gld - hedge_ratio * gdx\nspread_mean = spread.rolling(window=60).mean()\nspread_std = spread.rolling(window=60).std()\nzscore = (spread - spread_mean) / spread_std\n\n# 6. Calculate half-life of mean reversion\nspread_lag = spread.shift(1).dropna()\nspread_diff = spread.diff().dropna()\naligned = pd.concat([spread_diff, spread_lag], axis=1).dropna()\naligned.columns = [\"diff\", \"lag\"]\nar_model = sm.OLS(aligned[\"diff\"], sm.add_constant(aligned[\"lag\"])).fit()\ntheta = ar_model.params[\"lag\"]\nhalf_life = -np.log(2) / np.log(1 + theta)\nprint(f\"Half-life of mean reversion: {half_life:.1f} days\")\n\n# 7. Generate trading signals\nsignals = pd.DataFrame(index=zscore.index)\nsignals[\"zscore\"] = zscore\nsignals[\"long_entry\"] = zscore < -2.0    # Spread too low: buy A, sell B\nsignals[\"short_entry\"] = zscore > 2.0    # Spread too high: sell A, buy B\nsignals[\"exit\"] = abs(zscore) < 0.5      # Close near mean\nsignals[\"stop_loss\"] = abs(zscore) > 3.5  # Relationship broken\n\n# 8. Plot\nfig, axes = plt.subplots(3, 1, figsize=(14, 10), sharex=True)\n\naxes[0].plot(gld.index, gld, label=\"GLD\")\naxes[0].plot(gdx.index, gdx * hedge_ratio, label=f\"GDX × {hedge_ratio:.2f}\")\naxes[0].set_title(\"Prices (Hedge-Ratio Adjusted)\")\naxes[0].legend()\n\naxes[1].plot(spread.index, spread, label=\"Spread\")\naxes[1].axhline(spread.mean(), color=\"gray\", linestyle=\"--\", alpha=0.5)\naxes[1].set_title(\"Spread (GLD - β × GDX)\")\naxes[1].legend()\n\naxes[2].plot(zscore.index, zscore, label=\"Z-Score\")\naxes[2].axhline(2.0, color=\"red\", linestyle=\"--\", alpha=0.5, label=\"Short entry\")\naxes[2].axhline(-2.0, color=\"green\", linestyle=\"--\", alpha=0.5, label=\"Long entry\")\naxes[2].axhline(0, color=\"gray\", linestyle=\"-\", alpha=0.3)\naxes[2].fill_between(zscore.index, -2, 2, alpha=0.1, color=\"gray\")\naxes[2].set_title(\"Z-Score with Entry/Exit Signals\")\naxes[2].legend()\n\nplt.tight_layout()\nplt.savefig(\"pairs_trade_gld_gdx.png\")\nprint(f\"\\nSignal summary:\")\nprint(f\"  Long entries:  {signals['long_entry'].sum()}\")\nprint(f\"  Short entries: {signals['short_entry'].sum()}\")\nprint(f\"  Stop losses:   {signals['stop_loss'].sum()}\")\n```\n\nKey libs: `statsmodels`, `yfinance` or `openbb`, `pykalman` (dynamic hedge ratio), `matplotlib`"
+        "content": "### Full Cointegration Test and Signal Generation\r\n```python\r\nimport numpy as np\r\nimport pandas as pd\r\nimport statsmodels.api as sm\r\nfrom statsmodels.tsa.stattools import coint, adfuller\r\nfrom statsmodels.tsa.vector_ar.vecm import coint_johansen\r\nimport matplotlib.pyplot as plt\r\n\r\n# 1. Load price data (replace with your data source)\r\n# Using OpenBB or yfinance:\r\n# from openbb_terminal.sdk import openbb\r\n# gld = openbb.stocks.load(\"GLD\")[\"Close\"]\r\n# gdx = openbb.stocks.load(\"GDX\")[\"Close\"]\r\nimport yfinance as yf\r\ngld = yf.download(\"GLD\", start=\"2020-01-01\")[\"Close\"]\r\ngdx = yf.download(\"GDX\", start=\"2020-01-01\")[\"Close\"]\r\n\r\n# 2. Engle-Granger cointegration test\r\nscore, pvalue, _ = coint(gld, gdx)\r\nprint(f\"=== Engle-Granger Cointegration Test ===\")\r\nprint(f\"Test statistic: {score:.4f}\")\r\nprint(f\"P-value: {pvalue:.4f}\")\r\nprint(f\"Cointegrated: {'YES' if pvalue < 0.05 else 'NO'}\")\r\n\r\n# 3. Johansen test (handles multiple assets)\r\ndata_johansen = pd.concat([gld, gdx], axis=1).dropna()\r\nresult = coint_johansen(data_johansen, det_order=0, k_ar_diff=1)\r\nprint(f\"\\n=== Johansen Test ===\")\r\nprint(f\"Trace statistic: {result.lr1}\")\r\nprint(f\"Critical values (90%, 95%, 99%): {result.cvt}\")\r\n\r\n# 4. Compute hedge ratio via OLS\r\nX = sm.add_constant(gdx)\r\nmodel = sm.OLS(gld, X).fit()\r\nhedge_ratio = model.params.iloc[1]\r\nprint(f\"\\nHedge ratio (β): {hedge_ratio:.4f}\")\r\n\r\n# 5. Build spread and z-score\r\nspread = gld - hedge_ratio * gdx\r\nspread_mean = spread.rolling(window=60).mean()\r\nspread_std = spread.rolling(window=60).std()\r\nzscore = (spread - spread_mean) / spread_std\r\n\r\n# 6. Calculate half-life of mean reversion\r\nspread_lag = spread.shift(1).dropna()\r\nspread_diff = spread.diff().dropna()\r\naligned = pd.concat([spread_diff, spread_lag], axis=1).dropna()\r\naligned.columns = [\"diff\", \"lag\"]\r\nar_model = sm.OLS(aligned[\"diff\"], sm.add_constant(aligned[\"lag\"])).fit()\r\ntheta = ar_model.params[\"lag\"]\r\nhalf_life = -np.log(2) / np.log(1 + theta)\r\nprint(f\"Half-life of mean reversion: {half_life:.1f} days\")\r\n\r\n# 7. Generate trading signals\r\nsignals = pd.DataFrame(index=zscore.index)\r\nsignals[\"zscore\"] = zscore\r\nsignals[\"long_entry\"] = zscore < -2.0    # Spread too low: buy A, sell B\r\nsignals[\"short_entry\"] = zscore > 2.0    # Spread too high: sell A, buy B\r\nsignals[\"exit\"] = abs(zscore) < 0.5      # Close near mean\r\nsignals[\"stop_loss\"] = abs(zscore) > 3.5  # Relationship broken\r\n\r\n# 8. Plot\r\nfig, axes = plt.subplots(3, 1, figsize=(14, 10), sharex=True)\r\n\r\naxes[0].plot(gld.index, gld, label=\"GLD\")\r\naxes[0].plot(gdx.index, gdx * hedge_ratio, label=f\"GDX × {hedge_ratio:.2f}\")\r\naxes[0].set_title(\"Prices (Hedge-Ratio Adjusted)\")\r\naxes[0].legend()\r\n\r\naxes[1].plot(spread.index, spread, label=\"Spread\")\r\naxes[1].axhline(spread.mean(), color=\"gray\", linestyle=\"--\", alpha=0.5)\r\naxes[1].set_title(\"Spread (GLD - β × GDX)\")\r\naxes[1].legend()\r\n\r\naxes[2].plot(zscore.index, zscore, label=\"Z-Score\")\r\naxes[2].axhline(2.0, color=\"red\", linestyle=\"--\", alpha=0.5, label=\"Short entry\")\r\naxes[2].axhline(-2.0, color=\"green\", linestyle=\"--\", alpha=0.5, label=\"Long entry\")\r\naxes[2].axhline(0, color=\"gray\", linestyle=\"-\", alpha=0.3)\r\naxes[2].fill_between(zscore.index, -2, 2, alpha=0.1, color=\"gray\")\r\naxes[2].set_title(\"Z-Score with Entry/Exit Signals\")\r\naxes[2].legend()\r\n\r\nplt.tight_layout()\r\nplt.savefig(\"pairs_trade_gld_gdx.png\")\r\nprint(f\"\\nSignal summary:\")\r\nprint(f\"  Long entries:  {signals['long_entry'].sum()}\")\r\nprint(f\"  Short entries: {signals['short_entry'].sum()}\")\r\nprint(f\"  Stop losses:   {signals['stop_loss'].sum()}\")\r\n```\r\n\r\nKey libs: `statsmodels`, `yfinance` or `openbb`, `pykalman` (dynamic hedge ratio), `matplotlib`"
       },
       {
         "heading": "Why It Matters",
-        "content": "Market-neutral — profits regardless of overall market direction. The backbone of classic hedge fund stat arb desks.\n\nWhy this matters for your toolkit:\n- **Isolation from market beta**: Long/short cancels out market exposure, so you profit from the *relationship*, not the market direction\n- **Definable edge**: Cointegration gives you a statistical reason to believe the spread will revert — not just a hope\n- **Risk management built in**: Z-score thresholds give you clear entry, exit, and stop-loss rules upfront\n- **Scalable**: Once you have a working framework, you can screen hundreds of pairs and run a basket of independent bets\n\nThe main risk: regime breaks. A cointegrated relationship can break permanently (structural change, M&A, regulation). Your stop loss at z > 3.5 is your defense."
+        "content": "Market-neutral — profits regardless of overall market direction. The backbone of classic hedge fund stat arb desks.\r\n\r\nWhy this matters for your toolkit:\r\n- **Isolation from market beta**: Long/short cancels out market exposure, so you profit from the *relationship*, not the market direction\r\n- **Definable edge**: Cointegration gives you a statistical reason to believe the spread will revert — not just a hope\r\n- **Risk management built in**: Z-score thresholds give you clear entry, exit, and stop-loss rules upfront\r\n- **Scalable**: Once you have a working framework, you can screen hundreds of pairs and run a basket of independent bets\r\n\r\nThe main risk: regime breaks. A cointegrated relationship can break permanently (structural change, M&A, regulation). Your stop loss at z > 3.5 is your defense."
       },
       {
         "heading": "Apply It",
-        "content": "- Build a \"Pair Screener\" in **Signal Forge** that tests all N×(N-1)/2 pairs in a universe for cointegration and ranks by half-life\n- Live spread monitoring dashboard using **OpenBB** as the data feed — alert when z-score crosses entry thresholds\n- Backtest pairs strategies in **Vault** with proper transaction costs and slippage modeling\n- Start with the easiest pair: GLD vs. GDX — well-documented, liquid, clear economic rationale\n- Connect to **Volatility Targeting** for position sizing — scale down when spread vol is high"
+        "content": "- Build a \"Pair Screener\" in **Signal Forge** that tests all N×(N-1)/2 pairs in a universe for cointegration and ranks by half-life\r\n- Live spread monitoring dashboard using **OpenBB** as the data feed — alert when z-score crosses entry thresholds\r\n- Backtest pairs strategies in **Vault** with proper transaction costs and slippage modeling\r\n- Start with the easiest pair: GLD vs. GDX — well-documented, liquid, clear economic rationale\r\n- Connect to **Volatility Targeting** for position sizing — scale down when spread vol is high"
       },
       {
         "heading": "Research Next Steps",
-        "content": "- [ ] Find 3 cointegrated pairs in the S&P 500 using last 2 years of data\n- [ ] Run the full GLD/GDX pipeline above and interpret half-life and signal count\n- [ ] Implement Kalman filter for dynamic hedge ratio using `pykalman`\n- [ ] Backtest a simple z-score strategy with realistic transaction costs (5bps round trip)\n- [ ] Calculate Hurst exponent for candidate spreads to validate mean reversion\n- [ ] Read *Algorithmic Trading* by Ernie Chan (Chapter 3 — pairs trading)\n- [ ] Test basket cointegration with Johansen on a group of 4-5 sector ETFs"
+        "content": "- [ ] Find 3 cointegrated pairs in the S&P 500 using last 2 years of data\r\n- [ ] Run the full GLD/GDX pipeline above and interpret half-life and signal count\r\n- [ ] Implement Kalman filter for dynamic hedge ratio using `pykalman`\r\n- [ ] Backtest a simple z-score strategy with realistic transaction costs (5bps round trip)\r\n- [ ] Calculate Hurst exponent for candidate spreads to validate mean reversion\r\n- [ ] Read *Algorithmic Trading* by Ernie Chan (Chapter 3 — pairs trading)\r\n- [ ] Test basket cointegration with Johansen on a group of 4-5 sector ETFs"
       }
     ],
     "related": [
@@ -12956,35 +12617,35 @@ export const pods: Pod[] = [
     "sections": [
       {
         "heading": "What It Is",
-        "content": "Time-series momentum (TSMOM) is the empirical observation that an asset's own past returns predict its future returns. If an asset has gone up over a lookback window, it tends to keep going up (and vice versa). The strategy goes long assets with positive past returns and short assets with negative past returns.\n\nThis is fundamentally different from **cross-sectional momentum** (XSMOM), which ranks assets against each other and goes long the top decile while shorting the bottom decile. The distinction matters:\n\n| | Time-Series Momentum | Cross-Sectional Momentum |\n|---|---|---|\n| **Signal source** | Asset's own history | Relative rank among peers |\n| **Net exposure** | Can be net long or net short | Typically dollar-neutral |\n| **Crisis behavior** | Naturally goes short in sustained drawdowns (crisis alpha) | Stays market-neutral, limited crisis protection |\n| **Implementation** | Works on a single asset or a portfolio | Requires a cross-section of comparable assets |\n| **Capacity** | Scales well in liquid futures | Can be constrained by shorting costs in equities |\n\nTSMOM is the theoretical foundation behind managed futures / CTA (Commodity Trading Advisor) strategies. When people say \"trend following works,\" they are describing TSMOM applied across a diversified basket of futures contracts."
+        "content": "Time-series momentum (TSMOM) is the empirical observation that an asset's own past returns predict its future returns. If an asset has gone up over a lookback window, it tends to keep going up (and vice versa). The strategy goes long assets with positive past returns and short assets with negative past returns.\r\n\r\nThis is fundamentally different from **cross-sectional momentum** (XSMOM), which ranks assets against each other and goes long the top decile while shorting the bottom decile. The distinction matters:\r\n\r\n| | Time-Series Momentum | Cross-Sectional Momentum |\r\n|---|---|---|\r\n| **Signal source** | Asset's own history | Relative rank among peers |\r\n| **Net exposure** | Can be net long or net short | Typically dollar-neutral |\r\n| **Crisis behavior** | Naturally goes short in sustained drawdowns (crisis alpha) | Stays market-neutral, limited crisis protection |\r\n| **Implementation** | Works on a single asset or a portfolio | Requires a cross-section of comparable assets |\r\n| **Capacity** | Scales well in liquid futures | Can be constrained by shorting costs in equities |\r\n\r\nTSMOM is the theoretical foundation behind managed futures / CTA (Commodity Trading Advisor) strategies. When people say \"trend following works,\" they are describing TSMOM applied across a diversified basket of futures contracts."
       },
       {
         "heading": "Key Mechanics",
-        "content": "### Signal Construction\n\nThe simplest signal is the sign of the past return:\n\n**Raw return signal:**\n- `signal = sign(r_t-N:t)` where `r` is the cumulative return over N periods\n- Binary: +1 (long) or -1 (short)\n- 12-month lookback is the canonical choice from the academic literature\n\n**Risk-adjusted signal:**\n- `signal = r_t-N:t / sigma_t` where `sigma` is realized volatility\n- Continuous: signal strength reflects conviction\n- Better risk-adjusted performance than binary signals\n\n**EWMA (Exponentially Weighted Moving Average) variants:**\n- Instead of a fixed lookback window, use the difference between a fast and slow EWMA of prices\n- `signal = EWMA_fast(price) - EWMA_slow(price)`\n- Common pairs: (8, 32), (16, 64), (32, 128) day half-lives\n- Smoother transitions, fewer whipsaws than binary signals\n- This is what most institutional trend followers actually use\n\n### Multi-Timeframe Signal Blending\n\nNo single lookback window dominates across all regimes. Best practice is to blend signals across multiple horizons:\n\n- **1-month (21 days):** Captures fast-moving trends, higher turnover, more whipsaws\n- **3-month (63 days):** Medium-term, balances responsiveness and stability\n- **12-month (252 days):** Classic academic signal, slow-moving, lowest turnover\n\nA common blending approach:\n```\ncombined_signal = w1 * signal_1M + w3 * signal_3M + w12 * signal_12M\n```\nEqual weighting (1/3 each) is a strong default. AQR and other practitioners have shown that blending across lookbacks improves Sharpe ratios by 0.1-0.3 versus any single window, because different horizons capture different trend speeds.\n\n### Volatility-Scaled Position Sizing\n\nThis is the critical implementation detail that separates naive momentum from institutional-grade strategies. Raw momentum signals produce wildly different risk exposures across assets (e.g., natural gas vs. bonds). The fix:\n\n```\nposition_size = signal * target_vol / realized_vol\n```\n\n- **target_vol**: Desired annualized volatility per position (e.g., 10% or 15%)\n- **realized_vol**: Trailing estimate of asset volatility (e.g., 60-day exponential)\n- Effect: Every position contributes roughly equal risk. A low-vol asset gets more leverage; a high-vol asset gets less.\n\nThis directly connects to Quant - Volatility Targeting at the portfolio level. Combine per-position vol scaling with portfolio-level vol targeting for a complete risk management framework."
+        "content": "### Signal Construction\r\n\r\nThe simplest signal is the sign of the past return:\r\n\r\n**Raw return signal:**\r\n- `signal = sign(r_t-N:t)` where `r` is the cumulative return over N periods\r\n- Binary: +1 (long) or -1 (short)\r\n- 12-month lookback is the canonical choice from the academic literature\r\n\r\n**Risk-adjusted signal:**\r\n- `signal = r_t-N:t / sigma_t` where `sigma` is realized volatility\r\n- Continuous: signal strength reflects conviction\r\n- Better risk-adjusted performance than binary signals\r\n\r\n**EWMA (Exponentially Weighted Moving Average) variants:**\r\n- Instead of a fixed lookback window, use the difference between a fast and slow EWMA of prices\r\n- `signal = EWMA_fast(price) - EWMA_slow(price)`\r\n- Common pairs: (8, 32), (16, 64), (32, 128) day half-lives\r\n- Smoother transitions, fewer whipsaws than binary signals\r\n- This is what most institutional trend followers actually use\r\n\r\n### Multi-Timeframe Signal Blending\r\n\r\nNo single lookback window dominates across all regimes. Best practice is to blend signals across multiple horizons:\r\n\r\n- **1-month (21 days):** Captures fast-moving trends, higher turnover, more whipsaws\r\n- **3-month (63 days):** Medium-term, balances responsiveness and stability\r\n- **12-month (252 days):** Classic academic signal, slow-moving, lowest turnover\r\n\r\nA common blending approach:\r\n```\r\ncombined_signal = w1 * signal_1M + w3 * signal_3M + w12 * signal_12M\r\n```\r\nEqual weighting (1/3 each) is a strong default. AQR and other practitioners have shown that blending across lookbacks improves Sharpe ratios by 0.1-0.3 versus any single window, because different horizons capture different trend speeds.\r\n\r\n### Volatility-Scaled Position Sizing\r\n\r\nThis is the critical implementation detail that separates naive momentum from institutional-grade strategies. Raw momentum signals produce wildly different risk exposures across assets (e.g., natural gas vs. bonds). The fix:\r\n\r\n```\r\nposition_size = signal * target_vol / realized_vol\r\n```\r\n\r\n- **target_vol**: Desired annualized volatility per position (e.g., 10% or 15%)\r\n- **realized_vol**: Trailing estimate of asset volatility (e.g., 60-day exponential)\r\n- Effect: Every position contributes roughly equal risk. A low-vol asset gets more leverage; a high-vol asset gets less.\r\n\r\nThis directly connects to Quant - Volatility Targeting at the portfolio level. Combine per-position vol scaling with portfolio-level vol targeting for a complete risk management framework."
       },
       {
         "heading": "Academic Foundation",
-        "content": "The landmark paper is **\"Time Series Momentum\" by Moskowitz, Ooi, and Pedersen (2012)**, published in the *Journal of Financial Economics*. Key findings:\n\n1. **Universal across asset classes.** Significant TSMOM in 58 liquid futures contracts spanning equities, bonds, currencies, and commodities over 1965-2009.\n2. **Strongest at 12 months.** Returns are positive for lookbacks from 1 to 12 months, peak around 12 months, then reverse (becoming a value/mean-reversion signal beyond 12-18 months).\n3. **Distinct from cross-sectional momentum.** TSMOM and XSMOM are correlated but not the same factor. TSMOM captures absolute trend; XSMOM captures relative performance.\n4. **Crisis alpha.** TSMOM strategies were profitable during both the 2008 financial crisis (as they went short equities) and the dot-com bust. This is because sustained market crashes are trends.\n5. **Not explained by standard risk factors.** Returns survive controls for market, size, value, and cross-sectional momentum.\n\n**Follow-on research worth reading:**\n- Baltas & Kosowski (2013): \"Momentum Strategies in Futures Markets and Trend-Following Funds\" -- confirms with longer data, explores transaction costs\n- Hurst, Ooi & Pedersen (2017): \"A Century of Evidence on Trend-Following Investing\" -- extends back to 1880, TSMOM has worked for 140+ years\n- Lemperi`ere et al. (2014): \"Two Centuries of Trend Following\" -- even longer history, similar conclusions\n- Babu et al. (2020): \"You Can't Always Trend When You Want\" -- examines when TSMOM fails (range-bound regimes)\n\nThe robustness of this evidence across time periods, geographies, and asset classes is why TSMOM is considered one of the most reliable factors in quantitative finance."
+        "content": "The landmark paper is **\"Time Series Momentum\" by Moskowitz, Ooi, and Pedersen (2012)**, published in the *Journal of Financial Economics*. Key findings:\r\n\r\n1. **Universal across asset classes.** Significant TSMOM in 58 liquid futures contracts spanning equities, bonds, currencies, and commodities over 1965-2009.\r\n2. **Strongest at 12 months.** Returns are positive for lookbacks from 1 to 12 months, peak around 12 months, then reverse (becoming a value/mean-reversion signal beyond 12-18 months).\r\n3. **Distinct from cross-sectional momentum.** TSMOM and XSMOM are correlated but not the same factor. TSMOM captures absolute trend; XSMOM captures relative performance.\r\n4. **Crisis alpha.** TSMOM strategies were profitable during both the 2008 financial crisis (as they went short equities) and the dot-com bust. This is because sustained market crashes are trends.\r\n5. **Not explained by standard risk factors.** Returns survive controls for market, size, value, and cross-sectional momentum.\r\n\r\n**Follow-on research worth reading:**\r\n- Baltas & Kosowski (2013): \"Momentum Strategies in Futures Markets and Trend-Following Funds\" -- confirms with longer data, explores transaction costs\r\n- Hurst, Ooi & Pedersen (2017): \"A Century of Evidence on Trend-Following Investing\" -- extends back to 1880, TSMOM has worked for 140+ years\r\n- Lemperi`ere et al. (2014): \"Two Centuries of Trend Following\" -- even longer history, similar conclusions\r\n- Babu et al. (2020): \"You Can't Always Trend When You Want\" -- examines when TSMOM fails (range-bound regimes)\r\n\r\nThe robustness of this evidence across time periods, geographies, and asset classes is why TSMOM is considered one of the most reliable factors in quantitative finance."
       },
       {
         "heading": "Python / Code Entry Point",
-        "content": "### Full Backtest Skeleton\n\n```python\nimport pandas as pd\nimport numpy as np\n\n# --- CONFIG ---\nLOOKBACKS = [21, 63, 252]  # 1M, 3M, 12M in trading days\nLOOKBACK_WEIGHTS = [1/3, 1/3, 1/3]\nVOL_WINDOW = 60  # days for realized vol estimate\nTARGET_VOL = 0.15  # 15% annualized target per position\nTRADING_DAYS = 252\n\n# --- DATA ---\n# prices: DataFrame with DatetimeIndex, columns = asset names\n# Assume daily close prices, adjusted for splits/dividends\nprices = pd.read_csv(\"prices.csv\", index_col=0, parse_dates=True)\nreturns = prices.pct_change().dropna()\n\n# --- SIGNAL CONSTRUCTION ---\ndef compute_signal(returns: pd.DataFrame, lookback: int) -> pd.DataFrame:\n    \"\"\"Binary TSMOM signal: +1 if cumulative return > 0, else -1.\"\"\"\n    cum_ret = returns.rolling(lookback).sum()\n    return np.sign(cum_ret)\n\ndef compute_risk_adjusted_signal(returns: pd.DataFrame, lookback: int,\n                                  vol_window: int) -> pd.DataFrame:\n    \"\"\"Continuous signal scaled by inverse realized vol.\"\"\"\n    cum_ret = returns.rolling(lookback).sum()\n    realized_vol = returns.rolling(vol_window).std() * np.sqrt(TRADING_DAYS)\n    return cum_ret / realized_vol\n\n# --- BLEND SIGNALS ACROSS LOOKBACKS ---\nsignals = []\nfor lb, w in zip(LOOKBACKS, LOOKBACK_WEIGHTS):\n    sig = compute_signal(returns, lb)\n    signals.append(sig * w)\nblended_signal = sum(signals)\n\n# --- VOLATILITY-SCALED POSITION SIZING ---\nrealized_vol = returns.rolling(VOL_WINDOW).std() * np.sqrt(TRADING_DAYS)\nposition_size = blended_signal * TARGET_VOL / realized_vol\n# Cap leverage to avoid blowups\nposition_size = position_size.clip(-2, 2)\n\n# --- BACKTEST ---\nstrategy_returns = (position_size.shift(1) * returns)  # shift to avoid lookahead\nportfolio_returns = strategy_returns.mean(axis=1)  # equal-weight across assets\n\n# --- PERFORMANCE METRICS ---\nsharpe = portfolio_returns.mean() / portfolio_returns.std() * np.sqrt(TRADING_DAYS)\nannual_return = portfolio_returns.mean() * TRADING_DAYS\nmax_dd = (portfolio_returns.cumsum() - portfolio_returns.cumsum().cummax()).min()\n\nprint(f\"Annualized Return: {annual_return:.2%}\")\nprint(f\"Sharpe Ratio:      {sharpe:.2f}\")\nprint(f\"Max Drawdown:      {max_dd:.2%}\")\n\n# --- EWMA VARIANT ---\ndef ewma_signal(prices: pd.DataFrame, fast_span: int = 16,\n                slow_span: int = 64) -> pd.DataFrame:\n    \"\"\"EWMA crossover signal (what practitioners actually use).\"\"\"\n    fast = prices.ewm(span=fast_span).mean()\n    slow = prices.ewm(span=slow_span).mean()\n    return np.sign(fast - slow)\n```\n\n**Key libraries:** `pandas`, `numpy`, `zipline-reloaded`, `backtrader`, `vectorbt`, `openbb`\n\n### Gotchas\n- Always `shift(1)` your signal before multiplying by returns -- otherwise you have lookahead bias\n- Use returns, not prices, for signal computation when doing rolling sums\n- Transaction costs matter: 12M signals turn over ~2x/year, 1M signals turn over ~12x/year\n- Survivorship bias: use delisted-adjusted data if backtesting equities"
+        "content": "### Full Backtest Skeleton\r\n\r\n```python\r\nimport pandas as pd\r\nimport numpy as np\r\n\r\n# --- CONFIG ---\r\nLOOKBACKS = [21, 63, 252]  # 1M, 3M, 12M in trading days\r\nLOOKBACK_WEIGHTS = [1/3, 1/3, 1/3]\r\nVOL_WINDOW = 60  # days for realized vol estimate\r\nTARGET_VOL = 0.15  # 15% annualized target per position\r\nTRADING_DAYS = 252\r\n\r\n# --- DATA ---\r\n# prices: DataFrame with DatetimeIndex, columns = asset names\r\n# Assume daily close prices, adjusted for splits/dividends\r\nprices = pd.read_csv(\"prices.csv\", index_col=0, parse_dates=True)\r\nreturns = prices.pct_change().dropna()\r\n\r\n# --- SIGNAL CONSTRUCTION ---\r\ndef compute_signal(returns: pd.DataFrame, lookback: int) -> pd.DataFrame:\r\n    \"\"\"Binary TSMOM signal: +1 if cumulative return > 0, else -1.\"\"\"\r\n    cum_ret = returns.rolling(lookback).sum()\r\n    return np.sign(cum_ret)\r\n\r\ndef compute_risk_adjusted_signal(returns: pd.DataFrame, lookback: int,\r\n                                  vol_window: int) -> pd.DataFrame:\r\n    \"\"\"Continuous signal scaled by inverse realized vol.\"\"\"\r\n    cum_ret = returns.rolling(lookback).sum()\r\n    realized_vol = returns.rolling(vol_window).std() * np.sqrt(TRADING_DAYS)\r\n    return cum_ret / realized_vol\r\n\r\n# --- BLEND SIGNALS ACROSS LOOKBACKS ---\r\nsignals = []\r\nfor lb, w in zip(LOOKBACKS, LOOKBACK_WEIGHTS):\r\n    sig = compute_signal(returns, lb)\r\n    signals.append(sig * w)\r\nblended_signal = sum(signals)\r\n\r\n# --- VOLATILITY-SCALED POSITION SIZING ---\r\nrealized_vol = returns.rolling(VOL_WINDOW).std() * np.sqrt(TRADING_DAYS)\r\nposition_size = blended_signal * TARGET_VOL / realized_vol\r\n# Cap leverage to avoid blowups\r\nposition_size = position_size.clip(-2, 2)\r\n\r\n# --- BACKTEST ---\r\nstrategy_returns = (position_size.shift(1) * returns)  # shift to avoid lookahead\r\nportfolio_returns = strategy_returns.mean(axis=1)  # equal-weight across assets\r\n\r\n# --- PERFORMANCE METRICS ---\r\nsharpe = portfolio_returns.mean() / portfolio_returns.std() * np.sqrt(TRADING_DAYS)\r\nannual_return = portfolio_returns.mean() * TRADING_DAYS\r\nmax_dd = (portfolio_returns.cumsum() - portfolio_returns.cumsum().cummax()).min()\r\n\r\nprint(f\"Annualized Return: {annual_return:.2%}\")\r\nprint(f\"Sharpe Ratio:      {sharpe:.2f}\")\r\nprint(f\"Max Drawdown:      {max_dd:.2%}\")\r\n\r\n# --- EWMA VARIANT ---\r\ndef ewma_signal(prices: pd.DataFrame, fast_span: int = 16,\r\n                slow_span: int = 64) -> pd.DataFrame:\r\n    \"\"\"EWMA crossover signal (what practitioners actually use).\"\"\"\r\n    fast = prices.ewm(span=fast_span).mean()\r\n    slow = prices.ewm(span=slow_span).mean()\r\n    return np.sign(fast - slow)\r\n```\r\n\r\n**Key libraries:** `pandas`, `numpy`, `zipline-reloaded`, `backtrader`, `vectorbt`, `openbb`\r\n\r\n### Gotchas\r\n- Always `shift(1)` your signal before multiplying by returns -- otherwise you have lookahead bias\r\n- Use returns, not prices, for signal computation when doing rolling sums\r\n- Transaction costs matter: 12M signals turn over ~2x/year, 1M signals turn over ~12x/year\r\n- Survivorship bias: use delisted-adjusted data if backtesting equities"
       },
       {
         "heading": "Why It Matters",
-        "content": "TSMOM is one of the most robust factors in quantitative finance for several reasons:\n\n1. **140+ years of evidence.** Unlike most \"factors\" discovered via data mining, trend following has worked since at least the 1880s across completely different market microstructures, regulatory regimes, and technology environments.\n\n2. **Crisis alpha.** This is the killer feature. During the 2008 financial crisis, managed futures (TSMOM-based) strategies returned +20-40% while equities fell -50%. The mechanism is simple: sustained crashes are strong trends, and TSMOM goes short during them. This makes TSMOM one of the few strategies that provides genuine portfolio insurance without the drag of holding put options.\n\n3. **Behavioral foundation.** TSMOM persists because it exploits deep cognitive biases: anchoring (investors underreact to new information), herding (trends accelerate as more participants pile in), and disposition effect (investors sell winners too early, hold losers too long). These biases are unlikely to be arbitraged away.\n\n4. **CTA industry backbone.** The ~$350B managed futures industry is built primarily on trend following. Firms like Man AHL, Winton, and AQR run sophisticated versions of TSMOM across hundreds of liquid futures markets.\n\n5. **Diversification across assets.** TSMOM applied to a diversified basket of futures (equities, bonds, commodities, currencies) produces a return stream with low correlation to traditional stock/bond portfolios -- making it a genuine alternative allocation."
+        "content": "TSMOM is one of the most robust factors in quantitative finance for several reasons:\r\n\r\n1. **140+ years of evidence.** Unlike most \"factors\" discovered via data mining, trend following has worked since at least the 1880s across completely different market microstructures, regulatory regimes, and technology environments.\r\n\r\n2. **Crisis alpha.** This is the killer feature. During the 2008 financial crisis, managed futures (TSMOM-based) strategies returned +20-40% while equities fell -50%. The mechanism is simple: sustained crashes are strong trends, and TSMOM goes short during them. This makes TSMOM one of the few strategies that provides genuine portfolio insurance without the drag of holding put options.\r\n\r\n3. **Behavioral foundation.** TSMOM persists because it exploits deep cognitive biases: anchoring (investors underreact to new information), herding (trends accelerate as more participants pile in), and disposition effect (investors sell winners too early, hold losers too long). These biases are unlikely to be arbitraged away.\r\n\r\n4. **CTA industry backbone.** The ~$350B managed futures industry is built primarily on trend following. Firms like Man AHL, Winton, and AQR run sophisticated versions of TSMOM across hundreds of liquid futures markets.\r\n\r\n5. **Diversification across assets.** TSMOM applied to a diversified basket of futures (equities, bonds, commodities, currencies) produces a return stream with low correlation to traditional stock/bond portfolios -- making it a genuine alternative allocation."
       },
       {
         "heading": "Failure Modes",
-        "content": "TSMOM is not a free lunch. Know when it breaks:\n\n- **Whipsaws in range-bound markets.** When an asset oscillates without a clear trend, TSMOM generates false signals and incurs transaction costs. This is the primary drag on performance. The 2010s had extended low-vol, range-bound periods that caused CTA underperformance.\n- **V-shaped reversals.** Sharp reversals (e.g., March 2020 COVID crash followed by immediate recovery) punish trend followers who go short just before the snap-back.\n- **Crowding.** As more capital chases trend signals, entry/exit points become crowded, eroding returns. This is a growing concern as TSMOM becomes more widely understood.\n- **Correlation spikes.** In crisis events, cross-asset correlations spike. A diversified TSMOM portfolio can suddenly become a concentrated bet.\n- **Overfitting risk.** Optimizing lookback windows, EWMA parameters, and blending weights on historical data can lead to in-sample overfitting. Stick to simple, theory-motivated choices."
+        "content": "TSMOM is not a free lunch. Know when it breaks:\r\n\r\n- **Whipsaws in range-bound markets.** When an asset oscillates without a clear trend, TSMOM generates false signals and incurs transaction costs. This is the primary drag on performance. The 2010s had extended low-vol, range-bound periods that caused CTA underperformance.\r\n- **V-shaped reversals.** Sharp reversals (e.g., March 2020 COVID crash followed by immediate recovery) punish trend followers who go short just before the snap-back.\r\n- **Crowding.** As more capital chases trend signals, entry/exit points become crowded, eroding returns. This is a growing concern as TSMOM becomes more widely understood.\r\n- **Correlation spikes.** In crisis events, cross-asset correlations spike. A diversified TSMOM portfolio can suddenly become a concentrated bet.\r\n- **Overfitting risk.** Optimizing lookback windows, EWMA parameters, and blending weights on historical data can lead to in-sample overfitting. Stick to simple, theory-motivated choices."
       },
       {
         "heading": "Apply It",
-        "content": "- **Signal Forge integration:** TSMOM is a foundational signal for any algo trading feature in Signal Forge or Vault projects. Start with the 12M binary signal, then layer in multi-timeframe blending.\n- **Portfolio construction:** Combine TSMOM with Quant - Volatility Targeting for position sizing and Quant - Mean Reversion Strategies for regime diversification (momentum profits in trending regimes, mean reversion profits in range-bound regimes).\n- **Data pipeline:** Use OpenBB Terminal as the data source for futures and equity prices. OpenBB provides free access to most of the data needed for a basic TSMOM backtest.\n- **Risk management:** Always pair with vol targeting. Never run unscaled TSMOM -- the raw signal without vol normalization produces wildly inconsistent risk exposure."
+        "content": "- **Signal Forge integration:** TSMOM is a foundational signal for any algo trading feature in Signal Forge or Vault projects. Start with the 12M binary signal, then layer in multi-timeframe blending.\r\n- **Portfolio construction:** Combine TSMOM with Quant - Volatility Targeting for position sizing and Quant - Mean Reversion Strategies for regime diversification (momentum profits in trending regimes, mean reversion profits in range-bound regimes).\r\n- **Data pipeline:** Use OpenBB Terminal as the data source for futures and equity prices. OpenBB provides free access to most of the data needed for a basic TSMOM backtest.\r\n- **Risk management:** Always pair with vol targeting. Never run unscaled TSMOM -- the raw signal without vol normalization produces wildly inconsistent risk exposure."
       },
       {
         "heading": "Research Next Steps",
-        "content": "- [ ] Read the full Moskowitz, Ooi, Pedersen (2012) paper and take detailed notes\n- [ ] Read Hurst, Ooi & Pedersen (2017) \"A Century of Evidence on Trend-Following Investing\"\n- [ ] Build the full backtest skeleton above using real futures data from OpenBB\n- [ ] Compare binary vs. EWMA signals on the same dataset\n- [ ] Test multi-timeframe blending (1M + 3M + 12M) vs. 12M alone\n- [ ] Explore signal decay: what happens at <1M (reversal zone) and >18M (value zone)?\n- [ ] Investigate how TSMOM performs with Quant - Backtesting Pitfalls controls (transaction costs, slippage, survivorship bias)\n- [ ] Study correlation between TSMOM returns and VIX regime (low vol = bad for TSMOM)"
+        "content": "- [ ] Read the full Moskowitz, Ooi, Pedersen (2012) paper and take detailed notes\r\n- [ ] Read Hurst, Ooi & Pedersen (2017) \"A Century of Evidence on Trend-Following Investing\"\r\n- [ ] Build the full backtest skeleton above using real futures data from OpenBB\r\n- [ ] Compare binary vs. EWMA signals on the same dataset\r\n- [ ] Test multi-timeframe blending (1M + 3M + 12M) vs. 12M alone\r\n- [ ] Explore signal decay: what happens at <1M (reversal zone) and >18M (value zone)?\r\n- [ ] Investigate how TSMOM performs with Quant - Backtesting Pitfalls controls (transaction costs, slippage, survivorship bias)\r\n- [ ] Study correlation between TSMOM returns and VIX regime (low vol = bad for TSMOM)"
       }
     ],
     "related": [
@@ -13066,27 +12727,27 @@ export const pods: Pod[] = [
     "sections": [
       {
         "heading": "What It Is",
-        "content": "Dynamically scales position size so your portfolio maintains a constant target volatility (e.g., 10% annualized) regardless of market regime. When markets get choppy, size down. When calm, size up.\n\nThis is the simplest risk management technique that actually works. Every serious quant fund — from AQR to Bridgewater to Man Group — applies volatility targeting as a base layer. It doesn't generate alpha; it prevents blowups and stabilizes your strategy's risk profile so everything else works better."
+        "content": "Dynamically scales position size so your portfolio maintains a constant target volatility (e.g., 10% annualized) regardless of market regime. When markets get choppy, size down. When calm, size up.\r\n\r\nThis is the simplest risk management technique that actually works. Every serious quant fund — from AQR to Bridgewater to Man Group — applies volatility targeting as a base layer. It doesn't generate alpha; it prevents blowups and stabilizes your strategy's risk profile so everything else works better."
       },
       {
         "heading": "Key Mechanics",
-        "content": "### The Core Formula\n```\nleverage = σ_target / σ_realized\n```\n- **σ_target**: your desired annualized volatility (e.g., 10%)\n- **σ_realized**: your estimated current annualized volatility\n- **leverage**: the fraction of capital to deploy (can be > 1 if using leverage)\n\nWhen realized vol doubles from 10% to 20%, your position halves. When vol drops from 10% to 5%, your position doubles. You're always taking the *same amount of risk* in dollar terms.\n\n### Position Sizing Formula (Per Asset)\nFor a multi-asset portfolio:\n```\nw_i = (σ_target / N) / σ_i\n```\n- **w_i**: weight for asset i\n- **N**: number of assets\n- **σ_i**: realized vol of asset i\n\nThis gives each asset an equal risk contribution — which is the foundation of risk parity.\n\n### Realized Vol Estimation Methods\n\n**Rolling Window Standard Deviation**:\n```python\nrealized_vol = returns.rolling(window=20).std() * np.sqrt(252)\n```\n- Simple and intuitive\n- Lookback window matters: 20 days reacts fast but is noisy; 60 days is smoother but lags\n- Gives equal weight to all observations in the window\n\n**EWMA (Exponentially Weighted Moving Average)**:\n```python\nrealized_vol = returns.ewm(span=20).std() * np.sqrt(252)\n```\n- Recent observations get more weight — reacts faster to vol changes\n- No hard cutoff like rolling window\n- Used by RiskMetrics (JP Morgan's risk model) with λ = 0.94\n\n**Yang-Zhang Estimator** (uses OHLC data):\n- Incorporates open, high, low, close prices for more efficient vol estimation\n- 5-7x more efficient than close-to-close — you get the same accuracy with fewer observations\n- Better for shorter lookback windows\n\n**GARCH(1,1)**:\n```\nσ²_t = ω + α·r²_{t-1} + β·σ²_{t-1}\n```\n- Models vol as a process with persistence and mean reversion\n- Best for forecasting *future* vol, not just measuring *current* vol\n- More complex to fit but captures vol clustering\n\n### Lookback Window Selection\n| Window | Responsiveness | Stability | Best For |\n|--------|---------------|-----------|----------|\n| 10 days | Very fast | Noisy, whipsaws | Intraday/fast strategies |\n| 20 days | Fast | Moderate | Daily rebalancing |\n| 60 days | Moderate | Smooth | Weekly/monthly rebalancing |\n| 120 days | Slow | Very smooth | Strategic allocation |\n\nA common approach: use a fast estimator (EWMA span=20) for position sizing but a slow estimator (rolling 60-day) for sanity-checking. If they diverge wildly, something structural may be happening.\n\n### Realized vs. Implied Volatility\n- **Realized vol**: what actually happened (backward-looking)\n- **Implied vol (VIX)**: what the options market expects will happen (forward-looking)\n\nFor position sizing, you want the best *forecast* of future vol. Research shows:\n- Implied vol is a better predictor of future realized vol than past realized vol\n- But implied vol is systematically upward-biased (volatility risk premium)\n- A blend often works best: `vol_forecast = 0.7 × implied + 0.3 × realized`\n\n### Connection to Risk Parity\nRisk parity is volatility targeting applied across assets:\n- Each asset gets weight inversely proportional to its volatility\n- The result: each asset contributes equal risk to the portfolio\n- Bridgewater's \"All Weather\" is the canonical risk parity portfolio\n\n```\nw_i = (1/σ_i) / Σ(1/σ_j)   # Inverse-vol weighting\n```\n\nThis ignores correlations (a simplification). Full risk parity uses the covariance matrix:\n```\nw_i ∝ (Σ⁻¹ · 1) / (1ᵀ · Σ⁻¹ · 1)   # Minimum variance weights\n```\n\n### Practical Considerations\n- **Transaction costs**: Frequent rebalancing eats into returns. Apply a buffer zone — don't rebalance unless leverage has drifted > 10% from target.\n- **Leverage constraints**: If leverage > 1 is required, you need margin. If leverage > 2, you're probably in dangerous territory.\n- **Vol-of-vol**: In regime transitions, vol itself is volatile. EWMA handles this better than rolling windows.\n- **Asymmetric response**: Consider sizing down faster than you size up. A vol spike is a signal; a vol decline might just be calm before a storm."
+        "content": "### The Core Formula\r\n```\r\nleverage = σ_target / σ_realized\r\n```\r\n- **σ_target**: your desired annualized volatility (e.g., 10%)\r\n- **σ_realized**: your estimated current annualized volatility\r\n- **leverage**: the fraction of capital to deploy (can be > 1 if using leverage)\r\n\r\nWhen realized vol doubles from 10% to 20%, your position halves. When vol drops from 10% to 5%, your position doubles. You're always taking the *same amount of risk* in dollar terms.\r\n\r\n### Position Sizing Formula (Per Asset)\r\nFor a multi-asset portfolio:\r\n```\r\nw_i = (σ_target / N) / σ_i\r\n```\r\n- **w_i**: weight for asset i\r\n- **N**: number of assets\r\n- **σ_i**: realized vol of asset i\r\n\r\nThis gives each asset an equal risk contribution — which is the foundation of risk parity.\r\n\r\n### Realized Vol Estimation Methods\r\n\r\n**Rolling Window Standard Deviation**:\r\n```python\r\nrealized_vol = returns.rolling(window=20).std() * np.sqrt(252)\r\n```\r\n- Simple and intuitive\r\n- Lookback window matters: 20 days reacts fast but is noisy; 60 days is smoother but lags\r\n- Gives equal weight to all observations in the window\r\n\r\n**EWMA (Exponentially Weighted Moving Average)**:\r\n```python\r\nrealized_vol = returns.ewm(span=20).std() * np.sqrt(252)\r\n```\r\n- Recent observations get more weight — reacts faster to vol changes\r\n- No hard cutoff like rolling window\r\n- Used by RiskMetrics (JP Morgan's risk model) with λ = 0.94\r\n\r\n**Yang-Zhang Estimator** (uses OHLC data):\r\n- Incorporates open, high, low, close prices for more efficient vol estimation\r\n- 5-7x more efficient than close-to-close — you get the same accuracy with fewer observations\r\n- Better for shorter lookback windows\r\n\r\n**GARCH(1,1)**:\r\n```\r\nσ²_t = ω + α·r²_{t-1} + β·σ²_{t-1}\r\n```\r\n- Models vol as a process with persistence and mean reversion\r\n- Best for forecasting *future* vol, not just measuring *current* vol\r\n- More complex to fit but captures vol clustering\r\n\r\n### Lookback Window Selection\r\n| Window | Responsiveness | Stability | Best For |\r\n|--------|---------------|-----------|----------|\r\n| 10 days | Very fast | Noisy, whipsaws | Intraday/fast strategies |\r\n| 20 days | Fast | Moderate | Daily rebalancing |\r\n| 60 days | Moderate | Smooth | Weekly/monthly rebalancing |\r\n| 120 days | Slow | Very smooth | Strategic allocation |\r\n\r\nA common approach: use a fast estimator (EWMA span=20) for position sizing but a slow estimator (rolling 60-day) for sanity-checking. If they diverge wildly, something structural may be happening.\r\n\r\n### Realized vs. Implied Volatility\r\n- **Realized vol**: what actually happened (backward-looking)\r\n- **Implied vol (VIX)**: what the options market expects will happen (forward-looking)\r\n\r\nFor position sizing, you want the best *forecast* of future vol. Research shows:\r\n- Implied vol is a better predictor of future realized vol than past realized vol\r\n- But implied vol is systematically upward-biased (volatility risk premium)\r\n- A blend often works best: `vol_forecast = 0.7 × implied + 0.3 × realized`\r\n\r\n### Connection to Risk Parity\r\nRisk parity is volatility targeting applied across assets:\r\n- Each asset gets weight inversely proportional to its volatility\r\n- The result: each asset contributes equal risk to the portfolio\r\n- Bridgewater's \"All Weather\" is the canonical risk parity portfolio\r\n\r\n```\r\nw_i = (1/σ_i) / Σ(1/σ_j)   # Inverse-vol weighting\r\n```\r\n\r\nThis ignores correlations (a simplification). Full risk parity uses the covariance matrix:\r\n```\r\nw_i ∝ (Σ⁻¹ · 1) / (1ᵀ · Σ⁻¹ · 1)   # Minimum variance weights\r\n```\r\n\r\n### Practical Considerations\r\n- **Transaction costs**: Frequent rebalancing eats into returns. Apply a buffer zone — don't rebalance unless leverage has drifted > 10% from target.\r\n- **Leverage constraints**: If leverage > 1 is required, you need margin. If leverage > 2, you're probably in dangerous territory.\r\n- **Vol-of-vol**: In regime transitions, vol itself is volatile. EWMA handles this better than rolling windows.\r\n- **Asymmetric response**: Consider sizing down faster than you size up. A vol spike is a signal; a vol decline might just be calm before a storm."
       },
       {
         "heading": "Python Entry Point",
-        "content": "### Full Volatility Targeting Pipeline\n```python\nimport numpy as np\nimport pandas as pd\nimport yfinance as yf\nimport matplotlib.pyplot as plt\n\n# 1. Load data\nspy = yf.download(\"SPY\", start=\"2018-01-01\")[\"Close\"]\nreturns = spy.pct_change().dropna()\n\n# 2. Estimate realized vol — compare methods\nvol_rolling_20 = returns.rolling(20).std() * np.sqrt(252)\nvol_rolling_60 = returns.rolling(60).std() * np.sqrt(252)\nvol_ewma_20 = returns.ewm(span=20).std() * np.sqrt(252)\n\n# 3. Volatility targeting\nTARGET_VOL = 0.10  # 10% annualized target\n\nleverage_rolling = TARGET_VOL / vol_rolling_20\nleverage_ewma = TARGET_VOL / vol_ewma_20\n\n# Cap leverage to avoid extreme positions\nleverage_rolling = leverage_rolling.clip(0.1, 2.0)\nleverage_ewma = leverage_ewma.clip(0.1, 2.0)\n\n# 4. Apply to returns (shift leverage by 1 day — you can't use today's vol to size today's position)\nvol_targeted_returns = returns * leverage_ewma.shift(1)\nunscaled_returns = returns\n\n# 5. Performance comparison\ncum_unscaled = (1 + unscaled_returns).cumprod()\ncum_targeted = (1 + vol_targeted_returns.dropna()).cumprod()\n\ndef stats(r, name):\n    ann_ret = r.mean() * 252\n    ann_vol = r.std() * np.sqrt(252)\n    sharpe = ann_ret / ann_vol\n    max_dd = (r.cumsum() - r.cumsum().cummax()).min()\n    print(f\"{name:>25}: ret={ann_ret:.1%}  vol={ann_vol:.1%}  sharpe={sharpe:.2f}  max_dd={max_dd:.1%}\")\n\nprint(\"=== Performance Comparison ===\")\nstats(unscaled_returns, \"Buy & Hold SPY\")\nstats(vol_targeted_returns.dropna(), \"Vol-Targeted SPY (10%)\")\n\n# 6. Show how vol targeting stabilizes realized vol\nrealized_vol_unscaled = unscaled_returns.rolling(60).std() * np.sqrt(252)\nrealized_vol_targeted = vol_targeted_returns.rolling(60).std() * np.sqrt(252)\n\nprint(f\"\\n=== Realized Vol Stability ===\")\nprint(f\"  Unscaled vol range:  {realized_vol_unscaled.min():.1%} - {realized_vol_unscaled.max():.1%}\")\nprint(f\"  Targeted vol range:  {realized_vol_targeted.min():.1%} - {realized_vol_targeted.max():.1%}\")\nprint(f\"  Unscaled vol stdev:  {realized_vol_unscaled.std():.1%}\")\nprint(f\"  Targeted vol stdev:  {realized_vol_targeted.std():.1%}\")\n\n# 7. Plot\nfig, axes = plt.subplots(3, 1, figsize=(14, 12), sharex=True)\n\naxes[0].plot(cum_unscaled.index, cum_unscaled, label=\"Buy & Hold\", alpha=0.7)\naxes[0].plot(cum_targeted.index, cum_targeted, label=\"Vol-Targeted (10%)\", alpha=0.7)\naxes[0].set_title(\"Cumulative Returns\")\naxes[0].legend()\n\naxes[1].plot(leverage_ewma.index, leverage_ewma, label=\"Leverage (EWMA)\", alpha=0.7)\naxes[1].axhline(1.0, color=\"gray\", linestyle=\"--\", alpha=0.5)\naxes[1].set_title(\"Dynamic Leverage\")\naxes[1].legend()\n\naxes[2].plot(realized_vol_unscaled.index, realized_vol_unscaled, label=\"Unscaled Vol\", alpha=0.7)\naxes[2].plot(realized_vol_targeted.index, realized_vol_targeted, label=\"Targeted Vol\", alpha=0.7)\naxes[2].axhline(TARGET_VOL, color=\"red\", linestyle=\"--\", alpha=0.5, label=\"Target (10%)\")\naxes[2].set_title(\"Rolling 60-Day Realized Volatility\")\naxes[2].legend()\n\nplt.tight_layout()\nplt.savefig(\"vol_targeting_comparison.png\")\n```\n\n### Multi-Asset Inverse Volatility Weighting\n```python\n# Risk parity / inverse-vol weighting across multiple assets\ntickers = [\"SPY\", \"TLT\", \"GLD\", \"VNQ\"]\nprices = yf.download(tickers, start=\"2020-01-01\")[\"Close\"]\nreturns = prices.pct_change().dropna()\n\n# Estimate vol for each asset (EWMA, span=20)\nvols = returns.ewm(span=20).std() * np.sqrt(252)\n\n# Inverse-vol weights (rebalanced daily)\ninv_vol = 1.0 / vols\nweights = inv_vol.div(inv_vol.sum(axis=1), axis=0)\n\n# Scale to target portfolio vol\nportfolio_returns = (returns * weights.shift(1)).sum(axis=1)\nportfolio_vol = portfolio_returns.ewm(span=20).std() * np.sqrt(252)\nportfolio_leverage = TARGET_VOL / portfolio_vol\nportfolio_leverage = portfolio_leverage.clip(0.1, 2.0)\n\nfinal_returns = portfolio_returns * portfolio_leverage.shift(1)\n\nprint(\"=== Inverse-Vol Weighted Portfolio ===\")\nprint(f\"\\nLatest weights:\")\nfor ticker in tickers:\n    print(f\"  {ticker}: {weights[ticker].iloc[-1]:.1%}\")\n\nstats(final_returns.dropna(), \"Risk Parity (10% target)\")\n```\n\nKey libs: `numpy`, `pandas`, `yfinance`, `arch` (for GARCH), `matplotlib`"
+        "content": "### Full Volatility Targeting Pipeline\r\n```python\r\nimport numpy as np\r\nimport pandas as pd\r\nimport yfinance as yf\r\nimport matplotlib.pyplot as plt\r\n\r\n# 1. Load data\r\nspy = yf.download(\"SPY\", start=\"2018-01-01\")[\"Close\"]\r\nreturns = spy.pct_change().dropna()\r\n\r\n# 2. Estimate realized vol — compare methods\r\nvol_rolling_20 = returns.rolling(20).std() * np.sqrt(252)\r\nvol_rolling_60 = returns.rolling(60).std() * np.sqrt(252)\r\nvol_ewma_20 = returns.ewm(span=20).std() * np.sqrt(252)\r\n\r\n# 3. Volatility targeting\r\nTARGET_VOL = 0.10  # 10% annualized target\r\n\r\nleverage_rolling = TARGET_VOL / vol_rolling_20\r\nleverage_ewma = TARGET_VOL / vol_ewma_20\r\n\r\n# Cap leverage to avoid extreme positions\r\nleverage_rolling = leverage_rolling.clip(0.1, 2.0)\r\nleverage_ewma = leverage_ewma.clip(0.1, 2.0)\r\n\r\n# 4. Apply to returns (shift leverage by 1 day — you can't use today's vol to size today's position)\r\nvol_targeted_returns = returns * leverage_ewma.shift(1)\r\nunscaled_returns = returns\r\n\r\n# 5. Performance comparison\r\ncum_unscaled = (1 + unscaled_returns).cumprod()\r\ncum_targeted = (1 + vol_targeted_returns.dropna()).cumprod()\r\n\r\ndef stats(r, name):\r\n    ann_ret = r.mean() * 252\r\n    ann_vol = r.std() * np.sqrt(252)\r\n    sharpe = ann_ret / ann_vol\r\n    max_dd = (r.cumsum() - r.cumsum().cummax()).min()\r\n    print(f\"{name:>25}: ret={ann_ret:.1%}  vol={ann_vol:.1%}  sharpe={sharpe:.2f}  max_dd={max_dd:.1%}\")\r\n\r\nprint(\"=== Performance Comparison ===\")\r\nstats(unscaled_returns, \"Buy & Hold SPY\")\r\nstats(vol_targeted_returns.dropna(), \"Vol-Targeted SPY (10%)\")\r\n\r\n# 6. Show how vol targeting stabilizes realized vol\r\nrealized_vol_unscaled = unscaled_returns.rolling(60).std() * np.sqrt(252)\r\nrealized_vol_targeted = vol_targeted_returns.rolling(60).std() * np.sqrt(252)\r\n\r\nprint(f\"\\n=== Realized Vol Stability ===\")\r\nprint(f\"  Unscaled vol range:  {realized_vol_unscaled.min():.1%} - {realized_vol_unscaled.max():.1%}\")\r\nprint(f\"  Targeted vol range:  {realized_vol_targeted.min():.1%} - {realized_vol_targeted.max():.1%}\")\r\nprint(f\"  Unscaled vol stdev:  {realized_vol_unscaled.std():.1%}\")\r\nprint(f\"  Targeted vol stdev:  {realized_vol_targeted.std():.1%}\")\r\n\r\n# 7. Plot\r\nfig, axes = plt.subplots(3, 1, figsize=(14, 12), sharex=True)\r\n\r\naxes[0].plot(cum_unscaled.index, cum_unscaled, label=\"Buy & Hold\", alpha=0.7)\r\naxes[0].plot(cum_targeted.index, cum_targeted, label=\"Vol-Targeted (10%)\", alpha=0.7)\r\naxes[0].set_title(\"Cumulative Returns\")\r\naxes[0].legend()\r\n\r\naxes[1].plot(leverage_ewma.index, leverage_ewma, label=\"Leverage (EWMA)\", alpha=0.7)\r\naxes[1].axhline(1.0, color=\"gray\", linestyle=\"--\", alpha=0.5)\r\naxes[1].set_title(\"Dynamic Leverage\")\r\naxes[1].legend()\r\n\r\naxes[2].plot(realized_vol_unscaled.index, realized_vol_unscaled, label=\"Unscaled Vol\", alpha=0.7)\r\naxes[2].plot(realized_vol_targeted.index, realized_vol_targeted, label=\"Targeted Vol\", alpha=0.7)\r\naxes[2].axhline(TARGET_VOL, color=\"red\", linestyle=\"--\", alpha=0.5, label=\"Target (10%)\")\r\naxes[2].set_title(\"Rolling 60-Day Realized Volatility\")\r\naxes[2].legend()\r\n\r\nplt.tight_layout()\r\nplt.savefig(\"vol_targeting_comparison.png\")\r\n```\r\n\r\n### Multi-Asset Inverse Volatility Weighting\r\n```python\r\n# Risk parity / inverse-vol weighting across multiple assets\r\ntickers = [\"SPY\", \"TLT\", \"GLD\", \"VNQ\"]\r\nprices = yf.download(tickers, start=\"2020-01-01\")[\"Close\"]\r\nreturns = prices.pct_change().dropna()\r\n\r\n# Estimate vol for each asset (EWMA, span=20)\r\nvols = returns.ewm(span=20).std() * np.sqrt(252)\r\n\r\n# Inverse-vol weights (rebalanced daily)\r\ninv_vol = 1.0 / vols\r\nweights = inv_vol.div(inv_vol.sum(axis=1), axis=0)\r\n\r\n# Scale to target portfolio vol\r\nportfolio_returns = (returns * weights.shift(1)).sum(axis=1)\r\nportfolio_vol = portfolio_returns.ewm(span=20).std() * np.sqrt(252)\r\nportfolio_leverage = TARGET_VOL / portfolio_vol\r\nportfolio_leverage = portfolio_leverage.clip(0.1, 2.0)\r\n\r\nfinal_returns = portfolio_returns * portfolio_leverage.shift(1)\r\n\r\nprint(\"=== Inverse-Vol Weighted Portfolio ===\")\r\nprint(f\"\\nLatest weights:\")\r\nfor ticker in tickers:\r\n    print(f\"  {ticker}: {weights[ticker].iloc[-1]:.1%}\")\r\n\r\nstats(final_returns.dropna(), \"Risk Parity (10% target)\")\r\n```\r\n\r\nKey libs: `numpy`, `pandas`, `yfinance`, `arch` (for GARCH), `matplotlib`"
       },
       {
         "heading": "Why It Matters",
-        "content": "Prevents blowups in high-volatility regimes. Every serious quant fund applies this as a risk overlay on top of their alpha signals. Simple to implement, high impact.\n\nThe numbers tell the story:\n- During the March 2020 COVID crash, SPY realized vol hit ~80% annualized. A vol-targeting overlay would have cut your position to ~12.5% of notional — turning a 34% drawdown into a ~4% drawdown.\n- During calm 2017, vol was ~7%. Vol targeting would have leveraged you to ~1.4x — capturing extra return during the easy period.\n- Net effect: similar returns, drastically lower drawdowns, higher Sharpe ratio.\n\nVol targeting is the single highest-impact risk management technique you can add to any strategy. It's the first thing to implement, not the last."
+        "content": "Prevents blowups in high-volatility regimes. Every serious quant fund applies this as a risk overlay on top of their alpha signals. Simple to implement, high impact.\r\n\r\nThe numbers tell the story:\r\n- During the March 2020 COVID crash, SPY realized vol hit ~80% annualized. A vol-targeting overlay would have cut your position to ~12.5% of notional — turning a 34% drawdown into a ~4% drawdown.\r\n- During calm 2017, vol was ~7%. Vol targeting would have leveraged you to ~1.4x — capturing extra return during the easy period.\r\n- Net effect: similar returns, drastically lower drawdowns, higher Sharpe ratio.\r\n\r\nVol targeting is the single highest-impact risk management technique you can add to any strategy. It's the first thing to implement, not the last."
       },
       {
         "heading": "Apply It",
-        "content": "- Apply as a risk management layer on top of *every* strategy you build in **Signal Forge** — momentum, relative value, factor-based, everything\n- Use **OpenBB** to pull VIX data for implied vol and blend with realized vol for better forecasting\n- Build a \"Risk Budget\" panel in **Vault** showing current leverage, realized vol, and how much of your risk budget each position consumes\n- Connect to **Macro Regime Allocation** — use regime as a secondary filter (e.g., cut target vol from 10% to 5% in Stagflation)\n- Visualize the leverage time series alongside drawdowns — see how vol targeting would have saved you in historical crashes"
+        "content": "- Apply as a risk management layer on top of *every* strategy you build in **Signal Forge** — momentum, relative value, factor-based, everything\r\n- Use **OpenBB** to pull VIX data for implied vol and blend with realized vol for better forecasting\r\n- Build a \"Risk Budget\" panel in **Vault** showing current leverage, realized vol, and how much of your risk budget each position consumes\r\n- Connect to **Macro Regime Allocation** — use regime as a secondary filter (e.g., cut target vol from 10% to 5% in Stagflation)\r\n- Visualize the leverage time series alongside drawdowns — see how vol targeting would have saved you in historical crashes"
       },
       {
         "heading": "Research Next Steps",
-        "content": "- [ ] Implement EWMA vol estimation vs. rolling window — compare how each responds to the March 2020 crash\n- [ ] Test on 2020 COVID crash — measure drawdown reduction with vol targeting at 10%, 15%, 20% targets\n- [ ] Backtest inverse-vol weighted SPY/TLT/GLD/VNQ portfolio vs. equal-weight and 60/40\n- [ ] Implement GARCH(1,1) using the `arch` library and compare vol forecasts to EWMA\n- [ ] Test blended vol estimator (70% implied VIX + 30% realized) for position sizing\n- [ ] Read \"volatility targeting\" chapter in Ilmanen's *Expected Returns*\n- [ ] Explore `riskfolio-lib` for full covariance-based risk parity optimization"
+        "content": "- [ ] Implement EWMA vol estimation vs. rolling window — compare how each responds to the March 2020 crash\r\n- [ ] Test on 2020 COVID crash — measure drawdown reduction with vol targeting at 10%, 15%, 20% targets\r\n- [ ] Backtest inverse-vol weighted SPY/TLT/GLD/VNQ portfolio vs. equal-weight and 60/40\r\n- [ ] Implement GARCH(1,1) using the `arch` library and compare vol forecasts to EWMA\r\n- [ ] Test blended vol estimator (70% implied VIX + 30% realized) for position sizing\r\n- [ ] Read \"volatility targeting\" chapter in Ilmanen's *Expected Returns*\r\n- [ ] Explore `riskfolio-lib` for full covariance-based risk parity optimization"
       }
     ],
     "related": [
@@ -13115,23 +12776,23 @@ export const pods: Pod[] = [
     "sections": [
       {
         "heading": "Why Chunking Matters",
-        "content": "LLMs have context limits. Embeddings work best on focused text. You can't embed an entire 50-page document and expect the vector to capture every idea — the meaning gets averaged into mush. Chunking breaks documents into retrieval-sized pieces that each carry a clear semantic signal.\n\nThe chunking strategy you choose directly impacts retrieval quality. Get it wrong and your RAG pipeline will retrieve irrelevant content no matter how good your embedding model is."
+        "content": "LLMs have context limits. Embeddings work best on focused text. You can't embed an entire 50-page document and expect the vector to capture every idea — the meaning gets averaged into mush. Chunking breaks documents into retrieval-sized pieces that each carry a clear semantic signal.\r\n\r\nThe chunking strategy you choose directly impacts retrieval quality. Get it wrong and your RAG pipeline will retrieve irrelevant content no matter how good your embedding model is."
       },
       {
         "heading": "Strategy 1: Fixed-Size Chunking",
-        "content": "Split every N tokens regardless of content structure.\n\n```\nDocument: \"RAG combines retrieval and generation. First, you embed\n           your documents. Then you search for relevant chunks...\"\n\nChunk 1 (256 tokens): \"RAG combines retrieval and generation. First, you embed your...\"\nChunk 2 (256 tokens): \"...documents. Then you search for relevant chunks...\"\n```\n\n**Pros**: Dead simple, predictable chunk sizes, easy to implement.\n**Cons**: Breaks mid-sentence, mid-paragraph, mid-thought. Context is severed at arbitrary boundaries.\n**Use when**: Quick prototype, uniform content, content without natural structure."
+        "content": "Split every N tokens regardless of content structure.\r\n\r\n```\r\nDocument: \"RAG combines retrieval and generation. First, you embed\r\n           your documents. Then you search for relevant chunks...\"\r\n\r\nChunk 1 (256 tokens): \"RAG combines retrieval and generation. First, you embed your...\"\r\nChunk 2 (256 tokens): \"...documents. Then you search for relevant chunks...\"\r\n```\r\n\r\n**Pros**: Dead simple, predictable chunk sizes, easy to implement.\r\n**Cons**: Breaks mid-sentence, mid-paragraph, mid-thought. Context is severed at arbitrary boundaries.\r\n**Use when**: Quick prototype, uniform content, content without natural structure."
       },
       {
         "heading": "Strategy 2: Recursive Character Splitting",
-        "content": "Split hierarchically: paragraph → sentence → word. Respect document structure by trying larger separators first and falling back to smaller ones.\n\n```python\nfrom langchain.text_splitter import RecursiveCharacterTextSplitter\n\nsplitter = RecursiveCharacterTextSplitter(\n    chunk_size=512,\n    chunk_overlap=50,\n    separators=[\"\\n\\n\", \"\\n\", \". \", \" \", \"\"]\n)\nchunks = splitter.split_text(document)\n```\n\n**Pros**: Respects natural boundaries, predictable size, LangChain default for a reason.\n**Cons**: Still content-unaware — a paragraph about two topics gets kept together.\n**Use when**: General-purpose RAG, most production systems. This is the safe default."
+        "content": "Split hierarchically: paragraph → sentence → word. Respect document structure by trying larger separators first and falling back to smaller ones.\r\n\r\n```python\r\nfrom langchain.text_splitter import RecursiveCharacterTextSplitter\r\n\r\nsplitter = RecursiveCharacterTextSplitter(\r\n    chunk_size=512,\r\n    chunk_overlap=50,\r\n    separators=[\"\\n\\n\", \"\\n\", \". \", \" \", \"\"]\r\n)\r\nchunks = splitter.split_text(document)\r\n```\r\n\r\n**Pros**: Respects natural boundaries, predictable size, LangChain default for a reason.\r\n**Cons**: Still content-unaware — a paragraph about two topics gets kept together.\r\n**Use when**: General-purpose RAG, most production systems. This is the safe default."
       },
       {
         "heading": "Strategy 3: Semantic Chunking",
-        "content": "Use embeddings to detect topic shifts. Embed each sentence, compute similarity between adjacent sentences, and split where similarity drops below a threshold.\n\n```\nSentence embeddings:  [0.91] [0.88] [0.85] [0.42] [0.89] [0.91]\n                                            ↑ topic shift — split here\n```\n\n**Pros**: Best semantic coherence per chunk. Chunks are topically unified.\n**Cons**: Slowest (requires embedding every sentence first), variable chunk sizes, harder to debug.\n**Use when**: High-stakes retrieval where quality matters more than speed. Legal, medical, research."
+        "content": "Use embeddings to detect topic shifts. Embed each sentence, compute similarity between adjacent sentences, and split where similarity drops below a threshold.\r\n\r\n```\r\nSentence embeddings:  [0.91] [0.88] [0.85] [0.42] [0.89] [0.91]\r\n                                            ↑ topic shift — split here\r\n```\r\n\r\n**Pros**: Best semantic coherence per chunk. Chunks are topically unified.\r\n**Cons**: Slowest (requires embedding every sentence first), variable chunk sizes, harder to debug.\r\n**Use when**: High-stakes retrieval where quality matters more than speed. Legal, medical, research."
       },
       {
         "heading": "Strategy 4: Document-Aware Chunking",
-        "content": "Respect the document's own structure: split on markdown headers, HTML tags, code blocks, table boundaries.\n\n```"
+        "content": "Respect the document's own structure: split on markdown headers, HTML tags, code blocks, table boundaries.\r\n\r\n```"
       },
       {
         "heading": "Introduction           → Chunk 1",
@@ -13139,31 +12800,31 @@ export const pods: Pod[] = [
       },
       {
         "heading": "How It Works           → Chunk 2",
-        "content": "### Step 1: Embedding     → Chunk 3\n### Step 2: Retrieval     → Chunk 4"
+        "content": "### Step 1: Embedding     → Chunk 3\r\n### Step 2: Retrieval     → Chunk 4"
       },
       {
         "heading": "Conclusion             → Chunk 5",
-        "content": "```\n\n**Pros**: Preserves author's intended structure, each chunk has a natural title (the header).\n**Cons**: Chunk sizes vary wildly (one section = 2 sentences, another = 2 pages).\n**Use when**: Structured content — docs sites, wikis, Obsidian vaults, codebases.\n\nYour LearnPod vault content is naturally chunked this way already. Each `##` section is a self-contained chunk with a clear topic. This is document-aware chunking without writing a single line of code."
+        "content": "```\r\n\r\n**Pros**: Preserves author's intended structure, each chunk has a natural title (the header).\r\n**Cons**: Chunk sizes vary wildly (one section = 2 sentences, another = 2 pages).\r\n**Use when**: Structured content — docs sites, wikis, Obsidian vaults, codebases.\r\n\r\nYour LearnPod vault content is naturally chunked this way already. Each `##` section is a self-contained chunk with a clear topic. This is document-aware chunking without writing a single line of code."
       },
       {
         "heading": "The Overlap Question",
-        "content": "Include 10-20% overlap between adjacent chunks to preserve context at boundaries.\n\n```\nChunk 1: \"RAG combines retrieval and generation. The pipeline has three stages.\"\nChunk 2: \"The pipeline has three stages. First, embed your documents...\"\n          ↑ overlap — repeated context\n```\n\nWithout overlap, a question about \"the three stages\" might miss the context that names them. With overlap, both chunks can answer it.\n\n**Rule of thumb**: 50-100 token overlap for 512-token chunks. More overlap = better recall, higher storage cost."
+        "content": "Include 10-20% overlap between adjacent chunks to preserve context at boundaries.\r\n\r\n```\r\nChunk 1: \"RAG combines retrieval and generation. The pipeline has three stages.\"\r\nChunk 2: \"The pipeline has three stages. First, embed your documents...\"\r\n          ↑ overlap — repeated context\r\n```\r\n\r\nWithout overlap, a question about \"the three stages\" might miss the context that names them. With overlap, both chunks can answer it.\r\n\r\n**Rule of thumb**: 50-100 token overlap for 512-token chunks. More overlap = better recall, higher storage cost."
       },
       {
         "heading": "Chunk Size Tradeoffs",
-        "content": "| Size | Tokens | Retrieval Precision | Context Quality | Embedding Quality | Best For |\n|------|--------|-------------------|-----------------|-------------------|----------|\n| Small | 128-256 | High — very focused | Low — missing surrounding context | High — single topic per vector | FAQ, definitions, atomic facts |\n| Medium | 512 | Balanced | Balanced | Balanced | General-purpose RAG (default) |\n| Large | 1024+ | Low — multiple topics per chunk | High — lots of context per retrieval | Low — diluted across topics | Long-form Q&A, summarization |\n\n**Start with 512 tokens, recursive splitting, 50-token overlap.** Optimize from there based on eval results."
+        "content": "| Size | Tokens | Retrieval Precision | Context Quality | Embedding Quality | Best For |\r\n|------|--------|-------------------|-----------------|-------------------|----------|\r\n| Small | 128-256 | High — very focused | Low — missing surrounding context | High — single topic per vector | FAQ, definitions, atomic facts |\r\n| Medium | 512 | Balanced | Balanced | Balanced | General-purpose RAG (default) |\r\n| Large | 1024+ | Low — multiple topics per chunk | High — lots of context per retrieval | Low — diluted across topics | Long-form Q&A, summarization |\r\n\r\n**Start with 512 tokens, recursive splitting, 50-token overlap.** Optimize from there based on eval results."
       },
       {
         "heading": "Metadata Enrichment",
-        "content": "Don't just store the chunk text. Attach metadata that helps with filtering and attribution:\n- **Source file**: which document this came from\n- **Section title**: the nearest header above the chunk\n- **Position**: where in the document (beginning, middle, end)\n- **Date**: when the source was last updated\n- **Tags/categories**: from the document's frontmatter\n\nThis lets you filter retrieval by source, date, or category — hybrid search without a keyword index."
+        "content": "Don't just store the chunk text. Attach metadata that helps with filtering and attribution:\r\n- **Source file**: which document this came from\r\n- **Section title**: the nearest header above the chunk\r\n- **Position**: where in the document (beginning, middle, end)\r\n- **Date**: when the source was last updated\r\n- **Tags/categories**: from the document's frontmatter\r\n\r\nThis lets you filter retrieval by source, date, or category — hybrid search without a keyword index."
       },
       {
         "heading": "Quick Recipe: Recursive Split with LangChain",
-        "content": "```python\nfrom langchain.text_splitter import RecursiveCharacterTextSplitter\nfrom langchain.document_loaders import DirectoryLoader\n\n# Load markdown files from a directory\nloader = DirectoryLoader(\"./docs\", glob=\"**/*.md\")\ndocs = loader.load()\n\n# Split with overlap\nsplitter = RecursiveCharacterTextSplitter(\n    chunk_size=512,\n    chunk_overlap=50,\n    separators=[\"\\n## \", \"\\n### \", \"\\n\\n\", \"\\n\", \". \", \" \"]\n)\nchunks = splitter.split_documents(docs)\n\nprint(f\"{len(docs)} documents → {len(chunks)} chunks\")\n# Typical: 100 docs → 800-1200 chunks\n```\n\nNote the custom separators: `\\n## ` and `\\n### ` are tried first, so markdown headers become natural split points. This is recursive + document-aware combined."
+        "content": "```python\r\nfrom langchain.text_splitter import RecursiveCharacterTextSplitter\r\nfrom langchain.document_loaders import DirectoryLoader\r\n\r\n# Load markdown files from a directory\r\nloader = DirectoryLoader(\"./docs\", glob=\"**/*.md\")\r\ndocs = loader.load()\r\n\r\n# Split with overlap\r\nsplitter = RecursiveCharacterTextSplitter(\r\n    chunk_size=512,\r\n    chunk_overlap=50,\r\n    separators=[\"\\n## \", \"\\n### \", \"\\n\\n\", \"\\n\", \". \", \" \"]\r\n)\r\nchunks = splitter.split_documents(docs)\r\n\r\nprint(f\"{len(docs)} documents → {len(chunks)} chunks\")\r\n# Typical: 100 docs → 800-1200 chunks\r\n```\r\n\r\nNote the custom separators: `\\n## ` and `\\n### ` are tried first, so markdown headers become natural split points. This is recursive + document-aware combined."
       },
       {
         "heading": "Research Next Steps",
-        "content": "- [ ] Benchmark chunk sizes (256/512/1024) on vault content — measure retrieval precision\n- [ ] Compare recursive vs. semantic chunking quality on 100-question eval set\n- [ ] Test markdown-aware splitting on LearnPod pods (already sectioned by ##)\n- [ ] Measure the impact of overlap (0% vs. 10% vs. 20%) on recall"
+        "content": "- [ ] Benchmark chunk sizes (256/512/1024) on vault content — measure retrieval precision\r\n- [ ] Compare recursive vs. semantic chunking quality on 100-question eval set\r\n- [ ] Test markdown-aware splitting on LearnPod pods (already sectioned by ##)\r\n- [ ] Measure the impact of overlap (0% vs. 10% vs. 20%) on recall"
       }
     ],
     "related": [
@@ -13195,35 +12856,35 @@ export const pods: Pod[] = [
       },
       {
         "heading": "Embedding Models",
-        "content": "| Model | Provider | Dimensions | Cost | Notes |\n|-------|----------|-----------|------|-------|\n| text-embedding-3-small | OpenAI | 1536 | $0.02/MTok | Best price/performance for most use cases |\n| text-embedding-3-large | OpenAI | 3072 | $0.13/MTok | Higher precision, 6x cost |\n| embed-v3 | Cohere | 1024 | $0.10/MTok | Strong multilingual support |\n| nomic-embed-text | Nomic (open) | 768 | Free (self-host) | Best open-source option, runs on CPU |\n| all-MiniLM-L6-v2 | sentence-transformers | 384 | Free (self-host) | Tiny, fast, good for prototyping |\n| BGE-large-en | BAAI (open) | 1024 | Free (self-host) | Top of MTEB leaderboard |\n\n**Rule of thumb**: Start with `text-embedding-3-small`. It's cheap, fast, and good enough for 90% of use cases. Move to larger models only if retrieval quality is the bottleneck."
+        "content": "| Model | Provider | Dimensions | Cost | Notes |\r\n|-------|----------|-----------|------|-------|\r\n| text-embedding-3-small | OpenAI | 1536 | $0.02/MTok | Best price/performance for most use cases |\r\n| text-embedding-3-large | OpenAI | 3072 | $0.13/MTok | Higher precision, 6x cost |\r\n| embed-v3 | Cohere | 1024 | $0.10/MTok | Strong multilingual support |\r\n| nomic-embed-text | Nomic (open) | 768 | Free (self-host) | Best open-source option, runs on CPU |\r\n| all-MiniLM-L6-v2 | sentence-transformers | 384 | Free (self-host) | Tiny, fast, good for prototyping |\r\n| BGE-large-en | BAAI (open) | 1024 | Free (self-host) | Top of MTEB leaderboard |\r\n\r\n**Rule of thumb**: Start with `text-embedding-3-small`. It's cheap, fast, and good enough for 90% of use cases. Move to larger models only if retrieval quality is the bottleneck."
       },
       {
         "heading": "Dimensionality",
-        "content": "- **256-384**: Fast search, lower memory, slightly less precise. Good for millions of docs.\n- **768-1024**: The sweet spot for most applications. Balanced precision and speed.\n- **1536-3072**: Maximum semantic precision. Noticeable quality gain on nuanced content.\n\nOpenAI's `text-embedding-3` models support dimension reduction — you can request 256 dims from the small model and still get good results. Useful for cutting storage and search costs at scale."
+        "content": "- **256-384**: Fast search, lower memory, slightly less precise. Good for millions of docs.\r\n- **768-1024**: The sweet spot for most applications. Balanced precision and speed.\r\n- **1536-3072**: Maximum semantic precision. Noticeable quality gain on nuanced content.\r\n\r\nOpenAI's `text-embedding-3` models support dimension reduction — you can request 256 dims from the small model and still get good results. Useful for cutting storage and search costs at scale."
       },
       {
         "heading": "Similarity Search",
-        "content": "Two main distance metrics:\n- **Cosine similarity**: Measures angle between vectors. Range [-1, 1]. Most common. Threshold: >0.7 usually means relevant.\n- **Dot product**: Measures magnitude + angle. Faster but sensitive to vector length. Use when vectors are normalized.\n\nIn practice, cosine similarity is the default. Switch to dot product only if you need raw speed and your vectors are already normalized."
+        "content": "Two main distance metrics:\r\n- **Cosine similarity**: Measures angle between vectors. Range [-1, 1]. Most common. Threshold: >0.7 usually means relevant.\r\n- **Dot product**: Measures magnitude + angle. Faster but sensitive to vector length. Use when vectors are normalized.\r\n\r\nIn practice, cosine similarity is the default. Switch to dot product only if you need raw speed and your vectors are already normalized."
       },
       {
         "heading": "Vector Stores",
-        "content": "| Store | Type | Best For | Scaling |\n|-------|------|----------|---------|\n| **pgvector** | Postgres extension | Already have Postgres; simplest path | Millions of vectors |\n| **Chroma** | Local/embedded | Prototyping, small datasets, local dev | Thousands to low millions |\n| **Pinecone** | Managed cloud | Production at scale, zero ops | Billions of vectors |\n| **Weaviate** | Self-hosted or cloud | Hybrid search (vector + keyword) | Millions to billions |\n| **Qdrant** | Self-hosted or cloud | High-performance, filtering | Millions to billions |\n\n### Choosing a Store\n```\nDo you already have Postgres?\n  YES → pgvector. Done. Simplest possible path.\n  NO ↓\nIs this a prototype or small project?\n  YES → Chroma. Runs in-process, zero setup.\n  NO ↓\nDo you need managed infrastructure?\n  YES → Pinecone. Pay per use, zero ops.\n  NO → Qdrant or Weaviate self-hosted.\n```"
+        "content": "| Store | Type | Best For | Scaling |\r\n|-------|------|----------|---------|\r\n| **pgvector** | Postgres extension | Already have Postgres; simplest path | Millions of vectors |\r\n| **Chroma** | Local/embedded | Prototyping, small datasets, local dev | Thousands to low millions |\r\n| **Pinecone** | Managed cloud | Production at scale, zero ops | Billions of vectors |\r\n| **Weaviate** | Self-hosted or cloud | Hybrid search (vector + keyword) | Millions to billions |\r\n| **Qdrant** | Self-hosted or cloud | High-performance, filtering | Millions to billions |\r\n\r\n### Choosing a Store\r\n```\r\nDo you already have Postgres?\r\n  YES → pgvector. Done. Simplest possible path.\r\n  NO ↓\r\nIs this a prototype or small project?\r\n  YES → Chroma. Runs in-process, zero setup.\r\n  NO ↓\r\nDo you need managed infrastructure?\r\n  YES → Pinecone. Pay per use, zero ops.\r\n  NO → Qdrant or Weaviate self-hosted.\r\n```"
       },
       {
         "heading": "Quick Start: Embed + Store + Query",
-        "content": "```python\n# 1. Embed text with OpenAI\nfrom openai import OpenAI\nclient = OpenAI()\n\ndef embed(text: str) -> list[float]:\n    resp = client.embeddings.create(input=text, model=\"text-embedding-3-small\")\n    return resp.data[0].embedding\n\n# 2. Store in Chroma\nimport chromadb\ndb = chromadb.Client()\ncollection = db.create_collection(\"docs\")\ncollection.add(documents=[\"RAG is retrieval augmented generation\",\n                          \"Fine-tuning changes model weights\"],\n               ids=[\"doc1\", \"doc2\"])\n\n# 3. Query\nresults = collection.query(query_texts=[\"What is RAG?\"], n_results=1)\nprint(results[\"documents\"])  # → \"RAG is retrieval augmented generation\"\n```\n\nSix lines to go from text to semantic search. Chroma handles embedding automatically if you don't pass vectors (it uses sentence-transformers under the hood by default)."
+        "content": "```python\r\n# 1. Embed text with OpenAI\r\nfrom openai import OpenAI\r\nclient = OpenAI()\r\n\r\ndef embed(text: str) -> list[float]:\r\n    resp = client.embeddings.create(input=text, model=\"text-embedding-3-small\")\r\n    return resp.data[0].embedding\r\n\r\n# 2. Store in Chroma\r\nimport chromadb\r\ndb = chromadb.Client()\r\ncollection = db.create_collection(\"docs\")\r\ncollection.add(documents=[\"RAG is retrieval augmented generation\",\r\n                          \"Fine-tuning changes model weights\"],\r\n               ids=[\"doc1\", \"doc2\"])\r\n\r\n# 3. Query\r\nresults = collection.query(query_texts=[\"What is RAG?\"], n_results=1)\r\nprint(results[\"documents\"])  # → \"RAG is retrieval augmented generation\"\r\n```\r\n\r\nSix lines to go from text to semantic search. Chroma handles embedding automatically if you don't pass vectors (it uses sentence-transformers under the hood by default)."
       },
       {
         "heading": "Cost at Scale",
-        "content": "Embeddings are cheap — the vector store is where cost lives:\n- **Embedding 1M documents** (avg 500 tokens): ~$10 with OpenAI small\n- **Storing 1M vectors** (1536 dims): ~500MB RAM in pgvector, ~$20/mo on Pinecone\n- **Querying**: <10ms per query in any store at this scale\n\nThe real cost driver is re-embedding when you change models or chunk sizes. Design your chunking strategy first, then embed."
+        "content": "Embeddings are cheap — the vector store is where cost lives:\r\n- **Embedding 1M documents** (avg 500 tokens): ~$10 with OpenAI small\r\n- **Storing 1M vectors** (1536 dims): ~500MB RAM in pgvector, ~$20/mo on Pinecone\r\n- **Querying**: <10ms per query in any store at this scale\r\n\r\nThe real cost driver is re-embedding when you change models or chunk sizes. Design your chunking strategy first, then embed."
       },
       {
         "heading": "Anti-Patterns",
-        "content": "- **Embedding entire documents** — too much content per vector dilutes meaning. Chunk first.\n- **Mixing domains in one collection** — code + prose + tables in the same vector space hurts precision. Namespace or filter by type.\n- **Ignoring metadata** — store source, date, section title alongside vectors. You'll need it for filtering and attribution.\n- **Skipping evaluation** — \"it seems to work\" is not a metric. Measure retrieval precision."
+        "content": "- **Embedding entire documents** — too much content per vector dilutes meaning. Chunk first.\r\n- **Mixing domains in one collection** — code + prose + tables in the same vector space hurts precision. Namespace or filter by type.\r\n- **Ignoring metadata** — store source, date, section title alongside vectors. You'll need it for filtering and attribution.\r\n- **Skipping evaluation** — \"it seems to work\" is not a metric. Measure retrieval precision."
       },
       {
         "heading": "Research Next Steps",
-        "content": "- [ ] Benchmark OpenAI small vs. nomic-embed on vault content (quality + latency)\n- [ ] Test pgvector on the homelab Postgres instance — measure query latency at 10K docs\n- [ ] Evaluate dimension reduction: 1536 vs. 512 vs. 256 on retrieval precision\n- [ ] Build a cost model: embedding + storage + queries for 50K vault notes"
+        "content": "- [ ] Benchmark OpenAI small vs. nomic-embed on vault content (quality + latency)\r\n- [ ] Test pgvector on the homelab Postgres instance — measure query latency at 10K docs\r\n- [ ] Evaluate dimension reduction: 1536 vs. 512 vs. 256 on retrieval precision\r\n- [ ] Build a cost model: embedding + storage + queries for 50K vault notes"
       }
     ],
     "related": [
@@ -13250,39 +12911,39 @@ export const pods: Pod[] = [
     "sections": [
       {
         "heading": "Why Eval RAG",
-        "content": "RAG has two independent failure modes: retrieval and generation. You can retrieve the right documents but generate a wrong answer (generation failure). You can retrieve the wrong documents but hallucinate a plausible-sounding answer (retrieval failure masked by confident generation). Without measuring both sides independently, you can't diagnose what's broken.\n\n\"It seems to work\" is not a metric. You need numbers."
+        "content": "RAG has two independent failure modes: retrieval and generation. You can retrieve the right documents but generate a wrong answer (generation failure). You can retrieve the wrong documents but hallucinate a plausible-sounding answer (retrieval failure masked by confident generation). Without measuring both sides independently, you can't diagnose what's broken.\r\n\r\n\"It seems to work\" is not a metric. You need numbers."
       },
       {
         "heading": "The RAGAS Framework",
-        "content": "RAGAS (Retrieval Augmented Generation Assessment) is the standard evaluation framework for RAG pipelines. It defines four metrics that together cover the full pipeline:\n\n```\n                    RETRIEVAL SIDE              GENERATION SIDE\n                    ─────────────               ───────────────\n   Question ──▶  Context Precision          Answer Relevance\n                 \"Are retrieved chunks       \"Does the answer address\n                  actually relevant?\"         the question asked?\"\n\n   Ground   ──▶  Context Recall             Faithfulness\n   Truth         \"Did we get ALL the         \"Is the answer grounded\n                  relevant chunks?\"           in the retrieved context?\"\n```\n\n### Context Precision\nOf the chunks retrieved, what fraction were actually relevant to the question?\n- Low precision = you're stuffing the prompt with noise\n- Fix by: better embeddings, smaller chunks, re-ranking retrieved results\n\n### Context Recall\nOf all the relevant chunks in your corpus, what fraction did you retrieve?\n- Low recall = you're missing important information\n- Fix by: higher top-K, hybrid search (vector + keyword), better chunking\n\n### Faithfulness\nIs every claim in the generated answer actually supported by the retrieved context?\n- Low faithfulness = the model is hallucinating beyond the context\n- Fix by: stricter system prompt (\"only answer from context\"), lower temperature, shorter answers\n\n### Answer Relevance\nDoes the answer actually address the question that was asked?\n- Low relevance = the model answered a different question or went off-topic\n- Fix by: better prompt engineering, re-ranking, ensuring retrieved context is on-topic"
+        "content": "RAGAS (Retrieval Augmented Generation Assessment) is the standard evaluation framework for RAG pipelines. It defines four metrics that together cover the full pipeline:\r\n\r\n```\r\n                    RETRIEVAL SIDE              GENERATION SIDE\r\n                    ─────────────               ───────────────\r\n   Question ──▶  Context Precision          Answer Relevance\r\n                 \"Are retrieved chunks       \"Does the answer address\r\n                  actually relevant?\"         the question asked?\"\r\n\r\n   Ground   ──▶  Context Recall             Faithfulness\r\n   Truth         \"Did we get ALL the         \"Is the answer grounded\r\n                  relevant chunks?\"           in the retrieved context?\"\r\n```\r\n\r\n### Context Precision\r\nOf the chunks retrieved, what fraction were actually relevant to the question?\r\n- Low precision = you're stuffing the prompt with noise\r\n- Fix by: better embeddings, smaller chunks, re-ranking retrieved results\r\n\r\n### Context Recall\r\nOf all the relevant chunks in your corpus, what fraction did you retrieve?\r\n- Low recall = you're missing important information\r\n- Fix by: higher top-K, hybrid search (vector + keyword), better chunking\r\n\r\n### Faithfulness\r\nIs every claim in the generated answer actually supported by the retrieved context?\r\n- Low faithfulness = the model is hallucinating beyond the context\r\n- Fix by: stricter system prompt (\"only answer from context\"), lower temperature, shorter answers\r\n\r\n### Answer Relevance\r\nDoes the answer actually address the question that was asked?\r\n- Low relevance = the model answered a different question or went off-topic\r\n- Fix by: better prompt engineering, re-ranking, ensuring retrieved context is on-topic"
       },
       {
         "heading": "The Diagnostic Matrix",
-        "content": "| Faithfulness | Relevance | Diagnosis |\n|-------------|-----------|-----------|\n| High | High | Working correctly |\n| High | Low | Technically correct but useless — answering the wrong question |\n| Low | High | On-topic but hallucinating — dangerous, looks right but isn't |\n| Low | Low | Completely broken — wrong answer to wrong question |\n\nThe scariest quadrant is **low faithfulness + high relevance**: the answer sounds right, addresses the question, but contains fabricated information. This is where RAG hallucination hides."
+        "content": "| Faithfulness | Relevance | Diagnosis |\r\n|-------------|-----------|-----------|\r\n| High | High | Working correctly |\r\n| High | Low | Technically correct but useless — answering the wrong question |\r\n| Low | High | On-topic but hallucinating — dangerous, looks right but isn't |\r\n| Low | Low | Completely broken — wrong answer to wrong question |\r\n\r\nThe scariest quadrant is **low faithfulness + high relevance**: the answer sounds right, addresses the question, but contains fabricated information. This is where RAG hallucination hides."
       },
       {
         "heading": "LLM-as-Judge for RAG",
-        "content": "Use Claude or GPT-4 to score faithfulness and relevance. Cheaper and faster than human evaluation, and correlates well (0.8+ with human ratings on most benchmarks).\n\n```python\nJUDGE_PROMPT = \"\"\"Score the following RAG response on faithfulness (0-10).\nFaithfulness: every claim in the answer is supported by the context.\n\nContext: {context}\nQuestion: {question}\nAnswer: {answer}\n\nScore (0-10):\nReasoning:\"\"\"\n```\n\nThis is the same LLM-as-judge pattern from Claude - Eval & Testing for AI — applied to retrieval instead of general generation. The scoring rubric changes but the technique is identical."
+        "content": "Use Claude or GPT-4 to score faithfulness and relevance. Cheaper and faster than human evaluation, and correlates well (0.8+ with human ratings on most benchmarks).\r\n\r\n```python\r\nJUDGE_PROMPT = \"\"\"Score the following RAG response on faithfulness (0-10).\r\nFaithfulness: every claim in the answer is supported by the context.\r\n\r\nContext: {context}\r\nQuestion: {question}\r\nAnswer: {answer}\r\n\r\nScore (0-10):\r\nReasoning:\"\"\"\r\n```\r\n\r\nThis is the same LLM-as-judge pattern from Claude - Eval & Testing for AI — applied to retrieval instead of general generation. The scoring rubric changes but the technique is identical."
       },
       {
         "heading": "Building Eval Sets",
-        "content": "You need question-answer-context triples:\n\n```json\n{\n  \"question\": \"What embedding model should I use for RAG?\",\n  \"ground_truth\": \"text-embedding-3-small for most use cases\",\n  \"relevant_contexts\": [\"chunk_about_embedding_models\", \"chunk_about_cost\"]\n}\n```\n\n**How to build them**:\n1. Start with 50-100 real questions users would ask\n2. Have the RAG pipeline answer them\n3. Human-verify: is the answer correct? Which chunks should have been retrieved?\n4. Optionally: generate synthetic questions from your documents using an LLM, then human-filter\n\n50 triples is enough to start. 200+ for production confidence."
+        "content": "You need question-answer-context triples:\r\n\r\n```json\r\n{\r\n  \"question\": \"What embedding model should I use for RAG?\",\r\n  \"ground_truth\": \"text-embedding-3-small for most use cases\",\r\n  \"relevant_contexts\": [\"chunk_about_embedding_models\", \"chunk_about_cost\"]\r\n}\r\n```\r\n\r\n**How to build them**:\r\n1. Start with 50-100 real questions users would ask\r\n2. Have the RAG pipeline answer them\r\n3. Human-verify: is the answer correct? Which chunks should have been retrieved?\r\n4. Optionally: generate synthetic questions from your documents using an LLM, then human-filter\r\n\r\n50 triples is enough to start. 200+ for production confidence."
       },
       {
         "heading": "Quick Start: Evaluate One Response with RAGAS",
-        "content": "```python\nfrom ragas import evaluate\nfrom ragas.metrics import faithfulness, answer_relevancy, context_precision, context_recall\nfrom datasets import Dataset\n\neval_data = Dataset.from_dict({\n    \"question\": [\"What is RAG?\"],\n    \"answer\": [\"RAG retrieves relevant documents and uses them to generate answers.\"],\n    \"contexts\": \"RAG combines retrieval with generation to ground LLM responses.\",\n    \"ground_truth\": [\"RAG is retrieval augmented generation.\"]\n})\n\nresult = evaluate(eval_data, metrics=[faithfulness, answer_relevancy,\n                                       context_precision, context_recall])\nprint(result)\n# {'faithfulness': 0.95, 'answer_relevancy': 0.88,\n#  'context_precision': 1.0, 'context_recall': 0.85}\n```"
+        "content": "```python\r\nfrom ragas import evaluate\r\nfrom ragas.metrics import faithfulness, answer_relevancy, context_precision, context_recall\r\nfrom datasets import Dataset\r\n\r\neval_data = Dataset.from_dict({\r\n    \"question\": [\"What is RAG?\"],\r\n    \"answer\": [\"RAG retrieves relevant documents and uses them to generate answers.\"],\r\n    \"contexts\": \"RAG combines retrieval with generation to ground LLM responses.\",\r\n    \"ground_truth\": [\"RAG is retrieval augmented generation.\"]\r\n})\r\n\r\nresult = evaluate(eval_data, metrics=[faithfulness, answer_relevancy,\r\n                                       context_precision, context_recall])\r\nprint(result)\r\n# {'faithfulness': 0.95, 'answer_relevancy': 0.88,\r\n#  'context_precision': 1.0, 'context_recall': 0.85}\r\n```"
       },
       {
         "heading": "The Eval Loop",
-        "content": "```\nChange something (embeddings, chunks, prompt, model)\n    ↓\nRun eval suite on 50-100 questions\n    ↓\nCompare metrics to baseline\n    ↓\nBetter? → Ship it\nWorse?  → Revert, try something else\n```\n\nUse the Batch API for eval runs — 50% off and you don't need real-time latency for evaluation."
+        "content": "```\r\nChange something (embeddings, chunks, prompt, model)\r\n    ↓\r\nRun eval suite on 50-100 questions\r\n    ↓\r\nCompare metrics to baseline\r\n    ↓\r\nBetter? → Ship it\r\nWorse?  → Revert, try something else\r\n```\r\n\r\nUse the Batch API for eval runs — 50% off and you don't need real-time latency for evaluation."
       },
       {
         "heading": "Common Eval Mistakes",
-        "content": "- **No baseline**: You need a \"before\" to compare against. Run evals before making changes.\n- **Too few questions**: 10 questions is not statistically meaningful. Start at 50.\n- **Only testing happy path**: Include adversarial questions (unanswerable, ambiguous, multi-hop).\n- **Ignoring retrieval metrics**: Most teams only measure answer quality but the root cause is bad retrieval.\n- **Evaluating once**: Eval is a continuous process. Run on every pipeline change."
+        "content": "- **No baseline**: You need a \"before\" to compare against. Run evals before making changes.\r\n- **Too few questions**: 10 questions is not statistically meaningful. Start at 50.\r\n- **Only testing happy path**: Include adversarial questions (unanswerable, ambiguous, multi-hop).\r\n- **Ignoring retrieval metrics**: Most teams only measure answer quality but the root cause is bad retrieval.\r\n- **Evaluating once**: Eval is a continuous process. Run on every pipeline change."
       },
       {
         "heading": "Research Next Steps",
-        "content": "- [ ] Build a 50-question eval set from real vault queries\n- [ ] Run RAGAS on a minimal RAG pipeline over the Obsidian vault\n- [ ] Compare faithfulness scores: GPT-4 judge vs. Claude judge\n- [ ] Test impact of top-K (3 vs. 5 vs. 10) on context precision/recall tradeoff\n- [ ] Build an eval dashboard tracking metrics over time"
+        "content": "- [ ] Build a 50-question eval set from real vault queries\r\n- [ ] Run RAGAS on a minimal RAG pipeline over the Obsidian vault\r\n- [ ] Compare faithfulness scores: GPT-4 judge vs. Claude judge\r\n- [ ] Test impact of top-K (3 vs. 5 vs. 10) on context precision/recall tradeoff\r\n- [ ] Build an eval dashboard tracking metrics over time"
       }
     ],
     "related": [
@@ -13309,27 +12970,27 @@ export const pods: Pod[] = [
     "sections": [
       {
         "heading": "What It Is",
-        "content": "Give LLMs access to external knowledge at inference time instead of baking it in through fine-tuning. The idea is simple: before the model generates an answer, retrieve relevant information from your own data and inject it into the prompt. The model generates a grounded answer using that context — not just its training data.\n\nRAG turns any general-purpose LLM into a domain expert without retraining a single weight."
+        "content": "Give LLMs access to external knowledge at inference time instead of baking it in through fine-tuning. The idea is simple: before the model generates an answer, retrieve relevant information from your own data and inject it into the prompt. The model generates a grounded answer using that context — not just its training data.\r\n\r\nRAG turns any general-purpose LLM into a domain expert without retraining a single weight."
       },
       {
         "heading": "Why RAG Over Fine-Tuning",
-        "content": "| Factor | RAG | Fine-Tuning |\n|--------|-----|-------------|\n| Cost | Low — just embedding + storage | High — GPU hours for training |\n| Knowledge freshness | Update docs anytime, instant | Retrain on new data |\n| Source attribution | Cite exact chunks retrieved | Model \"just knows\" — no sources |\n| Model flexibility | Works with any model | Locked to one fine-tuned model |\n| Setup time | Hours | Days to weeks |\n| Hallucination control | Grounded in retrieved context | Still hallucinates, just differently |\n\nFine-tuning changes the model's behavior (tone, format, reasoning style). RAG changes what it knows. They solve different problems — and you can combine them."
+        "content": "| Factor | RAG | Fine-Tuning |\r\n|--------|-----|-------------|\r\n| Cost | Low — just embedding + storage | High — GPU hours for training |\r\n| Knowledge freshness | Update docs anytime, instant | Retrain on new data |\r\n| Source attribution | Cite exact chunks retrieved | Model \"just knows\" — no sources |\r\n| Model flexibility | Works with any model | Locked to one fine-tuned model |\r\n| Setup time | Hours | Days to weeks |\r\n| Hallucination control | Grounded in retrieved context | Still hallucinates, just differently |\r\n\r\nFine-tuning changes the model's behavior (tone, format, reasoning style). RAG changes what it knows. They solve different problems — and you can combine them."
       },
       {
         "heading": "The RAG Pipeline",
-        "content": "```\n┌──────────────────────────────────────────────────────────────────┐\n│                     THE RAG PIPELINE                             │\n│                                                                  │\n│  User Query                                                      │\n│      │                                                           │\n│      ▼                                                           │\n│  ┌──────────┐    ┌──────────────┐    ┌──────────────────┐       │\n│  │  EMBED   │───▶│ SEARCH       │───▶│ RETRIEVE top-K   │       │\n│  │  query   │    │ vector store │    │ chunks (3-10)    │       │\n│  └──────────┘    └──────────────┘    └────────┬─────────┘       │\n│                                               │                  │\n│                                               ▼                  │\n│                  ┌──────────────┐    ┌──────────────────┐       │\n│                  │  GENERATE    │◀───│ AUGMENT prompt   │       │\n│                  │  answer      │    │ with chunks      │       │\n│                  └──────┬───────┘    └──────────────────┘       │\n│                         │                                        │\n│                         ▼                                        │\n│                  ┌──────────────┐                                │\n│                  │  Grounded    │                                │\n│                  │  Answer      │                                │\n│                  └──────────────┘                                │\n└──────────────────────────────────────────────────────────────────┘\n\nOffline (indexing):\n  Documents → Chunk → Embed → Store in vector DB\n```"
+        "content": "```\r\n┌──────────────────────────────────────────────────────────────────┐\r\n│                     THE RAG PIPELINE                             │\r\n│                                                                  │\r\n│  User Query                                                      │\r\n│      │                                                           │\r\n│      ▼                                                           │\r\n│  ┌──────────┐    ┌──────────────┐    ┌──────────────────┐       │\r\n│  │  EMBED   │───▶│ SEARCH       │───▶│ RETRIEVE top-K   │       │\r\n│  │  query   │    │ vector store │    │ chunks (3-10)    │       │\r\n│  └──────────┘    └──────────────┘    └────────┬─────────┘       │\r\n│                                               │                  │\r\n│                                               ▼                  │\r\n│                  ┌──────────────┐    ┌──────────────────┐       │\r\n│                  │  GENERATE    │◀───│ AUGMENT prompt   │       │\r\n│                  │  answer      │    │ with chunks      │       │\r\n│                  └──────┬───────┘    └──────────────────┘       │\r\n│                         │                                        │\r\n│                         ▼                                        │\r\n│                  ┌──────────────┐                                │\r\n│                  │  Grounded    │                                │\r\n│                  │  Answer      │                                │\r\n│                  └──────────────┘                                │\r\n└──────────────────────────────────────────────────────────────────┘\r\n\r\nOffline (indexing):\r\n  Documents → Chunk → Embed → Store in vector DB\r\n```"
       },
       {
         "heading": "When to Use RAG",
-        "content": "- **Knowledge bases & documentation Q&A** — the canonical use case\n- **Enterprise search** — ask questions across internal docs, wikis, Slack, email\n- **Domain expertise** — medical records, legal docs, financial filings\n- **Any domain where the model lacks specific knowledge** — your codebase, your vault, your data\n- **Chatbots that need to cite sources** — attribution is built in"
+        "content": "- **Knowledge bases & documentation Q&A** — the canonical use case\r\n- **Enterprise search** — ask questions across internal docs, wikis, Slack, email\r\n- **Domain expertise** — medical records, legal docs, financial filings\r\n- **Any domain where the model lacks specific knowledge** — your codebase, your vault, your data\r\n- **Chatbots that need to cite sources** — attribution is built in"
       },
       {
         "heading": "When NOT to Use RAG",
-        "content": "- **Tasks requiring reasoning over the entire corpus simultaneously** — RAG retrieves fragments, not the whole picture. Use long context or summarization chains instead.\n- **Real-time data changing per-second** — stock ticks, live feeds. RAG assumes a relatively stable index.\n- **Tasks where the model already knows the answer** — \"What is Python?\" doesn't need retrieval.\n- **Creative generation** — writing fiction, brainstorming. You want the model's imagination, not grounded facts.\n- **Small corpora (<50 pages)** — just stuff it in the context window. No pipeline needed."
+        "content": "- **Tasks requiring reasoning over the entire corpus simultaneously** — RAG retrieves fragments, not the whole picture. Use long context or summarization chains instead.\r\n- **Real-time data changing per-second** — stock ticks, live feeds. RAG assumes a relatively stable index.\r\n- **Tasks where the model already knows the answer** — \"What is Python?\" doesn't need retrieval.\r\n- **Creative generation** — writing fiction, brainstorming. You want the model's imagination, not grounded facts.\r\n- **Small corpora (<50 pages)** — just stuff it in the context window. No pipeline needed."
       },
       {
         "heading": "Key Metrics",
-        "content": "| Metric | What It Measures | Target |\n|--------|-----------------|--------|\n| Retrieval precision | % of retrieved chunks that are relevant | >80% |\n| Retrieval recall | % of relevant chunks that were retrieved | >70% |\n| Answer faithfulness | Is the answer grounded in context? (no hallucination) | >90% |\n| Answer relevance | Does it actually answer the question? | >85% |\n| End-to-end latency | Query to answer time | <3s for interactive |\n\nSee RAG - Evaluation for the RAGAS framework that measures all of these."
+        "content": "| Metric | What It Measures | Target |\r\n|--------|-----------------|--------|\r\n| Retrieval precision | % of retrieved chunks that are relevant | >80% |\r\n| Retrieval recall | % of relevant chunks that were retrieved | >70% |\r\n| Answer faithfulness | Is the answer grounded in context? (no hallucination) | >90% |\r\n| Answer relevance | Does it actually answer the question? | >85% |\r\n| End-to-end latency | Query to answer time | <3s for interactive |\r\n\r\nSee RAG - Evaluation for the RAGAS framework that measures all of these."
       },
       {
         "heading": "Connection to Your Work",
@@ -13337,7 +12998,7 @@ export const pods: Pod[] = [
       },
       {
         "heading": "Research Next Steps",
-        "content": "- [ ] Build a minimal RAG pipeline over the Obsidian vault (embed → Chroma → query)\n- [ ] Compare retrieval quality: keyword search vs. semantic search vs. hybrid\n- [ ] Benchmark latency and cost for OpenAI vs. open-source embedding models\n- [ ] Test different top-K values (3, 5, 10) on vault-sized corpus"
+        "content": "- [ ] Build a minimal RAG pipeline over the Obsidian vault (embed → Chroma → query)\r\n- [ ] Compare retrieval quality: keyword search vs. semantic search vs. hybrid\r\n- [ ] Benchmark latency and cost for OpenAI vs. open-source embedding models\r\n- [ ] Test different top-K values (3, 5, 10) on vault-sized corpus"
       }
     ],
     "related": [
@@ -13375,27 +13036,27 @@ export const pods: Pod[] = [
       },
       {
         "heading": "Month 1 — Python, Data Handling & ML Foundations",
-        "content": "1. Advanced Python for ML: list/dict comprehensions, generators, decorators, typing\n2. NumPy + Pandas for data manipulation and analysis\n3. Data preprocessing: cleaning, normalization, feature engineering\n4. Basic statistics: distributions, mean/variance, hypothesis testing\n5. Core ML concepts: supervised vs. unsupervised, overfitting, bias/variance tradeoff\n6. scikit-learn: linear regression, logistic regression\n7. **Project**: End-to-end dataset → model → evaluation pipeline"
+        "content": "1. Advanced Python for ML: list/dict comprehensions, generators, decorators, typing\r\n2. NumPy + Pandas for data manipulation and analysis\r\n3. Data preprocessing: cleaning, normalization, feature engineering\r\n4. Basic statistics: distributions, mean/variance, hypothesis testing\r\n5. Core ML concepts: supervised vs. unsupervised, overfitting, bias/variance tradeoff\r\n6. scikit-learn: linear regression, logistic regression\r\n7. **Project**: End-to-end dataset → model → evaluation pipeline"
       },
       {
         "heading": "Month 2 — Machine Learning Deep Dive",
-        "content": "1. Key algorithms: decision trees, random forests, gradient boosting (XGBoost)\n2. Model evaluation: precision, recall, F1, ROC-AUC\n3. Cross-validation, hyperparameter tuning (GridSearch, RandomSearch)\n4. Feature importance and interpretability (SHAP, feature importance plots)\n5. Kaggle-style problem solving from raw datasets\n6. Reusable ML pipelines (data → training → evaluation)\n7. **Project**: Production-style ML pipeline with proper validation and metrics"
+        "content": "1. Key algorithms: decision trees, random forests, gradient boosting (XGBoost)\r\n2. Model evaluation: precision, recall, F1, ROC-AUC\r\n3. Cross-validation, hyperparameter tuning (GridSearch, RandomSearch)\r\n4. Feature importance and interpretability (SHAP, feature importance plots)\r\n5. Kaggle-style problem solving from raw datasets\r\n6. Reusable ML pipelines (data → training → evaluation)\r\n7. **Project**: Production-style ML pipeline with proper validation and metrics"
       },
       {
         "heading": "Month 3 — Deep Learning & Neural Networks",
-        "content": "1. Neural network fundamentals: forward/backpropagation\n2. PyTorch or TensorFlow — build models from scratch\n3. Key architectures: MLPs, CNNs, RNNs, Transformers (high-level understanding)\n4. Training techniques: batching, optimizers, learning rates, regularization\n5. Real-world data: images, text, tabular\n6. Fine-tune a pre-trained model (transfer learning)\n7. **Project**: Deep learning model solving a real-world problem"
+        "content": "1. Neural network fundamentals: forward/backpropagation\r\n2. PyTorch or TensorFlow — build models from scratch\r\n3. Key architectures: MLPs, CNNs, RNNs, Transformers (high-level understanding)\r\n4. Training techniques: batching, optimizers, learning rates, regularization\r\n5. Real-world data: images, text, tabular\r\n6. Fine-tune a pre-trained model (transfer learning)\r\n7. **Project**: Deep learning model solving a real-world problem"
       },
       {
         "heading": "Month 4 — MLOps & Production Systems",
-        "content": "1. Deploy models via FastAPI or Flask\n2. Containerize with Docker\n3. Model lifecycle: training → versioning → deployment → monitoring\n4. Experiment tracking: MLflow or Weights & Biases (W&B)\n5. Cloud deployment: AWS/GCP — hosting APIs + storage\n6. Logging, error handling, and monitoring for ML systems\n7. **Project**: Deploy a trained model as a live API with real inputs"
+        "content": "1. Deploy models via FastAPI or Flask\r\n2. Containerize with Docker\r\n3. Model lifecycle: training → versioning → deployment → monitoring\r\n4. Experiment tracking: MLflow or Weights & Biases (W&B)\r\n5. Cloud deployment: AWS/GCP — hosting APIs + storage\r\n6. Logging, error handling, and monitoring for ML systems\r\n7. **Project**: Deploy a trained model as a live API with real inputs"
       },
       {
         "heading": "Month 5 — Applied AI Systems (LLMs, RAG, Agents)",
-        "content": "1. LLM fundamentals: embeddings, tokenization, transformers at a practical level\n2. Build RAG systems (retrieval-augmented generation + vector databases)\n3. LangChain or LlamaIndex for pipeline orchestration\n4. Vector databases: Pinecone, Weaviate, or pgvector\n5. Prompt engineering + LLM output evaluation\n6. Build multi-step AI workflows (agents, tools, memory)\n7. **Project**: Production-grade RAG app or AI copilot"
+        "content": "1. LLM fundamentals: embeddings, tokenization, transformers at a practical level\r\n2. Build RAG systems (retrieval-augmented generation + vector databases)\r\n3. LangChain or LlamaIndex for pipeline orchestration\r\n4. Vector databases: Pinecone, Weaviate, or pgvector\r\n5. Prompt engineering + LLM output evaluation\r\n6. Build multi-step AI workflows (agents, tools, memory)\r\n7. **Project**: Production-grade RAG app or AI copilot"
       },
       {
         "heading": "Month 6 — Portfolio, Interviews & Job Positioning",
-        "content": "1. Refactor all projects to production quality (clean code, docs, tests)\n2. System design thinking for ML: scaling, load handling\n3. Write case studies: problem → approach → tradeoffs → results\n4. ML interview prep: concepts, coding, system design\n5. GitHub + portfolio site with 2-3 flagship projects\n6. Start targeted applications (AI Engineer, Applied ML roles)\n7. Mock interviews and story refinement for the pivot"
+        "content": "1. Refactor all projects to production quality (clean code, docs, tests)\r\n2. System design thinking for ML: scaling, load handling\r\n3. Write case studies: problem → approach → tradeoffs → results\r\n4. ML interview prep: concepts, coding, system design\r\n5. GitHub + portfolio site with 2-3 flagship projects\r\n6. Start targeted applications (AI Engineer, Applied ML roles)\r\n7. Mock interviews and story refinement for the pivot"
       },
       {
         "heading": "Why It Matters",
@@ -13403,15 +13064,15 @@ export const pods: Pod[] = [
       },
       {
         "heading": "Your Head Start",
-        "content": "| Area | Status |\n|---|---|\n| Claude Code, MCP, agent orchestration | ✅ Month 5-6 territory already |\n| Azure Container Apps, Docker, Service Bus | ✅ Month 4 (MLOps) foundation |\n| Python, API design, enterprise systems | ✅ Month 1-2 accelerated |\n| RAG concepts (Chroma + FastMCP + Ollama research) | ✅ Month 5 head start |\n| Formal ML/stats/deep learning fundamentals | ⚠️ Months 1-3 gap to fill |"
+        "content": "| Area | Status |\r\n|---|---|\r\n| Claude Code, MCP, agent orchestration | ✅ Month 5-6 territory already |\r\n| Azure Container Apps, Docker, Service Bus | ✅ Month 4 (MLOps) foundation |\r\n| Python, API design, enterprise systems | ✅ Month 1-2 accelerated |\r\n| RAG concepts (Chroma + FastMCP + Ollama research) | ✅ Month 5 head start |\r\n| Formal ML/stats/deep learning fundamentals | ⚠️ Months 1-3 gap to fill |"
       },
       {
         "heading": "Apply It — Month-by-Month Project Ideas",
-        "content": "- **M1 project**: Mortgage default prediction model using public HMDA data\n- **M2 project**: Quant factor model — predict next-month returns using Fama-French factors\n- **M3 project**: Fine-tune a sentiment model on earnings call transcripts\n- **M4 project**: Deploy your quant model as a FastAPI endpoint on Azure Container Apps\n- **M5 project**: RAG layer over LKS (Living Knowledge System) — query your codebase in plain English\n- **M6 project**: GitHub portfolio + blog post on LKS + RAG = strong AI Engineer signal"
+        "content": "- **M1 project**: Mortgage default prediction model using public HMDA data\r\n- **M2 project**: Quant factor model — predict next-month returns using Fama-French factors\r\n- **M3 project**: Fine-tune a sentiment model on earnings call transcripts\r\n- **M4 project**: Deploy your quant model as a FastAPI endpoint on Azure Container Apps\r\n- **M5 project**: RAG layer over LKS (Living Knowledge System) — query your codebase in plain English\r\n- **M6 project**: GitHub portfolio + blog post on LKS + RAG = strong AI Engineer signal"
       },
       {
         "heading": "Research Next Steps",
-        "content": "- [ ] Assess current level: which Month 1 skills do you already have solid?\n- [ ] Set up a dedicated `ai-engineer-roadmap` repo with one folder per month\n- [ ] Find a fintech/mortgage Kaggle dataset for Month 1 capstone\n- [ ] Look into fast.ai as a more practical alternative to the standard sklearn path (top-down, project-first)\n- [ ] Check if your Azure Container Apps experience maps to Month 4 cloud deployment requirements"
+        "content": "- [ ] Assess current level: which Month 1 skills do you already have solid?\r\n- [ ] Set up a dedicated `ai-engineer-roadmap` repo with one folder per month\r\n- [ ] Find a fintech/mortgage Kaggle dataset for Month 1 capstone\r\n- [ ] Look into fast.ai as a more practical alternative to the standard sklearn path (top-down, project-first)\r\n- [ ] Check if your Azure Container Apps experience maps to Month 4 cloud deployment requirements"
       }
     ],
     "related": [
@@ -13419,6 +13080,50 @@ export const pods: Pod[] = [
       "Quant - Factor and Correlation",
       "OpenBB Terminal",
       "MOC - AI Engineering"
+    ],
+    "estimatedMinutes": 2,
+    "xpReward": 45
+  },
+  {
+    "slug": "this-is-awesome",
+    "title": "This Is Awesome",
+    "domain": "General",
+    "tags": [
+      "pod",
+      "learning"
+    ],
+    "status": "queue",
+    "created": "2026-04-08",
+    "source": "Instagram",
+    "sourceUrl": "https://www.instagram.com/reel/DV89ZvyIlZ-/?igsh=eDBibTRrd212c20x|https://www.instagram.com/reel/DV89ZvyIlZ-/?igsh=eDBibTRrd212c20x",
+    "sections": [
+      {
+        "heading": "What It Is",
+        "content": "<!-- Captured from Slack: This is awesome. I want to make this game. <https://www.instagram.com/reel/DV89ZvyIlZ-/?igsh=eDBibTRrd212c20x|https://www.instagram.com/reel/DV89ZvyIlZ-/?igsh=eDBibTRrd212c20x> -->\r\n<!-- Enrich this pod with /learn-capture or manually -->"
+      },
+      {
+        "heading": "Key Mechanics",
+        "content": "<!-- To be filled during enrichment -->"
+      },
+      {
+        "heading": "Python/Code Entry Point",
+        "content": "```python\r\n# TODO: Add minimal working example\r\n```"
+      },
+      {
+        "heading": "Why It Matters",
+        "content": "<!-- To be filled during enrichment -->"
+      },
+      {
+        "heading": "Apply It",
+        "content": "- **Vault** — <!-- connection to personal finance PWA -->\r\n- **Enterprise** — <!-- connection to mortgage platform -->"
+      },
+      {
+        "heading": "Research Next Steps",
+        "content": "- [ ] Research core concept in depth\r\n- [ ] Find practical code examples\r\n- [ ] Identify project integration points"
+      }
+    ],
+    "related": [
+      "- MOC - Learning"
     ],
     "estimatedMinutes": 2,
     "xpReward": 45
@@ -13449,35 +13154,35 @@ export const pods: Pod[] = [
       },
       {
         "heading": "TWAP (Time-Weighted Average Price)",
-        "content": "Split the order into **equal-sized chunks** executed over a time window.\n\n```python\n# Basic TWAP: split $1000 buy into 10 chunks over 10 minutes\nchunk_size = total_order / n_chunks\nfor i in range(n_chunks):\n    execute_market_order(chunk_size)\n    sleep(interval_seconds)\n```\n\n**How it works**: Execute one chunk every N minutes regardless of volume or price.\n**Best for**: Orders that aren't time-sensitive, uniform liquidity environments.\n**Weakness**: Ignores volume patterns — executes the same amount at 3 AM as at market open."
+        "content": "Split the order into **equal-sized chunks** executed over a time window.\r\n\r\n```python\r\n# Basic TWAP: split $1000 buy into 10 chunks over 10 minutes\r\nchunk_size = total_order / n_chunks\r\nfor i in range(n_chunks):\r\n    execute_market_order(chunk_size)\r\n    sleep(interval_seconds)\r\n```\r\n\r\n**How it works**: Execute one chunk every N minutes regardless of volume or price.\r\n**Best for**: Orders that aren't time-sensitive, uniform liquidity environments.\r\n**Weakness**: Ignores volume patterns — executes the same amount at 3 AM as at market open."
       },
       {
         "heading": "VWAP (Volume-Weighted Average Price)",
-        "content": "Split the order **proportional to expected volume profile**. Execute more during high-volume periods, less during low.\n\n```python\n# VWAP: weight chunks by historical volume profile\nvolume_profile = get_hourly_volume_profile(symbol)  # e.g., [0.02, 0.03, 0.08, ...]\nfor hour, weight in enumerate(volume_profile):\n    chunk = total_order * weight\n    execute_over_hour(chunk, sub_intervals=6)\n```\n\n**How it works**: If 20% of daily volume trades in the first hour, execute 20% of your order then.\n**Best for**: Matching the market's natural flow, benchmark-sensitive orders.\n**Advantage over TWAP**: Follows liquidity, so each chunk has less market impact."
+        "content": "Split the order **proportional to expected volume profile**. Execute more during high-volume periods, less during low.\r\n\r\n```python\r\n# VWAP: weight chunks by historical volume profile\r\nvolume_profile = get_hourly_volume_profile(symbol)  # e.g., [0.02, 0.03, 0.08, ...]\r\nfor hour, weight in enumerate(volume_profile):\r\n    chunk = total_order * weight\r\n    execute_over_hour(chunk, sub_intervals=6)\r\n```\r\n\r\n**How it works**: If 20% of daily volume trades in the first hour, execute 20% of your order then.\r\n**Best for**: Matching the market's natural flow, benchmark-sensitive orders.\r\n**Advantage over TWAP**: Follows liquidity, so each chunk has less market impact."
       },
       {
         "heading": "Iceberg Orders",
-        "content": "Show only a small \"tip\" of the order on the book. Hide the rest. When the visible portion fills, a new visible slice appears.\n\n**How it works**: Place a limit order for 100 shares, but the full order is 10,000. Exchange handles the refills automatically.\n**Best for**: Preventing front-running — other traders can't see your full size.\n**Most exchanges support this natively** — check your exchange's order types."
+        "content": "Show only a small \"tip\" of the order on the book. Hide the rest. When the visible portion fills, a new visible slice appears.\r\n\r\n**How it works**: Place a limit order for 100 shares, but the full order is 10,000. Exchange handles the refills automatically.\r\n**Best for**: Preventing front-running — other traders can't see your full size.\r\n**Most exchanges support this natively** — check your exchange's order types."
       },
       {
         "heading": "When You DON'T Need Execution Algos",
-        "content": "- Position sizes **< $10K** on liquid pairs (BTC, ETH)\n- Market orders on major pairs — slippage is ~0.01-0.05%\n- Signal Forge is here currently — simple market orders are fine"
+        "content": "- Position sizes **< $10K** on liquid pairs (BTC, ETH)\r\n- Market orders on major pairs — slippage is ~0.01-0.05%\r\n- Signal Forge is here currently — simple market orders are fine"
       },
       {
         "heading": "When You DO Need Them",
-        "content": "- Position sizes **> $50K** on any pair\n- Illiquid altcoins (thin order books)\n- When your order is **> 1% of order book depth** at the top 5 levels\n- When you notice consistent negative slippage in trade logs"
+        "content": "- Position sizes **> $50K** on any pair\r\n- Illiquid altcoins (thin order books)\r\n- When your order is **> 1% of order book depth** at the top 5 levels\r\n- When you notice consistent negative slippage in trade logs"
       },
       {
         "heading": "Measuring Execution Quality",
-        "content": "```\nExecution cost = (actual_fill_price - arrival_price) / arrival_price\n\nBenchmark against VWAP:\n  If fill < VWAP (for buys) -> you beat the benchmark\n  If fill > VWAP (for buys) -> your execution needs work\n```\n\nTrack this metric per trade. If you're consistently worse than VWAP by more than your fee tier, execution is eating your edge. Transaction costs from poor execution stack directly on top of the costs from Quant - Transaction Costs."
+        "content": "```\r\nExecution cost = (actual_fill_price - arrival_price) / arrival_price\r\n\r\nBenchmark against VWAP:\r\n  If fill < VWAP (for buys) -> you beat the benchmark\r\n  If fill > VWAP (for buys) -> your execution needs work\r\n```\r\n\r\nTrack this metric per trade. If you're consistently worse than VWAP by more than your fee tier, execution is eating your edge. Transaction costs from poor execution stack directly on top of the costs from Quant - Transaction Costs."
       },
       {
         "heading": "Signal Forge Application",
-        "content": "Current state: market orders on liquid pairs, slippage negligible at current sizes. Future upgrade path as AUM grows:\n1. **$10K-$50K**: Add TWAP for altcoin entries (simple, low effort)\n2. **$50K-$200K**: Implement VWAP with historical volume profiles\n3. **$200K+**: Iceberg orders + smart order routing across exchanges"
+        "content": "Current state: market orders on liquid pairs, slippage negligible at current sizes. Future upgrade path as AUM grows:\r\n1. **$10K-$50K**: Add TWAP for altcoin entries (simple, low effort)\r\n2. **$50K-$200K**: Implement VWAP with historical volume profiles\r\n3. **$200K+**: Iceberg orders + smart order routing across exchanges"
       },
       {
         "heading": "Research Next Steps",
-        "content": "- [ ] Log actual slippage per trade in Signal Forge to establish a baseline\n- [ ] Build a simple TWAP wrapper around the existing execution module\n- [ ] Study order book depth on target exchanges to find the \"execution matters\" threshold\n- [ ] Compare maker vs taker fills — limit orders as a zero-cost execution improvement"
+        "content": "- [ ] Log actual slippage per trade in Signal Forge to establish a baseline\r\n- [ ] Build a simple TWAP wrapper around the existing execution module\r\n- [ ] Study order book depth on target exchanges to find the \"execution matters\" threshold\r\n- [ ] Compare maker vs taker fills — limit orders as a zero-cost execution improvement"
       }
     ],
     "related": [
@@ -13513,23 +13218,23 @@ export const pods: Pod[] = [
       },
       {
         "heading": "Method 1: Hidden Markov Models (HMM)",
-        "content": "Fit a 2-4 state HMM to the return series. Each state represents a regime with its own mean and variance.\n\n```python\nfrom hmmlearn import hmm\n\nmodel = hmm.GaussianHMM(n_components=3, covariance_type=\"full\", n_iter=100)\nmodel.fit(returns.reshape(-1, 1))\nstates = model.predict(returns.reshape(-1, 1))\n# State 0: low vol trending, State 1: normal, State 2: crisis\n```\n\n**Pros**: Most academically rigorous, captures complex transitions.\n**Cons**: Slow to detect regime changes (lagging), sensitive to initialization, needs careful tuning of state count."
+        "content": "Fit a 2-4 state HMM to the return series. Each state represents a regime with its own mean and variance.\r\n\r\n```python\r\nfrom hmmlearn import hmm\r\n\r\nmodel = hmm.GaussianHMM(n_components=3, covariance_type=\"full\", n_iter=100)\r\nmodel.fit(returns.reshape(-1, 1))\r\nstates = model.predict(returns.reshape(-1, 1))\r\n# State 0: low vol trending, State 1: normal, State 2: crisis\r\n```\r\n\r\n**Pros**: Most academically rigorous, captures complex transitions.\r\n**Cons**: Slow to detect regime changes (lagging), sensitive to initialization, needs careful tuning of state count."
       },
       {
         "heading": "Method 2: Changepoint Detection",
-        "content": "Detect **structural breaks** in the return series — moments where the statistical properties shift.\n\n```python\nimport ruptures as rpt\n\nalgo = rpt.Pelt(model=\"rbf\").fit(returns.values)\nbreakpoints = algo.predict(pen=10)\n# Returns indices where regime transitions occurred\n```\n\n**Pros**: Faster than HMM at detecting transitions, fewer parameters to tune.\n**Cons**: Noisy — can trigger false positives, doesn't characterize what the new regime IS."
+        "content": "Detect **structural breaks** in the return series — moments where the statistical properties shift.\r\n\r\n```python\r\nimport ruptures as rpt\r\n\r\nalgo = rpt.Pelt(model=\"rbf\").fit(returns.values)\r\nbreakpoints = algo.predict(pen=10)\r\n# Returns indices where regime transitions occurred\r\n```\r\n\r\n**Pros**: Faster than HMM at detecting transitions, fewer parameters to tune.\r\n**Cons**: Noisy — can trigger false positives, doesn't characterize what the new regime IS."
       },
       {
         "heading": "Method 3: Volatility Regime Classification",
-        "content": "Simple rule-based classification using realized volatility thresholds:\n\n| Realized Vol (annualized) | Regime | Action |\n|---------------------------|--------|--------|\n| < 15% | Low vol | Full position sizes, trend-following |\n| 15-30% | Normal | Standard sizing |\n| 30-50% | High vol | Reduce exposure, tighten stops |\n| > 50% | Crisis | Minimal exposure or flat |\n\nSignal Forge already uses a `volatility_regime` feature based on this approach. Simple, interpretable, and surprisingly effective."
+        "content": "Simple rule-based classification using realized volatility thresholds:\r\n\r\n| Realized Vol (annualized) | Regime | Action |\r\n|---------------------------|--------|--------|\r\n| < 15% | Low vol | Full position sizes, trend-following |\r\n| 15-30% | Normal | Standard sizing |\r\n| 30-50% | High vol | Reduce exposure, tighten stops |\r\n| > 50% | Crisis | Minimal exposure or flat |\r\n\r\nSignal Forge already uses a `volatility_regime` feature based on this approach. Simple, interpretable, and surprisingly effective."
       },
       {
         "heading": "Method 4: Cross-Asset Signals",
-        "content": "Use other markets as leading indicators for regime classification:\n\n- **VIX > 30**: Fear regime — expect mean reversion, reduce trend bets\n- **Yield curve inversion**: Recession signal — 12-18 month leading indicator\n- **BTC correlation to S&P > 0.8**: Risk-on/risk-off macro regime — crypto loses its diversification benefit\n- **DXY strength + falling equities**: Risk-off flight — defensive positioning"
+        "content": "Use other markets as leading indicators for regime classification:\r\n\r\n- **VIX > 30**: Fear regime — expect mean reversion, reduce trend bets\r\n- **Yield curve inversion**: Recession signal — 12-18 month leading indicator\r\n- **BTC correlation to S&P > 0.8**: Risk-on/risk-off macro regime — crypto loses its diversification benefit\r\n- **DXY strength + falling equities**: Risk-off flight — defensive positioning"
       },
       {
         "heading": "Method Comparison",
-        "content": "| Method | Accuracy | Detection speed | Complexity | Best for |\n|--------|----------|----------------|------------|----------|\n| HMM | Highest | Slowest (lagging) | High | Research, offline analysis |\n| Changepoint | Medium | Fast | Medium | Real-time transition alerts |\n| Vol Rules | Good enough | Instant | **Low** | **Production systems** |\n| Cross-Asset | Variable | Leading | Medium | Macro overlay signals |"
+        "content": "| Method | Accuracy | Detection speed | Complexity | Best for |\r\n|--------|----------|----------------|------------|----------|\r\n| HMM | Highest | Slowest (lagging) | High | Research, offline analysis |\r\n| Changepoint | Medium | Fast | Medium | Real-time transition alerts |\r\n| Vol Rules | Good enough | Instant | **Low** | **Production systems** |\r\n| Cross-Asset | Variable | Leading | Medium | Macro overlay signals |"
       },
       {
         "heading": "Signal Forge Application",
@@ -13537,7 +13242,7 @@ export const pods: Pod[] = [
       },
       {
         "heading": "Research Next Steps",
-        "content": "- [ ] Compare HMM vs vol rules on Signal Forge backtest data (2023-2026)\n- [ ] Test 2-state vs 3-state vs 4-state HMM — diminishing returns after 3?\n- [ ] Build a regime-conditional Kelly fraction: adjust sizing based on detected regime\n- [ ] Evaluate `ruptures` changepoint detection as an early warning layer"
+        "content": "- [ ] Compare HMM vs vol rules on Signal Forge backtest data (2023-2026)\r\n- [ ] Test 2-state vs 3-state vs 4-state HMM — diminishing returns after 3?\r\n- [ ] Build a regime-conditional Kelly fraction: adjust sizing based on detected regime\r\n- [ ] Evaluate `ruptures` changepoint detection as an early warning layer"
       }
     ],
     "related": [
@@ -13570,7 +13275,7 @@ export const pods: Pod[] = [
       },
       {
         "heading": "The Formula (Simplified)",
-        "content": "```\nP(ruin) = ((1 - edge) / (1 + edge)) ^ (capital / bet_size)\n\nWhere:\n  edge = your expected edge per trade (e.g., 0.02 = 2%)\n  capital = total bankroll\n  bet_size = amount risked per trade\n\nExample:\n  edge = 2%, capital = $10,000, bet_size = $500\n  P(ruin) = (0.98 / 1.02) ^ (10000 / 500) = 0.961 ^ 20 = 0.45\n  -> 45% chance of ruin. Way too high.\n```\n\nAs edge → 0 or bet_size → large, P(ruin) → 1. The formula punishes over-betting ruthlessly."
+        "content": "```\r\nP(ruin) = ((1 - edge) / (1 + edge)) ^ (capital / bet_size)\r\n\r\nWhere:\r\n  edge = your expected edge per trade (e.g., 0.02 = 2%)\r\n  capital = total bankroll\r\n  bet_size = amount risked per trade\r\n\r\nExample:\r\n  edge = 2%, capital = $10,000, bet_size = $500\r\n  P(ruin) = (0.98 / 1.02) ^ (10000 / 500) = 0.961 ^ 20 = 0.45\r\n  -> 45% chance of ruin. Way too high.\r\n```\r\n\r\nAs edge → 0 or bet_size → large, P(ruin) → 1. The formula punishes over-betting ruthlessly."
       },
       {
         "heading": "Why It Matters More Than Expected Return",
@@ -13578,11 +13283,11 @@ export const pods: Pod[] = [
       },
       {
         "heading": "Ruin Thresholds",
-        "content": "Define YOUR ruin level — it's not universal:\n\n| Context | Ruin threshold | Why |\n|---------|---------------|-----|\n| **Signal Forge** | -50% | Would need +100% to recover — realistically game over |\n| Hedge fund | -20% | Investor redemptions trigger, fund collapses |\n| Prop desk | -10% | Risk limits hit, desk gets shut down |\n| Retail gambler | -100% | Literally zero dollars left |\n\nThe lower your ruin threshold, the more conservative your sizing must be."
+        "content": "Define YOUR ruin level — it's not universal:\r\n\r\n| Context | Ruin threshold | Why |\r\n|---------|---------------|-----|\r\n| **Signal Forge** | -50% | Would need +100% to recover — realistically game over |\r\n| Hedge fund | -20% | Investor redemptions trigger, fund collapses |\r\n| Prop desk | -10% | Risk limits hit, desk gets shut down |\r\n| Retail gambler | -100% | Literally zero dollars left |\r\n\r\nThe lower your ruin threshold, the more conservative your sizing must be."
       },
       {
         "heading": "The Relationship to Kelly",
-        "content": "Kelly Criterion minimizes ruin probability, but the fraction matters enormously:\n\n| Fraction | P(ruin) | Drawdown experience | Reality |\n|----------|---------|---------------------|---------|\n| Full Kelly | ~0 in theory | Extreme swings, -50%+ common | Nobody can stomach this |\n| 1/2 Kelly | Negligible | Manageable, -20% possible | Aggressive but survivable |\n| **1/4 Kelly** | **Essentially zero** | **Barely noticeable** | **Signal Forge default** |\n| 2x Kelly | **100% guaranteed** | Terminal | Mathematical certainty of ruin |\n\nOver-betting (>1x Kelly) guarantees ruin. This isn't a probability — it's a mathematical certainty given enough trades."
+        "content": "Kelly Criterion minimizes ruin probability, but the fraction matters enormously:\r\n\r\n| Fraction | P(ruin) | Drawdown experience | Reality |\r\n|----------|---------|---------------------|---------|\r\n| Full Kelly | ~0 in theory | Extreme swings, -50%+ common | Nobody can stomach this |\r\n| 1/2 Kelly | Negligible | Manageable, -20% possible | Aggressive but survivable |\r\n| **1/4 Kelly** | **Essentially zero** | **Barely noticeable** | **Signal Forge default** |\r\n| 2x Kelly | **100% guaranteed** | Terminal | Mathematical certainty of ruin |\r\n\r\nOver-betting (>1x Kelly) guarantees ruin. This isn't a probability — it's a mathematical certainty given enough trades."
       },
       {
         "heading": "Signal Forge Context",
@@ -13590,11 +13295,11 @@ export const pods: Pod[] = [
       },
       {
         "heading": "Practical Rules",
-        "content": "- Never risk more than you can **emotionally** handle losing — if losing X would change your behavior, X is too much\n- Calculate P(ruin) before deploying any strategy, not after\n- Ruin is asymmetric: you only need to go broke once, but you need to win consistently forever\n- Always define your ruin threshold explicitly — vague \"I'll stop if it gets bad\" guarantees you won't"
+        "content": "- Never risk more than you can **emotionally** handle losing — if losing X would change your behavior, X is too much\r\n- Calculate P(ruin) before deploying any strategy, not after\r\n- Ruin is asymmetric: you only need to go broke once, but you need to win consistently forever\r\n- Always define your ruin threshold explicitly — vague \"I'll stop if it gets bad\" guarantees you won't"
       },
       {
         "heading": "Research Next Steps",
-        "content": "- [ ] Read Ralph Vince \"The Mathematics of Money Management\" (definitive text on ruin probability)\n- [ ] Run Monte Carlo simulation of P(ruin) for Signal Forge across 10,000 paths\n- [ ] Compare P(ruin) at 1/4 Kelly vs 1/2 Kelly with realistic transaction costs\n- [ ] Model regime-dependent ruin: how does P(ruin) change in high-vol vs low-vol markets?"
+        "content": "- [ ] Read Ralph Vince \"The Mathematics of Money Management\" (definitive text on ruin probability)\r\n- [ ] Run Monte Carlo simulation of P(ruin) for Signal Forge across 10,000 paths\r\n- [ ] Compare P(ruin) at 1/4 Kelly vs 1/2 Kelly with realistic transaction costs\r\n- [ ] Model regime-dependent ruin: how does P(ruin) change in high-vol vs low-vol markets?"
       }
     ],
     "related": [

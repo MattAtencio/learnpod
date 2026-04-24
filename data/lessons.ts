@@ -65,6 +65,63 @@ export const lessons: Lesson[] = [
     "xpReward": 120
   },
   {
+    "slug": "lesson-claude-code-patterns",
+    "title": "Claude Code Patterns — Applied Lesson",
+    "domain": "AI Engineering",
+    "tags": [
+      "lesson",
+      "ai-engineering",
+      "claude-code",
+      "framework",
+      "applied"
+    ],
+    "status": "queue",
+    "created": "2026-04-22",
+    "sourcePod": "ai-claude-code-patterns",
+    "sections": [
+      {
+        "heading": "Source Pod",
+        "content": "AI - Claude Code Patterns — seven patterns: Skills, Agent Routing, Hooks, Persistent Memory, MCP, Communication Scripts, Architecture."
+      },
+      {
+        "heading": "Why I Read This Today",
+        "content": "Built `/persona-panel` this morning — the skill that generalizes the \"dispatch N reviewer personas in parallel\" pattern I've invoked 6+ times across game-polish sessions. Wanted to stress-test the skill against a real framework pattern catalog before letting it calcify."
+      },
+      {
+        "heading": "The Seven Patterns (Condensed)",
+        "content": "1. **Skills** — markdown + YAML frontmatter, composable, invoked via `/name`. Global at `~/.claude/skills/`, project-scoped at `.claude/skills/`.\n2. **Agent Routing** — specialized subagents with restricted tool access (Explore: read-only, Plan: write-to-docs, Build: full access). Orchestrator routes by task type.\n3. **Hooks** — shell commands on lifecycle events (PreToolCall, PostToolCall, Notification, SessionStart). Fire OUTSIDE Claude's thinking — deterministic, not discretionary.\n4. **Persistent Memory** — typed markdown files (user/feedback/project/reference) indexed by `MEMORY.md`. Survives across conversations.\n5. **MCP Integration** — external services as first-class tools via stdio servers.\n6. **Communication Scripts** — Python bridges (`slack_*.py`, `name-session.py`). Pattern: Claude decides WHAT, scripts handle HOW.\n7. **Architecture** — composition map. Skills + Agents + Hooks + Memory + MCP + Scripts stacked into one framework."
+      },
+      {
+        "heading": "The Retention Test — Auditing `/persona-panel` Against the Pod",
+        "content": "Went pattern-by-pattern through the skill I'd just finished writing. Two legitimate gaps surfaced.\n\n| Pattern | In `/persona-panel`? | Gap found |\n|---|---|---|\n| Skills | ✅ Yes — full frontmatter, description, allowed-tools, context:fork | None |\n| Agent Routing | ⚠️ Partial — each persona IS an \"Explore\" agent (no code edits, read-only + Write report) but not framed that way | Cosmetic |\n| Hooks | N/A — not lifecycle-bound | None |\n| **Persistent Memory** | ❌ **No** — panel findings vanish after the session | **Gap** |\n| MCP | N/A | None |\n| **Communication Scripts** | ❌ **No** — `/profit-council` posts Slack summaries; mine didn't | **Gap** |\n| Architecture | ✅ Internalized | None |"
+      },
+      {
+        "heading": "What I Changed",
+        "content": "Edited `~/.claude/skills/persona-panel/SKILL.md` Step 7 (\"Notify\"):\n\n- Added Slack summary via `py C:/Users/Matt/.claude/scripts/slack_send.py` — 5 lines: surface, verdict, top priority, report link. Uses the project's `CLAUDE.md`-designated channel, falls back to `#inbox`.\n- Added project memory entry at `~/.claude/projects/C--Users-Matt/memory/project_<project>_panel_<date>.md` capturing: surface, verdict, top priority, relative link to synthesis doc. Indexed in `MEMORY.md`.\n\nWithout the memory entry, a second panel run on the same surface would start from scratch. With it, the convener can read prior verdicts and note what's changed since. That's the real value of the pattern — retention of institutional context across sessions."
+      },
+      {
+        "heading": "What I Internalized (not added to code)",
+        "content": "- **Agent routing as tool-access discipline.** I've been giving reviewer agents broad tool access by default. The pattern says each agent should get ONLY what it needs. Reviewers only need Read/Grep/Glob/Write — not Edit, not Bash for arbitrary commands. Next time I touch a review skill, I'll tighten `allowed-tools`.\n- **Hooks vs skills.** Hooks are for mechanical, always-happens behaviors. Skills are for discretionary, \"run this when relevant\" behaviors. I've been conflating them — considered making `/persona-panel` auto-fire after `/wrap`, but auto-firing is a hook concern, not a skill concern. The skill stays user-triggered; if I want automation, that's a PostToolUse hook on `/wrap` that suggests `/persona-panel` conditionally."
+      },
+      {
+        "heading": "Where This Pattern Family Sits in the Portfolio",
+        "content": "This pod is load-bearing for the Claude Code framework itself (`C:/Users/Matt/.claude/`). The framework now has 60+ skills, 7+ reviewer agents, a memory system with ~60 entries, and hooks on SessionStart / PermissionRequest / PreToolUse / Notification. That's the full pattern stack live in production. Next level: the composition patterns — how skills delegate to other skills, how reviewers get dispatched from orchestrators, how memory entries cross-reference projects."
+      },
+      {
+        "heading": "Research Next Steps (from the pod, preserved for future)",
+        "content": "- [ ] Measure token cost per skill invocation — currently no per-skill observability\n- [ ] Build a skill dependency graph — which skills call which\n- [ ] Test agent routing accuracy — how often does orchestrator pick correctly\n- [ ] Evaluate memory retrieval relevance as entries grow past ~100"
+      }
+    ],
+    "related": [
+      "AI - Claude Code Patterns",
+      "MOC - AI Engineering",
+      "persona-panel skill",
+      "profit-council"
+    ],
+    "estimatedMinutes": 12,
+    "xpReward": 120
+  },
+  {
     "slug": "lesson-model-right-sizing",
     "title": "Model Right-Sizing — Lesson",
     "domain": "AI Engineering",
