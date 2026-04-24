@@ -12,7 +12,7 @@ import { join, basename } from "path";
 import matter from "gray-matter";
 
 // ─── Config ───
-const VAULT_ROOT = process.env.VAULT_LEARNING_PATH || "C:/Users/matth/OneDrive/Documents/Obsidian Vault/Learning";
+const VAULT_ROOT = process.env.VAULT_LEARNING_PATH || "C:/Users/Matt/OneDrive/Documents/Obsidian Vault/Learning";
 const OUTPUT_DIR = join(__dirname, "..", "data");
 
 const STATUS_MAP: Record<string, string> = {
